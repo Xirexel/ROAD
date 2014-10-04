@@ -5,6 +5,7 @@ SUBDIRS += \
     Audio_Fractal_Encoder_Widget\
     Audio_Fractal_Decoder_Library\
     Audio_Fractal_Decoder_Widget\
-    Audio_Fractal_GUI
+    Audio_Fractal_GUI \
+    ROADcodec
 
 
