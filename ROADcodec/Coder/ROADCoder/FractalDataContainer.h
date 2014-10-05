@@ -10,7 +10,7 @@ using namespace std;
 // #include "UCharDataContainer.h"
 // #include "IDoubleDataContainer.h"
 // #include "IUCharDataContainer.h"
- #include "IFractalDataContainer.h"
+ #include "IROADDataContainer.h"
 
 namespace ROADEncoding
 {
@@ -18,14 +18,14 @@ namespace ROADEncoding
 	class UCharDataContainer;
 	class IDoubleDataContainer;
 	class IUCharDataContainer;
-	class IFractalDataContainer;
+	class IROADDataContainer;
 	class FractalDataContainer;
     class FrameFractalItemCollection;
 }
 
 namespace ROADEncoding
 {
-    class FractalDataContainer: public ROADEncoding::IFractalDataContainer
+    class FractalDataContainer: public ROADEncoding::IROADDataContainer
 	{
         public: ROADEncoding::DoubleDataContainer* _averContainer;
         public: ROADEncoding::DoubleDataContainer* _extenAverContainer;

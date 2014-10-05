@@ -7,7 +7,7 @@ using namespace std;
 #include "FrameFractalItemCollection.h"
 #include "FractalDataContainer.h"
 #include "IFrameFractalItemCollection.h"
-#include "IFractalDataContainer.h"
+#include "IROADDataContainer.h"
 
 ROADEncoding::SuperFrameFractalItemCollection::SuperFrameFractalItemCollection(unsigned int aFrameFractalItemCollectionSize,
                                                                                   unsigned int aSize)
@@ -33,7 +33,7 @@ ROADEncoding::IFrameFractalItemCollection* ROADEncoding::SuperFrameFractalItemCo
     return this->_frameFractalItemCollections.at(aIndex);
 }
 
-ROADEncoding::IFractalDataContainer* ROADEncoding::SuperFrameFractalItemCollection::getIFractalDataContainer() {
+ROADEncoding::IROADDataContainer* ROADEncoding::SuperFrameFractalItemCollection::getIFractalDataContainer() {
 
     _fractalDataContainer->reset();
 

@@ -17,7 +17,7 @@ namespace ROADEncoding
     class ROADEncodingOptions;
 	class SuperFrameFractalItemCollection;
 	class DomainPool;
-	class IFractalDataContainer;
+	class IROADDataContainer;
 	class IFrameFractalItemCollection;
 	class FractalEncoder;
 }
@@ -30,7 +30,7 @@ namespace ROADEncoding
         public: std::vector<ROADEncoding::SuperFrameFractalItemCollection*> _superFrameFractalItemCollections;
         public: std::vector<ROADEncoding::DomainPool*> _domainPools;
 
-        public: ROADEncoding::IFractalDataContainer* encode(double* aData);
+        public: ROADEncoding::IROADDataContainer* encode(double* aData);
 
         private: void silenceMatch(double* aData, unsigned int aSilenceSampleLength, ROADEncoding::IFrameFractalItemCollection* aPtrFrameFractalItemCollection);
 

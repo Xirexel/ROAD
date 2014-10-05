@@ -16,7 +16,7 @@ namespace ROADEncoding
 	class FrameFractalItemCollection;
 	class FractalDataContainer;
 	class IFrameFractalItemCollection;
-	class IFractalDataContainer;
+	class IROADDataContainer;
 	class SuperFrameFractalItemCollection;
 }
 
@@ -34,7 +34,7 @@ namespace ROADEncoding
 
         public: ROADEncoding::IFrameFractalItemCollection* getIFrameFractalItemCollection(unsigned int aIndex);
 
-        public: ROADEncoding::IFractalDataContainer* getIFractalDataContainer();
+        public: ROADEncoding::IROADDataContainer* getIFractalDataContainer();
 
 		public: unsigned int getSize();
 	};

@@ -7,9 +7,9 @@ using namespace std;
 #include "ROADEncodingOptions.h"
 #include "SuperFrameFractalItemCollection.h"
 #include "DomainPool.h"
-#include "IFractalDataContainer.h"
+#include "IROADDataContainer.h"
 
-ROADEncoding::IFractalDataContainer* ROADEncoding::FractalEncoder::encode(double* aData) {
+ROADEncoding::IROADDataContainer* ROADEncoding::FractalEncoder::encode(double* aData) {
 
     unsigned int lFrameOffset = 0;
 

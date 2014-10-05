@@ -13,12 +13,12 @@ namespace ROADEncoding
 {
 	class IDoubleDataContainer;
 	class IUCharDataContainer;
-	class IFractalDataContainer;
+    class IROADDataContainer;
 }
 
 namespace ROADEncoding
 {
-	class IFractalDataContainer
+    class IROADDataContainer
 	{
 
         public: virtual ROADEncoding::IDoubleDataContainer* getAver() = 0;
@@ -31,7 +31,7 @@ namespace ROADEncoding
 
         public: virtual ROADEncoding::IUCharDataContainer* getScale() = 0;
 
-        public: virtual ~IFractalDataContainer(){}
+        public: virtual ~IROADDataContainer(){}
 	};
 }
 
