@@ -30,3 +30,16 @@ Makefile*
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+
+#Compiled folders
+Debug/
+Release/
+
+#Additional
+*.user
+*.ccbd422
+*.exe
+*.pro.*
+*.Debug
+*.Release
+*.vpp~*
