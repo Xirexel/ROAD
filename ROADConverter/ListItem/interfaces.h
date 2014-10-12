@@ -4,13 +4,17 @@
 #include <QtPlugin>
 #include <QVarLengthArray>
 
+
+
+
+
 enum Result{
     ERROR,
     DONE,
     FINISHFILE
 };
 
-class ROADoverCoderOptions
+class IROADoverCoderOptions
 {
 public:
 
@@ -27,55 +31,48 @@ public:
     };
 
 
+    virtual TypeROADFormat getTypeROADFormat() = 0;
 
-    ROADoverCoderOptions(TypeROADFormat typeROADFormat,
-                         quint32 superFrameLength,
-                         quint32 minSampleLengthRang,
-                         quint32 relativeDomainShift,
-                         TypeMixingChannelsMode typeMixingChannelsMode)
-        : _typeROADFormat(typeROADFormat),
-          _frameSampleLength(2048),
-          _superFrameLength(superFrameLength),
-          _maxSampleLengthRang(32),
-          _minSampleLengthRang(minSampleLengthRang),
-          _relativeDomainShift(relativeDomainShift),
-          _typeMixingChannelsMode(typeMixingChannelsMode)
+    virtual quint32 getFrameSampleLength() = 0;
+
+    virtual quint32 getSuperFrameLength() = 0;
+
+    virtual quint32 getMaxSampleLengthRang() = 0;
+
+    virtual quint32 getMinSampleLengthRang() = 0;
+
+    virtual quint32 getRelativeDomainShift() = 0;
+
+    virtual TypeMixingChannelsMode getTypeMixingChannelsMode() = 0;
+
+};
+
+class IOriginalAudioStreamOptions
+{
+public:
+
+    enum TypeBitePerSample
     {
+        U8,
+        S16,
+        S32
+    };
 
-    }
+public:
 
-    TypeROADFormat getTypeROADFormat();
+    virtual quint32 getAmountOfChannels() = 0;
 
-    quint32 getFrameSampleLength();
+    virtual quint32 getFrequency() = 0;
 
-    quint32 getSuperFrameLength();
-
-    quint32 getMaxSampleLengthRang();
-
-    quint32 getMinSampleLengthRang();
-
-    quint32 getRelativeDomainShift();
-
-    TypeMixingChannelsMode getTypeMixingChannelsMode();
+    virtual TypeBitePerSample getTypeBitePerSample() = 0;
 
 private:
 
+    quint32 _amountOfChannels;
 
-    TypeROADFormat _typeROADFormat;
+    quint32 _frequency;
 
-    quint32 _frameSampleLength;
-
-    quint32 _superFrameLength;
-
-    quint32 _maxSampleLengthRang;
-
-    quint32 _minSampleLengthRang;
-
-    quint32 _relativeDomainShift;
-
-    TypeMixingChannelsMode _typeMixingChannelsMode;
-
-
+    TypeBitePerSample _typeBitePerSample;
 
 };
 
@@ -103,18 +100,18 @@ public:
     virtual ~IROADoverCoderPlugin() {}
 
     virtual IROADoverCoder* createIROADoverCoder(IROADoverRawReader* ptrReader,
-                                                 ROADoverCoderOptions options,
+                                                 IROADoverCoderOptions *aIROADoverCoderOptions,
+                                                 IOriginalAudioStreamOptions *
+                                                 aOriginalAudioStreamOptions,
                                                  QString outputFile) = 0;
 
     virtual bool checkPlugin() const = 0;
 
-    QString name() const = 0;
+    virtual QString name() const = 0;
 };
 
 #define IROADoverCoderPlugin_iid "ROADConvertor.IROADoverCoderPlugin"
 
 Q_DECLARE_INTERFACE(IROADoverCoderPlugin, IROADoverCoderPlugin_iid)
-
-#endif
 
 #endif // INTERFACES_H

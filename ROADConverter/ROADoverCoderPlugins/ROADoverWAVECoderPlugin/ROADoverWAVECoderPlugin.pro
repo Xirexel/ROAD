@@ -6,19 +6,21 @@
 
 QT       -= gui
 
-TARGET = ROADoverWAVECoder
+TARGET = ROADoverWAVECoderPlugin
 TEMPLATE = lib
 CONFIG  += plugin
 CONFIG += c++11
 
-DLLDESTDIR = ../../../Bin
+DLLDESTDIR = ../../../Bin/Plugins/ROADoverCoderPlugins
 
 DEFINES += ROADOVERWAVECODER_LIBRARY
 
-SOURCES += roadoverwavecoder.cpp
+SOURCES += roadoverwavecoder.cpp \
+    roadoverwavecoderplugin.cpp
 
 HEADERS += roadoverwavecoder.h\
-        roadoverwavecoder_global.h
+        roadoverwavecoder_global.h \
+    roadoverwavecoderplugin.h
 
 unix {
     target.path = /usr/lib

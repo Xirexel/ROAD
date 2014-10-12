@@ -4,5 +4,5 @@ SUBDIRS += \
     ListItem \
     ListItemsModel \
     ROADConverterGUI \
-    ROADoverCoders
+    ROADoverCoderPlugins
 

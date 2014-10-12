@@ -27,30 +27,32 @@ OptionsWidget::~OptionsWidget()
 
 void OptionsWidget::showEvent(QShowEvent * event)
 {
-    switch(_ModelOptions.getTypeROADFormat())
+    ROADoverCoderOptions _ROADoverCoderOptions = _ModelOptions.getROADoverCoderOptions();
+
+    switch(_ROADoverCoderOptions.getTypeROADFormat())
     {
-    case ModelOptions::EXPEREMENTAL:
+    case ROADoverCoderOptions::EXPEREMENTAL:
         ui->formatcomboBox->setCurrentIndex(0);
         break;
     }
 
-    ui->superFrameLengthspinBox->setValue(_ModelOptions.getSuperFrameLength());
+    ui->superFrameLengthspinBox->setValue(_ROADoverCoderOptions.getSuperFrameLength());
 
-    ui->minSampleLengthRangcomboBox->setCurrentIndex((int)log2(_ModelOptions.getMinSampleLengthRang()/4));
+    ui->minSampleLengthRangcomboBox->setCurrentIndex((int)log2(_ROADoverCoderOptions.getMinSampleLengthRang()/4));
 
-    ui->realtiveDomainShiftspinBox->setValue(_ModelOptions.getRelativeDomainShift());
+    ui->realtiveDomainShiftspinBox->setValue(_ROADoverCoderOptions.getRelativeDomainShift());
 
-    switch(_ModelOptions.getTypeMixingChannelsMode())
+    switch(_ROADoverCoderOptions.getTypeMixingChannelsMode())
     {
-    case ModelOptions::L_PLUS_R:
+    case ROADoverCoderOptions::L_PLUS_R:
         ui->mixingChannelModecomboBox->setCurrentIndex(0);
         break;
 
-    case ModelOptions::L_MINUS_R:
+    case ROADoverCoderOptions::L_MINUS_R:
         ui->mixingChannelModecomboBox->setCurrentIndex(1);
         break;
 
-    case ModelOptions::NONE:
+    case ROADoverCoderOptions::NONE:
         ui->mixingChannelModecomboBox->setCurrentIndex(2);
         break;
     }
@@ -59,13 +61,13 @@ void OptionsWidget::showEvent(QShowEvent * event)
 
 void OptionsWidget::closeEvent(QCloseEvent *event)
 {
-    ModelOptions::TypeROADFormat lTypeROADFormat;
+    ROADoverCoderOptions::TypeROADFormat lTypeROADFormat;
 
     switch(ui->formatcomboBox->currentIndex())
     {
     case 0:
     default:
-        lTypeROADFormat = ModelOptions::EXPEREMENTAL;
+        lTypeROADFormat = ROADoverCoderOptions::EXPEREMENTAL;
         break;
     }
 
@@ -91,24 +93,26 @@ void OptionsWidget::closeEvent(QCloseEvent *event)
         break;
     }
 
-    ModelOptions::TypeMixingChannelsMode lTypeMixingChannelsMode;
+    ROADoverCoderOptions::TypeMixingChannelsMode lTypeMixingChannelsMode;
 
     switch(ui->mixingChannelModecomboBox->currentIndex())
     {
     case 0:
-        lTypeMixingChannelsMode = ModelOptions::L_PLUS_R;
+        lTypeMixingChannelsMode = ROADoverCoderOptions::L_PLUS_R;
         break;
 
     case 1:
-        lTypeMixingChannelsMode = ModelOptions::L_MINUS_R;
+        lTypeMixingChannelsMode = ROADoverCoderOptions::L_MINUS_R;
         break;
 
     case 2:
-        lTypeMixingChannelsMode = ModelOptions::NONE;
+        lTypeMixingChannelsMode = ROADoverCoderOptions::NONE;
         break;
     }
 
-    _ModelOptions = ModelOptions(lTypeROADFormat, ui->superFrameLengthspinBox->value(), lMinSampleLength, ui->realtiveDomainShiftspinBox->value(), lTypeMixingChannelsMode);
+    ROADoverCoderOptions lROADoverCoderOptions(lTypeROADFormat, ui->superFrameLengthspinBox->value(), lMinSampleLength, ui->realtiveDomainShiftspinBox->value(), lTypeMixingChannelsMode);
+
+    _ModelOptions.setROADoverCoderOptions(lROADoverCoderOptions);
 
     emit updateModelOptions();
 

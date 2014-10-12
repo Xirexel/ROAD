@@ -4,11 +4,15 @@
 #include <QPixmap>
 
 
-ListItem::ListItem(TypeROADoverCoder typeROADoverCoder, QString filePath, QWidget *parent)
+ListItem::ListItem(TypeSource aTypeSource,
+                   QVarLengthArray<IROADoverCoderPlugin *> vPtrIROADoverCoderPlugin,
+                   QString filePath,
+                   QWidget *parent)
     : QWidget(parent),
       ui(new Ui::ListItem),
       _filePath(filePath),
-      _typeROADoverCoder(typeROADoverCoder)
+      _typeROADoverCoder(aTypeSource),
+      _ptrIROADoverCoderPluginCollection(vPtrIROADoverCoderPlugin)
 {
     ui->setupUi(this);
 
@@ -16,15 +20,18 @@ ListItem::ListItem(TypeROADoverCoder typeROADoverCoder, QString filePath, QWidge
 
     ui->fileNameLabel->setText(lQFileInfo.baseName());
 
-    switch(typeROADoverCoder)
+    switch(aTypeSource)
     {
-    case ROADoverWAVECoder:
+    case WAVE:
 
         ui->iconLabel->setPixmap(QPixmap(":/images/Wav.png").scaled(ui->iconLabel->sizeHint(),Qt::KeepAspectRatioByExpanding));
 
         break;
 
     }
+
+    for(IROADoverCoderPlugin * item: vPtrIROADoverCoderPlugin)
+        ui->comboBoxROADoverCoder->addItem(item->name());
 
 }
 

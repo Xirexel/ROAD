@@ -3,6 +3,8 @@
 #include <QMimeData>
 #include <QUrl>
 #include <QFile>
+#include <QDir>
+#include <QPluginLoader>
 
 
 
@@ -15,10 +17,13 @@ ListItemsModel::ListItemsModel(QAbstractItemView* itemView, QObject *parent)
       _itemView(itemView)
 {
     _rootIndex = createIndex(0, 0);
+
+    updatePluginsCollection(_modelOptions.getPluginROADoverCodersDirPath());
 }
 
 ListItemsModel::~ListItemsModel()
 {
+    clearIROADoverCoderPluginCollection();
 }
 
 int ListItemsModel::rowCount(const QModelIndex &parent) const
@@ -50,18 +55,18 @@ QVariant ListItemsModel::data(const QModelIndex &index, int role) const
 
 void ListItemsModel::addAudioFile(QString filePath)
 {
-    ListItem::TypeROADoverCoder lTypeROADoverCoder;
+    ListItem::TypeSource lTypeROADoverCoder;
 
     if(!checkWaveFile(filePath))
         return;
     else
-        lTypeROADoverCoder = ListItem::ROADoverWAVECoder;
+        lTypeROADoverCoder = ListItem::WAVE;
 
     int row = _list.count();
 
     beginInsertRows(QModelIndex(), row, row);
 
-    ListItem* item = new ListItem(lTypeROADoverCoder, filePath);
+    ListItem* item = new ListItem(lTypeROADoverCoder, this->_vPtrIROADoverCoderPluginCollection, filePath);
 
     _list.append(item);
 
@@ -191,8 +196,40 @@ bool ListItemsModel::checkWaveFile(QString file)
     return result;
 }
 
-
 void ListItemsModel::updateModelOptions(ModelOptions modelOptions)
 {
     this->_modelOptions = modelOptions;
+}
+
+void ListItemsModel::clearIROADoverCoderPluginCollection()
+{
+    for(IROADoverCoderPlugin * item: _vPtrIROADoverCoderPluginCollection)
+    {
+        delete item;
+    }
+
+    _vPtrIROADoverCoderPluginCollection.clear();
+}
+
+void ListItemsModel::updatePluginsCollection(QString pluginDirPath)
+{
+
+    clearIROADoverCoderPluginCollection();
+
+
+    QDir lpluginsDir(pluginDirPath);
+
+    foreach (QString fileName, lpluginsDir.entryList(QDir::Files)) {
+        QPluginLoader loader(lpluginsDir.absoluteFilePath(fileName));
+        QObject *plugin = loader.instance();
+        if (plugin) {
+
+            IROADoverCoderPlugin *lptrIROADoverCoderPlugin = qobject_cast<IROADoverCoderPlugin *>(plugin);
+
+            if (lptrIROADoverCoderPlugin)
+                _vPtrIROADoverCoderPluginCollection.append(lptrIROADoverCoderPlugin);
+
+        }
+    }
+
 }

@@ -52,7 +52,15 @@ private:
 
     ModelOptions _modelOptions;
 
+    QVarLengthArray<IROADoverCoderPlugin *> _vPtrIROADoverCoderPluginCollection;
+
+
+
     bool checkWaveFile(QString file);
+
+    void updatePluginsCollection(QString pluginDirPath);
+
+    void clearIROADoverCoderPluginCollection();
 
 };
 

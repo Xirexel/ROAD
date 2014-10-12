@@ -16,14 +16,12 @@ DEFINES += LISTITEM_LIBRARY
 
 SOURCES += \
     listitem.cpp \
-    progresscontrolpanel.cpp \
-    roadovercoderoptions.cpp
+    progresscontrolpanel.cpp
 
 HEADERS +=\
         listitem_global.h \
     listitem.h \
     progresscontrolpanel.h \
-    roadovercoderoptions.h \
     interfaces.h
 
 unix {

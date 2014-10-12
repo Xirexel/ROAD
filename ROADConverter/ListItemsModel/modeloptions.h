@@ -1,7 +1,7 @@
 #ifndef MODELOPTIONS_H
 #define MODELOPTIONS_H
 #include "listitemsmodel_global.h"
-#include "interfaces.h"
+#include "roadovercoderoptions.h"
 
 
 class LISTITEMSMODELSHARED_EXPORT ModelOptions
@@ -12,13 +12,19 @@ public:
 
     explicit ModelOptions();
 
-    ModelOptions(TypeROADFormat typeROADFormat, quint32 superFrameLength, quint32 minSampleLengthRang, quint32 relativeDomainShift, TypeMixingChannelsMode typeMixingChannelsMode);
-
     ROADoverCoderOptions getROADoverCoderOptions();
+
+    void setROADoverCoderOptions(ROADoverCoderOptions aROADoverCoderOptions);
+
+    QString getPluginROADoverCodersDirPath();
+
+    void setPluginROADoverCodersDirPath(QString aPluginROADoverCodersDirPath);
 
 private:
 
     ROADoverCoderOptions _localROADoverCoderOptions;
+
+    QString _pluginROADoverCodersDirPath;
 };
 
 #endif // MODELOPTIONS_H

@@ -15,11 +15,13 @@ DLLDESTDIR = ../../Bin
 DEFINES += LISTITEMSMODEL_LIBRARY
 
 SOURCES += listitemsmodel.cpp \
-    modeloptions.cpp
+    modeloptions.cpp \
+    roadovercoderoptions.cpp
 
 HEADERS += listitemsmodel.h\
         listitemsmodel_global.h \
-    modeloptions.h
+    modeloptions.h \
+    roadovercoderoptions.h
 
 unix {
     target.path = /usr/lib

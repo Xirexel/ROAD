@@ -1,34 +1,30 @@
 #include "modeloptions.h"
+#include "QApplication"
+
+
 
  ModelOptions::ModelOptions()
-     :  _localROADoverCoderOptions(ROADoverCoderOptions(ROADoverCoderOptions::EXPEREMENTAL,
-                                                        2048,
-                                                        10,
-                                                        32,
-                                                        4,
-                                                        1,
-                                                        ROADoverCoderOptions::L_PLUS_R))
+     : _pluginROADoverCodersDirPath(QString(QApplication::applicationDirPath() + "/Plugins/ROADoverCoderPlugins"))
  {
 
  }
 
-ModelOptions::ModelOptions(ROADoverCoderOptions typeROADFormat,
-                           quint32 superFrameLength,
-                           quint32 minSampleLengthRang,
-                           quint32 relativeDomainShift,
-                           ROADoverCoderOptions typeMixingChannelsMode)
-
-    : _localROADoverCoderOptions(ROADoverCoderOptions(typeROADFormat,
-                                                        2048,
-                                                        superFrameLength,
-                                                        32,
-                                                        minSampleLengthRang,
-                                                        relativeDomainShift,
-                                                        typeMixingChannelsMode))
-{
-}
-
 ROADoverCoderOptions ModelOptions::getROADoverCoderOptions()
 {
     return this->_localROADoverCoderOptions;
+}
+
+void ModelOptions::setROADoverCoderOptions(ROADoverCoderOptions aROADoverCoderOptions)
+{
+    this->_localROADoverCoderOptions = aROADoverCoderOptions;
+}
+
+QString ModelOptions::getPluginROADoverCodersDirPath()
+{
+    return this->_pluginROADoverCodersDirPath;
+}
+
+void ModelOptions::setPluginROADoverCodersDirPath(QString aPluginROADoverCodersDirPath)
+{
+    this->_pluginROADoverCodersDirPath = aPluginROADoverCodersDirPath;
 }

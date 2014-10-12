@@ -2,8 +2,10 @@
 #define LISTITEM_H
 
 #include <QWidget>
+#include <QVarLengthArray>
 
 #include "listitem_global.h"
+#include "interfaces.h"
 
 namespace Ui {
 class ListItem;
@@ -15,12 +17,15 @@ class LISTITEMSHARED_EXPORT ListItem : public QWidget
 
 public:
 
-    enum TypeROADoverCoder
+    enum TypeSource
     {
-        ROADoverWAVECoder
+        WAVE
     };
 
-    explicit ListItem(TypeROADoverCoder typeROADoverCoder, QString filePath, QWidget *parent = 0);
+    explicit ListItem(TypeSource aTypeSource,
+                      QVarLengthArray<IROADoverCoderPlugin *> vPtrIROADoverCoderPlugin,
+                      QString filePath,
+                      QWidget *parent = 0);
     ~ListItem();
 
     void startEncoding();
@@ -32,7 +37,9 @@ private:
 
     QString _filePath;
 
-    TypeROADoverCoder _typeROADoverCoder;
+    TypeSource _typeROADoverCoder;
+
+    QVarLengthArray<IROADoverCoderPlugin *> _ptrIROADoverCoderPluginCollection;
 };
 
 #endif // LISTITEM_H
