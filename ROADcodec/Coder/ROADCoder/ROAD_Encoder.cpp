@@ -13,6 +13,11 @@ ROADEncoding::ROAD_Encoder::ROAD_Encoder(ROADEncoding::ROADEncodingOptions aOpti
 
 }
 
+ROADEncoding::ROAD_Encoder::~ROAD_Encoder()
+{
+
+}
+
 ROADEncoding::IROADDataContainer *ROADEncoding::ROAD_Encoder::doEncoding(double *aData) {
 
     IROADDataContainer* lptrRawROADdata = _fractalEncoder.encode(aData);

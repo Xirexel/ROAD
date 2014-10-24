@@ -25,6 +25,8 @@ namespace ROADEncoding
 
         public: ROAD_Encoder(ROADEncoding::ROADEncodingOptions aOptions);
 
+        public: virtual ~ROAD_Encoder();
+
         public: ROADEncoding::IROADDataContainer* doEncoding(double* aData);
 	};
 }
