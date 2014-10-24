@@ -1,7 +1,4 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    ROADcodec \
-	ROADUtilities
-
-
+    ROADoverWAVECoderPlugin
