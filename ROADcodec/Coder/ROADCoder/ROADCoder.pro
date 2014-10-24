@@ -10,7 +10,7 @@ TARGET = ROADCoder
 TEMPLATE = lib
 CONFIG += c++11
 
-DLLDESTDIR = ../../../Bin
+DLLDESTDIR = ../../../Bin/ROAD/Coder
 
 DEFINES += ROADCODER_LIBRARY
 

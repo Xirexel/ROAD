@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/images">
-        <file>Wav.png</file>
-        <file>Mp3.png</file>
-    </qresource>
-</RCC>
