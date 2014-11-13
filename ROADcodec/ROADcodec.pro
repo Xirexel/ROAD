@@ -1,7 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    Coder \
-    Decoder
-
-
+    ROADdecoder \
+    Endian
