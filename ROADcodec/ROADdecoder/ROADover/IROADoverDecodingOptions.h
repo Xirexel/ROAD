@@ -27,6 +27,10 @@ namespace ROADdecoder
 			public: virtual ROADdecoder::ROADover::ROADFormatMode getROADFormatMode() = 0;
 
             public: virtual ~IROADoverDecodingOptions(){}
+
+			public: virtual unsigned int getOriginalSamplesPerRang() = 0;
+
+			public: virtual void setSamplesPerRang(unsigned int aValue) = 0;
 		};
 	}
 }

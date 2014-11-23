@@ -6,7 +6,6 @@ using namespace std;
 #ifndef __ROADdecoder__ROADover__ROADoverDecodingOptionsExperemental_h__
 #define __ROADdecoder__ROADover__ROADoverDecodingOptionsExperemental_h__
 
-#include "ROADFormatMode.h"
 #include "ChannelsMixingMode.h"
 #include "IROADoverDecodingOptions.h"
 
@@ -36,10 +35,14 @@ namespace ROADdecoder
 			private: unsigned int _samplesPerRang;
 			private: unsigned int _relativeDomainShift;
 			private: unsigned int _scaleDomainShift;
+			private: unsigned int _initFrequency;
+			private: unsigned int _frequencyScale;
 
 			public: ROADdecoder::ROADover::ROADFormatMode getROADFormatMode();
 
-            public: ROADoverDecodingOptionsExperemental(unsigned char *byteArray, unsigned int aLength);
+			public: ROADoverDecodingOptionsExperemental(unsigned char* aData, unsigned int aLength);
+
+            public: virtual ~ROADoverDecodingOptionsExperemental();
 
 			public: unsigned int getAmountOfChannels();
 
@@ -56,6 +59,12 @@ namespace ROADdecoder
 			public: unsigned int getRelativeDomainShift();
 
 			public: unsigned int getScaleDomainShift();
+
+			public: unsigned int getOriginalSamplesPerRang();
+
+			public: void setSamplesPerRang(unsigned int aValue);
+
+			public: unsigned int getFrequencyScale();
 		};
 	}
 }

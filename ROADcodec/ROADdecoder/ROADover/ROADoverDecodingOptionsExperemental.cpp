@@ -6,42 +6,60 @@ using namespace std;
 #include "ROADoverDecodingOptionsExperemental.h"
 
 ROADdecoder::ROADover::ROADFormatMode ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getROADFormatMode() {
-    return this->_formatMode;
+	throw "Not yet implemented";
 }
 
-ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::ROADoverDecodingOptionsExperemental(unsigned char *byteArray, unsigned int aLength)
+ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::ROADoverDecodingOptionsExperemental(unsigned char* aData,
+                                                                                                unsigned int aLength)
 {
 }
 
+ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::~ROADoverDecodingOptionsExperemental()
+{
+
+}
+
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getAmountOfChannels() {
-    return this->_channels;
+	throw "Not yet implemented";
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getSuperframeLength() {
-    return this->_superframeLength;
+	throw "Not yet implemented";
 }
 
 ROADdecoder::ROADover::ChannelsMixingMode ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getChannelsMixingMode() {
-    return this->_channelsMixingMode;
+	throw "Not yet implemented";
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getFrameRangLength() {
-    return this->_frameRangLength;
+	throw "Not yet implemented";
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getBitsPerSample() {
-    return this->_bitsPerSample;
+	throw "Not yet implemented";
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getSamplesPerRang() {
-    return this->_samplesPerRang;
+	throw "Not yet implemented";
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getRelativeDomainShift() {
-    return this->_relativeDomainShift;
+	throw "Not yet implemented";
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getScaleDomainShift() {
-    return this->_scaleDomainShift;
+	throw "Not yet implemented";
+}
+
+unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalSamplesPerRang() {
+	throw "Not yet implemented";
+}
+
+void ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::setSamplesPerRang(unsigned int aValue) {
+	throw "Not yet implemented";
+}
+
+unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getFrequencyScale() {
+	throw "Not yet implemented";
 }
 

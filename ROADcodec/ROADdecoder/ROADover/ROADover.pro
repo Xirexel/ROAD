@@ -62,3 +62,10 @@ HEADERS +=\
     ROADover.h
 
 
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../Endian/release/ -lEndian
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../Endian/debug/ -lEndian
+else:unix: LIBS += -L$$OUT_PWD/../../Endian/ -lEndian
+
+INCLUDEPATH += $$PWD/../../Endian
+DEPENDPATH += $$PWD/../../Endian

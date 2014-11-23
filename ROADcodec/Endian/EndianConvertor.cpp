@@ -8,20 +8,12 @@ using namespace std;
 #include "BigEndianConvertor.h"
 #include "LittleEndianConvertor.h"
 
-namespace Endian {
-
-template<typename B = BigEndianConvertor, typename L = LittleEndianConvertor>
-constexpr auto checkEndian()
-{
-    unsigned short x = 1;
-
-    return (*((unsigned char *) &x) == 0 ? B: L); // "big-endian" : "little-endian";
-}
-
-}
 
 Endian::EndianConvertor::EndianConvertor()
 {
+    unsigned short x = 1;
+
+    *((unsigned char *) &x) == 0 ? _convertor = new BigEndianConvertor: _convertor = new LittleEndianConvertor; // "big-endian" : "little-endian";
 
 }
 
@@ -33,22 +25,22 @@ Endian::EndianConvertor& Endian::EndianConvertor::getInstance()
 }
 
 unsigned int Endian::EndianConvertor::convertToUINT32(unsigned char* aData) {
-	throw "Not yet implemented";
+    return _convertor->convertToUINT32(aData);
 }
 
 int Endian::EndianConvertor::convertToINT32(unsigned char* aData) {
-	throw "Not yet implemented";
+    return _convertor->convertToINT32(aData);
 }
 
 unsigned short Endian::EndianConvertor::convertToUINT16(unsigned char* aData) {
-	throw "Not yet implemented";
+    return _convertor->convertToUINT16(aData);
 }
 
 short Endian::EndianConvertor::convertToINT16(unsigned char* aData) {
-	throw "Not yet implemented";
+    return _convertor->convertToINT16(aData);
 }
 
 Endian::EndianConvertor::~EndianConvertor() {
-	throw "Not yet implemented";
+    delete _convertor;
 }
 

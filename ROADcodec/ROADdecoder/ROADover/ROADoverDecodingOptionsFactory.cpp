@@ -4,19 +4,20 @@
 using namespace std;
 
 #include "ROADoverDecodingOptionsFactory.h"
+#include "ROADoverDecodingOptionsExperemental.h"
+#include "EndianConvertor.h"
 
-ROADdecoder::ROADover::IROADoverDecodingOptions* ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(unsigned char* aData,
+void ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(unsigned char* aData,
                                                                                                                                     unsigned int aLength)
 {
-    ROADdecoder::ROADover::IROADoverDecodingOptions* result = nullptr;
+    shared_ptr<ROADdecoder::ROADover::IROADoverDecodingOptions> result;
 
-    if(aData[0] == 0
-       && aData[1] == 0
-       && aData[2] == 0
-       && aData[3] == 0)
+    unsigned int formatMode = Endian::EndianConvertor::getInstance().convertToUINT32(aData);
+
+    if(formatMode == 0)
     {
-
+        result.reset(new ROADoverDecodingOptionsExperemental(aData, aLength));
     }
 
-    return result;
+  //  return result;
 }

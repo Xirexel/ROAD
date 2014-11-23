@@ -6,7 +6,7 @@ using namespace std;
 #include "BigEndianConvertor.h"
 
 unsigned int Endian::BigEndianConvertor::convertToUINT32(unsigned char* aData) {
-	throw "Not yet implemented";
+    //this->ui32.
 }
 
 int Endian::BigEndianConvertor::convertToINT32(unsigned char* aData) {

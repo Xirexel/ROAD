@@ -35,9 +35,9 @@ namespace ROADdecoder
 			private: ROADdecoder::ROADover::IChannelsMixing* _channelsMixing;
 			private: ROADdecoder::ROADover::IROADoverManager* _manager;
 
-			protected: virtual unsigned int readROADdata(char* aData) = 0;
+            protected: virtual unsigned int readROADdata(unsigned char* aData) = 0;
 
-			protected: virtual unsigned int readPreListening(double* aData) = 0;
+            protected: virtual unsigned int readPreListening(unsigned char* aData) = 0;
 
 			protected: virtual void convertByteArrayIntoDoubleArray(const char* aByteData, unsigned int aLengthByteArray, double* aDoubleData) = 0;
 

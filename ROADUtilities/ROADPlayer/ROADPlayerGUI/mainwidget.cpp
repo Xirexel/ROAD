@@ -171,7 +171,7 @@ void MainWidget::openFractalFile()
     if(!QFile::exists(filePath))
         return;
 
-    convert(filePath, QString("C:\\1.wav"), 4, 16);
+    convert(filePath, QString(QDir::homePath() + "/Documents/1.wav"), 4, 16);
 
 //    _player->setFilePath(filePath, 4, 32, QAudioDeviceInfo::defaultOutputDevice());
 

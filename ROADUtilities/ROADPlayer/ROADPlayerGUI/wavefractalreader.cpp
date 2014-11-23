@@ -41,106 +41,106 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
 
         _ready = true;
 
-        if(_waveFractalFormatData.isWaveFractal())
-        {
-            ROADover::ROADoverDecodingOptions options;
+//        if(_waveFractalFormatData.isWaveFractal())
+//        {
+//            ROADover::ROADoverDecodingOptions options;
 
-            __FRACDESCR lFractDescr = _waveFractalFormatData.getFracdescr();
+//            __FRACDESCR lFractDescr = _waveFractalFormatData.getFracdescr();
 
-            options.setAmountOfChannels(lFractDescr._format._originalAmountOfChannels);
+//            options.setAmountOfChannels(lFractDescr._format._originalAmountOfChannels);
 
-            options.setFrameRangLength(lFractDescr._format._frameRangeLength);
-
-
-            ROADover::MixingChannelsMode lMixingChannelMode = ROADover::NONE;
-
-            switch(lFractDescr._format._averDiffMode)
-            {
-            case 0:
-            default:
-                lMixingChannelMode = ROADover::LplusR;
-                break;
-
-            case 1:
-                lMixingChannelMode = ROADover::LminusR;
-                break;
-
-            case 2:
-                lMixingChannelMode = ROADover::NONE;
-                break;
-
-            }
+//            options.setFrameRangLength(lFractDescr._format._frameRangeLength);
 
 
+//            ROADover::MixingChannelsMode lMixingChannelMode = ROADover::NONE;
 
-            options.setMixingChannelsMode(lMixingChannelMode);
+//            switch(lFractDescr._format._averDiffMode)
+//            {
+//            case 0:
+//            default:
+//                lMixingChannelMode = ROADover::LplusR;
+//                break;
 
-            options.setRelativeDomainShift(lFractDescr._format._domainShift);
+//            case 1:
+//                lMixingChannelMode = ROADover::LminusR;
+//                break;
 
-            options.setSamplesPerRang(samplesPerRange);
+//            case 2:
+//                lMixingChannelMode = ROADover::NONE;
+//                break;
 
-            options.setSuperframeLength(lFractDescr._format._superFrameLength);
-
-            options.setScaleDomainShift(lFractDescr._format._domainShiftScale);
-
-            options.setBitsPerSample(lWAVEFORMAT.bitsPerSample);
-
-
-            switch(lWAVEFORMAT.bitsPerSample)
-            {
-
-            case 8:
-                _IReader = new ROADoverWAVE<quint8, quint8>(options, _waveFractalFormatData, filePath.toStdString());
-                break;
-
-            case 16:
-
-                switch(bitsPerSample)
-                {
-                case 16:
-                default:
-                    _IReader = new ROADoverWAVE<qint16, qint16>( options,_waveFractalFormatData, filePath.toStdString());
-                    break;
-                case 32:
-                    _IReader = new ROADoverWAVE<qint16, qint32>( options,_waveFractalFormatData, filePath.toStdString());
-
-                    break;
-                }
-
-
-                break;
-
-            case 32:
-                _IReader = new ROADoverWAVE<qint32, qint32>( options,_waveFractalFormatData, filePath.toStdString());
-                break;
-
-            default:
-                _IReader = nullptr;
-                break;
-            }
-
-            qint64 l = lWAVEDESCRDATA.chunkHead.size * lFractDescr._format._originalAmountOfChannels;
-
-            l *= samplesPerRange;
-
-            qint64 g = bitsPerSample / lWAVEFORMAT.bitsPerSample;
-
-            qint64 k = l * g;
-
-            _sizeOfData = k;
-
-            lWAVEFORMAT.bitsPerSample = bitsPerSample;
-
-            lWAVEFORMAT.sampleRate = lWAVEFORMAT.sampleRate * samplesPerRange;
-
-            lWAVEFORMAT.channels = lFractDescr._format._originalAmountOfChannels;
-
-            lWAVEFORMAT.blockAlign = (bitsPerSample >> 3) * lFractDescr._format._originalAmountOfChannels;
+//            }
 
 
 
+//            options.setMixingChannelsMode(lMixingChannelMode);
 
-        }
+//            options.setRelativeDomainShift(lFractDescr._format._domainShift);
+
+//            options.setSamplesPerRang(samplesPerRange);
+
+//            options.setSuperframeLength(lFractDescr._format._superFrameLength);
+
+//            options.setScaleDomainShift(lFractDescr._format._domainShiftScale);
+
+//            options.setBitsPerSample(lWAVEFORMAT.bitsPerSample);
+
+
+//            switch(lWAVEFORMAT.bitsPerSample)
+//            {
+
+//            case 8:
+//                _IReader = new ROADoverWAVE<quint8, quint8>(options, _waveFractalFormatData, filePath.toStdString());
+//                break;
+
+//            case 16:
+
+//                switch(bitsPerSample)
+//                {
+//                case 16:
+//                default:
+//                    _IReader = new ROADoverWAVE<qint16, qint16>( options,_waveFractalFormatData, filePath.toStdString());
+//                    break;
+//                case 32:
+//                    _IReader = new ROADoverWAVE<qint16, qint32>( options,_waveFractalFormatData, filePath.toStdString());
+
+//                    break;
+//                }
+
+
+//                break;
+
+//            case 32:
+//                _IReader = new ROADoverWAVE<qint32, qint32>( options,_waveFractalFormatData, filePath.toStdString());
+//                break;
+
+//            default:
+//                _IReader = nullptr;
+//                break;
+//            }
+
+//            qint64 l = lWAVEDESCRDATA.chunkHead.size * lFractDescr._format._originalAmountOfChannels;
+
+//            l *= samplesPerRange;
+
+//            qint64 g = bitsPerSample / lWAVEFORMAT.bitsPerSample;
+
+//            qint64 k = l * g;
+
+//            _sizeOfData = k;
+
+//            lWAVEFORMAT.bitsPerSample = bitsPerSample;
+
+//            lWAVEFORMAT.sampleRate = lWAVEFORMAT.sampleRate * samplesPerRange;
+
+//            lWAVEFORMAT.channels = lFractDescr._format._originalAmountOfChannels;
+
+//            lWAVEFORMAT.blockAlign = (bitsPerSample >> 3) * lFractDescr._format._originalAmountOfChannels;
+
+
+
+
+//        }
 
         if(_IReader != nullptr)
         {

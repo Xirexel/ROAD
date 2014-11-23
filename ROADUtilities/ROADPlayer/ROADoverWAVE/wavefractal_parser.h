@@ -2,6 +2,8 @@
 #define WAVEFRACTAL_PARSER_H
 
 #include <fstream>
+#include <memory>
+#include "IROADoverDecodingOptions.h"
 
 
 struct __WAVECHUNKHEAD
@@ -36,17 +38,17 @@ struct __WAVEDESCRDATA
 };
 
 
-struct __FRACFORMAT
-{
-        unsigned int _format;
-        unsigned int _superFrameLength;
-        unsigned int _frameRangeLength;
-        unsigned int _domainShift;
-        unsigned int _domainShiftScale;
-        unsigned int _originalAmountOfChannels;
-        unsigned int _averDiffMode;
-        unsigned int _encriptionCode;
-};
+//struct __FRACFORMAT
+//{
+//        unsigned int _format;
+//        unsigned int _superFrameLength;
+//        unsigned int _frameRangeLength;
+//        unsigned int _domainShift;
+//        unsigned int _domainShiftScale;
+//        unsigned int _originalAmountOfChannels;
+//        unsigned int _averDiffMode;
+//        unsigned int _encriptionCode;
+//};
 
 struct __FRACDESCR
 {
@@ -70,9 +72,17 @@ struct __FRACDESCR
                 && this->_chunkHead.id[3] == arg._chunkHead.id[3];
     }
 
-        __WAVECHUNKHEAD _chunkHead;
+//    __FRACDESCR(const __FRACDESCR& instance)
+//    {
+//        _chunkHead = instance._chunkHead;
 
-        __FRACFORMAT _format;
+//        _format
+//    }
+
+
+    __WAVECHUNKHEAD _chunkHead;
+
+    std::shared_ptr<ROADdecoder::ROADover::IROADoverDecodingOptions> _format;
 };
 
 struct __FRACMAP
@@ -262,7 +272,7 @@ private:
 
     __WAVEFORMAT parseWaveFormat(FILE * pFile, __WAVECHUNKHEAD aHead);
 
-    void parseFractalFormat(FILE * pFile, __FRACDESCR &lfractDescr);
+//    void parseFractalFormat(FILE * pFile, __FRACDESCR &lfractDescr);
 
 };
 

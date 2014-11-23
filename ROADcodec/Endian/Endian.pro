@@ -14,13 +14,13 @@ DLLDESTDIR = ../../Bin/ROADdecoder
 
 DEFINES += ENDIAN_LIBRARY
 
-SOURCES += endian.cpp \
+SOURCES += \
     BigEndianConvertor.cpp \
     EndianConvertor.cpp \
     IConvertor.cpp \
     LittleEndianConvertor.cpp
 
-HEADERS += endian.h\
+HEADERS +=\
         endian_global.h \
     BigEndianConvertor.h \
     EndianConvertor.h \

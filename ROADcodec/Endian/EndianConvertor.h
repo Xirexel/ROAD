@@ -7,6 +7,7 @@ using namespace std;
 #define __Endian__EndianConvertor_h__
 
 // #include "Endian/IConvertor.h"
+#include "endian_global.h"
 
 namespace Endian
 {
@@ -16,7 +17,7 @@ namespace Endian
 
 namespace Endian
 {
-	class EndianConvertor
+    class ENDIANSHARED_EXPORT EndianConvertor
 	{
 		private: Endian::IConvertor* _convertor;
 
