@@ -32,7 +32,7 @@ std::tuple<bool, IReader* > IReaderFactory::getIReader(QString aFilePath, TypeAu
         lptrIReader = getWaveReader(aFilePath);
 
         result = true;
-
+    case NONE:
         break;
 
     }

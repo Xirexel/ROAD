@@ -12,6 +12,8 @@ using namespace std;
 #include "IFractalItemContainer.h"
 #include "IFractalItem.h"
 #include "IDoubleDataBuffer.h"
+// used to avoid warnings of unused parameters
+#define UNUSED(x) (void)x;
 
 
 ROADdecoding::ROADdecoder::ROADdecoder(ROADdecoding::ROADdecodingOptions aOptions)
@@ -200,6 +202,7 @@ int ROADdecoding::ROADdecoder::getRNumber()
 
 void ROADdecoding::ROADdecoder::setRangeOfRNG(unsigned int aLowBoder, unsigned int aTopBorder)
 {
+
 //    random_device f;
 
 //    typedef random_device::result_type result_type;
