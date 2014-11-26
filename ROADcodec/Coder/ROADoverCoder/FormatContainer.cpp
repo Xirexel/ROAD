@@ -1,4 +1,5 @@
 #include <string>
+#include <string.h> // for memcpy definition
 #include <vector>
 #include <exception>
 using namespace std;
