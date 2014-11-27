@@ -4,6 +4,9 @@
 using namespace std;
 
 #include "DomainProcessor.h"
+
+// used to avoid warnings of unused parameters
+#define UNUSED(x) (void)x;
 ROADdecoding::DomainProcessor::DomainProcessor(unsigned int aMaxLength)
     : _data(new double [aMaxLength])
 {
@@ -57,7 +60,8 @@ double* ROADdecoding::DomainProcessor::process(double* aData, unsigned int aLeng
 }
 
 void ROADdecoding::DomainProcessor::backShrink(double* aData, unsigned int aLength, unsigned int aRelativeDomainSfift, unsigned int aScaleDomainShift) {
-
+UNUSED(aRelativeDomainSfift)
+UNUSED(aScaleDomainShift)
     double lTempValue;
 
     unsigned int lHalfLength = aLength >> 1;

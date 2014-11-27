@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <exception>
+#include <string.h> // for memcpy definition
 using namespace std;
 
 #include "AROADover.h"

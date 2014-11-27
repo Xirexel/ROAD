@@ -123,9 +123,10 @@ bool ListItemsModel::dropMimeData(const QMimeData *data,
 {
     if (action == Qt::IgnoreAction)
         return true;
-
+bool Result = false;
     if (action == Qt::CopyAction &&  data->hasUrls())
     {
+
        QList<QUrl> lListQUrt = data->urls();
 
        for(QUrl lUrl: lListQUrt)
@@ -133,9 +134,12 @@ bool ListItemsModel::dropMimeData(const QMimeData *data,
            if(lUrl.isValid() && lUrl.isLocalFile())
            {
                addAudioFile(lUrl.toLocalFile());
+               Result = true;
            }
        }
+
     }
+    return Result;    //  is this right?
 }
 
 bool ListItemsModel::removeRows(int row, int count, const QModelIndex &parent)
