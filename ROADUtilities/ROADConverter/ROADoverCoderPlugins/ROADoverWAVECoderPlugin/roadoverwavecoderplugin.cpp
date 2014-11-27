@@ -73,36 +73,36 @@ IROADoverCoder* ROADoverWAVECoderPlugin::createIROADoverCoder(IROADoverRawReader
 
 
 
-    switch(aOriginalAudioStreamOptions->getTypeBitePerSample())
-    {
+//    switch(aOriginalAudioStreamOptions->getTypeBitePerSample())
+//    {
 
-    case IOriginalAudioStreamOptions::U8:
+//    case IOriginalAudioStreamOptions::U8:
 
-        lOptions.setRangThreshold(aIROADoverCoderOptions->getRangThreshold());
+//        lOptions.setRangThreshold(aIROADoverCoderOptions->getRangThreshold());
 
-        lOptions.setSilenceThreshold(aIROADoverCoderOptions->getSilenceThreshold());
+//        lOptions.setSilenceThreshold(aIROADoverCoderOptions->getSilenceThreshold());
 
-        break;
-
-
-    case IOriginalAudioStreamOptions::S16:
-
-        lOptions.setRangThreshold(10000);
-
-        lOptions.setSilenceThreshold(10000);
-
-        break;
+//        break;
 
 
-    case IOriginalAudioStreamOptions::S32:
+//    case IOriginalAudioStreamOptions::S16:
 
-        lOptions.setRangThreshold(14167287856893.154);
+//        lOptions.setRangThreshold(10000);
 
-        lOptions.setSilenceThreshold(14167287856893.154);
+//        lOptions.setSilenceThreshold(10000);
 
-        break;
+//        break;
 
-    }
+
+//    case IOriginalAudioStreamOptions::S32:
+
+//        lOptions.setRangThreshold(14167287856893.154);
+
+//        lOptions.setSilenceThreshold(14167287856893.154);
+
+//        break;
+
+//    }
 
 
 //    lOptions.setRangThreshold(aIROADoverCoderOptions->getRangThreshold());
