@@ -34,22 +34,41 @@ namespace ROADdecoder
 		{
 			private: ROADdecoder::ROADover::IChannelsMixing* _channelsMixing;
 			private: ROADdecoder::ROADover::IROADoverManager* _manager;
+            private: unsigned int _amountOfChannels;
+            private: unsigned int _superframeLength;
+            private: unsigned int _frameRangLength;
+            private: unsigned int _samplesPerRang;
 
-            protected: virtual unsigned int readROADdata(unsigned char* aData) = 0;
 
-            protected: virtual unsigned int readPreListening(unsigned char* aData) = 0;
 
-			protected: virtual void convertByteArrayIntoDoubleArray(const char* aByteData, unsigned int aLengthByteArray, double* aDoubleData) = 0;
+            public: virtual unsigned int readROADdata(unsigned char* aData) = 0;
 
-			protected: virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer) = 0;
+            public: virtual unsigned int readPreListening(unsigned char* aData) = 0;
 
-			protected: virtual bool lockResource() = 0;
+            public: virtual void convertByteArrayIntoDoubleArray(const char* aByteData, unsigned int aLengthByteArray, double* aDoubleData) = 0;
 
-			protected: virtual bool unlockResource() = 0;
+            public: virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer) = 0;
+
+            public: virtual bool lockResource() = 0;
+
+            public: virtual bool unlockResource() = 0;
 
 			public: ROADover(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions);
 
 			public: ROADdecoder::ROADover::Result decode();
+
+            public: virtual ~ROADover();
+
+            public: unsigned int getAmountOfChannels();
+
+            protected: unsigned int getSuperframeLength();
+
+            protected: unsigned int getFrameRangLength();
+
+            protected: unsigned int getSamplesPerRang();
+
+
+
 		};
 	}
 }

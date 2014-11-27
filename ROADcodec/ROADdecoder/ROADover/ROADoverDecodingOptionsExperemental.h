@@ -8,7 +8,7 @@ using namespace std;
 
 #include "ChannelsMixingMode.h"
 #include "IROADoverDecodingOptions.h"
-
+#include "roadover_global.h"
 namespace ROADdecoder
 {
 	namespace ROADover
@@ -24,19 +24,17 @@ namespace ROADdecoder
 {
 	namespace ROADover
 	{
-		class ROADoverDecodingOptionsExperemental: public ROADdecoder::ROADover::IROADoverDecodingOptions
+        class ROADOVERSHARED_EXPORT ROADoverDecodingOptionsExperemental: public ROADdecoder::ROADover::IROADoverDecodingOptions
 		{
-			public: ROADdecoder::ROADover::ROADFormatMode _formatMode;
-			public: ROADdecoder::ROADover::ChannelsMixingMode _channelsMixingMode;
-			private: unsigned int _channels;
+            private: ROADdecoder::ROADover::ROADFormatMode _formatMode;
+            private: ROADdecoder::ROADover::ChannelsMixingMode _channelsMixingMode;
+            private: unsigned int _amountOfChannels;
 			private: unsigned int _superframeLength;
-			private: unsigned int _frameRangLength;
-			private: unsigned int _bitsPerSample;
+            private: unsigned int _frameRangLength;
 			private: unsigned int _samplesPerRang;
 			private: unsigned int _relativeDomainShift;
-			private: unsigned int _scaleDomainShift;
-			private: unsigned int _initFrequency;
-			private: unsigned int _frequencyScale;
+            private: unsigned int _scaleDomainShift;
+            private: unsigned int _encriptionCode;
 
 			public: ROADdecoder::ROADover::ROADFormatMode getROADFormatMode();
 
@@ -50,9 +48,7 @@ namespace ROADdecoder
 
 			public: ROADdecoder::ROADover::ChannelsMixingMode getChannelsMixingMode();
 
-			public: unsigned int getFrameRangLength();
-
-			public: unsigned int getBitsPerSample();
+            public: unsigned int getFrameRangLength();
 
 			public: unsigned int getSamplesPerRang();
 
@@ -62,9 +58,9 @@ namespace ROADdecoder
 
 			public: unsigned int getOriginalSamplesPerRang();
 
-			public: void setSamplesPerRang(unsigned int aValue);
+            public: void setSamplesPerRang(unsigned int aValue);
 
-			public: unsigned int getFrequencyScale();
+            public: unsigned int getEncriptionCode();
 		};
 	}
 }

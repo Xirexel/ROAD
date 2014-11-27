@@ -29,10 +29,13 @@ namespace ROADdecoder
 	{
 		class ROADoverManagerExperemental: public ROADdecoder::ROADover::ROADoverManager
 		{
+            protected: ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* _options;
 
 			public: ROADoverManagerExperemental(ROADdecoder::ROADover::ROADover* aRoadOver, ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* aOptions);
 
 			public: ROADdecoder::ROADover::Result decode();
+
+            public: virtual ~ROADoverManagerExperemental();
 		};
 	}
 }

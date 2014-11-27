@@ -8,16 +8,17 @@ using namespace std;
 #include "ROADoverDecodingOptionsExperemental.h"
 
 
-ROADdecoder::ROADover::ROADoverManager::ROADoverManager(ROADdecoder::ROADover::ROADover* aRoadOver, ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* aOptions)
+ROADdecoder::ROADover::ROADoverManager::ROADoverManager(ROADdecoder::ROADover::ROADover* aRoadOver,
+                                                        unsigned int aCount,
+                                                        unsigned int aSampleLength,
+                                                        unsigned int aSuperFrameLength)
     : _roadOver(aRoadOver),
-      _channelsDataBuffer(RawDataBuffer(aOptions->getAmountOfChannels(),
-                                              aOptions->getSamplesPerRang() *
-                                              aOptions->getFrameRangLength() *
-                                              aOptions->getSuperframeLength()))
+      _channelsDataBuffer(RawDataBuffer(aCount, aSuperFrameLength)),
+      _bufferROADdata(new unsigned char[aCount * aSampleLength * aSuperFrameLength])
 {
 }
 
 ROADdecoder::ROADover::ROADoverManager::~ROADoverManager()
 {
-
+    delete this->_bufferROADdata;
 }

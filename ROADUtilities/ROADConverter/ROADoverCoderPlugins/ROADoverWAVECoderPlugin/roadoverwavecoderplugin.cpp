@@ -13,105 +13,107 @@ IROADoverCoder* ROADoverWAVECoderPlugin::createIROADoverCoder(IROADoverRawReader
                                                               IOriginalAudioStreamOptions *aOriginalAudioStreamOptions,
                                                               QString outputFile)
 {
-    ROADoverEncoding::ROADoverEncodingOptions lOptions;
+    //    ROADoverEncoding::ROADoverEncodingOptions lOptions;
 
-    lOptions.setBitsPerSample(aOriginalAudioStreamOptions->getBPS());
+    //    lOptions.setBitsPerSample(aOriginalAudioStreamOptions->getBPS());
 
-    lOptions.setChannels(aOriginalAudioStreamOptions->getAmountOfChannels());
+    //    lOptions.setChannels(aOriginalAudioStreamOptions->getAmountOfChannels());
 
-    lOptions.setDomainShift(aIROADoverCoderOptions->getRelativeDomainShift());
+    //    lOptions.setDomainShift(aIROADoverCoderOptions->getRelativeDomainShift());
 
-    lOptions.setEncryptionFromat(0);
-
-
-    switch(aIROADoverCoderOptions->getTypeROADFormat())
-    {
-
-    case IROADoverCoderOptions::EXPEREMENTAL:
-
-        lOptions.setFormat(ROADoverEncoding::EXPEREMENTAL);
-
-        break;
-    }
+    //    lOptions.setEncryptionFromat(0);
 
 
+    //    switch(aIROADoverCoderOptions->getTypeROADFormat())
+    //    {
 
-    lOptions.setFrameSampleLength(aIROADoverCoderOptions->getFrameSampleLength());
+    //    case IROADoverCoderOptions::EXPEREMENTAL:
 
-    lOptions.setLongestRangSampleLength(aIROADoverCoderOptions->getMaxSampleLengthRang());
+    //        lOptions.setFormat(ROADoverEncoding::EXPEREMENTAL);
+
+    //        break;
+    //    }
 
 
 
-    switch(aIROADoverCoderOptions->getTypeMixingChannelsMode())
-    {
+    //    lOptions.setFrameSampleLength(aIROADoverCoderOptions->getFrameSampleLength());
 
-    case IROADoverCoderOptions::NONE:
-
-        lOptions.setMixingChannelsMode(ROADoverEncoding::NONE);
-
-        break;
-
-    case IROADoverCoderOptions::L_PLUS_R:
-
-        lOptions.setMixingChannelsMode(ROADoverEncoding::LplusR);
-
-        break;
-
-    case IROADoverCoderOptions::L_MINUS_R:
-
-        lOptions.setMixingChannelsMode(ROADoverEncoding::LminusR);
-
-        break;
-    }
+    //    lOptions.setLongestRangSampleLength(aIROADoverCoderOptions->getMaxSampleLengthRang());
 
 
 
-    lOptions.setShortestRangSampleLength(aIROADoverCoderOptions->getMinSampleLengthRang());
+    //    switch(aIROADoverCoderOptions->getTypeMixingChannelsMode())
+    //    {
 
-    lOptions.setSuperframeLength(aIROADoverCoderOptions->getSuperFrameLength());
+    //    case IROADoverCoderOptions::NONE:
 
+    //        lOptions.setMixingChannelsMode(ROADoverEncoding::NONE);
 
+    //        break;
 
+    //    case IROADoverCoderOptions::L_PLUS_R:
 
-    switch(aOriginalAudioStreamOptions->getTypeBitePerSample())
-    {
+    //        lOptions.setMixingChannelsMode(ROADoverEncoding::LplusR);
 
-    case IOriginalAudioStreamOptions::U8:
+    //        break;
 
-        lOptions.setRangThreshold(aIROADoverCoderOptions->getRangThreshold());
+    //    case IROADoverCoderOptions::L_MINUS_R:
 
-        lOptions.setSilenceThreshold(aIROADoverCoderOptions->getSilenceThreshold());
+    //        lOptions.setMixingChannelsMode(ROADoverEncoding::LminusR);
 
-        break;
-
-
-    case IOriginalAudioStreamOptions::S16:
-
-        lOptions.setRangThreshold(10000);
-
-        lOptions.setSilenceThreshold(10000);
-
-        break;
-
-
-    case IOriginalAudioStreamOptions::S32:
-
-        lOptions.setRangThreshold(14167287856893.154);
-
-        lOptions.setSilenceThreshold(14167287856893.154);
-
-        break;
-
-    }
-
-
-//    lOptions.setRangThreshold(aIROADoverCoderOptions->getRangThreshold());
-
-//    lOptions.setSilenceThreshold(aIROADoverCoderOptions->getSilenceThreshold());
+    //        break;
+    //    }
 
 
 
-    return new ROADoverWAVECoder(outputFile, ptrReader, aOriginalAudioStreamOptions, lOptions);
+    //    lOptions.setShortestRangSampleLength(aIROADoverCoderOptions->getMinSampleLengthRang());
+
+    //    lOptions.setSuperframeLength(aIROADoverCoderOptions->getSuperFrameLength());
+
+
+
+
+    //    switch(aOriginalAudioStreamOptions->getTypeBitePerSample())
+    //    {
+
+    //    case IOriginalAudioStreamOptions::U8:
+
+    //        lOptions.setRangThreshold(aIROADoverCoderOptions->getRangThreshold());
+
+    //        lOptions.setSilenceThreshold(aIROADoverCoderOptions->getSilenceThreshold());
+
+    //        break;
+
+
+    //    case IOriginalAudioStreamOptions::S16:
+
+    //        lOptions.setRangThreshold(10000);
+
+    //        lOptions.setSilenceThreshold(10000);
+
+    //        break;
+
+
+    //    case IOriginalAudioStreamOptions::S32:
+
+    //        lOptions.setRangThreshold(14167287856893.154);
+
+    //        lOptions.setSilenceThreshold(14167287856893.154);
+
+    //        break;
+
+    //    }
+
+
+    ////    lOptions.setRangThreshold(aIROADoverCoderOptions->getRangThreshold());
+
+    ////    lOptions.setSilenceThreshold(aIROADoverCoderOptions->getSilenceThreshold());
+
+
+
+    //    return new ROADoverWAVECoder(outputFile, ptrReader, aOriginalAudioStreamOptions, lOptions);
+
+    return nullptr;
 }
 
 bool ROADoverWAVECoderPlugin::ROADoverWAVECoderPlugin::checkPlugin() const

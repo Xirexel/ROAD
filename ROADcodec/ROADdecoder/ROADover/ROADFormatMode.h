@@ -20,7 +20,7 @@ namespace ROADdecoder
 	{
 		enum ROADFormatMode
 		{
-			UNKNOWN, EXPEREMENTAL
+            EXPEREMENTAL = 0, UNKNOWN = -1
 		};
 	}
 }

@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    ROADdecoder \
     Endian \
+    ROADdecoder \
     TestEndian

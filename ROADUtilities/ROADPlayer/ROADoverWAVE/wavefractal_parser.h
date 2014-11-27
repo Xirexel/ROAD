@@ -3,14 +3,58 @@
 
 #include <fstream>
 #include <memory>
+//#include <boost/optional.hpp>
+
 #include "IROADoverDecodingOptions.h"
+
+
+namespace proxy {
+
+template<typename T>
+class optional
+{
+public:
+
+    optional()
+        : m_initialized(false)
+    {
+
+    }
+
+    bool is_initialized() const { return m_initialized ; }
+
+    bool operator!() const noexcept { return !this->is_initialized() ; }
+
+    optional& operator= ( T val )
+      {
+        m_initialized = true;
+
+        value_type = val;
+
+        return *this ;
+      }
+
+    T operator *() &
+    {
+        return value_type ;
+    }
+
+private:
+
+    bool m_initialized;
+
+    T value_type;
+
+};
+
+}
+
 
 
 struct __WAVECHUNKHEAD
 {
         char id[4];   // идентификатор типа файла
         unsigned int size;   // размер оставшейся части файла
-
 };
 
 struct __WAVEDESCR
@@ -18,6 +62,22 @@ struct __WAVEDESCR
         __WAVECHUNKHEAD chunkHead;   // размер оставшейся части файла
         char wave[4];  // формат файла
 
+        bool check()
+        {
+            return  (
+                    chunkHead.id[0] == 'R'
+                    && chunkHead.id[1] == 'I'
+                    && chunkHead.id[2] == 'F'
+                    && chunkHead.id[3] == 'F'
+                    )
+                    &&
+                    (
+                    wave[0] == 'W'
+                    && wave[1] == 'A'
+                    && wave[2] == 'V'
+                    && wave[3] == 'E'
+                    );
+        }
 };
 
 struct __WAVEFORMAT
@@ -55,21 +115,14 @@ struct __FRACDESCR
 
     __FRACDESCR()
     {
-        _chunkHead.id[0] = 'R';
-
-        _chunkHead.id[1] = 'O';
-
-        _chunkHead.id[2] = 'A';
-
-        _chunkHead.id[3] = 'D';
     }
 
-    bool operator == (const __FRACDESCR &arg)
+    bool check()
     {
-        return this->_chunkHead.id[0] == arg._chunkHead.id[0]
-                && this->_chunkHead.id[1] == arg._chunkHead.id[1]
-                && this->_chunkHead.id[2] == arg._chunkHead.id[2]
-                && this->_chunkHead.id[3] == arg._chunkHead.id[3];
+        return this->_chunkHead.id[0] == 'R'
+                && this->_chunkHead.id[1] == 'O'
+                && this->_chunkHead.id[2] == 'A'
+                && this->_chunkHead.id[3] == 'D';
     }
 
 //    __FRACDESCR(const __FRACDESCR& instance)
@@ -88,51 +141,29 @@ struct __FRACDESCR
 struct __FRACMAP
 {
 
-    __FRACMAP()
+    bool check()
     {
-        _chunkHead.id[0] = 'M';
-
-        _chunkHead.id[1] = 'A';
-
-        _chunkHead.id[2] = 'P';
-
-        _chunkHead.id[3] = ' ';
-
+        return this->_chunkHead.id[0] == 'M'
+                && this->_chunkHead.id[1] == 'A'
+                && this->_chunkHead.id[2] == 'P'
+                && this->_chunkHead.id[3] == ' ';
     }
 
-    bool operator == (const __FRACMAP &arg)
-    {
-        return this->_chunkHead.id[0] == arg._chunkHead.id[0]
-                && this->_chunkHead.id[1] == arg._chunkHead.id[1]
-                && this->_chunkHead.id[2] == arg._chunkHead.id[2]
-                && this->_chunkHead.id[3] == arg._chunkHead.id[3];
-    }
-        __WAVECHUNKHEAD _chunkHead;
+    __WAVECHUNKHEAD _chunkHead;
 };
 
 struct __FRACDESCRINDECES
 {
 
-    __FRACDESCRINDECES()
+    bool check()
     {
-        _chunkHead.id[0] = 'F';
-
-        _chunkHead.id[1] = 'I';
-
-        _chunkHead.id[2] = 'N';
-
-        _chunkHead.id[3] = 'D';
-
+        return this->_chunkHead.id[0] == 'F'
+                && this->_chunkHead.id[1] == 'I'
+                && this->_chunkHead.id[2] == 'N'
+                && this->_chunkHead.id[3] == 'D';
     }
 
-    bool operator == (const __FRACDESCRINDECES &arg)
-    {
-        return this->_chunkHead.id[0] == arg._chunkHead.id[0]
-                && this->_chunkHead.id[1] == arg._chunkHead.id[1]
-                && this->_chunkHead.id[2] == arg._chunkHead.id[2]
-                && this->_chunkHead.id[3] == arg._chunkHead.id[3];
-    }
-        __WAVECHUNKHEAD _chunkHead;
+    __WAVECHUNKHEAD _chunkHead;
 };
 
 
@@ -258,7 +289,7 @@ public:
 
     static WaveFractal_parser &getInstance();
 
-    WaveFractalFormatData parse(FILE *pFile);
+    proxy::optional<WaveFractalFormatData> parse(FILE *pFile);
 
 private:
 
@@ -268,9 +299,9 @@ private:
 
     WaveFractal_parser(const WaveFractal_parser&);
 
-    bool parseWaveDescr(FILE * pFile, __WAVEDESCR &lWaveDescr);
+    proxy::optional<__WAVEDESCR> parseWaveDescr(FILE * pFile);
 
-    __WAVEFORMAT parseWaveFormat(FILE * pFile, __WAVECHUNKHEAD aHead);
+    proxy::optional<__WAVEFORMAT> parseWaveFormat(FILE * pFile, __WAVECHUNKHEAD aHead);
 
 //    void parseFractalFormat(FILE * pFile, __FRACDESCR &lfractDescr);
 

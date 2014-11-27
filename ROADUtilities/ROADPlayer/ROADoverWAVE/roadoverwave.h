@@ -3,7 +3,6 @@
 
 #include <fstream>
 #include <limits>
-#include <QString>
 
 
 #include "ROADover.h"
@@ -20,8 +19,54 @@ class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
 
 public:
 
-    ROADoverWAVE(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions)
-        :ROADover(aOptions)
+    ROADoverWAVE(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions,
+                 WaveFractalFormatData aWaveFractalFormatData,
+                 std::string aFilePath)
+        :ROADover(aOptions),
+          max(std::numeric_limits<typeOutSample>::max()),
+          min(std::numeric_limits<typeOutSample>::min()),
+          _sampleScale(1),
+          _waveFractalFormatData(aWaveFractalFormatData),
+          _pos(0),
+          _nextPos(0),
+          _readSize(0),
+          _pData(new char[getAmountOfChannels() * sizeof(typeOutSample) *
+          getSuperframeLength() * getFrameRangLength() * getSamplesPerRang()]),
+          _lastLength(0)
+    {
+
+        _pFile = fopen (aFilePath.c_str() , "r");
+
+        _sampleScale = 1 << ((sizeof(typeOutSample) * 8)-(sizeof(typeInSample)*8));
+
+    }
+
+    ~ROADoverWAVE()
+    {
+        fclose(_pFile);
+
+        delete []_pData;
+    }
+
+    virtual int readData(char *data, int maxlen)
+    {
+        ROADdecoder::ROADover::Result result = ROADover::decode();
+
+
+
+    }
+
+    virtual int getSampleAmount()
+    {
+
+    }
+
+    virtual void setPosition(int position)
+    {
+
+    }
+
+    virtual void decode()
     {
 
     }
@@ -54,17 +99,64 @@ protected:
 
     virtual bool lockResource()
     {
-        bool result = false;
+        bool result = true;
 
         return result;
     }
 
     virtual bool unlockResource()
     {
-        bool result = false;
+        bool result = true;
 
         return result;
     }
+
+private:
+
+    typedef T typeInSample;
+
+    typedef O typeOutSample;
+
+    double max;
+
+    double min;
+
+    int _sampleScale;
+
+    WaveFractalFormatData _waveFractalFormatData;
+
+    __WAVEFORMAT _waveFormat;
+
+    __WAVEDESCRDATA _wavedescrdata;
+
+    int _sampleAmount;
+
+    int _pos;
+
+    int _nextPos;
+
+    int _offsetWaveData;
+
+    int _offsetFractalMap;
+
+    int _offsetFractalIndeces;
+
+    int _superFrameStep;
+
+    int _superFrameLength;
+
+    int _superFrameByteSize;
+
+    int _readSize;
+
+    int _blockAlign;
+
+    FILE *_pFile;
+
+    char *_pData;
+
+    int _lastLength;
+
 
 
 //    ROADoverWAVE(ROADdecoder::ROADover::IROADoverDecodingOptions *aOptions,
@@ -320,51 +412,7 @@ protected:
 //        this->_nextPos = ++lNumSuperFrame * this->_superFrameStep;
 //    }
 
-//private:
 
-//    typedef T typeInSample;
-
-//    typedef O typeOutSample;
-
-//    double max;
-
-//    double min;
-
-//    int _sampleScale;
-
-//    WaveFractalFormatData _waveFractalFormatData;
-
-//    __WAVEFORMAT _waveFormat;
-
-//    __WAVEDESCRDATA _wavedescrdata;
-
-//    int _sampleAmount;
-
-//    int _pos;
-
-//    int _nextPos;
-
-//    int _offsetWaveData;
-
-//    int _offsetFractalMap;
-
-//    int _offsetFractalIndeces;
-
-//    int _superFrameStep;
-
-//    int _superFrameLength;
-
-//    int _superFrameByteSize;
-
-//    int _readSize;
-
-//    int _blockAlign;
-
-//    FILE *_pFile;
-
-//    char *_pData;
-
-//    int _lastLength;
 
 
 };

@@ -31,6 +31,10 @@ namespace ROADdecoder
 			public: virtual unsigned int getOriginalSamplesPerRang() = 0;
 
 			public: virtual void setSamplesPerRang(unsigned int aValue) = 0;
+
+            public: virtual unsigned int getEncriptionCode() = 0;
+
+
 		};
 	}
 }

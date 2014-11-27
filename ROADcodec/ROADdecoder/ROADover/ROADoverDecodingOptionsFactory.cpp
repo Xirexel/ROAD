@@ -7,8 +7,8 @@ using namespace std;
 #include "ROADoverDecodingOptionsExperemental.h"
 #include "EndianConvertor.h"
 
-void ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(unsigned char* aData,
-                                                                                                                                    unsigned int aLength)
+shared_ptr<ROADdecoder::ROADover::IROADoverDecodingOptions> ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(unsigned char* aData,
+                                                                                        unsigned int aLength)
 {
     shared_ptr<ROADdecoder::ROADover::IROADoverDecodingOptions> result;
 
@@ -19,5 +19,5 @@ void ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecoding
         result.reset(new ROADoverDecodingOptionsExperemental(aData, aLength));
     }
 
-  //  return result;
+    return result;
 }

@@ -6,12 +6,59 @@ using namespace std;
 #include "ROADoverDecodingOptionsExperemental.h"
 
 ROADdecoder::ROADover::ROADFormatMode ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getROADFormatMode() {
-	throw "Not yet implemented";
+    return this->_formatMode;
 }
 
 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::ROADoverDecodingOptionsExperemental(unsigned char* aData,
                                                                                                 unsigned int aLength)
 {
+    this->_formatMode = ROADFormatMode(*((unsigned int *)aData));
+
+    aData+=4;
+
+    this->_superframeLength = *((unsigned int *)aData);
+
+    aData+=4;
+
+    this->_frameRangLength = *((unsigned int *)aData);
+
+    aData+=4;
+
+    this->_relativeDomainShift = *((unsigned int *)aData);
+
+    aData+=4;
+
+    this->_scaleDomainShift = *((unsigned int *)aData);
+
+    aData+=4;
+
+    this->_amountOfChannels = *((unsigned int *)aData);
+
+    aData+=4;
+
+    this->_channelsMixingMode = ChannelsMixingMode(*((unsigned int *)aData));
+
+    aData+=4;
+
+    this->_encriptionCode = *((unsigned int *)aData);
+
+
+    this->_samplesPerRang = _scaleDomainShift;
+
+
+//    length = fread(&lfractDescr._format._superFrameLength, 1, sizeof(lfractDescr._format._superFrameLength),pFile);
+
+//    length = fread(&lfractDescr._format._frameRangeLength, 1, sizeof(lfractDescr._format._frameRangeLength),pFile);
+
+//    length = fread(&lfractDescr._format._domainShift, 1, sizeof(lfractDescr._format._domainShift),pFile);
+
+//    length = fread(&lfractDescr._format._domainShiftScale, 1, sizeof(lfractDescr._format._domainShiftScale),pFile);
+
+//    length = fread(&lfractDescr._format._originalAmountOfChannels, 1, sizeof(lfractDescr._format._originalAmountOfChannels),pFile);
+
+//    length = fread(&lfractDescr._format._averDiffMode, 1, sizeof(lfractDescr._format._averDiffMode),pFile);
+
+//    length = fread(&lfractDescr._format._encriptionCode, 1, sizeof(lfractDescr._format._encriptionCode),pFile);
 }
 
 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::~ROADoverDecodingOptionsExperemental()
@@ -20,46 +67,42 @@ ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::~ROADoverDecodingOpt
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getAmountOfChannels() {
-	throw "Not yet implemented";
+    return this->_amountOfChannels;
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getSuperframeLength() {
-	throw "Not yet implemented";
+    return this->_superframeLength;
 }
 
 ROADdecoder::ROADover::ChannelsMixingMode ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getChannelsMixingMode() {
-	throw "Not yet implemented";
+    return this->_channelsMixingMode;
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getFrameRangLength() {
-	throw "Not yet implemented";
-}
-
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getBitsPerSample() {
-	throw "Not yet implemented";
+    return this->_frameRangLength;
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getSamplesPerRang() {
-	throw "Not yet implemented";
+    return this->_samplesPerRang;
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getRelativeDomainShift() {
-	throw "Not yet implemented";
+    return this->_relativeDomainShift;
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getScaleDomainShift() {
-	throw "Not yet implemented";
+    return this->_scaleDomainShift;
 }
 
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalSamplesPerRang() {
-	throw "Not yet implemented";
+    return this->_scaleDomainShift;
 }
 
 void ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::setSamplesPerRang(unsigned int aValue) {
-	throw "Not yet implemented";
+    this->_samplesPerRang = aValue;
 }
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getFrequencyScale() {
-	throw "Not yet implemented";
+unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getEncriptionCode()
+{
+    this->_encriptionCode;
 }
-

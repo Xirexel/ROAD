@@ -36,7 +36,7 @@ namespace ROADdecoder
 
             public: ~RawDataBuffer();
 
-            public: RawDataBuffer(unsigned int aCount, unsigned int aSampleLength);
+            public: RawDataBuffer(unsigned int aCount, unsigned int aSuperFrameLength);
 		};
 	}
 }

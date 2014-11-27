@@ -10,7 +10,7 @@ TARGET = Endian
 TEMPLATE = lib
 CONFIG += c++11
 
-DLLDESTDIR = ../../Bin/ROADdecoder
+DLLDESTDIR = ../../Bin/ROADdecoder ../../Bin/ROADPlayer
 
 DEFINES += ENDIAN_LIBRARY
 

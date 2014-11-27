@@ -22,11 +22,11 @@ ROADdecoder::ROADover::RawDataBuffer::~RawDataBuffer() {
     _dataCollection.clear();
 }
 
-ROADdecoder::ROADover::RawDataBuffer::RawDataBuffer(unsigned int aCount, unsigned int aSampleLength)
+ROADdecoder::ROADover::RawDataBuffer::RawDataBuffer(unsigned int aCount, unsigned int aSuperFrameLength)
 {
     for(decltype(aCount) index = 0;
         index < aCount;
         ++index)
-        _dataCollection.push_back(new DoubleDataContainer(aSampleLength));
+        _dataCollection.push_back(new DoubleDataContainer(aSuperFrameLength));
 }
 

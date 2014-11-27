@@ -20,7 +20,7 @@ namespace ROADdecoder
 	{
 		enum ChannelsMixingMode
 		{
-			NONE, MID, SIDE
+            MID = 0, SIDE = 1, NONE = -1
 		};
 	}
 }

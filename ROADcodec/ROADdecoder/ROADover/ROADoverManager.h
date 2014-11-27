@@ -25,7 +25,7 @@ namespace ROADdecoder
 		class FractalItemContainer;
 		class IROADoverManager;
 		class ROADoverManager;
-        class ROADoverDecodingOptionsExperemental;
+        class IROADoverDecodingOptions;
 	}
 }
 
@@ -36,11 +36,13 @@ namespace ROADdecoder
 		class ROADoverManager: public ROADdecoder::ROADover::IROADoverManager
 		{
 			protected: ROADdecoder::ROADover::ROADover* _roadOver;
-			private: ROADdecoder::ROADover::RawDataBuffer _channelsDataBuffer;
+            protected: ROADdecoder::ROADover::RawDataBuffer _channelsDataBuffer;
+            protected: unsigned char* _bufferROADdata;
+
 			public: std::vector<ROADdecoder::ROAD::IROADFractalBuilder*> _fractalBuilderCollection;
 			public: std::vector<ROADdecoder::ROADover::FractalItemContainer*> _fractalItemContainerCollection;
 
-            public: ROADoverManager(ROADdecoder::ROADover::ROADover* aRoadOver, ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental *aOptions);
+            public: ROADoverManager(ROADdecoder::ROADover::ROADover* aRoadOver, unsigned int aCount, unsigned int aSampleLength, unsigned int aSuperFrameLength);
 
             public: virtual ~ROADoverManager();
 		};

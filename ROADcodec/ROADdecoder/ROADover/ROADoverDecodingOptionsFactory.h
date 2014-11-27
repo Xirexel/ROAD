@@ -26,7 +26,7 @@ namespace ROADdecoder
 	{
         class ROADOVERSHARED_EXPORT ROADoverDecodingOptionsFactory
 		{
-            public: static void getIROADoverDecodingOptions(unsigned char* aData, unsigned int aLength);
+            public: static shared_ptr<ROADdecoder::ROADover::IROADoverDecodingOptions> getIROADoverDecodingOptions(unsigned char* aData, unsigned int aLength);
 		};
 	}
 }
