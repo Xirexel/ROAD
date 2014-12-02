@@ -1,4 +1,6 @@
 #include "wavefractal_parser.h"
+#include "ROADoverDecodingOptionsFactory.h"
+
 
 WaveFractal_parser::WaveFractal_parser()
 {
@@ -8,19 +10,15 @@ WaveFractal_parser::~WaveFractal_parser()
 {
 }
 
-WaveFractalFormatData WaveFractal_parser::parse(FILE * pFile)
+proxy::optional<WaveFractalFormatData> WaveFractal_parser::parse(FILE * pFile)
 {
-    bool result = false;
-
-    WaveFractalFormatData lWaveFractalFormatData;
+    proxy::optional<WaveFractalFormatData> result;
 
     do
     {
-        __WAVEDESCR lWaveDescr;
+        auto lWaveDescr = parseWaveDescr(pFile);
 
-        bool lIsWaveDescr = parseWaveDescr(pFile, lWaveDescr);
-
-        if(!lIsWaveDescr)
+        if(!lWaveDescr)
             break;
 
         __WAVEDESCRDATA lWAVEDESCRDATA;
@@ -53,12 +51,12 @@ WaveFractalFormatData WaveFractal_parser::parse(FILE * pFile)
                     && lHead.id[2] == 't'
                     && lHead.id[3] == ' ')
             {
-                __WAVEFORMAT lWaveFormat = parseWaveFormat(pFile, lHead);
+                auto lWaveFormat = parseWaveFormat(pFile, lHead);
 
-                if(lWaveFormat.format != 1)
+                if(!lWaveFormat)
                     break;
 
-                lWAVEFORMAT = lWaveFormat;
+                lWAVEFORMAT = *lWaveFormat;
 
             }
             else if(lHead.id[0] == 'd'
@@ -66,8 +64,6 @@ WaveFractalFormatData WaveFractal_parser::parse(FILE * pFile)
                         && lHead.id[2] == 't'
                         && lHead.id[3] == 'a')
             {
-                result = true;
-
                 lWAVEDESCRDATA.chunkHead = lHead;
 
                 ldataPos = ftell(pFile);
@@ -79,9 +75,6 @@ WaveFractalFormatData WaveFractal_parser::parse(FILE * pFile)
 
         }
 
-        if(!result)
-            break;
-
         int lpos = ftell(pFile);
 
         fseek(pFile, lHead.size, SEEK_CUR);
@@ -89,67 +82,44 @@ WaveFractalFormatData WaveFractal_parser::parse(FILE * pFile)
 
         if(feof(pFile))
         {
-
-            lWaveFractalFormatData = WaveFractalFormatData(lWaveDescr, lWAVEFORMAT,
+            result = WaveFractalFormatData(*lWaveDescr, lWAVEFORMAT,
                                              lWAVEDESCRDATA, ldataPos);
 
             fseek(pFile, lpos, SEEK_SET);
 
-
             break;
         }
 
-        result = false;
+        int lfractalDescrPos = lpos + lHead.size - 1;
 
-        int l = lpos + lHead.size - 1;
-
-        fseek(pFile, lpos + lHead.size - 1, SEEK_SET);
-
+        fseek(pFile, lfractalDescrPos, SEEK_SET);
 
         fread(lfractDescr._chunkHead.id, 1, sizeof(lfractDescr._chunkHead.id),pFile);
 
-
-        __FRACDESCR ltest__FRACDESCR;
-
-        if(!(lfractDescr == ltest__FRACDESCR))
+        if(!lfractDescr.check())
         {
             break;
         }
 
         fread(&lfractDescr._chunkHead.size, 1, sizeof(lfractDescr._chunkHead.size),pFile);
 
-        if(lfractDescr._chunkHead.size != sizeof(__FRACFORMAT))
-            break;
+//        if(lfractDescr._chunkHead.size != sizeof(ROADdecoder::ROADover::IROADoverDecodingOptions))
+//            break;
 
-        parseFractalFormat(pFile, lfractDescr);
+        std::unique_ptr<unsigned char> lformatData(new unsigned char[lfractDescr._chunkHead.size]);
 
-//        (*stream) >> lfractDescr._format._format;
+        fread(lformatData.get(), lfractDescr._chunkHead.size, 1, pFile);
 
-//        (*stream) >> lfractDescr._format._superFrameLength;
+        auto lIROADoverDecodingOptions = ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(lformatData.get(), lfractDescr._chunkHead.size);
 
-//        (*stream) >> lfractDescr._format._frameRangeLength;
-
-//        (*stream) >> lfractDescr._format._domainShift;
-
-//        (*stream) >> lfractDescr._format._domainShiftScale;
-
-//        (*stream) >> lfractDescr._format._originalAmountOfChannels;
-
-//        (*stream) >> lfractDescr._format._averDiffMode;
-
-//        (*stream) >> lfractDescr._format._encriptionCode;
-
+        lfractDescr._format = lIROADoverDecodingOptions;
 
         if(feof(pFile))
             break;
 
-
         fread(lfractMap._chunkHead.id, 1, sizeof(lfractMap._chunkHead.id),pFile);
 
-
-        __FRACMAP ltemp__FRACMAP;
-
-        if(!(lfractMap == ltemp__FRACMAP))
+        if(!lfractMap.check())
         {
             break;
         }
@@ -170,10 +140,7 @@ WaveFractalFormatData WaveFractal_parser::parse(FILE * pFile)
 
         fread(lfractDescrIndeces._chunkHead.id, 1, sizeof(lfractDescrIndeces._chunkHead.id),pFile);
 
-
-        __FRACDESCRINDECES ltemp__FRACDESCRINDECES;
-
-        if(!(lfractDescrIndeces == ltemp__FRACDESCRINDECES))
+        if(!lfractDescrIndeces.check())
         {
             break;
         }
@@ -183,19 +150,15 @@ WaveFractalFormatData WaveFractal_parser::parse(FILE * pFile)
 
         lfractDescrIndecesPos = ftell(pFile);
 
-
-        result = true;
-
-        if(result)
-            lWaveFractalFormatData = WaveFractalFormatData(lWaveDescr, lWAVEFORMAT,
-                                                           lWAVEDESCRDATA, ldataPos, lfractDescr,
-                                                           lfractMap, lfractDescrIndeces,
-                                                           lfractalMapPos, lfractDescrIndecesPos);
+        result = WaveFractalFormatData(*lWaveDescr, lWAVEFORMAT,
+                                       lWAVEDESCRDATA, ldataPos, lfractDescr,
+                                       lfractMap, lfractDescrIndeces,
+                                       lfractalMapPos, lfractDescrIndecesPos);
 
     }
     while(false);
 
-    return lWaveFractalFormatData;
+    return result;
 }
 
 WaveFractal_parser &WaveFractal_parser::getInstance()
@@ -205,57 +168,48 @@ WaveFractal_parser &WaveFractal_parser::getInstance()
     return instance;
 }
 
-bool WaveFractal_parser::parseWaveDescr(FILE *pFile, __WAVEDESCR &lWaveDescr)
+proxy::optional<__WAVEDESCR> WaveFractal_parser::parseWaveDescr(FILE *pFile)
 {
-    bool result = false;
+    proxy::optional<__WAVEDESCR> result;
 
     do
     {
+        __WAVEDESCR lWaveDescr;
+
         int length = fread(lWaveDescr.chunkHead.id, 1, sizeof(lWaveDescr.chunkHead.id),pFile);
 
 
         if(length != sizeof(lWaveDescr.chunkHead.id))
             break;
 
-        if(lWaveDescr.chunkHead.id[0] != 'R'
-                || lWaveDescr.chunkHead.id[1] != 'I'
-                || lWaveDescr.chunkHead.id[2] != 'F'
-                || lWaveDescr.chunkHead.id[3] != 'F')
-            break;
-
         length = fread(&lWaveDescr.chunkHead.size, 1, sizeof(lWaveDescr.chunkHead.size),pFile);
 
-        if(length != sizeof(lWaveDescr.chunkHead.id))
+        if(length != sizeof(lWaveDescr.chunkHead.size))
             break;
 
         length = fread(lWaveDescr.wave, 1, sizeof(lWaveDescr.wave),pFile);
 
-        if(length != sizeof(lWaveDescr.chunkHead.id))
+        if(length != sizeof(lWaveDescr.wave))
             break;
 
-        if(lWaveDescr.wave[0] != 'W'
-                || lWaveDescr.wave[1] != 'A'
-                || lWaveDescr.wave[2] != 'V'
-                || lWaveDescr.wave[3] != 'E')
+        if(!lWaveDescr.check())
             break;
 
-        result = true;
+        result = lWaveDescr;
     }
     while(false);
 
     return result;
 }
 
-__WAVEFORMAT WaveFractal_parser::parseWaveFormat(FILE *pFile, __WAVECHUNKHEAD aHead)
+proxy::optional<__WAVEFORMAT> WaveFractal_parser::parseWaveFormat(FILE *pFile, __WAVECHUNKHEAD aHead)
 {
-    bool result = false;
-
-    __WAVEFORMAT lwavedescr;
-
-    lwavedescr.format = -1;
+    proxy::optional<__WAVEFORMAT> result;
 
     do
     {
+        __WAVEFORMAT lwavedescr;
+
         int length = fread(&lwavedescr.format, 1, sizeof(lwavedescr.format),pFile);
 
         length = fread(&lwavedescr.channels, 1, sizeof(lwavedescr.channels),pFile);
@@ -268,50 +222,34 @@ __WAVEFORMAT WaveFractal_parser::parseWaveFormat(FILE *pFile, __WAVECHUNKHEAD aH
 
         length = fread(&lwavedescr.bitsPerSample, 1, sizeof(lwavedescr.bitsPerSample),pFile);
 
-
-//        (*stream) >> lwavedescr.format;
-
-//        (*stream) >> lwavedescr.channels;
-
-//        (*stream) >> lwavedescr.sampleRate;
-
-//        (*stream) >> lwavedescr.byteRate;
-
-//        (*stream) >> lwavedescr.blockAlign;
-
-//        (*stream) >> lwavedescr.bitsPerSample;
-
-        result = true;
+        lwavedescr.chunkHead = aHead;
 
         int shift = aHead.size - 16;
 
         fseek(pFile, shift, SEEK_CUR);
 
+        result = lwavedescr;
     }
     while(false);
 
-    lwavedescr.chunkHead = aHead;
-
-    lwavedescr.chunkHead.size = 16;
-
-    return lwavedescr;
+    return result;
 }
 
-void WaveFractal_parser::parseFractalFormat(FILE *pFile, __FRACDESCR &lfractDescr)
-{
-    int length = fread(&lfractDescr._format._format, 1, sizeof(lfractDescr._format._format),pFile);
+//void WaveFractal_parser::parseFractalFormat(FILE *pFile, __FRACDESCR &lfractDescr)
+//{
+//    int length = fread(&lfractDescr._format._format, 1, sizeof(lfractDescr._format._format),pFile);
 
-    length = fread(&lfractDescr._format._superFrameLength, 1, sizeof(lfractDescr._format._superFrameLength),pFile);
+//    length = fread(&lfractDescr._format._superFrameLength, 1, sizeof(lfractDescr._format._superFrameLength),pFile);
 
-    length = fread(&lfractDescr._format._frameRangeLength, 1, sizeof(lfractDescr._format._frameRangeLength),pFile);
+//    length = fread(&lfractDescr._format._frameRangeLength, 1, sizeof(lfractDescr._format._frameRangeLength),pFile);
 
-    length = fread(&lfractDescr._format._domainShift, 1, sizeof(lfractDescr._format._domainShift),pFile);
+//    length = fread(&lfractDescr._format._domainShift, 1, sizeof(lfractDescr._format._domainShift),pFile);
 
-    length = fread(&lfractDescr._format._domainShiftScale, 1, sizeof(lfractDescr._format._domainShiftScale),pFile);
+//    length = fread(&lfractDescr._format._domainShiftScale, 1, sizeof(lfractDescr._format._domainShiftScale),pFile);
 
-    length = fread(&lfractDescr._format._originalAmountOfChannels, 1, sizeof(lfractDescr._format._originalAmountOfChannels),pFile);
+//    length = fread(&lfractDescr._format._originalAmountOfChannels, 1, sizeof(lfractDescr._format._originalAmountOfChannels),pFile);
 
-    length = fread(&lfractDescr._format._averDiffMode, 1, sizeof(lfractDescr._format._averDiffMode),pFile);
+//    length = fread(&lfractDescr._format._averDiffMode, 1, sizeof(lfractDescr._format._averDiffMode),pFile);
 
-    length = fread(&lfractDescr._format._encriptionCode, 1, sizeof(lfractDescr._format._encriptionCode),pFile);
-}
+//    length = fread(&lfractDescr._format._encriptionCode, 1, sizeof(lfractDescr._format._encriptionCode),pFile);
+//}

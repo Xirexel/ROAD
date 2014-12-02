@@ -1,7 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    Coder \
-    Decoder
-
+    Endian \
+    Driver \
+    ROADdecoder \
+    TestEndian
 

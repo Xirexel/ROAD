@@ -9,6 +9,7 @@ QT       -=  gui
 TARGET = ROADoverWAVE
 TEMPLATE = lib
 CONFIG += staticlib
+CONFIG += c++11
 
 #DLLDESTDIR = ../../Bin/ROADPlayer
 
@@ -18,15 +19,13 @@ SOURCES += roadoverwave.cpp \
     wavefractal_parser.cpp
 
 HEADERS += roadoverwave.h \
-    wavefractal_parser.h \
-    IReader.h
+    wavefractal_parser.h
 
 
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../../ROADcodec/ROADdecoder/ROADover/release/ -lROADover
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../../ROADcodec/ROADdecoder/ROADover/debug/ -lROADover
+else:unix: LIBS += -L$$OUT_PWD/../../../ROADcodec/ROADdecoder/ROADover/ -lROADover
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../../ROADcodec/Decoder/ROADover/release/ -lROADover
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../../ROADcodec/Decoder/ROADover/debug/ -lROADover
-else:unix: LIBS += -L$$OUT_PWD/../../../ROADcodec/Decoder/ROADover/ -lROADover
-
-INCLUDEPATH += $$PWD/../../../ROADcodec/Decoder/ROADover
-DEPENDPATH += $$PWD/../../../ROADcodec/Decoder/ROADover
+INCLUDEPATH += $$PWD/../../../ROADcodec/ROADdecoder/ROADover
+DEPENDPATH += $$PWD/../../../ROADcodec/ROADdecoder/ROADover
