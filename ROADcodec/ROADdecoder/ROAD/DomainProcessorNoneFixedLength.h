@@ -20,7 +20,7 @@ namespace ROADdecoder
 	{
 		class DomainProcessorNoneFixedLength
 		{
-			private: double* _data;
+            private: double* _data;
 
             public: ~DomainProcessorNoneFixedLength();
 

@@ -47,13 +47,17 @@ namespace ROADdecoder
 
 			public: unsigned int getIFractalAverItemCount();
 
-            public: ~FractalItemContainer();
+            public: virtual ~FractalItemContainer();
 
 			public: FractalItemContainer(unsigned int aMaxCount);
 
 			public: void setFractalAverItemCount(unsigned int aFractalAverItemCount);
 
 			public: void setFractalItemCount(unsigned int aFractalItemCount);
+
+            public: ROADdecoder::ROADover::FractalItem* getFractalItem(unsigned int aIndex);
+
+            public: ROADdecoder::ROADover::FractalAverItem* getFractalAverItem(unsigned int aIndex);
 		};
 	}
 }

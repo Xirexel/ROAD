@@ -1,15 +1,17 @@
 #include <string>
 #include <vector>
 #include <exception>
-#include "memory"
+#include <memory>
 using namespace std;
 
 #ifndef __ROADdecoder__ROADover__ROADoverDecodingOptionsFactory_h__
 #define __ROADdecoder__ROADover__ROADoverDecodingOptionsFactory_h__
 
 // #include "ROADdecoder/ROADover/IROADoverDecodingOptions.h"
+#include "IDataReadDriver.h"
 
 #include "roadover_global.h"
+
 
 namespace ROADdecoder
 {
@@ -26,7 +28,7 @@ namespace ROADdecoder
 	{
         class ROADOVERSHARED_EXPORT ROADoverDecodingOptionsFactory
 		{
-            public: static shared_ptr<ROADdecoder::ROADover::IROADoverDecodingOptions> getIROADoverDecodingOptions(unsigned char* aData, unsigned int aLength);
+        public: static IROADoverDecodingOptions* getIROADoverDecodingOptions(unique_ptr<Driver::IDataReadDriver> &aPtrIDataReadDriver);
 		};
 	}
 }

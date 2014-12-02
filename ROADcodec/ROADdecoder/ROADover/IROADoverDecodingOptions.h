@@ -24,13 +24,13 @@ namespace ROADdecoder
 		class IROADoverDecodingOptions
 		{
 
-			public: virtual ROADdecoder::ROADover::ROADFormatMode getROADFormatMode() = 0;
+            public: virtual unsigned int getROADFormatMode() = 0;
 
             public: virtual ~IROADoverDecodingOptions(){}
 
 			public: virtual unsigned int getOriginalSamplesPerRang() = 0;
 
-			public: virtual void setSamplesPerRang(unsigned int aValue) = 0;
+            public: virtual void setSamplesPerRang(unsigned int aValue) = 0;
 
             public: virtual unsigned int getEncriptionCode() = 0;
 

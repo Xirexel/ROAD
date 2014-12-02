@@ -5,60 +5,34 @@ using namespace std;
 
 #include "ROADoverDecodingOptionsExperemental.h"
 
-ROADdecoder::ROADover::ROADFormatMode ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getROADFormatMode() {
+unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getROADFormatMode() {
     return this->_formatMode;
 }
 
-ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::ROADoverDecodingOptionsExperemental(unsigned char* aData,
-                                                                                                unsigned int aLength)
+ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::ROADoverDecodingOptionsExperemental(unique_ptr<Driver::IDataReadDriver> &aPtrIDataReadDriver)
 {
-    this->_formatMode = ROADFormatMode(*((unsigned int *)aData));
+    this->_formatMode = ROADFormatMode(0);
 
-    aData+=4;
+    aPtrIDataReadDriver.get()->operator >>(this->_superframeLength);
 
-    this->_superframeLength = *((unsigned int *)aData);
+    aPtrIDataReadDriver.get()->operator >>(this->_frameRangLength);
 
-    aData+=4;
+    aPtrIDataReadDriver.get()->operator >>(this->_relativeDomainShift);
 
-    this->_frameRangLength = *((unsigned int *)aData);
+    aPtrIDataReadDriver.get()->operator >>(this->_scaleDomainShift);
 
-    aData+=4;
+    aPtrIDataReadDriver.get()->operator >>(this->_amountOfChannels);
 
-    this->_relativeDomainShift = *((unsigned int *)aData);
+    unsigned int lchannelsMixingMode;
 
-    aData+=4;
+    aPtrIDataReadDriver.get()->operator >>(lchannelsMixingMode);
 
-    this->_scaleDomainShift = *((unsigned int *)aData);
+    this->_channelsMixingMode = ChannelsMixingMode(lchannelsMixingMode);
 
-    aData+=4;
-
-    this->_amountOfChannels = *((unsigned int *)aData);
-
-    aData+=4;
-
-    this->_channelsMixingMode = ChannelsMixingMode(*((unsigned int *)aData));
-
-    aData+=4;
-
-    this->_encriptionCode = *((unsigned int *)aData);
-
+    aPtrIDataReadDriver.get()->operator >>(this->_encriptionCode);
 
     this->_samplesPerRang = _scaleDomainShift;
 
-
-//    length = fread(&lfractDescr._format._superFrameLength, 1, sizeof(lfractDescr._format._superFrameLength),pFile);
-
-//    length = fread(&lfractDescr._format._frameRangeLength, 1, sizeof(lfractDescr._format._frameRangeLength),pFile);
-
-//    length = fread(&lfractDescr._format._domainShift, 1, sizeof(lfractDescr._format._domainShift),pFile);
-
-//    length = fread(&lfractDescr._format._domainShiftScale, 1, sizeof(lfractDescr._format._domainShiftScale),pFile);
-
-//    length = fread(&lfractDescr._format._originalAmountOfChannels, 1, sizeof(lfractDescr._format._originalAmountOfChannels),pFile);
-
-//    length = fread(&lfractDescr._format._averDiffMode, 1, sizeof(lfractDescr._format._averDiffMode),pFile);
-
-//    length = fread(&lfractDescr._format._encriptionCode, 1, sizeof(lfractDescr._format._encriptionCode),pFile);
 }
 
 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::~ROADoverDecodingOptionsExperemental()
@@ -102,7 +76,17 @@ void ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::setSamplesPerRa
     this->_samplesPerRang = aValue;
 }
 
+void ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::setOriginalBitsPerSample(unsigned int aValue)
+{
+    this->_originalBitsPerSample = aValue;
+}
+
+unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalBitsPerSample()
+{
+    return this->_originalBitsPerSample;
+}
+
 unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getEncriptionCode()
 {
-    this->_encriptionCode;
+    return this->_encriptionCode;
 }

@@ -14,7 +14,7 @@ unsigned int ROADdecoder::ROADover::FractalItem::getLength() {
 }
 
 bool ROADdecoder::ROADover::FractalItem::isInversDirection() {
-    return this->_domainOffset;
+    return this->_inversDirection;
 }
 
 unsigned int ROADdecoder::ROADover::FractalItem::getDomainOffset() {

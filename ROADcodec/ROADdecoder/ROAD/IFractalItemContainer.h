@@ -33,6 +33,8 @@ namespace ROADdecoder
 			public: virtual unsigned int getIFractalItemCount() = 0;
 
 			public: virtual unsigned int getIFractalAverItemCount() = 0;
+
+            public: virtual ~IFractalItemContainer(){}
 		};
 	}
 }

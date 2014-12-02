@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <exception>
+#include <memory>
 using namespace std;
 
 #ifndef __ROADdecoder__ROADover__ROADoverManagerExperemental_h__
@@ -30,6 +31,10 @@ namespace ROADdecoder
 		class ROADoverManagerExperemental: public ROADdecoder::ROADover::ROADoverManager
 		{
             protected: ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* _options;
+
+            private: std::unique_ptr<unsigned char> _preListeningData;
+
+            private: std::unique_ptr<double> _preListeningDoubleData;
 
 			public: ROADoverManagerExperemental(ROADdecoder::ROADover::ROADover* aRoadOver, ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* aOptions);
 

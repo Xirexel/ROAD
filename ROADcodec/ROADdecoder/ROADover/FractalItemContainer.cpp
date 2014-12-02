@@ -32,7 +32,9 @@ ROADdecoder::ROADover::FractalItemContainer::~FractalItemContainer() {
 
 ROADdecoder::ROADover::FractalItemContainer::FractalItemContainer(unsigned int aMaxCount)
     : _fractalItems(new FractalItem[aMaxCount]),
-      _fractalAverItems(new FractalAverItem[aMaxCount])
+      _fractalAverItems(new FractalAverItem[aMaxCount]),
+      _fractalAverItemCount(0),
+      _fractalItemCount(0)
 {
 }
 
@@ -44,3 +46,12 @@ void ROADdecoder::ROADover::FractalItemContainer::setFractalItemCount(unsigned i
 	this->_fractalItemCount = aFractalItemCount;
 }
 
+ROADdecoder::ROADover::FractalItem* ROADdecoder::ROADover::FractalItemContainer::getFractalItem(unsigned int aIndex)
+{
+    return this->_fractalItems + aIndex;
+}
+
+ROADdecoder::ROADover::FractalAverItem* ROADdecoder::ROADover::FractalItemContainer::getFractalAverItem(unsigned int aIndex)
+{
+    return this->_fractalAverItems + aIndex;
+}

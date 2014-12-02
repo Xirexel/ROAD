@@ -35,7 +35,8 @@ SOURCES += \
     ROADoverManager.cpp \
     ROADoverManagerExperemental.cpp \
     SIDEChannelsMixing.cpp \
-    ROADover.cpp
+    ROADover.cpp \
+    FractalItemSuperFrameContainer.cpp
 
 HEADERS +=\
         roadover_global.h \
@@ -59,7 +60,8 @@ HEADERS +=\
     ROADoverManager.h \
     ROADoverManagerExperemental.h \
     SIDEChannelsMixing.h \
-    ROADover.h
+    ROADover.h \
+    FractalItemSuperFrameContainer.h
 
 
 
@@ -69,3 +71,17 @@ else:unix: LIBS += -L$$OUT_PWD/../../Endian/ -lEndian
 
 INCLUDEPATH += $$PWD/../../Endian
 DEPENDPATH += $$PWD/../../Endian
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../ROAD/release/ -lROAD
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../ROAD/debug/ -lROAD
+else:unix: LIBS += -L$$OUT_PWD/../ROAD/ -lROAD
+
+INCLUDEPATH += $$PWD/../ROAD
+DEPENDPATH += $$PWD/../ROAD
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../Driver/release/ -lDriver
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../Driver/debug/ -lDriver
+else:unix: LIBS += -L$$OUT_PWD/../../Driver/ -lDriver
+
+INCLUDEPATH += $$PWD/../../Driver
+DEPENDPATH += $$PWD/../../Driver

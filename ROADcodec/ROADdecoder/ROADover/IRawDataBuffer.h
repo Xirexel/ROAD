@@ -28,6 +28,8 @@ namespace ROADdecoder
 
 			public: virtual unsigned int getCount() = 0;
 
+            public: virtual unsigned int getLength() = 0;
+
             public: virtual ~IRawDataBuffer(){}
 		};
 	}

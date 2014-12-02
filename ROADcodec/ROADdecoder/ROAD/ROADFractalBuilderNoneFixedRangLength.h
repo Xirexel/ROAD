@@ -10,7 +10,7 @@ using namespace std;
 #include "IROADFractalBuilder.h"
 
 
-#include "road_global.h"
+//#include "road_global.h"
 
 namespace ROADdecoder
 {
@@ -27,11 +27,15 @@ namespace ROADdecoder
 {
 	namespace ROAD
 	{
-        class ROADSHARED_EXPORT ROADFractalBuilderNoneFixedRangLength: public ROADdecoder::ROAD::IROADFractalBuilder
+        class ROADFractalBuilderNoneFixedRangLength: public ROADdecoder::ROAD::IROADFractalBuilder
 		{
 			private: ROADdecoder::ROAD::DomainProcessorNoneFixedLength _domainProcessor;
 
 			public: void build(double* aData, ROADdecoder::ROAD::IFractalItemContainer* aFractalItemContainer);
+
+            public: ROADFractalBuilderNoneFixedRangLength(unsigned int aMaxRangeLength);
+
+            public: virtual ~ROADFractalBuilderNoneFixedRangLength();
 		};
 	}
 }

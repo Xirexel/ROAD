@@ -1,23 +1,31 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-11-14T12:36:04
+# Project created by QtCreator 2014-12-02T10:07:36
 #
 #-------------------------------------------------
 
-QT       += testlib
-
 QT       -= gui
 
-TARGET = tst_testendiantest
-CONFIG   += console
-CONFIG   -= app_bundle
-CONFIG   += c++11
+TARGET = Driver
+TEMPLATE = lib
+CONFIG += c++11
 
-TEMPLATE = app
+DLLDESTDIR = ../../Bin/ROADdecoder ../../Bin/ROADPlayer
+
+DEFINES += DRIVER_LIBRARY
+
+SOURCES += \
+    DataReadDriver.cpp \
+    DataDriver.cpp \
+    IDataReadDriver.cpp
+
+HEADERS +=\
+        driver_global.h \
+    DataReadDriver.h \
+    DataDriver.h \
+    IDataReadDriver.h
 
 
-SOURCES += tst_testendiantest.cpp
-DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Endian/release/ -lEndian
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Endian/debug/ -lEndian

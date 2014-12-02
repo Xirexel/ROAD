@@ -9,4 +9,6 @@
 #  define ENDIANSHARED_EXPORT Q_DECL_IMPORT
 #endif
 
+#define UNUSED(x) (void)x;
+
 #endif // ENDIAN_GLOBAL_H

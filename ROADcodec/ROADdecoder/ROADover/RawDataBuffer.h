@@ -28,11 +28,14 @@ namespace ROADdecoder
 		class RawDataBuffer: public ROADdecoder::ROADover::IRawDataBuffer
 		{
 			private: unsigned int _count;
+            private: unsigned int _length;
 			private: std::vector<ROADdecoder::ROADover::DoubleDataContainer*> _dataCollection;
 
 			public: ROADdecoder::ROADover::IDoubleDataContainer* getIDoubleDataContainer(unsigned int aIndex);
 
 			public: unsigned int getCount();
+
+            public: unsigned int getLength();
 
             public: ~RawDataBuffer();
 

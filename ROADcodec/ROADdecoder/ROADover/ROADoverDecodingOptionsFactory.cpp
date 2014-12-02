@@ -5,18 +5,19 @@ using namespace std;
 
 #include "ROADoverDecodingOptionsFactory.h"
 #include "ROADoverDecodingOptionsExperemental.h"
-#include "EndianConvertor.h"
 
-shared_ptr<ROADdecoder::ROADover::IROADoverDecodingOptions> ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(unsigned char* aData,
-                                                                                        unsigned int aLength)
+
+ROADdecoder::ROADover::IROADoverDecodingOptions *ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(unique_ptr<Driver::IDataReadDriver> &aPtrIDataReadDriver)
 {
-    shared_ptr<ROADdecoder::ROADover::IROADoverDecodingOptions> result;
+    ROADdecoder::ROADover::IROADoverDecodingOptions* result = nullptr;
 
-    unsigned int formatMode = Endian::EndianConvertor::getInstance().convertToUINT32(aData);
+    unsigned int formatMode = 0;
+
+    aPtrIDataReadDriver.get()->operator >>(formatMode);
 
     if(formatMode == 0)
     {
-        result.reset(new ROADoverDecodingOptionsExperemental(aData, aLength));
+        result = new ROADoverDecodingOptionsExperemental(aPtrIDataReadDriver);
     }
 
     return result;

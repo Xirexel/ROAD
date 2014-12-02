@@ -24,6 +24,10 @@ namespace ROADdecoder
 			public: virtual double getAver() = 0;
 
 			public: virtual unsigned int getLength() = 0;
+
+			public: virtual unsigned int getPosition() = 0;
+
+            public: virtual ~IFractalAverItem(){}
 		};
 	}
 }

@@ -16,7 +16,8 @@ DEFINES += ROAD_LIBRARY
 
 SOURCES += \
     DomainProcessorNoneFixedLength.cpp \
-    ROADFractalBuilderNoneFixedRangLength.cpp
+    ROADFractalBuilderNoneFixedRangLength.cpp \
+    ROADFractalBuilderFactory.cpp
 
 HEADERS +=\
         road_global.h \
@@ -25,4 +26,5 @@ HEADERS +=\
     IFractalItem.h \
     IFractalItemContainer.h \
     IROADFractalBuilder.h \
-    ROADFractalBuilderNoneFixedRangLength.h
+    ROADFractalBuilderNoneFixedRangLength.h \
+    ROADFractalBuilderFactory.h

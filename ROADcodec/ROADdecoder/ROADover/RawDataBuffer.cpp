@@ -14,6 +14,11 @@ unsigned int ROADdecoder::ROADover::RawDataBuffer::getCount() {
     return this->_count;
 }
 
+unsigned int ROADdecoder::ROADover::RawDataBuffer::getLength()
+{
+    return this->_length;
+}
+
 ROADdecoder::ROADover::RawDataBuffer::~RawDataBuffer() {
 
     for(DoubleDataContainer *item: _dataCollection)
@@ -23,6 +28,8 @@ ROADdecoder::ROADover::RawDataBuffer::~RawDataBuffer() {
 }
 
 ROADdecoder::ROADover::RawDataBuffer::RawDataBuffer(unsigned int aCount, unsigned int aSuperFrameLength)
+    : _count(aCount),
+      _length(aSuperFrameLength)
 {
     for(decltype(aCount) index = 0;
         index < aCount;

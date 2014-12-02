@@ -16,8 +16,7 @@ using namespace std;
 namespace ROADdecoder
 {
 	namespace ROADover
-	{
-		class IChannelsMixing;
+    {
 		class IROADoverManager;
 		class IRawDataBuffer;
 		class IROADoverDecodingOptions;
@@ -31,8 +30,7 @@ namespace ROADdecoder
 	namespace ROADover
 	{
         class ROADOVERSHARED_EXPORT ROADover
-		{
-			private: ROADdecoder::ROADover::IChannelsMixing* _channelsMixing;
+        {
 			private: ROADdecoder::ROADover::IROADoverManager* _manager;
             private: unsigned int _amountOfChannels;
             private: unsigned int _superframeLength;
@@ -41,11 +39,11 @@ namespace ROADdecoder
 
 
 
-            public: virtual unsigned int readROADdata(unsigned char* aData) = 0;
+            public: virtual int readROADdata(unsigned char* aData) = 0;
 
-            public: virtual unsigned int readPreListening(unsigned char* aData) = 0;
+            public: virtual int readPreListening(unsigned char* aData) = 0;
 
-            public: virtual void convertByteArrayIntoDoubleArray(const char* aByteData, unsigned int aLengthByteArray, double* aDoubleData) = 0;
+            public: virtual void convertByteArrayIntoDoubleArray(const unsigned char* aByteData, unsigned int aLengthByteArray, double* aDoubleData) = 0;
 
             public: virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer) = 0;
 

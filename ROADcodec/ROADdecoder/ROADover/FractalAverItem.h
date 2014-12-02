@@ -28,14 +28,24 @@ namespace ROADdecoder
 		{
 			private: double _aver;
 			private: unsigned int _length;
+			private: unsigned char _fractalItemIndex;
+			private: unsigned int _position;
 
 			public: double getAver();
 
 			public: unsigned int getLength();
 
+			public: unsigned int getPosition();
+
 			public: void setAver(double aAver);
 
 			public: void setLength(unsigned int aLength);
+
+			public: void setFractalItemIndex(unsigned char aFractalItemIndex);
+
+			public: unsigned char getFractalItemIndex();
+
+			public: void setPosition(unsigned int aPosition);
 		};
 	}
 }

@@ -25,6 +25,8 @@ namespace ROADdecoder
 		{
 
 			public: virtual void build(double* aData, ROADdecoder::ROAD::IFractalItemContainer* aFractalItemContainer) = 0;
+
+            public: virtual ~IROADFractalBuilder(){}
 		};
 	}
 }

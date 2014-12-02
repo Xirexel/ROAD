@@ -21,3 +21,22 @@ void ROADdecoder::ROADover::FractalAverItem::setLength(unsigned int aLength) {
 	this->_length = aLength;
 }
 
+void ROADdecoder::ROADover::FractalAverItem::setFractalItemIndex(unsigned char aFractalItemIndex)
+{
+    this->_fractalItemIndex = aFractalItemIndex;
+}
+
+unsigned char ROADdecoder::ROADover::FractalAverItem::getFractalItemIndex()
+{
+    return this->_fractalItemIndex;
+}
+
+unsigned int ROADdecoder::ROADover::FractalAverItem::getPosition()
+{
+    return this->_position;
+}
+
+void ROADdecoder::ROADover::FractalAverItem::setPosition(unsigned int aPosition)
+{
+    this->_position = aPosition;
+}

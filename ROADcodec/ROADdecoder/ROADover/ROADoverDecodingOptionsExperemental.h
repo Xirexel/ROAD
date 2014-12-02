@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <exception>
+#include <memory>
 using namespace std;
 
 #ifndef __ROADdecoder__ROADover__ROADoverDecodingOptionsExperemental_h__
@@ -8,6 +9,7 @@ using namespace std;
 
 #include "ChannelsMixingMode.h"
 #include "IROADoverDecodingOptions.h"
+#include "IDataReadDriver.h"
 #include "roadover_global.h"
 namespace ROADdecoder
 {
@@ -35,10 +37,11 @@ namespace ROADdecoder
 			private: unsigned int _relativeDomainShift;
             private: unsigned int _scaleDomainShift;
             private: unsigned int _encriptionCode;
+            private: unsigned int _originalBitsPerSample;
 
-			public: ROADdecoder::ROADover::ROADFormatMode getROADFormatMode();
+            public: unsigned int getROADFormatMode();
 
-			public: ROADoverDecodingOptionsExperemental(unsigned char* aData, unsigned int aLength);
+            public: ROADoverDecodingOptionsExperemental(unique_ptr<Driver::IDataReadDriver> &aPtrIDataReadDriver);
 
             public: virtual ~ROADoverDecodingOptionsExperemental();
 
@@ -59,6 +62,10 @@ namespace ROADdecoder
 			public: unsigned int getOriginalSamplesPerRang();
 
             public: void setSamplesPerRang(unsigned int aValue);
+
+            public: void setOriginalBitsPerSample( unsigned int aValue);
+
+            public: unsigned int getOriginalBitsPerSample();
 
             public: unsigned int getEncriptionCode();
 		};

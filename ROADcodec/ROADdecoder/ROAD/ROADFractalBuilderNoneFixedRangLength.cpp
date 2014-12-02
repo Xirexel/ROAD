@@ -22,7 +22,11 @@ void ROADdecoder::ROAD::ROADFractalBuilderNoneFixedRangLength::build(double* aDa
 
         unsigned int lrangeLength = item->getLength();
 
+        unsigned int lrangPosition = item->getPosition();
+
         double lAver = item->getAver();
+
+        lFramePos = aData + lrangPosition;
 
         for(unsigned int index = 0;
                 index < lrangeLength;
@@ -37,6 +41,9 @@ void ROADdecoder::ROAD::ROADFractalBuilderNoneFixedRangLength::build(double* aDa
     }
 
     lmaxCount = aFractalItemContainer->getIFractalItemCount();
+
+    if(lmaxCount == 0)
+        return;
 
     for(unsigned int index = 0;
         index < 4;
@@ -69,11 +76,11 @@ void ROADdecoder::ROAD::ROADFractalBuilderNoneFixedRangLength::build(double* aDa
                     index < lrangLength;
                     ++index)
             {
-                    double t = lptrDomain[index] * lScale + lAver;
+                double t = lptrDomain[index] * lScale + lAver;
 
-                    *lFramePos = t;
+                *lFramePos = t;
 
-                    lFramePos++;
+                lFramePos++;
             }
 
             ++countFractalItems;
@@ -81,3 +88,13 @@ void ROADdecoder::ROAD::ROADFractalBuilderNoneFixedRangLength::build(double* aDa
     }
 }
 
+ROADdecoder::ROAD::ROADFractalBuilderNoneFixedRangLength::~ROADFractalBuilderNoneFixedRangLength()
+{
+
+}
+
+ROADdecoder::ROAD::ROADFractalBuilderNoneFixedRangLength::ROADFractalBuilderNoneFixedRangLength(unsigned int aMaxRangeLength)
+    :_domainProcessor(DomainProcessorNoneFixedLength(aMaxRangeLength))
+{
+
+}

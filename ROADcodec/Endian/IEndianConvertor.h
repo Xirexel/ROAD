@@ -3,17 +3,17 @@
 #include <exception>
 using namespace std;
 
-#ifndef __Endian__IConvertor_h__
-#define __Endian__IConvertor_h__
+#ifndef __Endian__IEndianConvertor_h__
+#define __Endian__IEndianConvertor_h__
 
 namespace Endian
 {
-	class IConvertor;
+	class IEndianConvertor;
 }
 
 namespace Endian
 {
-	class IConvertor
+	class IEndianConvertor
 	{
 
 		public: virtual unsigned int convertToUINT32(unsigned char* aData) = 0;
@@ -23,6 +23,8 @@ namespace Endian
 		public: virtual unsigned short convertToUINT16(unsigned char* aData) = 0;
 
 		public: virtual short convertToINT16(unsigned char* aData) = 0;
+
+        public: virtual ~IEndianConvertor(){}
 	};
 }
 
