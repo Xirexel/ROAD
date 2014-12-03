@@ -6,7 +6,7 @@
 #include <fstream>
 
 
-
+#define UNUSED(x) (void)x;
 
 
 WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, quint32 bitsPerSample, QObject *parent) :
@@ -54,11 +54,11 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
 
             lFractalDecdingOptions->setSamplesPerRang(samplesPerRange);
 
-            switch(lFractalDecdingOptions.get()->getROADFormatMode())
+            switch(lFractalDecdingOptions->getROADFormatMode())
             {
                 case ROADdecoder::ROADover::EXPEREMENTAL:
                 {
-                    auto lexperementalOptions = dynamic_cast<ROADoverDecodingOptionsExperemental*>(lFractalDecdingOptions.get());
+                    auto lexperementalOptions = dynamic_cast<ROADoverDecodingOptionsExperemental*>(lFractalDecdingOptions);
 
                     _bitsPerSample = bitsPerSample;
 
@@ -72,6 +72,19 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
 
                     _channels = lexperementalOptions->getAmountOfChannels();
 
+                    lexperementalOptions->setOriginalBitsPerSample(lWAVEFORMAT.bitsPerSample);
+
+
+                    qint64 l = lWAVEDESCRDATA.chunkHead.size * lexperementalOptions->getAmountOfChannels();
+
+                    l *= samplesPerRange;
+
+                    qint64 g = bitsPerSample / lWAVEFORMAT.bitsPerSample;
+
+                    qint64 k = l * g;
+
+                    _sizeOfData = k;
+
                 }
                 break;
 
@@ -82,50 +95,11 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
             }
 
 
-//            options.setAmountOfChannels(lFractDescr._format._originalAmountOfChannels);
-
-//            options.setFrameRangLength(lFractDescr._format._frameRangeLength);
-
-
-//            ROADover::MixingChannelsMode lMixingChannelMode = ROADover::NONE;
-
-//            switch(lFractDescr._format._averDiffMode)
-//            {
-//            case 0:
-//            default:
-//                lMixingChannelMode = ROADover::LplusR;
-//                break;
-
-//            case 1:
-//                lMixingChannelMode = ROADover::LminusR;
-//                break;
-
-//            case 2:
-//                lMixingChannelMode = ROADover::NONE;
-//                break;
-
-//            }
-
-
-
-//            options.setMixingChannelsMode(lMixingChannelMode);
-
-//            options.setRelativeDomainShift(lFractDescr._format._domainShift);
-
-//            options.setSamplesPerRang(samplesPerRange);
-
-//            options.setSuperframeLength(lFractDescr._format._superFrameLength);
-
-//            options.setScaleDomainShift(lFractDescr._format._domainShiftScale);
-
-//            options.setBitsPerSample(lWAVEFORMAT.bitsPerSample);
-
-
             switch(lWAVEFORMAT.bitsPerSample)
             {
 
             case 8:
-                _IReader = new ROADoverWAVE<quint8, quint8>(lFractalDecdingOptions.get(), _waveFractalFormatData, filePath.toStdString());
+                _IReader = new ROADoverWAVE<quint8, quint8>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
                 break;
 
             case 16:
@@ -134,10 +108,10 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
                 {
                 case 16:
                 default:
-                    _IReader = new ROADoverWAVE<qint16, qint16>(lFractalDecdingOptions.get(), _waveFractalFormatData, filePath.toStdString());
+                    _IReader = new ROADoverWAVE<qint16, qint16>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
                     break;
                 case 32:
-                    _IReader = new ROADoverWAVE<qint16, qint32>(lFractalDecdingOptions.get(), _waveFractalFormatData, filePath.toStdString());
+                    _IReader = new ROADoverWAVE<qint16, qint32>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
 
                     break;
                 }
@@ -146,35 +120,13 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
                 break;
 
             case 32:
-                _IReader = new ROADoverWAVE<qint32, qint32>(lFractalDecdingOptions.get(), _waveFractalFormatData, filePath.toStdString());
+                _IReader = new ROADoverWAVE<qint32, qint32>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
                 break;
 
             default:
                 _IReader = nullptr;
                 break;
             }
-
-//            qint64 l = lWAVEDESCRDATA.chunkHead.size * lFractDescr._format._originalAmountOfChannels;
-
-//            l *= samplesPerRange;
-
-//            qint64 g = bitsPerSample / lWAVEFORMAT.bitsPerSample;
-
-//            qint64 k = l * g;
-
-//            _sizeOfData = k;
-
-//            lWAVEFORMAT.bitsPerSample = bitsPerSample;
-
-//            lWAVEFORMAT.sampleRate = lWAVEFORMAT.sampleRate * samplesPerRange;
-
-//            lWAVEFORMAT.channels = lFractDescr._format._originalAmountOfChannels;
-
-//            lWAVEFORMAT.blockAlign = (bitsPerSample >> 3) * lFractDescr._format._originalAmountOfChannels;
-
-
-
-
 
         }
 
@@ -192,8 +144,6 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
             _format.setSampleType(QAudioFormat::SignedInt);
 
             _format.setByteOrder(QAudioFormat::LittleEndian);
-
-
 
             open(QIODevice::ReadOnly);
 
@@ -294,6 +244,8 @@ qint64 WaveFractalReader::getSampleAmount()
 
 bool WaveFractalReader::seek(qint64 pos)
 {
+    UNUSED(pos);
+
     bool result = true;
 
     return result;

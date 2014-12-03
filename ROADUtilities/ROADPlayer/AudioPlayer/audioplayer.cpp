@@ -18,11 +18,18 @@ AudioPlayer::~AudioPlayer()
     releaseSource();
 }
 
-void AudioPlayer::setFilePath(QString filePath, quint32 samplePerRange, quint32 bitsPerSample, QAudioDeviceInfo device)
+proxy::optional<FractalInfo> getFractalInfo(QString filePath)
+{
+    proxy::optional<FractalInfo> result;
+
+    return result;
+}
+
+void AudioPlayer::setFilePath(QString filePath, quint32 samplesPerRang, quint32 bitsPerSample, QAudioDeviceInfo device)
 {
     releaseSource();
 
-    _reader = new WaveFractalReader(filePath, samplePerRange, bitsPerSample, this);
+    _reader = new WaveFractalReader(filePath, samplesPerRang, bitsPerSample, this);
 
     if(!_reader->isOpen())
         return;
@@ -47,7 +54,7 @@ void AudioPlayer::setFilePath(QString filePath, quint32 samplePerRange, quint32 
 void AudioPlayer::releaseSource()
 {
     if(_reader != nullptr)
-        delete _reader;
+        _reader->deleteLater();
 
     if(_audioOutput != nullptr)
         delete _audioOutput;

@@ -7,7 +7,7 @@
 #include <memory>
 
 
-#include "../ROADoverWAVE/wavefractal_parser.h"
+//#include "../ROADoverWAVE/wavefractal_parser.h"
 #include "wavefractalreader.h"
 
 
@@ -126,11 +126,7 @@ void convert(QString source, QString destination, quint32 samplesPerRange, quint
         readLength += len;
     }
 
-
-
     loutFile.close();
-
-
 }
 
 
@@ -152,6 +148,8 @@ MainWidget::MainWidget(QWidget *parent) :
     connect(ui->openFileButton, SIGNAL(clicked()), SLOT(openFractalFile()));
 
     connect(ui->playButton, SIGNAL(clicked()), _player, SLOT(start()));
+
+    connect(ui->saveIntoWAVEFilepushButton, SIGNAL(clicked()), SLOT(saveIntoWaveFile()));
 }
 
 MainWidget::~MainWidget()
@@ -168,13 +166,27 @@ void MainWidget::openFractalFile()
                 QDir::homePath() + "/Documents",
                 QObject::tr("*.wave (*.wav)"));
 
+    ui->saveIntoWAVEFilepushButton->setEnabled(false);
+
     if(!QFile::exists(filePath))
         return;
 
-    convert(filePath, QString(QDir::homePath() + "/Documents/1.wav"), 4, 16);
+    ui->saveIntoWAVEFilepushButton->setEnabled(true);
 
-//    _player->setFilePath(filePath, 4, 32, QAudioDeviceInfo::defaultOutputDevice());
+    _filePath = filePath;
+
+    _player->setFilePath(filePath, 4, 32, QAudioDeviceInfo::defaultOutputDevice());
 
 //    _player->start();
 }
 
+void MainWidget::saveIntoWaveFile()
+{
+    QString filePath = QFileDialog::getSaveFileName(
+                this,
+                QObject::tr("Save into 'WAVE' File"),
+                QDir::homePath() + "/Documents",
+                QObject::tr("*.wave (*.wav)"));
+
+    convert(_filePath, filePath, 4, 16);
+}

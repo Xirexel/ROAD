@@ -22,9 +22,13 @@ private:
 
     AudioPlayer *_player;
 
+    QString _filePath;
+
 private slots:
 
     void openFractalFile();
+
+    void saveIntoWaveFile();
 
 };
 

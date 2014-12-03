@@ -97,19 +97,6 @@ struct __WAVEDESCRDATA
         __WAVECHUNKHEAD chunkHead;
 };
 
-
-//struct __FRACFORMAT
-//{
-//        unsigned int _format;
-//        unsigned int _superFrameLength;
-//        unsigned int _frameRangeLength;
-//        unsigned int _domainShift;
-//        unsigned int _domainShiftScale;
-//        unsigned int _originalAmountOfChannels;
-//        unsigned int _averDiffMode;
-//        unsigned int _encriptionCode;
-//};
-
 struct __FRACDESCR
 {
 
@@ -125,17 +112,9 @@ struct __FRACDESCR
                 && this->_chunkHead.id[3] == 'D';
     }
 
-//    __FRACDESCR(const __FRACDESCR& instance)
-//    {
-//        _chunkHead = instance._chunkHead;
-
-//        _format
-//    }
-
-
     __WAVECHUNKHEAD _chunkHead;
 
-    std::shared_ptr<ROADdecoder::ROADover::IROADoverDecodingOptions> _format;
+    ROADdecoder::ROADover::IROADoverDecodingOptions * _format;
 };
 
 struct __FRACMAP
@@ -302,8 +281,6 @@ private:
     proxy::optional<__WAVEDESCR> parseWaveDescr(FILE * pFile);
 
     proxy::optional<__WAVEFORMAT> parseWaveFormat(FILE * pFile, __WAVECHUNKHEAD aHead);
-
-//    void parseFractalFormat(FILE * pFile, __FRACDESCR &lfractDescr);
 
 };
 
