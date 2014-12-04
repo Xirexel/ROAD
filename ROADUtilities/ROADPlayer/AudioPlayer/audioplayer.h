@@ -51,9 +51,9 @@ private:
 
 struct FractalInfo
 {
-    unsigned int _originalBitsPerSample;
+    int _originalBitsPerSample;
 
-    unsigned int _originalFrequency;
+    int _originalFrequency;
 
     FractalInfo()
         : _originalBitsPerSample(0),

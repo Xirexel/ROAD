@@ -36,7 +36,7 @@ private slots:
 
     void saveIntoWaveFile();
 
-    void changeOutputDevice(int index);
+    void changeOutputDevice(int);
 
     void updateAudioPlayer();
 

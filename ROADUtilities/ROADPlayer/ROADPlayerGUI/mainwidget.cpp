@@ -261,7 +261,7 @@ void MainWidget::updateAudioPlayer()
 
     ui->selectOutFrequencyComboBox->clear();
 
-    quint32 lLowScaleFrequency = 1;
+    int lLowScaleFrequency = 1;
 
     while(true)
     {
@@ -325,7 +325,7 @@ void MainWidget::saveIntoWaveFile()
     convert(_filePath, filePath,  ui->selectOutFrequencyComboBox->currentData().value<quint32>(), ui->bitsPerSampleComboBox->currentData().value<quint32>());
 }
 
-void MainWidget::changeOutputDevice(int index)
+void MainWidget::changeOutputDevice(int)
 {
 
     updateAudioPlayer();
