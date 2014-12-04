@@ -29,21 +29,12 @@ ROADdecoder::ROADover::ROADoverManager::ROADoverManager(ROADdecoder::ROADover::R
         index < aAmountOfChannels;
         ++index)
     {
-//        _fractalBuilder.push_back();
-
         _fractalItemSuperFrameContainer.push_back(new FractalItemSuperFrameContainer(aSuperFrameLength, aFrameRangLength));
     }
 }
 
 ROADdecoder::ROADover::ROADoverManager::~ROADoverManager()
 {
-//    delete this->_bufferROADdata;
-
-//    for(ROADdecoder::ROAD::IROADFractalBuilder* item : _fractalBuilder)
-//        delete item;
-
-//    _fractalBuilder.clear();
-
     for(FractalItemSuperFrameContainer* item : _fractalItemSuperFrameContainer)
         delete item;
 

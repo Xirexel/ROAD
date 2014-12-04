@@ -75,7 +75,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
             this->_roadOver->convertByteArrayIntoDoubleArray(_preListeningData.get(), lreadPreListeningLength, _preListeningDoubleData.get());
 
 
-            // Обработка буфера ROADdata для выделения длинн рангов.
+// Обработка буфера ROADdata для выделения длинн рангов.
             unsigned int lFrameLengthLength = _options->getFrameRangLength() * _options->getSamplesPerRang();
 
             const unsigned char* lptrData = this->_bufferROADdata.get();
@@ -293,10 +293,6 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                     lptrFractalItemContainer->setFractalItemCount(countDomainIndeces);
 
                 }
-
-
-
-        //        qDebug(QString("countDomainIndeces: %1").arg(countDomainIndeces).toStdString().c_str());
 
             }
 

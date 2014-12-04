@@ -9,27 +9,27 @@ unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getROAD
     return this->_formatMode;
 }
 
-ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::ROADoverDecodingOptionsExperemental(unique_ptr<Driver::IDataReadDriver> &aPtrIDataReadDriver)
+ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::ROADoverDecodingOptionsExperemental(Driver::IDataReadDriver *aPtrIDataReadDriver)
 {
     this->_formatMode = ROADFormatMode(0);
 
-    aPtrIDataReadDriver.get()->operator >>(this->_superframeLength);
+    *aPtrIDataReadDriver >>(this->_superframeLength);
 
-    aPtrIDataReadDriver.get()->operator >>(this->_frameRangLength);
+    *aPtrIDataReadDriver >>(this->_frameRangLength);
 
-    aPtrIDataReadDriver.get()->operator >>(this->_relativeDomainShift);
+    *aPtrIDataReadDriver >>(this->_relativeDomainShift);
 
-    aPtrIDataReadDriver.get()->operator >>(this->_scaleDomainShift);
+    *aPtrIDataReadDriver >>(this->_scaleDomainShift);
 
-    aPtrIDataReadDriver.get()->operator >>(this->_amountOfChannels);
+    *aPtrIDataReadDriver >>(this->_amountOfChannels);
 
     unsigned int lchannelsMixingMode;
 
-    aPtrIDataReadDriver.get()->operator >>(lchannelsMixingMode);
+    *aPtrIDataReadDriver >>(lchannelsMixingMode);
 
     this->_channelsMixingMode = ChannelsMixingMode(lchannelsMixingMode);
 
-    aPtrIDataReadDriver.get()->operator >>(this->_encriptionCode);
+    *aPtrIDataReadDriver >>(this->_encriptionCode);
 
     this->_samplesPerRang = _scaleDomainShift;
 

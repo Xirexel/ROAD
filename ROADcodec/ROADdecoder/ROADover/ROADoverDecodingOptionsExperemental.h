@@ -41,7 +41,7 @@ namespace ROADdecoder
 
             public: unsigned int getROADFormatMode();
 
-            public: ROADoverDecodingOptionsExperemental(unique_ptr<Driver::IDataReadDriver> &aPtrIDataReadDriver);
+            public: ROADoverDecodingOptionsExperemental(Driver::IDataReadDriver *aPtrIDataReadDriver);
 
             public: virtual ~ROADoverDecodingOptionsExperemental();
 

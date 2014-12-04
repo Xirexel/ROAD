@@ -17,7 +17,7 @@ ROADdecoder::ROADover::IROADoverDecodingOptions *ROADdecoder::ROADover::ROADover
 
     if(formatMode == 0)
     {
-        result = new ROADoverDecodingOptionsExperemental(aPtrIDataReadDriver);
+        result = new ROADoverDecodingOptionsExperemental(aPtrIDataReadDriver.get());
     }
 
     return result;

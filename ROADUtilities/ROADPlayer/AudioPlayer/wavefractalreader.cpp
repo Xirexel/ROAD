@@ -49,8 +49,6 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 scaleOfFrequency,
 
         if(_waveFractalFormatData.isWaveFractal())
         {
-//            ROADover::ROADoverDecodingOptions options;
-
             __FRACDESCR lFractDescr = _waveFractalFormatData.getFracdescr();
 
             auto lFractalDecdingOptions = lFractDescr._format;
