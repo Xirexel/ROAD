@@ -11,7 +11,6 @@ TEMPLATE = lib
 CONFIG += staticlib
 CONFIG += c++11
 
-#DLLDESTDIR = ../../Bin/ROADPlayer
 
 DEFINES += ROADOVER_LIBRARY
 
