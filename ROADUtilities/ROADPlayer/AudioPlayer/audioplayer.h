@@ -8,7 +8,7 @@ class WaveFractalReader;
 class QAudioOutput;
 
 
-namespace proxy {
+namespace audioplayer {
 
 template<typename T>
 class optional
@@ -53,11 +53,11 @@ struct FractalInfo
 {
     unsigned int _originalBitsPerSample;
 
-    unsigned int _originalSamplesPerRang;
+    unsigned int _originalFrequency;
 
     FractalInfo()
         : _originalBitsPerSample(0),
-          _originalSamplesPerRang(0)
+          _originalFrequency(0)
     {}
 };
 
@@ -69,9 +69,9 @@ public:
 
     virtual ~AudioPlayer();
 
-    void setFilePath(QString filePath, quint32 samplesPerRang, quint32 bitsPerSample, QAudioDeviceInfo device);
+    void setFilePath(QString filePath, quint32 scaleOfFrequency, quint32 bitsPerSample, QAudioDeviceInfo device);
 
-    static proxy::optional<FractalInfo> getFractalInfo(QString filePath);
+    static audioplayer::optional<FractalInfo> getFractalInfo(QString filePath);
 
     void releaseSource();
 

@@ -9,7 +9,7 @@
 #define UNUSED(x) (void)x;
 
 
-WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, quint32 bitsPerSample, QObject *parent) :
+WaveFractalReader::WaveFractalReader(QString filePath, quint32 scaleOfFrequency, quint32 bitsPerSample, QObject *parent) :
     QIODevice(parent),
     _ready(false),
     _IReader(nullptr),
@@ -44,6 +44,9 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
         if(lWAVEFORMAT.format == 0)
             break;
 
+        int loutputFrequency = lWAVEFORMAT.sampleRate;
+
+
         if(_waveFractalFormatData.isWaveFractal())
         {
 //            ROADover::ROADoverDecodingOptions options;
@@ -52,7 +55,11 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
 
             auto lFractalDecdingOptions = lFractDescr._format;
 
-            lFractalDecdingOptions->setSamplesPerRang(samplesPerRange);
+            quint32 lsamplesPerRang = lFractalDecdingOptions->getOriginalSamplesPerRang() * scaleOfFrequency;
+
+            loutputFrequency = lWAVEFORMAT.sampleRate * lsamplesPerRang;
+
+            lFractalDecdingOptions->setSamplesPerRang(lsamplesPerRang);
 
             switch(lFractalDecdingOptions->getROADFormatMode())
             {
@@ -68,7 +75,7 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
                     _byteRate = lWAVEFORMAT.sampleRate
                             * (bitsPerSample >> 3)
                             * lexperementalOptions->getAmountOfChannels()
-                            * samplesPerRange;
+                            * lsamplesPerRang;
 
                     _channels = lexperementalOptions->getAmountOfChannels();
 
@@ -77,7 +84,7 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
 
                     qint64 l = lWAVEDESCRDATA.chunkHead.size * lexperementalOptions->getAmountOfChannels();
 
-                    l *= samplesPerRange;
+                    l *= lsamplesPerRang;
 
                     qint64 g = bitsPerSample / lWAVEFORMAT.bitsPerSample;
 
@@ -133,13 +140,13 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 samplesPerRange, 
         if(_IReader != nullptr)
         {
 
-            _format.setChannelCount(lWAVEFORMAT.channels);
+            _format.setChannelCount(_channels);
 
             _format.setCodec("audio/pcm");
 
-            _format.setSampleRate(lWAVEFORMAT.sampleRate);
+            _format.setSampleRate(loutputFrequency);
 
-            _format.setSampleSize(lWAVEFORMAT.bitsPerSample);
+            _format.setSampleSize(bitsPerSample);
 
             _format.setSampleType(QAudioFormat::SignedInt);
 
@@ -179,6 +186,18 @@ qint64 WaveFractalReader::readData(char *data, qint64 maxlen)
     if(_IReader != nullptr)
         result = _IReader->readData(data, maxlen);
 
+
+    if( result < 0)
+    {
+        emit finish();
+
+        return 0;
+    }
+
+    this->_readSizeOfData += (result / this->_blockAlign);
+
+    emitSignalPosition(this->_readSizeOfData);
+
     return result;
 }
 
@@ -214,7 +233,7 @@ qint64 WaveFractalReader::getSizeOfData()
 
 qint64 WaveFractalReader::getReadSizeOfData()
 {
-    return _readSizeOfData;
+    return this->_readSizeOfData;
 }
 
 qint32 WaveFractalReader::getBitsPerSample()
@@ -257,6 +276,8 @@ void WaveFractalReader::setRelatedPosition(qreal value)
         return;
 
     qint64 pos = static_cast<qint64>(static_cast<qreal>(getSampleAmount()) * value);
+
+    this->_readSizeOfData = pos;
 
     _IReader->setPosition(pos);
 }

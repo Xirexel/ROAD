@@ -21,7 +21,8 @@ ROADdecoder::ROADover::ROADoverManager::ROADoverManager(ROADdecoder::ROADover::R
       _roadOver(aRoadOver),
       _channelsDataBuffer(RawDataBuffer(aAmountOfChannels, aSuperFrameSamplesLength)),
       _bufferROADdata(new unsigned char[aAmountOfChannels * aSampleLength * aSuperFrameSamplesLength]),
-      _fractalBuilder(ROADdecoder::ROAD::ROADFractalBuilderFactory::getIROADFractalBuilder(aSuperFrameSamplesLength))
+      _fractalBuilder(ROADdecoder::ROAD::ROADFractalBuilderFactory::getIROADFractalBuilder(aSuperFrameSamplesLength)),
+      _frequencyScale(1)
 
 {
     for(decltype(aAmountOfChannels) index = 0;

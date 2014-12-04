@@ -45,6 +45,7 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(
     break;
     }
 
+    this->_frequencyScale = _options->getSamplesPerRang() / _options->getOriginalSamplesPerRang();
 
 
 }
@@ -260,6 +261,8 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                             unsigned int lDomainOffset = (itemIndex & 7) << 8;
 
                             lDomainOffset |= ldomainIndex;
+
+                            lDomainOffset = lDomainOffset * this->_frequencyScale;
 
 
                             auto lptrFractalItem = lptrFractalItemContainer->getFractalItem(countDomainIndeces);

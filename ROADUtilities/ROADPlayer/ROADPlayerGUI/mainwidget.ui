@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>708</width>
-    <height>182</height>
+    <width>712</width>
+    <height>377</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWidget</string>
+   <string>ROADPlayer</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -22,15 +22,47 @@
     </widget>
    </item>
    <item>
+    <widget class="QWidget" name="selectingOutputDevicePanel" native="true">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Selecting output device:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="outputDevicesComboBox"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QWidget" name="widget" native="true">
+      <widget class="QWidget" name="outputFrequencyPanel" native="true">
        <property name="enabled">
         <bool>false</bool>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Output frequency:</string>
           </property>
@@ -40,19 +72,24 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox"/>
+         <widget class="QComboBox" name="selectOutFrequencyComboBox"/>
         </item>
        </layout>
       </widget>
      </item>
      <item>
-      <widget class="QWidget" name="widget_2" native="true">
+      <widget class="QWidget" name="outputBitsPerSamplePanel" native="true">
        <property name="enabled">
         <bool>false</bool>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
          <widget class="QLabel" name="label_2">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Output bits per sample:</string>
           </property>
@@ -62,7 +99,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox_2"/>
+         <widget class="QComboBox" name="bitsPerSampleComboBox"/>
         </item>
        </layout>
       </widget>
@@ -70,7 +107,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QWidget" name="widget_3" native="true">
+    <widget class="QWidget" name="controlPanel" native="true">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -108,7 +145,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="stopButton">
         <property name="maximumSize">
          <size>
           <width>50</width>

@@ -15,7 +15,7 @@ class WaveFractalReader : public QIODevice
 {
     Q_OBJECT
 public:
-    explicit WaveFractalReader(QString filePath, quint32 samplesPerRange, quint32 bitsPerSample, QObject *parent = 0);
+    explicit WaveFractalReader(QString filePath, quint32 scaleOfFrequency, quint32 bitsPerSample, QObject *parent = 0);
 
     ~WaveFractalReader();
 

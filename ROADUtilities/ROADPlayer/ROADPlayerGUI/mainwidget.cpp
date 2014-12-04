@@ -147,19 +147,53 @@ MainWidget::MainWidget(QWidget *parent) :
 
     connect(ui->openFileButton, SIGNAL(clicked()), SLOT(openFractalFile()));
 
-    connect(ui->playButton, SIGNAL(clicked()), _player, SLOT(start()));
+    connect(ui->playButton, SIGNAL(clicked()), SLOT(play_pause()));
+
+    connect(ui->stopButton, SIGNAL(clicked()), _player, SLOT(stop()));
+
+    connect(ui->horizontalSlider, SIGNAL(sliderMoved(int)) , _player, SLOT(setTrackPosition(int)));
+
+    connect(_player, SIGNAL(setRange(int,int)), ui->horizontalSlider, SLOT(setRange(int,int)));
+
+    connect(_player, SIGNAL(getTrackPosition(int)), SLOT(setPositionTraker(int)));
+
+    connect(_player, SIGNAL(finish()), SLOT(checkState()));
+
+
+
+
+
 
     connect(ui->saveIntoWAVEFilepushButton, SIGNAL(clicked()), SLOT(saveIntoWaveFile()));
+
+    connect(ui->outputDevicesComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changeOutputDevice(int)));
+
+    connect(ui->selectOutFrequencyComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changeFrequency(int)));
+
+    connect(ui->bitsPerSampleComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changeOutputBitsPerSample(int)));
+
+
+
+    const QAudioDeviceInfo &defaultDeviceInfo = QAudioDeviceInfo::defaultOutputDevice();
+
+    ui->outputDevicesComboBox->addItem(defaultDeviceInfo.deviceName(), qVariantFromValue(defaultDeviceInfo));
+
+    for (const QAudioDeviceInfo &deviceInfo: QAudioDeviceInfo::availableDevices(QAudio::AudioOutput))
+    {
+        if (deviceInfo != defaultDeviceInfo)
+            ui->outputDevicesComboBox->addItem(deviceInfo.deviceName(), qVariantFromValue(deviceInfo));
+    }
 }
 
 MainWidget::~MainWidget()
 {
+    _player->stop();
+
     delete ui;
 }
 
 void MainWidget::openFractalFile()
 {
-
     QString filePath = QFileDialog::getOpenFileName(
                 this,
                 QObject::tr("Open 'Fractal' or old format 'WAVE' File"),
@@ -168,16 +202,116 @@ void MainWidget::openFractalFile()
 
     ui->saveIntoWAVEFilepushButton->setEnabled(false);
 
-    if(!QFile::exists(filePath))
+    _filePath = filePath;
+
+    updateAudioPlayer();
+}
+
+void MainWidget::updateAudioPlayer()
+{
+
+    if(!QFile::exists(_filePath))
         return;
+
+    auto lFractalInfo = AudioPlayer::getFractalInfo(_filePath);
+
+    if(!lFractalInfo)
+        return;
+
+    _player->stop();
+
+
+    ui->outputFrequencyPanel->setEnabled(true);
+
+    ui->outputBitsPerSamplePanel->setEnabled(true);
+
+    ui->selectingOutputDevicePanel->setEnabled(true);
+
+    ui->controlPanel->setEnabled(true);
+
+
+
+
+    ui->bitsPerSampleComboBox->clear();
+
+    if((*lFractalInfo)._originalBitsPerSample > 8)
+    {
+        quint32 lStep = (*lFractalInfo)._originalBitsPerSample;
+
+        while(lStep <= 32)
+        {
+            ui->bitsPerSampleComboBox->addItem(QString("%1 Bits").arg(lStep), lStep);
+
+            lStep *= 2;
+        }
+
+    }
+    else
+    {
+        ui->bitsPerSampleComboBox->addItem(QString("%1 Bits").arg((*lFractalInfo)._originalBitsPerSample), (*lFractalInfo)._originalBitsPerSample);
+    }
+
+
+    QAudioDeviceInfo lAudioDeviceInfo = ui->outputDevicesComboBox->currentData().value<QAudioDeviceInfo>();
+
+    QList<int> listSupportSampleRates = lAudioDeviceInfo.supportedSampleRates();
+
+    if(listSupportSampleRates.count() == 0)
+        return;
+
+    ui->selectOutFrequencyComboBox->clear();
+
+    quint32 lLowScaleFrequency = 1;
+
+    while(true)
+    {
+        if((*lFractalInfo)._originalFrequency * lLowScaleFrequency >= listSupportSampleRates.at(0))
+            break;
+
+        lLowScaleFrequency *= 2;
+    }
+
+    for(decltype(lLowScaleFrequency) stepFrequency = lLowScaleFrequency;
+        (*lFractalInfo)._originalFrequency * stepFrequency <= listSupportSampleRates.at(listSupportSampleRates.count() - 1);
+        stepFrequency *= 2)
+    {
+        ui->selectOutFrequencyComboBox->addItem(QString("%1 Hz").arg((*lFractalInfo)._originalFrequency * stepFrequency), stepFrequency);
+    }
+
+
+
+
 
     ui->saveIntoWAVEFilepushButton->setEnabled(true);
 
-    _filePath = filePath;
+    _player->setFilePath(_filePath, ui->selectOutFrequencyComboBox->currentData().value<quint32>(),
+                         ui->bitsPerSampleComboBox->currentData().value<quint32>(),
+                         ui->outputDevicesComboBox->currentData().value<QAudioDeviceInfo>());
 
-    _player->setFilePath(filePath, 4, 32, QAudioDeviceInfo::defaultOutputDevice());
+}
 
-//    _player->start();
+void MainWidget::setPositionTraker(int value)
+{
+
+    ui->horizontalSlider->setSliderPosition(value);
+
+}
+
+
+void MainWidget::play_pause()
+{
+    _player->pause();
+
+    checkState();
+}
+
+void MainWidget::checkState()
+{
+
+    if(_player->getState() == QAudio::ActiveState)
+        ui->playButton->setText("Pause");
+    else
+        ui->playButton->setText("Play");
 }
 
 void MainWidget::saveIntoWaveFile()
@@ -188,5 +322,37 @@ void MainWidget::saveIntoWaveFile()
                 QDir::homePath() + "/Documents",
                 QObject::tr("*.wave (*.wav)"));
 
-    convert(_filePath, filePath, 4, 16);
+    convert(_filePath, filePath,  ui->selectOutFrequencyComboBox->currentData().value<quint32>(), ui->bitsPerSampleComboBox->currentData().value<quint32>());
+}
+
+void MainWidget::changeOutputDevice(int index)
+{
+
+    updateAudioPlayer();
+
+}
+
+void MainWidget::changeFrequency(int)
+{
+
+    if(!QFile::exists(_filePath))
+        return;
+
+    _player->stop();
+
+    _player->setFilePath(_filePath, ui->selectOutFrequencyComboBox->currentData().value<quint32>(), ui->bitsPerSampleComboBox->currentData().value<quint32>(),
+                         ui->outputDevicesComboBox->currentData().value<QAudioDeviceInfo>());
+}
+
+void MainWidget::changeOutputBitsPerSample(int)
+{
+
+    if(!QFile::exists(_filePath))
+        return;
+
+    _player->stop();
+
+    _player->setFilePath(_filePath, ui->selectOutFrequencyComboBox->currentData().value<quint32>(), ui->bitsPerSampleComboBox->currentData().value<quint32>(),
+                         ui->outputDevicesComboBox->currentData().value<QAudioDeviceInfo>());
+
 }

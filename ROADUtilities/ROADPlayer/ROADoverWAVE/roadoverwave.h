@@ -32,7 +32,6 @@ public:
           min(std::numeric_limits<typeOutSample>::min()),
           _sampleScale(1),
           _waveFractalFormatData(aWaveFractalFormatData),
-          _pos(0),
           _nextPos(0),
           _readSize(0),
           _File(new QFile(QString(aFilePath.c_str()))),
@@ -98,7 +97,7 @@ public:
             ROADdecoder::ROADover::Result result = ROADover::decode();
 
             if(result != ROADdecoder::ROADover::DONE)
-                return 0;
+                return -1;
             else
                 _lastLength = _superFrameByteSize;
         }
@@ -130,7 +129,7 @@ public:
 
     virtual void setPosition(int position)
     {
-        UNUSED(position);
+        this->_nextPos = position;
     }
 
     virtual void decode()
@@ -289,8 +288,6 @@ private:
     __WAVEDESCRDATA _wavedescrdata;
 
     int _sampleAmount;
-
-    int _pos;
 
     int _nextPos;
 

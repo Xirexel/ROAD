@@ -1,5 +1,6 @@
 #include "audioplayer.h"
 #include "wavefractalreader.h"
+#include "wavefractal_parser.h"
 
 #include <QAudioOutput>
 
@@ -18,18 +19,45 @@ AudioPlayer::~AudioPlayer()
     releaseSource();
 }
 
-proxy::optional<FractalInfo> getFractalInfo(QString filePath)
+audioplayer::optional<FractalInfo> AudioPlayer::getFractalInfo(QString filePath)
 {
-    proxy::optional<FractalInfo> result;
+    audioplayer::optional<FractalInfo> result;
+
+    FILE * pFile;
+
+    pFile = fopen (filePath.toStdString().c_str() , "r");
+
+    auto lWaveFractalFormatData = WaveFractal_parser::getInstance().parse(pFile);
+
+    fclose(pFile);
+
+    if(!lWaveFractalFormatData)
+        return result;
+
+    WaveFractalFormatData _waveFractalFormatData = *lWaveFractalFormatData;
+
+    __WAVEFORMAT lWAVEFORMAT = _waveFractalFormatData.getWaveformat();
+
+    FractalInfo lFractalInfo;
+
+    lFractalInfo._originalBitsPerSample = lWAVEFORMAT.bitsPerSample;
+
+    __FRACDESCR lFractDescr = _waveFractalFormatData.getFracdescr();
+
+    auto lFractalDecdingOptions = lFractDescr._format;
+
+    lFractalInfo._originalFrequency = lFractalDecdingOptions->getOriginalSamplesPerRang() * lWAVEFORMAT.sampleRate;
+
+    result = lFractalInfo;
 
     return result;
 }
 
-void AudioPlayer::setFilePath(QString filePath, quint32 samplesPerRang, quint32 bitsPerSample, QAudioDeviceInfo device)
+void AudioPlayer::setFilePath(QString filePath, quint32 scaleOfFrequency, quint32 bitsPerSample, QAudioDeviceInfo device)
 {
     releaseSource();
 
-    _reader = new WaveFractalReader(filePath, samplesPerRang, bitsPerSample, this);
+    _reader = new WaveFractalReader(filePath, scaleOfFrequency, bitsPerSample, this);
 
     if(!_reader->isOpen())
         return;

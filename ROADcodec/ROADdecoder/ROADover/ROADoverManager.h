@@ -43,6 +43,7 @@ namespace ROADdecoder
 
             protected: std::unique_ptr<ROADdecoder::ROAD::IROADFractalBuilder> _fractalBuilder;
             protected: std::vector<ROADdecoder::ROADover::FractalItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
+            protected: unsigned int _frequencyScale;
 
             public: ROADoverManager(ROADdecoder::ROADover::ROADover* aRoadOver,
                                     unsigned int aAmountOfChannels,

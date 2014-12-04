@@ -26,9 +26,23 @@ private:
 
 private slots:
 
+    void setPositionTraker(int value);
+
+    void play_pause();
+
+    void checkState();
+
     void openFractalFile();
 
     void saveIntoWaveFile();
+
+    void changeOutputDevice(int index);
+
+    void updateAudioPlayer();
+
+    void changeFrequency(int);
+
+    void changeOutputBitsPerSample(int);
 
 };
 
