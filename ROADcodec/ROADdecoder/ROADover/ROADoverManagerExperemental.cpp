@@ -70,294 +70,307 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
         result = Result::DONE;
 
         {
-            int lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningData.get());
+            unsigned int lFrameLengthLength = _options->getFrameRangLength() * _options->getSamplesPerRang();
 
-            this->_roadOver->convertByteArrayIntoDoubleArray(_preListeningData.get(), lreadPreListeningLength, _preListeningDoubleData.get());
+            do
+            {
+                int lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningData.get());
+
+                this->_roadOver->convertByteArrayIntoDoubleArray(_preListeningData.get(), lreadPreListeningLength, _preListeningDoubleData.get());
 
 
 // Обработка буфера ROADdata для выделения длинн рангов.
-            unsigned int lFrameLengthLength = _options->getFrameRangLength() * _options->getSamplesPerRang();
 
-            const unsigned char* lptrData = this->_bufferROADdata.get();
 
-            for(decltype(_options->getAmountOfChannels()) lChannel = 0;
-                lChannel < _options->getAmountOfChannels();
-                ++lChannel)
-            {
+                const unsigned char* lptrData = this->_bufferROADdata.get();
 
-                FractalItemSuperFrameContainer* lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                     lframeIndex < _options->getSuperframeLength();
-                     ++lframeIndex)
+                for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+                    lChannel < _options->getAmountOfChannels();
+                    ++lChannel)
                 {
 
-                    unsigned int lFractalAverItemCount = 0;
+                    FractalItemSuperFrameContainer* lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                    auto lptrFractalItemContainer = lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex);
-
-                    int lLength = lFrameLengthLength;
-
-                    unsigned char luctemp = 0;
-
-                    unsigned int lcurrentPosition = 0;
-
-                    while(lLength > 0)
-                    {
-                        luctemp = *lptrData;
-
-                        ++lptrData;
-
-                        unsigned int lrangeLength;
-
-                        auto lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(lFractalAverItemCount);
-
-                        if((luctemp & 128) == 128)
-                        {
-                            lrangeLength = (1 << (luctemp & 127)) * _options->getSamplesPerRang();
-                        }
-                        else
-                        {
-                            lrangeLength = (1 << (luctemp >> 5)) * _options->getSamplesPerRang();
-                        }
-
-                        lptrFractalAverItem->setLength(lrangeLength);
-
-                        lptrFractalAverItem->setFractalItemIndex(luctemp);
-
-                        lptrFractalAverItem->setPosition(lcurrentPosition);
-
-                        lLength -= lrangeLength;
-
-                        lcurrentPosition+=lrangeLength;
-
-                        ++lFractalAverItemCount;
-                    }
-
-                    lptrFractalItemContainer->setFractalAverItemCount(lFractalAverItemCount);
-
-                }
-            }
-
-// Обработка буфера предпрослушивания
-
-            double *lptrPreListeningDoubleData = _preListeningDoubleData.get();
-
-            FractalItemSuperFrameContainer* lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
-
-            for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                 lframeIndex < _options->getSuperframeLength();
-                 ++lframeIndex)
-            {
-
-
-                FractalItemContainer *lptrFractalItemContainer = lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex);
-
-                auto lFractalAverItemCount = lptrFractalItemContainer->getIFractalAverItemCount();
-
-
-                unsigned int count = 0;
-
-                unsigned int lrabgeLength = 0;
-
-                while(count < lFractalAverItemCount)
-                {
-                    double lptrAver = *lptrPreListeningDoubleData;
-
-                    FractalAverItem *lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(count);
-
-                    lrabgeLength = lptrFractalAverItem->getLength();
-
-                    lptrFractalAverItem->setAver(lptrAver);
-
-                    lrabgeLength /= _options->getSamplesPerRang();
-
-                    lptrPreListeningDoubleData += lrabgeLength;
-
-                    ++count;
-                }
-
-            }
-
-// Обработка буфера ROADdata для выделения усреднённой составляющей.
-
-            for(decltype(_options->getAmountOfChannels()) lChannel = 1;
-                lChannel < _options->getAmountOfChannels();
-                ++lChannel)
-            {
-                FractalItemSuperFrameContainer* lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
-
-                for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                     lframeIndex < _options->getSuperframeLength();
-                     ++lframeIndex)
-                {
-
-                    auto lptrFractalItemContainer = lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex);
-
-                    auto lFractalAverItemCount = lptrFractalItemContainer->getIFractalAverItemCount();
-
-                    unsigned int lLengthByteArray = lFractalAverItemCount * (_options->getOriginalBitsPerSample() >> 3);
-
-                    unique_ptr<double> lptrAver(new double[lFractalAverItemCount]);
-
-
-
-                    this->_roadOver->convertByteArrayIntoDoubleArray(lptrData, lLengthByteArray, lptrAver.get());
-
-                    lptrData+=lLengthByteArray;
-
-                    for(decltype(lFractalAverItemCount) lItemIndex = 0;
-                        lItemIndex < lFractalAverItemCount;
-                        ++lItemIndex)
+                    for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
+                         lframeIndex < _options->getSuperframeLength();
+                         ++lframeIndex)
                     {
 
-                        auto lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(lItemIndex);
+                        unsigned int lFractalAverItemCount = 0;
 
-                        lptrFractalAverItem->setAver(lptrAver.get()[lItemIndex]);
+                        auto lptrFractalItemContainer = lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex);
 
-                    }
-                }
-            }
-// Обработка буфера ROADdata для выделения номеров доменнов.
+                        int lLength = lFrameLengthLength;
 
+                        unsigned char luctemp = 0;
 
-            for(decltype(_options->getAmountOfChannels()) lChannel = 0;
-                lChannel < _options->getAmountOfChannels();
-                ++lChannel)
-            {
-                auto lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
+                        unsigned int lcurrentPosition = 0;
 
-                for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                     lframeIndex < _options->getSuperframeLength();
-                     ++lframeIndex)
-                {
-
-                    auto lptrFractalItemContainer = lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex);
-
-                    auto lFractalAverItemCount = lptrFractalItemContainer->getIFractalAverItemCount();
-
-
-                    unsigned char ldomainIndex;
-
-                    decltype(lFractalAverItemCount) itemCount = 0;
-
-                    unsigned int countDomainIndeces = 0;
-
-                    while(itemCount < lFractalAverItemCount)
-                    {
-                        auto lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(itemCount);
-
-                        unsigned char itemIndex = lptrFractalAverItem->getFractalItemIndex();
-
-
-                        if((itemIndex & 128) == 0)
+                        while(lLength > 0)
                         {
-
-                            ldomainIndex = *lptrData;
+                            luctemp = *lptrData;
 
                             ++lptrData;
 
+                            --lreadROADdataLength;
 
-                            unsigned int lDomainOffset = (itemIndex & 7) << 8;
+                            unsigned int lrangeLength;
 
-                            lDomainOffset |= ldomainIndex;
+                            auto lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(lFractalAverItemCount);
 
-                            lDomainOffset = lDomainOffset * this->_frequencyScale;
+                            if((luctemp & 128) == 128)
+                            {
+                                lrangeLength = (1 << (luctemp & 127)) * _options->getSamplesPerRang();
+                            }
+                            else
+                            {
+                                lrangeLength = (1 << (luctemp >> 5)) * _options->getSamplesPerRang();
+                            }
 
+                            lptrFractalAverItem->setLength(lrangeLength);
 
-                            auto lptrFractalItem = lptrFractalItemContainer->getFractalItem(countDomainIndeces);
+                            lptrFractalAverItem->setFractalItemIndex(luctemp);
 
-                            lptrFractalItem->setAver(lptrFractalAverItem->getAver());
+                            lptrFractalAverItem->setPosition(lcurrentPosition);
 
-                            lptrFractalItem->setDomainOffset(lDomainOffset);
+                            lLength -= lrangeLength;
 
-                            lptrFractalItem->setInversDirection((itemIndex & 16) == 16);
+                            lcurrentPosition+=lrangeLength;
 
-                            lptrFractalItem->setLength(lptrFractalAverItem->getLength());
-
-                            lptrFractalItem->setPosition(lptrFractalAverItem->getPosition());
-
-                            double lScale = 1.0;
-
-                            if((itemIndex & 8) == 8)
-                                lScale = -lScale;
-
-                            lptrFractalItem->setScale(lScale);
-
-                            ++countDomainIndeces;
+                            ++lFractalAverItemCount;
                         }
 
-                        ++itemCount;
-                    }
+                        lptrFractalItemContainer->setFractalAverItemCount(lFractalAverItemCount);
 
-                    lptrFractalItemContainer->setFractalItemCount(countDomainIndeces);
+                    }
+                }
+
+// Обработка буфера предпрослушивания
+
+                double *lptrPreListeningDoubleData = _preListeningDoubleData.get();
+
+                FractalItemSuperFrameContainer* lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
+
+                for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
+                     lframeIndex < _options->getSuperframeLength();
+                     ++lframeIndex)
+                {
+
+
+                    FractalItemContainer *lptrFractalItemContainer = lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex);
+
+                    auto lFractalAverItemCount = lptrFractalItemContainer->getIFractalAverItemCount();
+
+
+                    unsigned int count = 0;
+
+                    unsigned int lrabgeLength = 0;
+
+                    while(count < lFractalAverItemCount)
+                    {
+                        double lptrAver = *lptrPreListeningDoubleData;
+
+                        FractalAverItem *lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(count);
+
+                        lrabgeLength = lptrFractalAverItem->getLength();
+
+                        lptrFractalAverItem->setAver(lptrAver);
+
+                        lrabgeLength /= _options->getSamplesPerRang();
+
+                        lptrPreListeningDoubleData += lrabgeLength;
+
+                        ++count;
+                    }
 
                 }
 
-            }
+                if(lreadROADdataLength <= 0)
+                    break;
+
+// Обработка буфера ROADdata для выделения усреднённой составляющей.
+
+                for(decltype(_options->getAmountOfChannels()) lChannel = 1;
+                    lChannel < _options->getAmountOfChannels();
+                    ++lChannel)
+                {
+                    FractalItemSuperFrameContainer* lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
+
+                    for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
+                         lframeIndex < _options->getSuperframeLength();
+                         ++lframeIndex)
+                    {
+
+                        auto lptrFractalItemContainer = lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex);
+
+                        auto lFractalAverItemCount = lptrFractalItemContainer->getIFractalAverItemCount();
+
+                        unsigned int lLengthByteArray = lFractalAverItemCount * (_options->getOriginalBitsPerSample() >> 3);
+
+                        unique_ptr<double> lptrAver(new double[lFractalAverItemCount]);
+
+
+
+                        this->_roadOver->convertByteArrayIntoDoubleArray(lptrData, lLengthByteArray, lptrAver.get());
+
+                        lptrData+=lLengthByteArray;
+
+                        for(decltype(lFractalAverItemCount) lItemIndex = 0;
+                            lItemIndex < lFractalAverItemCount;
+                            ++lItemIndex)
+                        {
+
+                            auto lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(lItemIndex);
+
+                            lptrFractalAverItem->setAver(lptrAver.get()[lItemIndex]);
+
+                        }
+                    }
+                }
+// Обработка буфера ROADdata для выделения номеров доменнов.
+
+
+                for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+                    lChannel < _options->getAmountOfChannels();
+                    ++lChannel)
+                {
+                    auto lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
+
+                    for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
+                         lframeIndex < _options->getSuperframeLength();
+                         ++lframeIndex)
+                    {
+
+                        auto lptrFractalItemContainer = lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex);
+
+                        auto lFractalAverItemCount = lptrFractalItemContainer->getIFractalAverItemCount();
+
+
+                        unsigned char ldomainIndex;
+
+                        decltype(lFractalAverItemCount) itemCount = 0;
+
+                        unsigned int countDomainIndeces = 0;
+
+                        while(itemCount < lFractalAverItemCount)
+                        {
+                            auto lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(itemCount);
+
+                            unsigned char itemIndex = lptrFractalAverItem->getFractalItemIndex();
+
+
+                            if((itemIndex & 128) == 0)
+                            {
+
+                                ldomainIndex = *lptrData;
+
+                                ++lptrData;
+
+
+                                unsigned int lDomainOffset = (itemIndex & 7) << 8;
+
+                                lDomainOffset |= ldomainIndex;
+
+                                lDomainOffset = lDomainOffset * this->_frequencyScale;
+
+
+                                auto lptrFractalItem = lptrFractalItemContainer->getFractalItem(countDomainIndeces);
+
+                                lptrFractalItem->setAver(lptrFractalAverItem->getAver());
+
+                                lptrFractalItem->setDomainOffset(lDomainOffset);
+
+                                lptrFractalItem->setInversDirection((itemIndex & 16) == 16);
+
+                                lptrFractalItem->setLength(lptrFractalAverItem->getLength());
+
+                                lptrFractalItem->setPosition(lptrFractalAverItem->getPosition());
+
+                                double lScale = 1.0;
+
+                                if((itemIndex & 8) == 8)
+                                    lScale = -lScale;
+
+                                lptrFractalItem->setScale(lScale);
+
+                                ++countDomainIndeces;
+                            }
+
+                            ++itemCount;
+                        }
+
+                        lptrFractalItemContainer->setFractalItemCount(countDomainIndeces);
+
+                    }
+
+                }
 
 
 //  Обработка буфера ROADdata для выделения коэфициентов масштабирования.
 
-            for(decltype(_options->getAmountOfChannels()) lChannel = 0;
-                lChannel < _options->getAmountOfChannels();
-                ++lChannel)
-            {
-                FractalItemSuperFrameContainer* lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
-
-                for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                     lframeIndex < _options->getSuperframeLength();
-                     ++lframeIndex)
+                for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+                    lChannel < _options->getAmountOfChannels();
+                    ++lChannel)
                 {
-                    auto lptrFractalItemContainer = lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex);
+                    FractalItemSuperFrameContainer* lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                    auto lFractalItemCount = lptrFractalItemContainer->getIFractalItemCount();
-
-                    decltype(lFractalItemCount) itemCount = 0;
-
-                    while(itemCount < lFractalItemCount)
+                    for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
+                         lframeIndex < _options->getSuperframeLength();
+                         ++lframeIndex)
                     {
-                        auto lptrFractalItem = lptrFractalItemContainer->getFractalItem(itemCount);
+                        auto lptrFractalItemContainer = lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex);
 
-                        unsigned char ldecimScale = *lptrData;
+                        auto lFractalItemCount = lptrFractalItemContainer->getIFractalItemCount();
 
-                        ++lptrData;
+                        decltype(lFractalItemCount) itemCount = 0;
 
-                        double lScale = static_cast<double> (ldecimScale) / 255.0;
+                        while(itemCount < lFractalItemCount)
+                        {
+                            auto lptrFractalItem = lptrFractalItemContainer->getFractalItem(itemCount);
 
-                        lptrFractalItem->setScale(lptrFractalItem->getScale() * lScale);
+                            unsigned char ldecimScale = *lptrData;
 
-                        ++itemCount;
+                            ++lptrData;
+
+                            double lScale = static_cast<double> (ldecimScale) / 255.0;
+
+                            lptrFractalItem->setScale(lptrFractalItem->getScale() * lScale);
+
+                            ++itemCount;
+                        }
+                    }
+
+                }
+
+            }
+            while(false);
+
+// Выполнение постороения фракталов для декодирования
+            {
+                for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+                    lChannel < _options->getAmountOfChannels();
+                    ++lChannel)
+                {
+
+                    FractalItemSuperFrameContainer* lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
+
+                    double* lptrDoubleData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();
+
+                    for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
+                         lframeIndex < _options->getSuperframeLength();
+                         ++lframeIndex)
+                    {
+                        _fractalBuilder->build(lptrDoubleData + (lframeIndex * lFrameLengthLength),
+                                                       lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex));
                     }
                 }
 
+                this->_channelsMixing->compute(&_channelsDataBuffer);
+
+                this->_roadOver->writeRawData(&_channelsDataBuffer);
+
             }
-
-
-// Выполнение постороения фракталов для декодирования
-
-            for(decltype(_options->getAmountOfChannels()) lChannel = 0;
-                lChannel < _options->getAmountOfChannels();
-                ++lChannel)
-            {
-
-                FractalItemSuperFrameContainer* lptrFractalItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
-
-                double* lptrDoubleData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();
-
-                for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                     lframeIndex < _options->getSuperframeLength();
-                     ++lframeIndex)
-                {
-                    _fractalBuilder->build(lptrDoubleData + (lframeIndex * lFrameLengthLength),
-                                                   lptrFractalItemsSuperFrameContainer->getFractalItemContainer(lframeIndex));
-                }
-            }
-
-            this->_channelsMixing->compute(&_channelsDataBuffer);
-
-            this->_roadOver->writeRawData(&_channelsDataBuffer);
-
         }
 
         break;

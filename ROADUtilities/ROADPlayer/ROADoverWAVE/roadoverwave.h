@@ -132,11 +132,6 @@ public:
         this->_nextPos = position;
     }
 
-    virtual void decode()
-    {
-
-    }
-
 protected:
 
     virtual int readROADdata(unsigned char* aData)

@@ -17,7 +17,8 @@ DEFINES += ROADOVER_LIBRARY
 SOURCES += roadoverwave.cpp \
     wavefractal_parser.cpp
 HEADERS += roadoverwave.h \
-    wavefractal_parser.h
+    wavefractal_parser.h \
+    roadoverwavedecryptorstub.h
 
 
 

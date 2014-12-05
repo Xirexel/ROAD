@@ -15,8 +15,6 @@ public:
     virtual int getSampleAmount()=0;
 
     virtual void setPosition(int position)=0;
-
-    virtual void decode() = 0;
 };
 
 #endif // IREADER_H

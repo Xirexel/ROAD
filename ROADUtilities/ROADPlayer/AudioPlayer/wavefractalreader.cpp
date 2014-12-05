@@ -1,5 +1,6 @@
 #include "wavefractalreader.h"
 #include "roadoverwave.h"
+#include "ROADoverWAVEDecryptorStub.h"
 #include "ROADoverDecodingOptionsExperemental.h"
 
 
@@ -59,6 +60,8 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 scaleOfFrequency,
 
             lFractalDecdingOptions->setSamplesPerRang(lsamplesPerRang);
 
+            unsigned int lencriptionCode = lFractalDecdingOptions->getEncriptionCode();
+
             switch(lFractalDecdingOptions->getROADFormatMode())
             {
                 case ROADdecoder::ROADover::EXPEREMENTAL:
@@ -104,7 +107,9 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 scaleOfFrequency,
             {
 
             case 8:
-                _IReader = new ROADoverWAVE<quint8, quint8>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
+
+                _IReader = lencriptionCode == 0? new ROADoverWAVE<quint8, quint8>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString()):
+                                                 new ROADoverWAVEDecryptorStub<quint8, quint8>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
                 break;
 
             case 16:
@@ -113,19 +118,28 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 scaleOfFrequency,
                 {
                 case 16:
                 default:
-                    _IReader = new ROADoverWAVE<qint16, qint16>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
+
+                    _IReader = lencriptionCode == 0? new ROADoverWAVE<qint16, qint16>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString()):
+                                                     new ROADoverWAVEDecryptorStub<qint16, qint16>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
+
                     break;
                 case 32:
-                    _IReader = new ROADoverWAVE<qint16, qint32>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
+
+                    _IReader = lencriptionCode == 0? new ROADoverWAVE<qint16, qint32>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString()):
+                                                     new ROADoverWAVEDecryptorStub<qint16, qint32>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
 
                     break;
                 }
 
 
-                break;
+
+              break;
 
             case 32:
-                _IReader = new ROADoverWAVE<qint32, qint32>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
+
+                _IReader = lencriptionCode == 0? new ROADoverWAVE<qint32, qint32>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString()):
+                                                 new ROADoverWAVEDecryptorStub<qint32, qint32>(lFractalDecdingOptions, _waveFractalFormatData, filePath.toStdString());
+
                 break;
 
             default:

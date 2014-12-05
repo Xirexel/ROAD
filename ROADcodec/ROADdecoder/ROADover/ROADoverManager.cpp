@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <exception>
+#include <cstring>
 using namespace std;
 
 #include "ROADoverManager.h"
@@ -31,6 +32,8 @@ ROADdecoder::ROADover::ROADoverManager::ROADoverManager(ROADdecoder::ROADover::R
     {
         _fractalItemSuperFrameContainer.push_back(new FractalItemSuperFrameContainer(aSuperFrameLength, aFrameRangLength));
     }
+
+    memset(_bufferROADdata.get(), 0, aAmountOfChannels * aSampleLength * aSuperFrameSamplesLength);
 }
 
 ROADdecoder::ROADover::ROADoverManager::~ROADoverManager()

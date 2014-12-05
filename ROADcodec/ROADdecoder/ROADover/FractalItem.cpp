@@ -5,6 +5,17 @@ using namespace std;
 
 #include "FractalItem.h"
 
+ROADdecoder::ROADover::FractalItem::FractalItem()
+    : _aver(0),
+      _length(0),
+      _inversDirection(0),
+      _domainOffset(0),
+      _scale(0),
+      _position(0)
+{
+
+}
+
 double ROADdecoder::ROADover::FractalItem::getAver() {
     return this->_aver;
 }

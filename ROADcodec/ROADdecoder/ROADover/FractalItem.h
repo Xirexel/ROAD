@@ -33,6 +33,8 @@ namespace ROADdecoder
 			private: double _scale;
 			private: unsigned int _position;
 
+            public: FractalItem();
+
 			public: double getAver();
 
 			public: unsigned int getLength();

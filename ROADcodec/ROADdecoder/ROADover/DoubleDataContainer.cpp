@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <exception>
+#include <cstring>
 using namespace std;
 
 #include "DoubleDataContainer.h"
@@ -25,5 +26,6 @@ ROADdecoder::ROADover::DoubleDataContainer::~DoubleDataContainer() {
 ROADdecoder::ROADover::DoubleDataContainer::DoubleDataContainer(unsigned int aLength)
     : _data(new double[aLength]), _count(aLength)
 {
+    memset(_data, 0, aLength * sizeof(double));
 }
 
