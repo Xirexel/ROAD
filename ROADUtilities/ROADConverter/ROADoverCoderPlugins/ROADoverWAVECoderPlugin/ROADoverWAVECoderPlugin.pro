@@ -33,19 +33,16 @@ HEADERS += roadoverwavecoder.h\
 
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../../ROADcodec/ROADcoder/ROADoverCoder/release/ -lROADoverCoder
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../../ROADcodec/ROADcoder/ROADoverCoder/debug/ -lROADoverCoder
-else:unix: LIBS += -L$$OUT_PWD/../../../../Bin/ROADcoder/ -lROADCoder
-
-INCLUDEPATH += $$PWD/../../../ROADcodec/ROADcoder/ROADCoder
-DEPENDPATH += $$PWD/../../../ROADcodec/ROADcoder/ROADCoder
-
-
-
-
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../../../ROADcodec/ROADcoder/ROADoverCoder/release/ -lROADoverCoder
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../../../ROADcodec/ROADcoder/ROADoverCoder/debug/ -lROADoverCoder
 else:unix: LIBS += -L$$OUT_PWD/../../../../Bin/ROADcoder/ -lROADoverCoder
 
 INCLUDEPATH += $$PWD/../../../../ROADcodec/ROADcoder/ROADoverCoder
 DEPENDPATH += $$PWD/../../../../ROADcodec/ROADcoder/ROADoverCoder
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../../../ROADcodec/ROADcoder/ROADCoder/release/ -lROADCoder
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../../../ROADcodec/ROADcoder/ROADCoder/debug/ -lROADCoder
+else:unix: LIBS += -L$$OUT_PWD/../../../../Bin/ROADcoder/ -lROADCoder
+
+INCLUDEPATH += $$PWD/../../../../ROADcodec/ROADcoder/ROADCoder
+DEPENDPATH += $$PWD/../../../../ROADcodec/ROADcoder/ROADCoder

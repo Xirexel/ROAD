@@ -52,7 +52,7 @@ audioplayer::optional<FractalInfo> AudioPlayer::getFractalInfo(QString filePath)
 
     int ldiffFrequency = ltempFrequency - ltempDecFrequency * 10;
 
-    int ladditionFrequency = 10 - ldiffFrequency;
+    int ladditionFrequency = ldiffFrequency == 0 ? 0: 10 - ldiffFrequency;
 
     lFractalInfo._originalFrequency = ltempFrequency + ladditionFrequency;
 

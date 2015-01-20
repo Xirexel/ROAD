@@ -30,7 +30,6 @@ ROADoverWAVECoder::ROADoverWAVECoder(QString outputFile, IROADoverRawReader *aPt
     awaveformat.chunkHead.size = 16;
 
 
-
     switch(getBitsPerSample())
     {
         case 8:
