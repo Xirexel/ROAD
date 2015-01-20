@@ -67,7 +67,7 @@ bool ROADoverWAVECoder::unlockResource()
 ROADcoder::ROADoverCoder::Result ROADoverWAVECoder::readRawData(ROADcoder::ROADoverCoder::RawDataBuffer &aRawDataBuffer)
 {
 
-    quint32 lsuperFrameSampleLength;
+    quint32 lsuperFrameSampleLength = 0;
 
     ROADcoder::ROADoverCoder::Result result = ROADcoder::ROADoverCoder::ERROR;
 
@@ -84,7 +84,7 @@ ROADcoder::ROADoverCoder::Result ROADoverWAVECoder::readRawData(ROADcoder::ROADo
         temp.append( lptrIDoubleDataContainer->getData());
     }
 
-    Result r = ptrReader->readData(temp, lsuperFrameSampleLength);
+    auto r = ptrReader->readData(temp, lsuperFrameSampleLength);
 
     switch(r)
     {
