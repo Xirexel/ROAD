@@ -1,11 +1,7 @@
-#include <string>
-#include <vector>
-#include <exception>
-#include <memory>
-using namespace std;
-
 #ifndef __Endian__EndianConvertorFactory_h__
 #define __Endian__EndianConvertorFactory_h__
+
+#include <memory>
 
 #include "IEndianConvertor.h"
 #include "EndianType.h"
@@ -19,13 +15,18 @@ namespace Endian
 
 namespace Endian
 {
-    class EndianConvertorFactory
-    {
-        public: static std::unique_ptr<Endian::IEndianConvertor> getIEndianConvertor(Endian::EndianType aType);
+	class EndianConvertorFactory
+	{
+        private: static Endian::EndianType _localEndianType;
 
-        private: EndianConvertorFactory() = delete;
 
-        private: virtual ~EndianConvertorFactory() = delete;
+        private: EndianConvertorFactory();
+
+        public: static Endian::EndianConvertorFactory& getInstance();
+
+        public: ~EndianConvertorFactory();
+
+        public: std::unique_ptr<Endian::IEndianConvertor> getIEndianConvertor(Endian::EndianType aType);
 	};
 }
 
