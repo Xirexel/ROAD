@@ -28,6 +28,7 @@ namespace Endian
 
         public: std::unique_ptr<Endian::IEndianConvertor> getIEndianConvertor(Endian::EndianType aType);
 	};
+
 }
 
 #endif
