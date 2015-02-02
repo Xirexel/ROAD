@@ -46,7 +46,8 @@ HEADERS += \
     roadovercoder_global.h \
     ROADoverEncodingOptionsFactory.h \
     FractalFormatRawDataContainer.h \
-    FractalEncodingOptions.h
+    FractalEncodingOptions.h \
+    ROADRawDataFormat.h
 
 SOURCES += \
     DoubleDataContainer.cpp \
