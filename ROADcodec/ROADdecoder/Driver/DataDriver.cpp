@@ -10,7 +10,7 @@ using namespace std;
 
 std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> ROADdecoder::Driver::DataDriver::getIDataReadDriver(std::unique_ptr<unsigned char> &aData, unsigned int aLength, Endian::EndianType aEndianType) {
 
-    unique_ptr<Endian::IEndianConvertor> lconvertor(Endian::EndianConvertorFactory::getIEndianConvertor(aEndianType).release());
+    auto lconvertor = Endian::EndianConvertorFactory::getInstance().getIEndianConvertor(aEndianType);
 
     unique_ptr<IDataReadDriver> result(new DataReadDriver(aData, aLength, lconvertor));
 

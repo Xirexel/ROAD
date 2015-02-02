@@ -1,28 +1,57 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
+#include <string.h>
+
 
 #include "LocalEndianConvertor.h"
 
-#define UNUSED(expr) do { (void)(expr); } while (0)
-
 unsigned int Endian::LocalEndianConvertor::convertToUINT32(unsigned char* aData) {
-    return *((unsigned int *)(aData));
+    unsigned int lresult = *(unsigned int*)(aData);
+
+    return lresult;
 }
 
 int Endian::LocalEndianConvertor::convertToINT32(unsigned char* aData) {
-    UNUSED(aData);
-	throw "Not yet implemented";
+    int lresult = *(int*)(aData);
+
+    return lresult;
 }
 
 unsigned short Endian::LocalEndianConvertor::convertToUINT16(unsigned char* aData) {
-    UNUSED(aData);
-	throw "Not yet implemented";
+    unsigned short lresult = *(unsigned short*)(aData);
+
+    return lresult;
 }
 
 short Endian::LocalEndianConvertor::convertToINT16(unsigned char* aData) {
-    UNUSED(aData);
-	throw "Not yet implemented";
+    short lresult = *(short*)(aData);
+
+    return lresult;
+}
+
+int Endian::LocalEndianConvertor::convertToBytes(unsigned int aValue, unsigned char* aData) {
+
+    memcpy(aData, &aValue, sizeof(aValue));
+
+    return sizeof(aValue);
+}
+
+int Endian::LocalEndianConvertor::convertToBytes(int aValue, unsigned char* aData) {
+
+    memcpy(aData, &aValue, sizeof(aValue));
+
+    return sizeof(aValue);
+}
+
+int Endian::LocalEndianConvertor::convertToBytes(unsigned short aValue, unsigned char* aData) {
+
+    memcpy(aData, &aValue, sizeof(aValue));
+
+    return sizeof(aValue);
+}
+
+int Endian::LocalEndianConvertor::convertToBytes(short aValue, unsigned char* aData) {
+
+    memcpy(aData, &aValue, sizeof(aValue));
+
+    return sizeof(aValue);
 }
 

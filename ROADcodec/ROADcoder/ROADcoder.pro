@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     ROADCoder \
-    ROADoverCoder
+    ROADoverCoder \
+    Driver
