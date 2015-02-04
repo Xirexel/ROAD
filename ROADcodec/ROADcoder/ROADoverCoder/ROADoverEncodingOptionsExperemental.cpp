@@ -88,7 +88,7 @@ void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setEncryptio
     this->_encryptionFormat = aEncryptionFormat;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setBitsPerSample(unsigned int aBitsPerSample)
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setBitsPerSample(int aBitsPerSample)
 {
     this->_bitsPerSample = aBitsPerSample;
 }

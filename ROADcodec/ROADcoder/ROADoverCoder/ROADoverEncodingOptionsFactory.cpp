@@ -8,7 +8,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::R
     std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> result;
 
     switch (aType) {
-    case 0:
+    case EXPEREMENTAL:
 
         result.reset(new ROADoverEncodingOptionsExperemental);
 
@@ -23,7 +23,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::R
 std::vector<unsigned int> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFactory::getSupportedFormats()
 {
 
-    std::vector<unsigned int> result = {EXPEREMENTAL} ;
+    std::vector<unsigned int> result = {EXPEREMENTAL, FIRSTVERSION} ;
 
     return result;
 }

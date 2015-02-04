@@ -3,7 +3,9 @@
 
 #include "ROADover.h"
 #include "ROADoverEncodingOptionsExperemental.h"
+#include "ROADoverEncodingOptionsFirstVersion.h"
 #include "ROADoverManagerExperemental.h"
+#include "ROADoverManagerFirstVersion.h"
 
 
 
@@ -17,6 +19,13 @@ ROADcoder::ROADoverCoder::ROADover::ROADover(std::unique_ptr<IROADoverEncodingOp
         auto loptions = dynamic_cast<ROADoverEncodingOptionsExperemental*>(lOptions.release());
 
         _manager.reset(new ROADoverManagerExperemental(this, loptions));
+    }
+        break;
+    case ROADcoder::ROADoverCoder::FIRSTVERSION:
+    {
+        auto loptions = dynamic_cast<ROADoverEncodingOptionsFirstVersion*>(lOptions.release());
+
+        _manager.reset(new ROADoverManagerFirstVersion(this, loptions));
     }
         break;
     default:

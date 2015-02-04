@@ -21,7 +21,7 @@ namespace ROADcoder
 
             public: virtual void setEncryptionFormat(unsigned int aEncryptionFormat) = 0;
 
-            public: virtual void setBitsPerSample(unsigned int aBitsPerSample) = 0;
+            public: virtual void setBitsPerSample(int aBitsPerSample) = 0;
 
             public: virtual std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> clone() = 0;
 		};

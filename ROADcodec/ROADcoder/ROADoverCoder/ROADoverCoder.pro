@@ -47,7 +47,9 @@ HEADERS += \
     ROADoverEncodingOptionsFactory.h \
     FractalFormatRawDataContainer.h \
     FractalEncodingOptions.h \
-    ROADRawDataFormat.h
+    ROADRawDataFormat.h \
+    ROADoverEncodingOptionsFirstVersion.h \
+    ROADoverManagerFirstVersion.h
 
 SOURCES += \
     DoubleDataContainer.cpp \
@@ -65,7 +67,9 @@ SOURCES += \
     FractalFirstOrderItemContainer.cpp \
     ROADoverEncodingOptionsFactory.cpp \
     FractalFormatRawDataContainer.cpp \
-    FractalEncodingOptions.cpp
+    FractalEncodingOptions.cpp \
+    ROADoverEncodingOptionsFirstVersion.cpp \
+    ROADoverManagerFirstVersion.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../ROADCoder/release/ -lROADCoder
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../ROADCoder/debug/ -lROADCoder
