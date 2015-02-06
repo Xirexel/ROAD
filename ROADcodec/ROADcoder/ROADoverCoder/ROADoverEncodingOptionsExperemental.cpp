@@ -1,6 +1,6 @@
 #include "ROADoverEncodingOptionsExperemental.h"
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getROADFormatMode() {
+unsigned char ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getROADFormatMode() {
     return ROADcoder::ROADoverCoder::EXPEREMENTAL;
 }
 
@@ -107,4 +107,117 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::R
     std::unique_ptr<IROADoverEncodingOptions> result(lptrOptions);
 
     return result;
+}
+
+std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getFractalFormatRawDataContainer()
+{
+    unsigned int lLength = 40;
+
+    std::unique_ptr<unsigned char> lFractalFormat(new unsigned char[lLength]);
+
+    unsigned char* lptrFractalFormat = lFractalFormat.get();
+
+    lptrFractalFormat[0] = 'R';
+
+    lptrFractalFormat[1] = 'O';
+
+    lptrFractalFormat[2] = 'A';
+
+    lptrFractalFormat[3] = 'D';
+
+
+    lptrFractalFormat+=4;
+
+
+    unsigned int ldata = 32;
+
+    memcpy(lptrFractalFormat, (void*) &ldata , 4);
+
+    lptrFractalFormat+=4;
+
+
+
+    lptrFractalFormat[0] = 0;
+
+    lptrFractalFormat[1] = 0;
+
+    lptrFractalFormat[2] = 0;
+
+    lptrFractalFormat[3] = 0;
+
+
+
+    lptrFractalFormat+=4;
+
+
+
+
+    ldata = getSuperFrameLength();
+
+    memcpy(lptrFractalFormat, (void*) &ldata , 4);
+
+    lptrFractalFormat+=4;
+
+
+
+
+    ldata = getFrameSampleLength() / (getRangTopSampleLength() >> getAmountRangLevels());
+
+    memcpy(lptrFractalFormat, (void*) &ldata , 4);
+
+    lptrFractalFormat+=4;
+
+
+
+
+    ldata = getDomainShift();
+
+    memcpy(lptrFractalFormat, (void*) &ldata , 4);
+
+    lptrFractalFormat+=4;
+
+
+
+
+    ldata = (getRangTopSampleLength() >> getAmountRangLevels());
+
+    memcpy(lptrFractalFormat, (void*) &ldata , 4);
+
+    lptrFractalFormat+=4;
+
+
+
+
+    ldata = getAmountOfChannels();
+
+    memcpy(lptrFractalFormat, (void*) &ldata , 4);
+
+    lptrFractalFormat+=4;
+
+
+
+
+    ldata = getMixingChannelsMode();
+
+    memcpy(lptrFractalFormat, (void*) &ldata , 4);
+
+    lptrFractalFormat+=4;
+
+
+
+
+    ldata = 0;
+
+    memcpy(lptrFractalFormat, (void*) &ldata , 4);
+
+    lptrFractalFormat+=4;
+
+
+
+
+
+    std::unique_ptr<FractalFormatRawDataContainer> lptrfractalFormatRawDataContainer(new FractalFormatRawDataContainer(lFractalFormat, lLength));
+
+
+    return lptrfractalFormatRawDataContainer;
 }

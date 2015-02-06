@@ -27,28 +27,28 @@ short Endian::LocalEndianConvertor::convertToINT16(unsigned char* aData) {
     return lresult;
 }
 
-int Endian::LocalEndianConvertor::convertToBytes(unsigned int aValue, unsigned char* aData) {
+int Endian::LocalEndianConvertor::convertToBytes(unsigned int aValue,unsigned char* aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 
     return sizeof(aValue);
 }
 
-int Endian::LocalEndianConvertor::convertToBytes(int aValue, unsigned char* aData) {
+int Endian::LocalEndianConvertor::convertToBytes(int aValue,unsigned char *aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 
     return sizeof(aValue);
 }
 
-int Endian::LocalEndianConvertor::convertToBytes(unsigned short aValue, unsigned char* aData) {
+int Endian::LocalEndianConvertor::convertToBytes(unsigned short aValue,unsigned char* aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 
     return sizeof(aValue);
 }
 
-int Endian::LocalEndianConvertor::convertToBytes(short aValue, unsigned char* aData) {
+int Endian::LocalEndianConvertor::convertToBytes(short aValue,unsigned char *aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 

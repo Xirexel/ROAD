@@ -11,16 +11,17 @@ namespace ROADcoder
 	{
 		class FractalFormatRawDataContainer
 		{
-            private: std::unique_ptr<char> _data;
-			private: unsigned int _length;
+            private: std::unique_ptr<unsigned char> _data;
+            private: unsigned int _length;
 
-			public: void setRawData(char* aData, unsigned int aLength);
+            public: FractalFormatRawDataContainer(std::unique_ptr<unsigned char> &aData, unsigned int aLength);
 
-			public: FractalFormatRawDataContainer();
+            public: unsigned char* getData() const;
 
-			public: char* getData();
+            public: unsigned int getLength() const;
 
-			public: unsigned int getLength();
+
+
 		};
 	}
 }

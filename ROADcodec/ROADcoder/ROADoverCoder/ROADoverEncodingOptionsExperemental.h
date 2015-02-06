@@ -5,6 +5,7 @@
 #include "ChannelsMixingMode.h"
 #include "ROADFormatMode.h"
 #include "IROADoverEncodingOptions.h"
+#include "FractalFormatRawDataContainer.h"
 
 #include "roadovercoder_global.h"
 
@@ -37,7 +38,8 @@ namespace ROADcoder
             private: unsigned int _encryptionFormat;
             private: unsigned int _bitsPerSample;
 
-            public: unsigned int getROADFormatMode();
+
+            public: unsigned char getROADFormatMode();
 
 			public: void setFrameSampleLength(unsigned int aFrameSampleLength);
 
@@ -84,6 +86,8 @@ namespace ROADcoder
             public: unsigned int getBitsPerSample();
 
             public: virtual std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> clone();
+
+            public: std::unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer();
 		};
 	}
 }

@@ -79,9 +79,9 @@ unsigned int ROADcoder::ROADoverCoder::ROADover::getBitsPerSample()
 
 }
 
-std::tuple<char *, unsigned int> ROADcoder::ROADoverCoder::ROADover::getFractalFormatRawData()
+std::tuple<unsigned char *, unsigned int> ROADcoder::ROADoverCoder::ROADover::getFractalFormatRawData()
 {
-    std::tuple<char *, unsigned int> result;
+    std::tuple<unsigned char *, unsigned int> result;
 
     result = _manager->getFractalFormatRawData();
 

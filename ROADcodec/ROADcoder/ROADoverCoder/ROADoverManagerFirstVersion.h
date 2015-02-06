@@ -36,13 +36,13 @@ namespace ROADcoder
 		class ROADoverManagerFirstVersion: public ROADcoder::ROADoverCoder::ROADoverManager
 		{
             private: std::unique_ptr<ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion> _options;
-			private: ROADcoder::ROADoverCoder::FractalFormatRawDataContainer _fractalFormatRawDataContainer;
+            private: std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> _fractalFormatRawDataContainer;
             public: std::unique_ptr<ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer> _analyzer;
 			public: std::vector<ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
 
 			public: ROADcoder::ROADoverCoder::Result encode();
 
-            public: std::tuple<char *, unsigned int> getFractalFormatRawData();
+            public: std::tuple<unsigned char *, unsigned int> getFractalFormatRawData();
 
 			public: ROADoverManagerFirstVersion(ROADcoder::ROADoverCoder::ROADover* aRoadOver, ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion* aOptions);
 

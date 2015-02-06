@@ -35,13 +35,29 @@ namespace ROADcoder
 
             public: DataWriteDriver(std::unique_ptr<unsigned char> &aData, unsigned int aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
 
-            public: virtual IDataWriteDriver &operator << (unsigned int &aValue);
+            public: virtual IDataWriteDriver &operator <<(unsigned int aValue);
 
-            public: virtual IDataWriteDriver &operator <<(int &aValue);
+            public: virtual IDataWriteDriver &operator <<(int aValue);
 
-            public: virtual IDataWriteDriver &operator <<(unsigned short &aValue);
+            public: virtual IDataWriteDriver &operator <<(unsigned short aValue);
 
-            public: virtual IDataWriteDriver &operator <<(short &aValue);
+            public: virtual IDataWriteDriver &operator <<(short aValue);
+
+            public: virtual IDataWriteDriver &operator <<(unsigned char aValue);
+
+            public: virtual IDataWriteDriver &operator <<(char aValue);
+
+            private: template<typename T> void writeData(T aValue)
+                {
+                    if(_length >= (_position + sizeof(T)))
+                    {
+                        _convertor->convertToBytes(aValue, _data.get() + _position);
+
+                        _position += sizeof(T);
+                    }
+                    else
+                        throw std::range_error("Position of pointer is out of range!!!");
+                }
 		};
 	}
 }

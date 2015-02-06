@@ -3,6 +3,9 @@
 
 #include "ChannelsMixingMode.h"
 #include "IROADoverEncodingOptions.h"
+#include "FractalFormatRawDataContainer.h"
+
+
 
 namespace ROADcoder
 {
@@ -12,7 +15,7 @@ namespace ROADcoder
 		{
 			private: unsigned int _frameSampleLength;
 			private: unsigned int _superFrameLength;
-			private: unsigned int _rangTopSampleLength;
+            private: unsigned int _rangSampleLength;
 			private: unsigned int _amountRangLevels;
 			private: unsigned int _domainShift;
 			private: double _silenceThreshold;
@@ -22,10 +25,13 @@ namespace ROADcoder
 			private: unsigned int _encryptionFormat;
 			private: int _bitsPerSample;
 			private: int _selectedPreListeningChannel;
+            private: unsigned char _endianType;
 
-            public: virtual unsigned int getROADFormatMode();
+            public: virtual unsigned char getROADFormatMode();
 
             public: std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> clone();
+
+            public: ROADoverEncodingOptionsFirstVersion();
 
             public: virtual ~ROADoverEncodingOptionsFirstVersion();
 
@@ -37,13 +43,9 @@ namespace ROADcoder
 
 			public: unsigned int getSuperFrameLength();
 
-			public: void setRangTopSampleLength(unsigned int aRangTopSampleLength);
+            public: void setRangSampleLength(unsigned int aRangSampleLength);
 
-			public: unsigned int getRangTopSampleLength();
-
-			public: void setAmountRangLevels(unsigned int aAmountRangLevels);
-
-			public: unsigned int getAmountRangLevels();
+            public: unsigned int getRangSampleLength();
 
 			public: void setDomainShift(unsigned int aDomainShift);
 
@@ -76,6 +78,12 @@ namespace ROADcoder
 			public: void setSelectedPreListeningChannel(int aSelectedPreListeningChannel);
 
 			public: int getSelectedPreListeningChannel();
+
+            public: unsigned int getEndianType();
+
+            public: void setEndianType(unsigned int aEndianType);
+
+            public: std::unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer();
 		};
 	}
 }

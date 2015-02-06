@@ -15,7 +15,7 @@ namespace ROADcoder
 
             public: virtual ~IROADoverEncodingOptions(){}
 
-            public: virtual unsigned int getROADFormatMode() = 0;
+            public: virtual unsigned char getROADFormatMode() = 0;
 
             public: virtual void setAmountOfChannels(unsigned int aAmountOfChannels) = 0;
 

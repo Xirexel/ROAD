@@ -30,7 +30,7 @@ namespace ROADcoder
 
             public: unsigned int getBitsPerSample();
 
-            public: std::tuple<char *, unsigned int> getFractalFormatRawData();
+            public: std::tuple<unsigned char *, unsigned int> getFractalFormatRawData();
 
 			public: virtual bool lockResource() = 0;
 

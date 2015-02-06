@@ -22,13 +22,13 @@ namespace Endian
 
 		public: short convertToINT16(unsigned char* aData);
 
-        public: int convertToBytes(unsigned int aValue, unsigned char* aData);
+        public: int convertToBytes(unsigned int aValue,unsigned char *aData);
 
-        public: int convertToBytes(int aValue, unsigned char* aData);
+        public: int convertToBytes(int aValue,unsigned char* aData);
 
-        public: int convertToBytes(unsigned short aValue, unsigned char* aData);
+        public: int convertToBytes(unsigned short aValue,unsigned char *aData);
 
-        public: int convertToBytes(short aValue, unsigned char* aData);
+        public: int convertToBytes(short aValue,unsigned char* aData);
 	};
 }
 

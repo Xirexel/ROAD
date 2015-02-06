@@ -28,7 +28,7 @@ namespace ROADcoder
 
             public: virtual unsigned int getBitsPerSample() = 0;
 
-            public: virtual std::tuple<char *, unsigned int> getFractalFormatRawData() = 0;
+            public: virtual std::tuple<unsigned char *, unsigned int> getFractalFormatRawData() = 0;
 
             public: virtual ~IROADoverManager(){}
 		};

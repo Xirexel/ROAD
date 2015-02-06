@@ -52,7 +52,7 @@ short Endian::BigEndianConvertor::convertToINT16(unsigned char* aData) {
     return lresult;
 }
 
-int Endian::BigEndianConvertor::convertToBytes(unsigned int aValue, unsigned char* aData) {
+int Endian::BigEndianConvertor::convertToBytes(unsigned int aValue,unsigned char* aData) {
 
     *aData++ = aValue >> 24;
 
@@ -65,7 +65,7 @@ int Endian::BigEndianConvertor::convertToBytes(unsigned int aValue, unsigned cha
     return sizeof(aValue);
 }
 
-int Endian::BigEndianConvertor::convertToBytes(int aValue, unsigned char* aData) {
+int Endian::BigEndianConvertor::convertToBytes(int aValue,unsigned char *aData) {
 
     *aData++ = aValue >> 8;
 
@@ -74,7 +74,7 @@ int Endian::BigEndianConvertor::convertToBytes(int aValue, unsigned char* aData)
     return sizeof(aValue);
 }
 
-int Endian::BigEndianConvertor::convertToBytes(unsigned short aValue, unsigned char* aData) {
+int Endian::BigEndianConvertor::convertToBytes(unsigned short aValue,unsigned char* aData) {
 
     *aData++ = aValue >> 8;
 
@@ -83,7 +83,7 @@ int Endian::BigEndianConvertor::convertToBytes(unsigned short aValue, unsigned c
     return sizeof(aValue);
 }
 
-int Endian::BigEndianConvertor::convertToBytes(short aValue, unsigned char* aData) {
+int Endian::BigEndianConvertor::convertToBytes(short aValue, unsigned char *aData) {
 
     *aData++ = aValue >> 8;
 

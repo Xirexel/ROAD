@@ -298,10 +298,10 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
     return lresult;
 }
 
-std::tuple<char *, unsigned int> ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::getFractalFormatRawData()
+std::tuple<unsigned char *, unsigned int> ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::getFractalFormatRawData()
 {
-    std::tuple<char *, unsigned int> result(this->_fractalFormatRawDataContainer.getData(),
-                                          this->_fractalFormatRawDataContainer.getLength());
+    std::tuple<unsigned char *, unsigned int> result(this->_fractalFormatRawDataContainer->getData(),
+                                          this->_fractalFormatRawDataContainer->getLength());
     return result;
 }
 
@@ -311,7 +311,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
 {
     this->_bitsPerSample = aOptions->getBitsPerSample();
 
-    this->_rangSampleLength = aOptions->getRangTopSampleLength() >> aOptions->getAmountRangLevels();
+    this->_rangSampleLength = aOptions->getRangSampleLength();
 
     switch (_options->getMixingChannelsMode()) {
     case MID:
@@ -340,118 +340,18 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     }
 
     std::unique_ptr<FractalEncodingOptions> loptions(new FractalEncodingOptions(_options->getFrameSampleLength(),
-                                                                                _options->getRangTopSampleLength(),
-                                                                                _options->getAmountRangLevels(),
+                                                                                _options->getRangSampleLength(),
+                                                                                0,
                                                                                 _options->getDomainShift(),
                                                                                 _options->getSilenceThreshold(),
                                                                                 _options->getRangThreshold()
                                                                                 ));
 
-    unsigned int lLength = 40;
 
-    std::unique_ptr<char> lFractalFormat(new char[lLength]);
 
-    char* lptrFractalFormat = lFractalFormat.get();
+    auto lptrRawData = this->_options->getFractalFormatRawDataContainer();
 
-    lptrFractalFormat[0] = 'R';
-
-    lptrFractalFormat[1] = 'O';
-
-    lptrFractalFormat[2] = 'A';
-
-    lptrFractalFormat[3] = 'D';
-
-
-    lptrFractalFormat+=4;
-
-
-    unsigned int ldata = 32;
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-    lptrFractalFormat[0] = 0;
-
-    lptrFractalFormat[1] = 0;
-
-    lptrFractalFormat[2] = 0;
-
-    lptrFractalFormat[3] = 0;
-
-
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = this->_options->getSuperFrameLength();
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = this->_options->getFrameSampleLength() / (this->_options->getRangTopSampleLength() >> this->_options->getAmountRangLevels());
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = this->_options->getDomainShift();
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = (this->_options->getRangTopSampleLength() >> this->_options->getAmountRangLevels());
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = this->_options->getAmountOfChannels();
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = this->_options->getMixingChannelsMode();
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = 0;
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-    _fractalFormatRawDataContainer.setRawData(lFractalFormat.release(), lLength);
-
+    _fractalFormatRawDataContainer.reset(lptrRawData.release());
 
     class CreateAnalyzerException: public exception
     {

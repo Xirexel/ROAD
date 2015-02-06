@@ -20,13 +20,17 @@ namespace ROADcoder
 	{
 		class IDataWriteDriver
 		{
-            public: virtual IDataWriteDriver &operator <<(unsigned int &aValue) = 0;
+            public: virtual IDataWriteDriver &operator <<(unsigned int aValue) = 0;
 
-            public: virtual IDataWriteDriver &operator <<(int &aValue) = 0;
+            public: virtual IDataWriteDriver &operator <<(int aValue) = 0;
 
-            public: virtual IDataWriteDriver &operator <<(unsigned short &aValue) = 0;
+            public: virtual IDataWriteDriver &operator <<(unsigned short aValue) = 0;
 
-            public: virtual IDataWriteDriver &operator <<(short &aValue) = 0;
+            public: virtual IDataWriteDriver &operator <<(short aValue) = 0;
+
+            public: virtual IDataWriteDriver &operator <<(unsigned char aValue) = 0;
+
+            public: virtual IDataWriteDriver &operator <<(char aValue) = 0;
 
             public: virtual ~IDataWriteDriver(){}
 		};

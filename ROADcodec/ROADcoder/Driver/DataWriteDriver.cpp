@@ -1,7 +1,4 @@
-#include <string>
-#include <vector>
 #include <exception>
-using namespace std;
 
 #include "DataWriteDriver.h"
 #include "IEndianConvertor.h"
@@ -19,50 +16,44 @@ ROADcoder::Driver::DataWriteDriver::~DataWriteDriver()
 {
 }
 
-ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(unsigned int &aValue)
+ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(unsigned int aValue)
 {
-    if(_length >= (_position + sizeof(aValue)))
-    {
-        _convertor->convertToBytes(aValue, _data.get() + _position);
-
-        _position += sizeof(aValue);
-    }
+    writeData(aValue);
 
     return *this;
 }
 
-ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(int &aValue)
+ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(int aValue)
 {
-    if(_length >= (_position + sizeof(aValue)))
-    {
-        _convertor->convertToBytes(aValue, _data.get() + _position);
-
-        _position += sizeof(aValue);
-    }
+    writeData(aValue);
 
     return *this;
 }
 
-ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(unsigned short &aValue)
+ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(unsigned short aValue)
 {
-    if(_length >= (_position + sizeof(aValue)))
-    {
-        _convertor->convertToBytes(aValue, _data.get() + _position);
-
-        _position += sizeof(aValue);
-    }
+    writeData(aValue);
 
     return *this;
 }
 
-ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(short &aValue)
+ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(short aValue)
 {
-    if(_length >= (_position + sizeof(aValue)))
-    {
-        _convertor->convertToBytes(aValue, _data.get() + _position);
+    writeData(aValue);
 
-        _position += sizeof(aValue);
-    }
+    return *this;
+}
+
+ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(unsigned char aValue)
+{
+    writeData(aValue);
+
+    return *this;
+}
+
+ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(char aValue)
+{
+    writeData(aValue);
 
     return *this;
 }
