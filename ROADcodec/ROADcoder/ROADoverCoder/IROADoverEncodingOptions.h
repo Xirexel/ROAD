@@ -17,11 +17,11 @@ namespace ROADcoder
 
             public: virtual unsigned char getROADFormatMode() = 0;
 
-            public: virtual void setAmountOfChannels(unsigned int aAmountOfChannels) = 0;
+            public: virtual void setAmountOfChannels(unsigned short aAmountOfChannels) = 0;
 
             public: virtual void setEncryptionFormat(unsigned int aEncryptionFormat) = 0;
 
-            public: virtual void setBitsPerSample(int aBitsPerSample) = 0;
+            public: virtual void setBitsPerSample(unsigned char aBitsPerSample) = 0;
 
             public: virtual std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> clone() = 0;
 		};

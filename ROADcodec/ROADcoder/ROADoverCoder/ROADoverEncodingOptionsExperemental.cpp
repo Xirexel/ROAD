@@ -68,12 +68,12 @@ ROADcoder::ROADoverCoder::ChannelsMixingMode ROADcoder::ROADoverCoder::ROADoverE
 	return this->_mixingChannelsMode;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setAmountOfChannels(unsigned int aAmountOfChannels)
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setAmountOfChannels(unsigned short aAmountOfChannels)
 {
     this->_amountOfChannels = aAmountOfChannels;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getAmountOfChannels()
+unsigned short ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getAmountOfChannels()
 {
     return this->_amountOfChannels;
 }
@@ -88,12 +88,12 @@ void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setEncryptio
     this->_encryptionFormat = aEncryptionFormat;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setBitsPerSample(int aBitsPerSample)
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setBitsPerSample(unsigned char aBitsPerSample)
 {
     this->_bitsPerSample = aBitsPerSample;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getBitsPerSample()
+unsigned char ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getBitsPerSample()
 {
     return this->_bitsPerSample;
 }

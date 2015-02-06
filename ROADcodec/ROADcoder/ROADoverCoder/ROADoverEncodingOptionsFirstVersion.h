@@ -12,19 +12,18 @@ namespace ROADcoder
 	namespace ROADoverCoder
 	{
 		class ROADoverEncodingOptionsFirstVersion: public ROADcoder::ROADoverCoder::IROADoverEncodingOptions
-		{
-			private: unsigned int _frameSampleLength;
-			private: unsigned int _superFrameLength;
-            private: unsigned int _rangSampleLength;
-			private: unsigned int _amountRangLevels;
-			private: unsigned int _domainShift;
+        {
+            private: unsigned char _superFrameLength;
+            private: unsigned char _powerRangSampleLength;
+            private: unsigned char _amountRangLevels;
+            private: unsigned char _domainShift;
 			private: double _silenceThreshold;
 			private: double _rangThreshold;
-			private: ROADcoder::ROADoverCoder::ChannelsMixingMode _mixingChannelsMode;
-			private: unsigned int _amountOfChannels;
+            private: unsigned char _mixingChannelsMode;
+            private: unsigned short _amountOfChannels;
 			private: unsigned int _encryptionFormat;
-			private: int _bitsPerSample;
-			private: int _selectedPreListeningChannel;
+            private: unsigned char _bitsPerSample;
+            private: unsigned short _selectedPreListeningChannel;
             private: unsigned char _endianType;
 
             public: virtual unsigned char getROADFormatMode();
@@ -35,21 +34,23 @@ namespace ROADcoder
 
             public: virtual ~ROADoverEncodingOptionsFirstVersion();
 
-			public: void setFrameSampleLength(unsigned int aFrameSampleLength);
-
 			public: unsigned int getFrameSampleLength();
 
-			public: void setSuperFrameLength(unsigned int aSuperFrameLength);
+            public: void setSuperFrameLength(unsigned char aSuperFrameLength);
 
-			public: unsigned int getSuperFrameLength();
+            public: unsigned char getSuperFrameLength();
 
-            public: void setRangSampleLength(unsigned int aRangSampleLength);
+            public: void setPowerRangSampleLength(unsigned char aPowerRangSampleLength);
 
-            public: unsigned int getRangSampleLength();
+            public: unsigned char getPowerRangSampleLength();
 
-			public: void setDomainShift(unsigned int aDomainShift);
+            public: void setAmountRangLevels(unsigned char aAmountRangLevels);
 
-			public: unsigned int getDomainShift();
+            public: unsigned char getAmountRangLevels();
+
+            public: void setDomainShift(unsigned char aDomainShift);
+
+            public: unsigned char getDomainShift();
 
 			public: void setSilenceThreshold(double aSilenceThreshold);
 
@@ -59,25 +60,25 @@ namespace ROADcoder
 
 			public: double getRangThreshold();
 
-			public: void setMixingChannelsMode(ROADcoder::ROADoverCoder::ChannelsMixingMode aMixingChannelsMode);
+            public: void setMixingChannelsMode(unsigned char aMixingChannelsMode);
 
-			public: ROADcoder::ROADoverCoder::ChannelsMixingMode getMixingChannelsMode();
+            public: unsigned char getMixingChannelsMode();
 
-			public: void setAmountOfChannels(unsigned int aAmountOfChannels);
+            public: void setAmountOfChannels(unsigned short aAmountOfChannels);
 
-			public: unsigned int getAmountOfChannels();
+            public: unsigned short getAmountOfChannels();
 
 			public: void setEncryptionFormat(unsigned int aEncryptionFormat);
 
 			public: unsigned int getEncryptionFormat();
 
-            public: void setBitsPerSample( int aBitsPerSample);
+            public: void setBitsPerSample( unsigned char aBitsPerSample);
 
-			public: int getBitsPerSample();
+            public: unsigned char getBitsPerSample();
 
-			public: void setSelectedPreListeningChannel(int aSelectedPreListeningChannel);
+            public: void setSelectedPreListeningChannel(unsigned short aSelectedPreListeningChannel);
 
-			public: int getSelectedPreListeningChannel();
+            public: unsigned short getSelectedPreListeningChannel();
 
             public: unsigned int getEndianType();
 

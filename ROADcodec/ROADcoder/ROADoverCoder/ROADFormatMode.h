@@ -7,7 +7,7 @@ namespace ROADcoder
 	{
 		enum ROADFormatMode
 		{
-            UNKNOWN = -1, EXPEREMENTAL = 0, FIRSTVERSION = 1
+            UNKNOWN = 0xFF, EXPEREMENTAL = 0x00, FIRSTVERSION = 0x01
 		};
 	}
 }

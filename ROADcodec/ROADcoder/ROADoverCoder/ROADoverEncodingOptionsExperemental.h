@@ -34,9 +34,9 @@ namespace ROADcoder
 			private: double _silenceThreshold;
             private: double _rangThreshold;
 			private: ROADcoder::ROADoverCoder::ChannelsMixingMode _mixingChannelsMode;
-            private: unsigned int _amountOfChannels;
+            private: unsigned short _amountOfChannels;
             private: unsigned int _encryptionFormat;
-            private: unsigned int _bitsPerSample;
+            private: unsigned char _bitsPerSample;
 
 
             public: unsigned char getROADFormatMode();
@@ -73,17 +73,17 @@ namespace ROADcoder
 
             public: ROADcoder::ROADoverCoder::ChannelsMixingMode getMixingChannelsMode();
 
-            public: void setAmountOfChannels(unsigned int aAmountOfChannels);
+            public: void setAmountOfChannels(unsigned short aAmountOfChannels);
 
-            public: unsigned int getAmountOfChannels();
+            public: unsigned short getAmountOfChannels();
 
             public: void setEncryptionFormat(unsigned int aEncryptionFormat);
 
             public: unsigned int getEncryptionFormat();
 
-            public: void setBitsPerSample(int aBitsPerSample);
+            public: void setBitsPerSample(unsigned char aBitsPerSample);
 
-            public: unsigned int getBitsPerSample();
+            public: unsigned char getBitsPerSample();
 
             public: virtual std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> clone();
 

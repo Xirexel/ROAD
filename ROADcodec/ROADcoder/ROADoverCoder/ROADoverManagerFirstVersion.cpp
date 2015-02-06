@@ -311,7 +311,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
 {
     this->_bitsPerSample = aOptions->getBitsPerSample();
 
-    this->_rangSampleLength = aOptions->getRangSampleLength();
+    this->_rangSampleLength = aOptions->getPowerRangSampleLength();
 
     switch (_options->getMixingChannelsMode()) {
     case MID:
@@ -340,8 +340,8 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     }
 
     std::unique_ptr<FractalEncodingOptions> loptions(new FractalEncodingOptions(_options->getFrameSampleLength(),
-                                                                                _options->getRangSampleLength(),
-                                                                                0,
+                                                                                4 << _options->getPowerRangSampleLength(),
+                                                                                _options->getAmountRangLevels(),
                                                                                 _options->getDomainShift(),
                                                                                 _options->getSilenceThreshold(),
                                                                                 _options->getRangThreshold()

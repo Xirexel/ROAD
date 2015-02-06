@@ -22,35 +22,41 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::R
 }
 
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setFrameSampleLength(unsigned int aFrameSampleLength) {
-	this->_frameSampleLength = aFrameSampleLength;
-}
+
 
 unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFrameSampleLength() {
-	return this->_frameSampleLength;
+    return 2048;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setSuperFrameLength(unsigned int aSuperFrameLength) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setSuperFrameLength(unsigned char aSuperFrameLength) {
 	this->_superFrameLength = aSuperFrameLength;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getSuperFrameLength() {
+unsigned char ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getSuperFrameLength() {
 	return this->_superFrameLength;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setRangSampleLength(unsigned int aRangSampleLength) {
-    this->_rangSampleLength = aRangSampleLength;
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setPowerRangSampleLength(unsigned char aPowerRangSampleLength) {
+    this->_powerRangSampleLength = aPowerRangSampleLength;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getRangSampleLength() {
-    return this->_rangSampleLength;
+unsigned char ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getPowerRangSampleLength() {
+    return this->_powerRangSampleLength;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setDomainShift(unsigned int aDomainShift) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setAmountRangLevels(unsigned char aAmountRangLevels) {
+    this->_amountRangLevels = aAmountRangLevels;
+}
+
+unsigned char ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getAmountRangLevels() {
+    return this->_amountRangLevels;
+}
+
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setDomainShift(unsigned char aDomainShift) {
 	this->_domainShift = aDomainShift;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getDomainShift() {
+unsigned char ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getDomainShift() {
 	return this->_domainShift;
 }
 
@@ -70,19 +76,19 @@ double ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getRangThr
 	return this->_rangThreshold;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setMixingChannelsMode(ROADcoder::ROADoverCoder::ChannelsMixingMode aMixingChannelsMode) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setMixingChannelsMode(unsigned char aMixingChannelsMode) {
 	this->_mixingChannelsMode = aMixingChannelsMode;
 }
 
-ROADcoder::ROADoverCoder::ChannelsMixingMode ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getMixingChannelsMode() {
+unsigned char ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getMixingChannelsMode() {
 	return this->_mixingChannelsMode;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setAmountOfChannels(unsigned int aAmountOfChannels) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setAmountOfChannels(unsigned short aAmountOfChannels) {
 	this->_amountOfChannels = aAmountOfChannels;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getAmountOfChannels() {
+unsigned short ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getAmountOfChannels() {
 	return this->_amountOfChannels;
 }
 
@@ -94,19 +100,19 @@ unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getE
 	return this->_encryptionFormat;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setBitsPerSample(int aBitsPerSample) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setBitsPerSample(unsigned char aBitsPerSample) {
 	this->_bitsPerSample = aBitsPerSample;
 }
 
-int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getBitsPerSample() {
+unsigned char ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getBitsPerSample() {
 	return this->_bitsPerSample;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setSelectedPreListeningChannel(int aSelectedPreListeningChannel) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setSelectedPreListeningChannel(unsigned short aSelectedPreListeningChannel) {
 	this->_selectedPreListeningChannel = aSelectedPreListeningChannel;
 }
 
-int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getSelectedPreListeningChannel() {
+unsigned short ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getSelectedPreListeningChannel() {
 	return this->_selectedPreListeningChannel;
 }
 
@@ -133,7 +139,7 @@ ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::~ROADoverEncoding
 
 std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFractalFormatRawDataContainer()
 {
-    unsigned int lLength = 40;
+    unsigned int lLength = 23;
 
     std::unique_ptr<unsigned char> lFractalFormat(new unsigned char[lLength]);
 
@@ -156,18 +162,17 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
                                        << 'o'
                                        << 'A'
                                        << 'd'
-                                       << getROADFormatMode()
-                                       << this->_endianType
-                                       << lLength - 10
-                                       << getSuperFrameLength()
-                                       << getFrameSampleLength()
-                                       << getRangSampleLength()
-                                       << getDomainShift()
-                                       << getAmountOfChannels()
-                                       << getMixingChannelsMode()
-                                       << getSelectedPreListeningChannel()
-                                       << getBitsPerSample()
-                                       << getEncryptionFormat();
+                                       << (unsigned char) lEndianType << 7
+                                       << lLength - 9
+                                       << getSuperFrameLength() // 1 byte
+                                       << getAmountRangLevels() // 1 byte
+                                       << getPowerRangSampleLength() // 1 byte
+                                       << getDomainShift() // 1 byte
+                                       << getAmountOfChannels() // 2 byte
+                                       << getMixingChannelsMode() // 1 byte
+                                       << getSelectedPreListeningChannel() // 2 byte
+                                       << getBitsPerSample() // 1 byte
+                                       << getEncryptionFormat(); // 4 byte
 
 
     std::unique_ptr<FractalFormatRawDataContainer> lptrfractalFormatRawDataContainer(new FractalFormatRawDataContainer(lFractalFormat, lLength));
