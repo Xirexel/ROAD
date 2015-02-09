@@ -1,20 +1,24 @@
 #ifndef CRC_H
 #define CRC_H
 
+#include "platformdependencies.h"
+
 
 namespace CRCSupport
 {
+
+    using namespace PlatformDependencies;
 
     class CRC
     {
 
     public:
 
-        static unsigned char CRC8(unsigned char *pcBlock, unsigned int len);
+        static ROADByte CRC8(ROADPtrByte aData, ROADUInt32 aLength);
 
-        static unsigned short CRC16(unsigned char *pcBlock, unsigned int len);
+        static ROADUInt16 CRC16(ROADPtrByte aData, ROADUInt32 aLength);
 
-        static unsigned int CRC32(unsigned char *pcBlock, unsigned int len);
+        static ROADUInt32 CRC32(ROADPtrByte aData, ROADUInt32 aLength);
 
     private:
 
@@ -23,6 +27,9 @@ namespace CRCSupport
         CRC(const CRC&) = delete;
 
         CRC& operator=(const CRC&) = delete;
+
+
+
 
     };
 

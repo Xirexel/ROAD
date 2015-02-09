@@ -8,9 +8,7 @@
 
 namespace Endian
 {
-	class IEndianConvertor;
-	// enum EndianType;
-	class EndianConvertorFactory;
+    class IEndianConvertor;
 }
 
 namespace Endian

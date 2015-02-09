@@ -3,52 +3,52 @@
 
 #include "LocalEndianConvertor.h"
 
-unsigned int Endian::LocalEndianConvertor::convertToUINT32(unsigned char* aData) {
-    unsigned int lresult = *(unsigned int*)(aData);
+PlatformDependencies::ROADUInt32 Endian::LocalEndianConvertor::convertToUINT32(ROADPtrByte aData) {
+    ROADUInt32 lresult = *(ROADUInt32*)(aData);
 
     return lresult;
 }
 
-int Endian::LocalEndianConvertor::convertToINT32(unsigned char* aData) {
-    int lresult = *(int*)(aData);
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToINT32(ROADPtrByte aData) {
+    ROADInt32 lresult = *(ROADPtrInt32)(aData);
 
     return lresult;
 }
 
-unsigned short Endian::LocalEndianConvertor::convertToUINT16(unsigned char* aData) {
-    unsigned short lresult = *(unsigned short*)(aData);
+PlatformDependencies::ROADUInt16 Endian::LocalEndianConvertor::convertToUINT16(ROADPtrByte aData) {
+    ROADUInt16 lresult = *(ROADPtrUInt16)(aData);
 
     return lresult;
 }
 
-short Endian::LocalEndianConvertor::convertToINT16(unsigned char* aData) {
-    short lresult = *(short*)(aData);
+PlatformDependencies::ROADInt16 Endian::LocalEndianConvertor::convertToINT16(ROADPtrByte aData) {
+    ROADInt16 lresult = *(ROADPtrInt16)(aData);
 
     return lresult;
 }
 
-int Endian::LocalEndianConvertor::convertToBytes(unsigned int aValue,unsigned char* aData) {
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADUInt32 aValue,ROADPtrByte aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 
     return sizeof(aValue);
 }
 
-int Endian::LocalEndianConvertor::convertToBytes(int aValue,unsigned char *aData) {
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADInt32 aValue,ROADPtrByte aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 
     return sizeof(aValue);
 }
 
-int Endian::LocalEndianConvertor::convertToBytes(unsigned short aValue,unsigned char* aData) {
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADUInt16 aValue,ROADPtrByte aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 
     return sizeof(aValue);
 }
 
-int Endian::LocalEndianConvertor::convertToBytes(short aValue,unsigned char *aData) {
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADInt16 aValue,ROADPtrByte aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 

@@ -35,9 +35,9 @@ std::unique_ptr<Endian::IEndianConvertor> Endian::EndianConvertorFactory::getIEn
 
 Endian::EndianConvertorFactory::EndianConvertorFactory()
 {    
-    const unsigned short lx = 1;
+    const ROADUInt16 lx = 1;
 
-    this->_localEndianType = *((unsigned char*)&lx) == 1? Endian::EndianType::LITTLE : Endian::EndianType::BIG;
+    this->_localEndianType = *((ROADPtrByte)&lx) == 1? Endian::EndianType::LITTLE : Endian::EndianType::BIG;
 }
 
 Endian::EndianConvertorFactory& Endian::EndianConvertorFactory::getInstance()
