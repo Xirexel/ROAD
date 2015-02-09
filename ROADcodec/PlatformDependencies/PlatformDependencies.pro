@@ -6,15 +6,11 @@
 
 QT       -= core gui
 
-TARGET = PlatformEnvironment
+TARGET = PlatformDependencies
 TEMPLATE = lib
 CONFIG += staticlib
 CONFIG += c++11
 
 SOURCES +=
 
-HEADERS += platformenvironment.h
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
+HEADERS += platformdependencies.h

@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    PlatformEnvironment \
+    PlatformDependencies \
     CRC \
     Endian \
     ROADdecoder \

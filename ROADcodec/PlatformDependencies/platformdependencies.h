@@ -1,8 +1,8 @@
-#ifndef PLATFORMENVIRONMENT_H
-#define PLATFORMENVIRONMENT_H
+#ifndef PLATFORMDEPENDENCIES_H
+#define PLATFORMDEPENDENCIES_H
 
 
-namespace PlatformEnvironment
+namespace PlatformDependencies
 {
 
 typedef char ROADChar;
@@ -21,15 +21,8 @@ typedef long long ROADInt64;
 
 typedef unsigned long long ROADUInt64;
 
-typedef float ROADReal32;
-
-typedef unsigned float ROADUReal32;
-
-typedef double ROADReal64;
-
-typedef unsigned double ROADUReal64;
-
+typedef double ROADReal;
 
 }
 
-#endif // PLATFORMENVIRONMENT_H
+#endif // PLATFORMDEPENDENCIES_H
