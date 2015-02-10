@@ -4,7 +4,7 @@
 
 
 
-std::unique_ptr<ROADcoder::Driver::IDataWriteDriver> ROADcoder::Driver::DataDriver::getIDataWriteDriver(std::unique_ptr<unsigned char> &aData, unsigned int aLength, Endian::EndianType aEndianType)
+std::unique_ptr<ROADcoder::Driver::IDataWriteDriver> ROADcoder::Driver::DataDriver::getIDataWriteDriver(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength, Endian::EndianType aEndianType)
 {
     auto lconvertor = Endian::EndianConvertorFactory::getInstance().getIEndianConvertor(aEndianType);
 

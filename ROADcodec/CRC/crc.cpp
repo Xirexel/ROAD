@@ -57,6 +57,16 @@ ROADByte CRCSupport::CRC::CRC8(ROADPtrByte aData, ROADUInt32 aLength)
     return lresult;
 }
 
+/*
+  Name  : CRC-16
+  Poly  : 0x8005    x^16 + x^15 + x^2 + 1
+  Init  : 0xFFFF
+  Revert: true
+  XorOut: 0x0000
+  Check : 0x4B37 ("123456789")
+  MaxLen: 4095 байт (32767 бит) - обнаружение
+    одинарных, двойных, тройных и всех нечетных ошибок
+*/
 ROADUInt16 CRCSupport::CRC::CRC16(ROADPtrByte aData, ROADUInt32 aLength)
 {
     ROADUInt16 lresult = 0xFFFF;
