@@ -19,6 +19,10 @@ namespace ROADcoder
             private: ROADUInt32 _position;
             private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
 
+            public: virtual ROADUInt32 getLength();
+
+            public: virtual ROADUInt32 getPosition();
+
             public: virtual ~DataWriteDriver();
 
             public: DataWriteDriver(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);

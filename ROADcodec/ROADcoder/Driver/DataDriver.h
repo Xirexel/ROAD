@@ -21,9 +21,7 @@ namespace ROADcoder
 	namespace Driver
 	{
 		class DataDriver
-		{
-            using namespace PlatformDependencies;
-
+        {
             private: DataDriver() = delete;
 
             private: virtual ~DataDriver() = delete;

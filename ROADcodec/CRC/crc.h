@@ -14,11 +14,11 @@ namespace CRCSupport
 
     public:
 
-        static ROADByte CRC8(ROADPtrByte aData, ROADUInt32 aLength);
+        static ROADByte CRC8(PtrROADByte aData, ROADUInt32 aLength);
 
-        static ROADUInt16 CRC16(ROADPtrByte aData, ROADUInt32 aLength);
+        static ROADUInt16 CRC16(PtrROADByte aData, ROADUInt32 aLength);
 
-        static ROADUInt32 CRC32(ROADPtrByte aData, ROADUInt32 aLength);
+        static ROADUInt32 CRC32(PtrROADByte aData, ROADUInt32 aLength);
 
     private:
 

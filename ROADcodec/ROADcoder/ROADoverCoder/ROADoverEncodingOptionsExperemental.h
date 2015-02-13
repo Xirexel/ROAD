@@ -81,7 +81,7 @@ namespace ROADcoder
 
             public: unsigned int getEncryptionFormat();
 
-            public: void setBitsPerSample(unsigned char aBitsPerSample);
+            public: void setBitsPerSampleCode(unsigned char aBitsPerSample);
 
             public: unsigned char getBitsPerSample();
 

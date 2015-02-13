@@ -1,7 +1,7 @@
 #include "LittleEndianConvertor.h"
 
 
-PlatformDependencies::ROADUInt32 Endian::LittleEndianConvertor::convertToUINT32(ROADPtrByte aData) {
+PlatformDependencies::ROADUInt32 Endian::LittleEndianConvertor::convertToUINT32(PtrROADByte aData) {
 
     ROADUInt32 lresult = 0;
 
@@ -16,7 +16,7 @@ PlatformDependencies::ROADUInt32 Endian::LittleEndianConvertor::convertToUINT32(
     return lresult;
 }
 
-PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToINT32(ROADPtrByte aData) {
+PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToINT32(PtrROADByte aData) {
 
     ROADInt32 lresult = 0;
 
@@ -31,7 +31,7 @@ PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToINT32(RO
     return lresult;
 }
 
-PlatformDependencies::ROADUInt16 Endian::LittleEndianConvertor::convertToUINT16(ROADPtrByte aData) {
+PlatformDependencies::ROADUInt16 Endian::LittleEndianConvertor::convertToUINT16(PtrROADByte aData) {
 
     ROADUInt16 lresult = 0;
 
@@ -42,7 +42,7 @@ PlatformDependencies::ROADUInt16 Endian::LittleEndianConvertor::convertToUINT16(
     return lresult;
 }
 
-PlatformDependencies::ROADInt16 Endian::LittleEndianConvertor::convertToINT16(ROADPtrByte aData) {
+PlatformDependencies::ROADInt16 Endian::LittleEndianConvertor::convertToINT16(PtrROADByte aData) {
 
     ROADInt16 lresult = 0;
 
@@ -53,7 +53,7 @@ PlatformDependencies::ROADInt16 Endian::LittleEndianConvertor::convertToINT16(RO
     return lresult;
 }
 
-PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADUInt32 aValue,ROADPtrByte aData) {
+PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADUInt32 aValue,PtrROADByte aData) {
 
     *aData++ = aValue;
 
@@ -66,7 +66,7 @@ PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(RO
     return sizeof(aValue);
 }
 
-PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADInt32 aValue,ROADPtrByte aData) {
+PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADInt32 aValue,PtrROADByte aData) {
 
     *aData++ = aValue;
 
@@ -79,7 +79,7 @@ PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(RO
     return sizeof(aValue);
 }
 
-PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADUInt16 aValue, ROADPtrByte aData) {
+PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADUInt16 aValue, PtrROADByte aData) {
 
     *aData++ = aValue;
 
@@ -88,7 +88,7 @@ PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(RO
     return sizeof(aValue);
 }
 
-PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADInt16 aValue, ROADPtrByte aData) {
+PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADInt16 aValue, PtrROADByte aData) {
 
     *aData++ = aValue;
 

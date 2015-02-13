@@ -37,7 +37,7 @@ Endian::EndianConvertorFactory::EndianConvertorFactory()
 {    
     const ROADUInt16 lx = 1;
 
-    this->_localEndianType = *((ROADPtrByte)&lx) == 1? Endian::EndianType::LITTLE : Endian::EndianType::BIG;
+    this->_localEndianType = *((PtrROADByte)&lx) == 1? Endian::EndianType::LITTLE : Endian::EndianType::BIG;
 }
 
 Endian::EndianConvertorFactory& Endian::EndianConvertorFactory::getInstance()

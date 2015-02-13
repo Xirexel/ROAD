@@ -13,20 +13,22 @@ namespace ROADcoder
 	{
 		class ROADoverEncodingOptionsFirstVersion: public ROADcoder::ROADoverCoder::IROADoverEncodingOptions
         {
-            private: unsigned char _superFrameLength;
-            private: unsigned char _powerRangSampleLength;
-            private: unsigned char _amountRangLevels;
-            private: unsigned char _domainShift;
-			private: double _silenceThreshold;
-			private: double _rangThreshold;
-            private: unsigned char _mixingChannelsMode;
-            private: unsigned short _amountOfChannels;
-			private: unsigned int _encryptionFormat;
-            private: unsigned char _bitsPerSample;
-            private: unsigned short _selectedPreListeningChannel;
-            private: unsigned char _endianType;
+            private: ROADByte _superFrameLength;
+            private: ROADByte _rangSampleLength;
+            private: ROADByte _amountRangLevels;
+            private: ROADByte _domainShift;
+            private: ROADReal _silenceThreshold;
+            private: ROADReal _rangThreshold;
+            private: ROADByte _mixingChannelsMode;
+            private: ROADUInt16 _amountOfChannels;
+            private: ROADUInt32 _encryptionFormat;
+            private: ROADByte _bitsPerSampleCode;
+            private: ROADUInt16 _selectedPreListeningChannel;
+            private: ROADByte _endianType;
+            private: ROADInt8 _constantScale;
+            private: ROADUInt32 _originalFrequency;
 
-            public: virtual unsigned char getROADFormatMode();
+            public: virtual ROADByte getROADFormatMode();
 
             public: std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> clone();
 
@@ -34,55 +36,63 @@ namespace ROADcoder
 
             public: virtual ~ROADoverEncodingOptionsFirstVersion();
 
-			public: unsigned int getFrameSampleLength();
+            public: ROADUInt32 getFrameSampleLength();
 
-            public: void setSuperFrameLength(unsigned char aSuperFrameLength);
+            public: void setSuperFrameLength(ROADByte aSuperFrameLength);
 
-            public: unsigned char getSuperFrameLength();
+            public: ROADByte getSuperFrameLength();
 
-            public: void setPowerRangSampleLength(unsigned char aPowerRangSampleLength);
+            public: void setPowerRangSampleLength(ROADByte aRangSampleLength);
 
-            public: unsigned char getPowerRangSampleLength();
+            public: ROADByte getRangSampleLength();
 
-            public: void setAmountRangLevels(unsigned char aAmountRangLevels);
+            public: void setAmountRangLevels(ROADByte aAmountRangLevels);
 
-            public: unsigned char getAmountRangLevels();
+            public: ROADByte getAmountRangLevels();
 
-            public: void setDomainShift(unsigned char aDomainShift);
+            public: void setDomainShift(ROADByte aDomainShift);
 
-            public: unsigned char getDomainShift();
+            public: ROADByte getDomainShift();
 
-			public: void setSilenceThreshold(double aSilenceThreshold);
+            public: void setSilenceThreshold(ROADReal aSilenceThreshold);
 
-			public: double getSilenceThreshold();
+            public: ROADReal getSilenceThreshold();
 
-			public: void setRangThreshold(double aRangThreshold);
+            public: void setRangThreshold(ROADReal aRangThreshold);
 
-			public: double getRangThreshold();
+            public: ROADReal getRangThreshold();
 
-            public: void setMixingChannelsMode(unsigned char aMixingChannelsMode);
+            public: void setMixingChannelsMode(ROADByte aMixingChannelsMode);
 
-            public: unsigned char getMixingChannelsMode();
+            public: ROADByte getMixingChannelsMode();
 
-            public: void setAmountOfChannels(unsigned short aAmountOfChannels);
+            public: void setAmountOfChannels(ROADUInt16 aAmountOfChannels);
 
-            public: unsigned short getAmountOfChannels();
+            public: ROADUInt16 getAmountOfChannels();
 
-			public: void setEncryptionFormat(unsigned int aEncryptionFormat);
+            public: void setEncryptionFormat(ROADUInt32 aEncryptionFormat);
 
-			public: unsigned int getEncryptionFormat();
+            public: ROADUInt32 getEncryptionFormat();
 
-            public: void setBitsPerSample( unsigned char aBitsPerSample);
+            public: void setBitsPerSampleCode(ROADByte aBitsPerSampleCode);
 
-            public: unsigned char getBitsPerSample();
+            public: ROADByte getBitsPerSampleCode();
 
-            public: void setSelectedPreListeningChannel(unsigned short aSelectedPreListeningChannel);
+            public: void setSelectedPreListeningChannel(ROADUInt16 aSelectedPreListeningChannel);
 
-            public: unsigned short getSelectedPreListeningChannel();
+            public: ROADUInt16 getSelectedPreListeningChannel();
 
-            public: unsigned int getEndianType();
+            public: ROADUInt32 getEndianType();
 
-            public: void setEndianType(unsigned int aEndianType);
+            public: void setEndianType(ROADUInt32 aEndianType);
+
+            public: ROADInt8 getConstantScale();
+
+            public: void setConstantScale(ROADInt8 aConstantScale);
+
+            public: ROADUInt32 getOriginalFrequency();
+
+            public: void setOriginalFrequency(ROADUInt32 aOriginalFrequency);
 
             public: std::unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer();
 		};

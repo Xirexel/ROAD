@@ -18,14 +18,14 @@ namespace ROADcoder
 	{
 		class DoubleDataContainer: public ROADcoder::ROADoverCoder::IDoubleDataContainer
 		{
-			private: double* _data;
-			private: unsigned int _length;
+            private: PtrROADReal _data;
+            private: ROADUInt32 _length;
 
-            public: unsigned int getLength();
+            public: ROADUInt32 getLength();
 
-			public: double* getData();
+            public: PtrROADReal getData();
 
-            public: DoubleDataContainer(unsigned int aLength);
+            public: DoubleDataContainer(ROADUInt32 aLength);
 
             public: virtual ~DoubleDataContainer();
 		};

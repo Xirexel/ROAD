@@ -41,7 +41,17 @@ const ROADUInt16 Crc16Table[256] = {
 
 }
 
-ROADByte CRCSupport::CRC::CRC8(ROADPtrByte aData, ROADUInt32 aLength)
+/*
+  Name  : CRC-8
+  Poly  : 0x31    x^8 + x^5 + x^4 + 1
+  Init  : 0xFF
+  Revert: false
+  XorOut: 0x00
+  Check : 0xF7 ("123456789")
+  MaxLen: 15 байт(127 бит) - обнаружение
+    одинарных, двойных, тройных и всех нечетных ошибок
+*/
+ROADByte CRCSupport::CRC::CRC8(PtrROADByte aData, ROADUInt32 aLength)
 {
     ROADByte lresult = 0xFF;
     ROADUInt32 i;
@@ -67,7 +77,7 @@ ROADByte CRCSupport::CRC::CRC8(ROADPtrByte aData, ROADUInt32 aLength)
   MaxLen: 4095 байт (32767 бит) - обнаружение
     одинарных, двойных, тройных и всех нечетных ошибок
 */
-ROADUInt16 CRCSupport::CRC::CRC16(ROADPtrByte aData, ROADUInt32 aLength)
+ROADUInt16 CRCSupport::CRC::CRC16(PtrROADByte aData, ROADUInt32 aLength)
 {
     ROADUInt16 lresult = 0xFFFF;
 
@@ -88,7 +98,7 @@ ROADUInt16 CRCSupport::CRC::CRC16(ROADPtrByte aData, ROADUInt32 aLength)
   MaxaLength: 268 435 455 байт (2 147 483 647 бит) - обнаружение
    одинарных, двойных, пакетных и всех нечетных ошибок
 */
-ROADUInt32 CRCSupport::CRC::CRC32(ROADPtrByte aData, ROADUInt32 aLength)
+ROADUInt32 CRCSupport::CRC::CRC32(PtrROADByte aData, ROADUInt32 aLength)
 {
     ROADUInt32 lresult = 0;
 

@@ -309,9 +309,9 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     : ROADoverManager(aRoadOver, aOptions->getAmountOfChannels(), aOptions->getSuperFrameLength(), 0, aOptions->getFrameSampleLength() * aOptions->getSuperFrameLength()),
       _options(aOptions)
 {
-    this->_bitsPerSample = aOptions->getBitsPerSample();
+    this->_bitsPerSample = aOptions->getBitsPerSampleCode();
 
-    this->_rangSampleLength = aOptions->getPowerRangSampleLength();
+    this->_rangSampleLength = aOptions->getRangSampleLength();
 
     switch (_options->getMixingChannelsMode()) {
     case MID:

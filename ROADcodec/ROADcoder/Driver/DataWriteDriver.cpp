@@ -12,6 +12,16 @@ ROADcoder::Driver::DataWriteDriver::DataWriteDriver(std::unique_ptr<ROADByte> &a
 {
 }
 
+PlatformDependencies::ROADUInt32 ROADcoder::Driver::DataWriteDriver::getLength()
+{
+    return this->_length;
+}
+
+PlatformDependencies::ROADUInt32 ROADcoder::Driver::DataWriteDriver::getPosition()
+{
+    return this->_position;
+}
+
 ROADcoder::Driver::DataWriteDriver::~DataWriteDriver()
 {
 }

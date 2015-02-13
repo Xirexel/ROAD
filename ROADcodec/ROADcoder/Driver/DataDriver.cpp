@@ -8,7 +8,7 @@ std::unique_ptr<ROADcoder::Driver::IDataWriteDriver> ROADcoder::Driver::DataDriv
 {
     auto lconvertor = Endian::EndianConvertorFactory::getInstance().getIEndianConvertor(aEndianType);
 
-    unique_ptr<IDataWriteDriver> result(new DataWriteDriver(aData, aLength, lconvertor));
+    std::unique_ptr<IDataWriteDriver> result(new DataWriteDriver(aData, aLength, lconvertor));
 
     return result;
 }

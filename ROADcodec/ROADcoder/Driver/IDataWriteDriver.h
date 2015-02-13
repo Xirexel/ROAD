@@ -8,9 +8,14 @@ namespace ROADcoder
 {
 	namespace Driver
 	{
+
+        using namespace PlatformDependencies;
 		class IDataWriteDriver
         {
-            using namespace PlatformDependencies;
+
+            public: virtual ROADUInt32 getLength() = 0;
+
+            public: virtual ROADUInt32 getPosition() = 0;
 
             public: virtual IDataWriteDriver &operator <<(ROADUInt32 aValue) = 0;
 
