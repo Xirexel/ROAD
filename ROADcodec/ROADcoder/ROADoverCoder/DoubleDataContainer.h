@@ -6,8 +6,7 @@
 namespace ROADcoder
 {
 	namespace ROADoverCoder
-	{
-		class IDoubleDataContainer;
+    {
 		class DoubleDataContainer;
 	}
 }

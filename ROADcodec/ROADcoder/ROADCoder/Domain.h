@@ -1,45 +1,41 @@
 #ifndef __ROADcoder__ROADCoder__Domain_h__
 #define __ROADcoder__ROADCoder__Domain_h__
 
-namespace ROADcoder
-{
-	namespace ROADCoder
-	{
-		class Domain;
-	}
-}
+#include "platformdependencies.h"
 
 namespace ROADcoder
 {
 	namespace ROADCoder
 	{
+    using namespace PlatformDependencies;
+
 		class Domain
 		{
-            private: double* _dataForwardDirection;
-            private: double* _dataBackDirection;
-			private: double _aver;
-			private: double _sum;
-			private: double _beta;
-			private: unsigned int _length;
-            private: double _tempValue;
+            private: PtrROADReal _dataForwardDirection;
+            private: PtrROADReal _dataBackDirection;
+            private: ROADReal _aver;
+            private: ROADReal _sum;
+            private: ROADReal _beta;
+            private: ROADUInt32 _length;
+            private: ROADReal _tempValue;
 
-			public: Domain(unsigned int aLength);
+            public: Domain(ROADUInt32 aLength);
 
-			public: void populate(double* aData, unsigned int aDoubleLength);
+            public: void populate(PtrROADReal aData, ROADUInt32 aDoubleLength);
 
             public: virtual ~Domain();
 
-            public: const double* getForwardDirectionData();
+            public: PtrROADReal getForwardDirectionData();
 
-            public: const double* getBackDirectionData();
+            public: PtrROADReal getBackDirectionData();
 
-			public: double getAver();
+            public: ROADReal getAver();
 
-			public: double getSum();
+            public: ROADReal getSum();
 
-			public: double getBeta();
+            public: ROADReal getBeta();
 
-			public: unsigned int getLength();
+            public: ROADUInt32 getLength();
 		};
 	}
 }

@@ -1,7 +1,7 @@
 #include "DoubleDataContainer.h"
 
 ROADcoder::ROADoverCoder::DoubleDataContainer::DoubleDataContainer(ROADUInt32 aLength)
-    : _data(new double[aLength]),
+    : _data(new ROADReal[aLength]),
       _length(aLength)
 {
 

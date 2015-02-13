@@ -1,21 +1,16 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADcoder__ROADCoder__DomainPool_h__
 #define __ROADcoder__ROADCoder__DomainPool_h__
 
-// #include "ROADcoder/ROADCoder/Domain.h"
-// #include "ROADcoder/ROADCoder/ROADFractalAnalyzerNoneFixedRangLength.h"
+#include <vector>
+
+#include "platformdependencies.h"
+
 
 namespace ROADcoder
 {
 	namespace ROADCoder
 	{
-		class Domain;
-		class ROADFractalAnalyzerNoneFixedRangLength;
-		class DomainPool;
+        class Domain;
 	}
 }
 
@@ -23,22 +18,23 @@ namespace ROADcoder
 {
 	namespace ROADCoder
 	{
+    using namespace PlatformDependencies;
 		class DomainPool
 		{
-			private: unsigned int _size;
-			private: unsigned int _domainRelativeShift;
-            private: unsigned int _rangTopSampleLength;
+            private: ROADUInt32 _size;
+            private: ROADUInt32 _domainRelativeShift;
+            private: ROADUInt32 _rangTopSampleLength;
             public: std::vector<ROADcoder::ROADCoder::Domain*> _domains;
 
-            public: DomainPool(unsigned int aSize, unsigned int aRangTopSampleLength, unsigned int aDomainRelativeShift);
+            public: DomainPool(ROADUInt32 aSize, ROADUInt32 aRangTopSampleLength, ROADUInt32 aDomainRelativeShift);
 
-			public: ROADcoder::ROADCoder::Domain* getDomain(unsigned int aIndex);
+            public: ROADcoder::ROADCoder::Domain* getDomain(ROADUInt32 aIndex);
 
-			public: void populate(double* aData);
+            public: void populate(PtrROADReal aData);
 
             public: virtual ~DomainPool();
 
-			public: unsigned int getSize();
+            public: ROADUInt32 getSize();
 		};
 	}
 }

@@ -5,18 +5,6 @@
 
 namespace ROADcoder
 {
-	namespace ROADCoder
-	{
-		class IFractalAverItem;
-	}
-	namespace ROADoverCoder
-	{
-		class FractalAverItem;
-	}
-}
-
-namespace ROADcoder
-{
 	namespace ROADoverCoder
 	{
 		class FractalAverItem: public ROADcoder::ROADCoder::IFractalAverItem

@@ -86,7 +86,7 @@ void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setAmountOfC
 	this->_amountOfChannels = aAmountOfChannels;
 }
 
-ROADUInt16 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getAmountOfChannels() {
+PlatformDependencies::ROADUInt16 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getAmountOfChannels() {
 	return this->_amountOfChannels;
 }
 
@@ -94,7 +94,7 @@ void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setEncryptio
 	this->_encryptionFormat = aEncryptionFormat;
 }
 
-ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getEncryptionFormat() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getEncryptionFormat() {
 	return this->_encryptionFormat;
 }
 
@@ -131,7 +131,7 @@ PlatformDependencies::ROADInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptions
 
 void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setConstantScale(ROADInt8 aConstantScale)
 {
-    this->_constantScale = aCconstantScale;
+    this->_constantScale = aConstantScale;
 }
 
 PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getOriginalFrequency()

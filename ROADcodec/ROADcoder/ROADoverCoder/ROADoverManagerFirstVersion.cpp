@@ -57,7 +57,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
 
 
-        unsigned int llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSample() >> 3);
+        unsigned int llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSampleCode() >> 3);
 
 
 
@@ -340,7 +340,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     }
 
     std::unique_ptr<FractalEncodingOptions> loptions(new FractalEncodingOptions(_options->getFrameSampleLength(),
-                                                                                4 << _options->getPowerRangSampleLength(),
+                                                                                4 << _options->getRangSampleLength(),
                                                                                 _options->getAmountRangLevels(),
                                                                                 _options->getDomainShift(),
                                                                                 _options->getSilenceThreshold(),
@@ -378,7 +378,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     if(!_analyzer)
         throw new CreateAnalyzerException;
 
-    unsigned int llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSample() >> 3);
+    unsigned int llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSampleCode() >> 3);
 
     _bufferROADdata.reset(new unsigned char[llength]);
 }

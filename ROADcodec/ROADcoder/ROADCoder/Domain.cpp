@@ -4,27 +4,27 @@
 using namespace std;
 
 #include "Domain.h"
-ROADcoder::ROADCoder::Domain::Domain(unsigned int aLength)
-    : _dataForwardDirection(new double[aLength]),
-      _dataBackDirection(new double[aLength]),
+ROADcoder::ROADCoder::Domain::Domain(ROADUInt32 aLength)
+    : _dataForwardDirection(new ROADReal[aLength]),
+      _dataBackDirection(new ROADReal[aLength]),
       _length(aLength)
 {
 }
 
-void ROADcoder::ROADCoder::Domain::populate(double* aData, unsigned int aDoubleLength)
+void ROADcoder::ROADCoder::Domain::populate(PtrROADReal aData, ROADUInt32 aDoubleLength)
 {
 
     this->_sum = 0.0;
 
     this->_beta = 0.0;
 
-    unsigned int lrangeLength = aDoubleLength >> 1;
+    ROADUInt32 lrangeLength = aDoubleLength >> 1;
 
-    unsigned int loffsetDackDirection = lrangeLength - 1;
+    ROADUInt32 loffsetBackDirection = lrangeLength - 1;
 
-    unsigned int lPos = 0;
+    ROADUInt32 lPos = 0;
 
-    for(unsigned int index = 0;
+    for(ROADUInt32 index = 0;
         index < aDoubleLength;
         index += 2)
     {
@@ -34,7 +34,7 @@ void ROADcoder::ROADCoder::Domain::populate(double* aData, unsigned int aDoubleL
 
         this->_dataForwardDirection[lPos] = _tempValue;
 
-        this->_dataBackDirection[loffsetDackDirection - lPos] = _tempValue;
+        this->_dataBackDirection[loffsetBackDirection - lPos] = _tempValue;
 
         this->_sum += _tempValue;
 
@@ -49,27 +49,27 @@ void ROADcoder::ROADCoder::Domain::populate(double* aData, unsigned int aDoubleL
 }
 
 
-const double* ROADcoder::ROADCoder::Domain::getForwardDirectionData() {
+PlatformDependencies::PtrROADReal ROADcoder::ROADCoder::Domain::getForwardDirectionData() {
 	return this->_dataForwardDirection;
 }
 
-const double* ROADcoder::ROADCoder::Domain::getBackDirectionData() {
+PlatformDependencies::PtrROADReal ROADcoder::ROADCoder::Domain::getBackDirectionData() {
 	return this->_dataBackDirection;
 }
 
-double ROADcoder::ROADCoder::Domain::getAver() {
+PlatformDependencies::ROADReal ROADcoder::ROADCoder::Domain::getAver() {
 	return this->_aver;
 }
 
-double ROADcoder::ROADCoder::Domain::getSum() {
+PlatformDependencies::ROADReal ROADcoder::ROADCoder::Domain::getSum() {
 	return this->_sum;
 }
 
-double ROADcoder::ROADCoder::Domain::getBeta() {
+PlatformDependencies::ROADReal ROADcoder::ROADCoder::Domain::getBeta() {
 	return this->_beta;
 }
 
-unsigned int ROADcoder::ROADCoder::Domain::getLength() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADCoder::Domain::getLength() {
 	return this->_length;
 }
 
