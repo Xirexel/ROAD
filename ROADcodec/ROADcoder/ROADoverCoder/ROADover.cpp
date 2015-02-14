@@ -1,6 +1,3 @@
-
-
-
 #include "ROADover.h"
 #include "ROADoverEncodingOptionsExperemental.h"
 #include "ROADoverEncodingOptionsFirstVersion.h"
@@ -60,18 +57,18 @@ ROADcoder::ROADoverCoder::ROADover::ROADover(std::unique_ptr<IROADoverEncodingOp
 
 
 
-unsigned int ROADcoder::ROADoverCoder::ROADover::getRangSampleLength()
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADover::getRangSampleLength()
 {
-    unsigned int result = 0;
+    ROADUInt32 result = 0;
 
     result = _manager->getRangSampleLength();
 
     return result;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADover::getBitsPerSample()
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADover::getBitsPerSample()
 {
-    unsigned int result = 0;
+    ROADUInt32 result = 0;
 
     result = _manager->getBitsPerSample();
 
@@ -79,9 +76,9 @@ unsigned int ROADcoder::ROADoverCoder::ROADover::getBitsPerSample()
 
 }
 
-std::tuple<unsigned char *, unsigned int> ROADcoder::ROADoverCoder::ROADover::getFractalFormatRawData()
+std::tuple<PlatformDependencies::PtrROADByte, PlatformDependencies::ROADUInt32> ROADcoder::ROADoverCoder::ROADover::getFractalFormatRawData()
 {
-    std::tuple<unsigned char *, unsigned int> result;
+    std::tuple<PtrROADByte, ROADUInt32> result;
 
     result = _manager->getFractalFormatRawData();
 

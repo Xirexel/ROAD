@@ -1,26 +1,26 @@
 #include "FractalAverItem.h"
 
-void ROADcoder::ROADoverCoder::FractalAverItem::setAver(double aValue) {
+void ROADcoder::ROADoverCoder::FractalAverItem::setAver(ROADReal aValue) {
     this->_aver = aValue;
 }
 
-void ROADcoder::ROADoverCoder::FractalAverItem::setLength(unsigned int aValue) {
+void ROADcoder::ROADoverCoder::FractalAverItem::setLength(ROADUInt32 aValue) {
     this->_length = aValue;
 }
 
-void ROADcoder::ROADoverCoder::FractalAverItem::setIndex(unsigned int aValue) {
+void ROADcoder::ROADoverCoder::FractalAverItem::setIndex(ROADUInt32 aValue) {
     this->_index = aValue;
 }
 
-double ROADcoder::ROADoverCoder::FractalAverItem::getAver() {
+PlatformDependencies::ROADReal ROADcoder::ROADoverCoder::FractalAverItem::getAver() {
 	return this->_aver;
 }
 
-unsigned int ROADcoder::ROADoverCoder::FractalAverItem::getLength() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::FractalAverItem::getLength() {
 	return this->_length;
 }
 
-unsigned int ROADcoder::ROADoverCoder::FractalAverItem::getIndex() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::FractalAverItem::getIndex() {
 	return this->_index;
 }
 

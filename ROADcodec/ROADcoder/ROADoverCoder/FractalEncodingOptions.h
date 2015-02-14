@@ -5,42 +5,32 @@
 
 namespace ROADcoder
 {
-	namespace ROADCoder
-	{
-		class IFractalEncodingOptions;
-	}
 	namespace ROADoverCoder
 	{
-		class FractalEncodingOptions;
-	}
-}
+        using namespace PlatformDependencies;
 
-namespace ROADcoder
-{
-	namespace ROADoverCoder
-	{
 		class FractalEncodingOptions: public ROADcoder::ROADCoder::IFractalEncodingOptions
 		{
-			private: unsigned int _frameSampleLength;
-			private: unsigned int _rangTopSampleLength;
-			private: unsigned int _amountRangLevels;
-			private: unsigned int _domainShift;
-			private: double _silenceThreshold;
-			private: double _rangThreshold;
+            private: ROADUInt32 _frameSampleLength;
+            private: ROADUInt32 _rangTopSampleLength;
+            private: ROADUInt32 _amountRangLevels;
+            private: ROADUInt32 _domainShift;
+            private: ROADReal _silenceThreshold;
+            private: ROADReal _rangThreshold;
 
-			public: unsigned int getFrameSampleLength();
+            public: ROADUInt32 getFrameSampleLength();
 
-			public: unsigned int getRangTopSampleLength();
+            public: ROADUInt32 getRangTopSampleLength();
 
-			public: unsigned int getAmountRangLevels();
+            public: ROADUInt32 getAmountRangLevels();
 
-			public: unsigned int getDomainShift();
+            public: ROADUInt32 getDomainShift();
 
-			public: double getSilenceThreshold();
+            public: ROADReal getSilenceThreshold();
 
-			public: double getRangThreshold();
+            public: ROADReal getRangThreshold();
 
-			public: FractalEncodingOptions(unsigned int aFrameSampleLength, unsigned int aRangTopSampleLength, unsigned int aAmountRangLevels, unsigned int aDomainShift, double aSilenceThreshold, double aRangThreshold);
+            public: FractalEncodingOptions(ROADUInt32 aFrameSampleLength, ROADUInt32 aRangTopSampleLength, ROADUInt32 aAmountRangLevels, ROADUInt32 aDomainShift, ROADReal aSilenceThreshold, ROADReal aRangThreshold);
 		};
 	}
 }

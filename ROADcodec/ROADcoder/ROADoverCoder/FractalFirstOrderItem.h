@@ -3,54 +3,45 @@
 
 #include "../ROADCoder/IFractalFirstOrderItem.h"
 
-namespace ROADcoder
-{
-	namespace ROADCoder
-	{
-		class IFractalFirstOrderItem;
-	}
-	namespace ROADoverCoder
-	{
-		class FractalFirstOrderItem;
-	}
-}
 
 namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
+    using namespace PlatformDependencies;
+
 		class FractalFirstOrderItem: public ROADcoder::ROADCoder::IFractalFirstOrderItem
 		{
-			private: double _aver;
-			private: bool _isInversDirection;
-			private: unsigned int _length;
-			private: unsigned int _domainOffset;
-			private: double _scale;
-			private: unsigned int _position;
+            private: ROADReal _aver;
+            private: ROADBool _isInversDirection;
+            private: ROADUInt32 _length;
+            private: ROADUInt32 _domainOffset;
+            private: ROADReal _scale;
+            private: ROADUInt32 _position;
 
-			public: void setAver(double aValue);
+            public: void setAver(ROADReal aValue);
 
-			public: void setIsInversDirection(bool aValue);
+            public: void setIsInversDirection(ROADBool aValue);
 
-			public: void setLength(unsigned int aValue);
+            public: void setLength(ROADUInt32 aValue);
 
-			public: void setDomainOffset(unsigned int aValue);
+            public: void setDomainOffset(ROADUInt32 aValue);
 
-			public: void setScale(double aValue);
+            public: void setScale(ROADReal aValue);
 
-			public: void setPosition(unsigned int aValue);
+            public: void setPosition(ROADUInt32 aValue);
 
-			public: double getAver();
+            public: ROADReal getAver();
 
-			public: bool isIsInversDirection();
+            public: ROADBool isIsInversDirection();
 
-			public: unsigned int getLength();
+            public: ROADUInt32 getLength();
 
-			public: unsigned int getDomainOffset();
+            public: ROADUInt32 getDomainOffset();
 
-			public: double getScale();
+            public: ROADReal getScale();
 
-			public: unsigned int getPosition();
+            public: ROADUInt32 getPosition();
 		};
 	}
 }

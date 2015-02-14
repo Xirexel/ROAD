@@ -4,7 +4,7 @@
 #include "ROADFormatMode.h"
 
 
-std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFactory::getIROADoverEncodingOptions(unsigned int aType) {
+std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFactory::getIROADoverEncodingOptions(ROADUInt32 aType) {
     std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> result;
 
     switch (aType) {
@@ -20,10 +20,10 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::R
     return result;
 }
 
-std::vector<unsigned int> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFactory::getSupportedFormats()
+std::vector<PlatformDependencies::ROADUInt32> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFactory::getSupportedFormats()
 {
 
-    std::vector<unsigned int> result = {EXPEREMENTAL, FIRSTVERSION} ;
+    std::vector<ROADUInt32> result = {EXPEREMENTAL, FIRSTVERSION} ;
 
     return result;
 }

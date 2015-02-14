@@ -33,6 +33,7 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
+    using namespace PlatformDependencies;
 		class ROADoverManagerFirstVersion: public ROADcoder::ROADoverCoder::ROADoverManager
 		{
             private: std::unique_ptr<ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion> _options;
@@ -42,7 +43,7 @@ namespace ROADcoder
 
 			public: ROADcoder::ROADoverCoder::Result encode();
 
-            public: std::tuple<unsigned char *, unsigned int> getFractalFormatRawData();
+            public: std::tuple<PtrROADByte, ROADUInt32> getFractalFormatRawData();
 
 			public: ROADoverManagerFirstVersion(ROADcoder::ROADoverCoder::ROADover* aRoadOver, ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion* aOptions);
 

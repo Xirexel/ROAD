@@ -1,15 +1,15 @@
 #include "RawDataBuffer.h"
 #include "DoubleDataContainer.h"
 
-ROADcoder::ROADoverCoder::IDoubleDataContainer* ROADcoder::ROADoverCoder::RawDataBuffer::getIDoubleDataContainer(unsigned int aIndex) {
+ROADcoder::ROADoverCoder::IDoubleDataContainer* ROADcoder::ROADoverCoder::RawDataBuffer::getIDoubleDataContainer(ROADUInt32 aIndex) {
     return this->_dataCollection.at(aIndex);
 }
 
-unsigned int ROADcoder::ROADoverCoder::RawDataBuffer::getCount() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::RawDataBuffer::getCount() {
     return this->_channelCount;
 }
 
-ROADcoder::ROADoverCoder::RawDataBuffer::RawDataBuffer(unsigned int aChannelCount, unsigned int aLength)
+ROADcoder::ROADoverCoder::RawDataBuffer::RawDataBuffer(ROADUInt32 aChannelCount, ROADUInt32 aLength)
     : _channelCount(aChannelCount)
 {
     for(decltype(this->_channelCount) lindex = 0;

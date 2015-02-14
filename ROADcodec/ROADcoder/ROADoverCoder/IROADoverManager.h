@@ -6,29 +6,23 @@
 
 
 #include "Result.h"
+#include "platformdependencies.h"
 
 namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
-        class ROADover;
-		class IROADoverManager;
-	}
-}
+    using namespace PlatformDependencies;
 
-namespace ROADcoder
-{
-	namespace ROADoverCoder
-	{
 		class IROADoverManager
         {
 			public: virtual ROADcoder::ROADoverCoder::Result encode() = 0;
 
-            public: virtual unsigned int getRangSampleLength() = 0;
+            public: virtual ROADUInt32 getRangSampleLength() = 0;
 
-            public: virtual unsigned int getBitsPerSample() = 0;
+            public: virtual ROADUInt32 getBitsPerSample() = 0;
 
-            public: virtual std::tuple<unsigned char *, unsigned int> getFractalFormatRawData() = 0;
+            public: virtual std::tuple<PtrROADByte, ROADUInt32> getFractalFormatRawData() = 0;
 
             public: virtual ~IROADoverManager(){}
 		};

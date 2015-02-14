@@ -1,62 +1,62 @@
 #include "ROADoverEncodingOptionsExperemental.h"
 
-unsigned char ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getROADFormatMode() {
+PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getROADFormatMode() {
     return ROADcoder::ROADoverCoder::EXPEREMENTAL;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setFrameSampleLength(unsigned int aFrameSampleLength) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setFrameSampleLength(ROADUInt32 aFrameSampleLength) {
 	this->_frameSampleLength = aFrameSampleLength;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getFrameSampleLength() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getFrameSampleLength() {
 	return this->_frameSampleLength;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setSuperFrameLength(unsigned int aSuperFrameLength) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setSuperFrameLength(ROADUInt32 aSuperFrameLength) {
 	this->_superFrameLength = aSuperFrameLength;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getSuperFrameLength() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getSuperFrameLength() {
 	return this->_superFrameLength;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setRangTopSampleLength(unsigned int aRangTopSampleLength) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setRangTopSampleLength(ROADUInt32 aRangTopSampleLength) {
 	this->_rangTopSampleLength = aRangTopSampleLength;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getRangTopSampleLength() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getRangTopSampleLength() {
 	return this->_rangTopSampleLength;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setAmountRangLevels(unsigned int aAmountRangLevels) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setAmountRangLevels(ROADUInt32 aAmountRangLevels) {
 	this->_amountRangLevels = aAmountRangLevels;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getAmountRangLevels() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getAmountRangLevels() {
 	return this->_amountRangLevels;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setDomainShift(unsigned int aDomainShift) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setDomainShift(ROADUInt32 aDomainShift) {
 	this->_domainShift = aDomainShift;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getDomainShift() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getDomainShift() {
 	return this->_domainShift;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setSilenceThreshold(double aSilenceThreshold) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setSilenceThreshold(ROADReal aSilenceThreshold) {
 	this->_silenceThreshold = aSilenceThreshold;
 }
 
-double ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getSilenceThreshold() {
+PlatformDependencies::ROADReal ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getSilenceThreshold() {
 	return this->_silenceThreshold;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setRangThreshold(double aRangThreshold) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setRangThreshold(ROADReal aRangThreshold) {
 	this->_rangThreshold = aRangThreshold;
 }
 
-double ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getRangThreshold() {
+PlatformDependencies::ROADReal ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getRangThreshold() {
 	return this->_rangThreshold;
 }
 
@@ -68,32 +68,32 @@ ROADcoder::ROADoverCoder::ChannelsMixingMode ROADcoder::ROADoverCoder::ROADoverE
 	return this->_mixingChannelsMode;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setAmountOfChannels(unsigned short aAmountOfChannels)
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setAmountOfChannels(ROADUInt16 aAmountOfChannels)
 {
     this->_amountOfChannels = aAmountOfChannels;
 }
 
-unsigned short ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getAmountOfChannels()
+PlatformDependencies::ROADUInt16 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getAmountOfChannels()
 {
     return this->_amountOfChannels;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getEncryptionFormat()
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getEncryptionFormat()
 {
     return this->_encryptionFormat;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setEncryptionFormat(unsigned int aEncryptionFormat)
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setEncryptionFormat(ROADUInt32 aEncryptionFormat)
 {
     this->_encryptionFormat = aEncryptionFormat;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setBitsPerSampleCode(unsigned char aBitsPerSample)
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setBitsPerSampleCode(ROADUInt8 aBitsPerSample)
 {
     this->_bitsPerSample = aBitsPerSample;
 }
 
-unsigned char ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getBitsPerSample()
+PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getBitsPerSample()
 {
     return this->_bitsPerSample;
 }
@@ -111,11 +111,11 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::R
 
 std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getFractalFormatRawDataContainer()
 {
-    unsigned int lLength = 40;
+    ROADUInt32 lLength = 40;
 
-    std::unique_ptr<unsigned char> lFractalFormat(new unsigned char[lLength]);
+    std::unique_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
 
-    unsigned char* lptrFractalFormat = lFractalFormat.get();
+    PtrROADByte lptrFractalFormat = lFractalFormat.get();
 
     lptrFractalFormat[0] = 'R';
 
@@ -129,7 +129,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
     lptrFractalFormat+=4;
 
 
-    unsigned int ldata = 32;
+    ROADUInt32 ldata = 32;
 
     memcpy(lptrFractalFormat, (void*) &ldata , 4);
 

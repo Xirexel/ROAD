@@ -6,15 +6,14 @@
 
 
 #include "IRawDataBuffer.h"
+#include "platformdependencies.h"
 
 namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
 		class DoubleDataContainer;
-		class IDoubleDataContainer;
-		class IRawDataBuffer;
-		class RawDataBuffer;
+        class IDoubleDataContainer;
 	}
 }
 
@@ -22,16 +21,17 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
+    using namespace PlatformDependencies;
 		class RawDataBuffer: public ROADcoder::ROADoverCoder::IRawDataBuffer
 		{
-			private: unsigned int _channelCount;
+            private: ROADUInt32 _channelCount;
 			public: std::vector<ROADcoder::ROADoverCoder::DoubleDataContainer*> _dataCollection;
 
-			public: ROADcoder::ROADoverCoder::IDoubleDataContainer* getIDoubleDataContainer(unsigned int aIndex);
+            public: ROADcoder::ROADoverCoder::IDoubleDataContainer* getIDoubleDataContainer(ROADUInt32 aIndex);
 
-			public: unsigned int getCount();
+            public: ROADUInt32 getCount();
 
-			public: RawDataBuffer(unsigned int aChannelCount, unsigned int aLength);
+            public: RawDataBuffer(ROADUInt32 aChannelCount, ROADUInt32 aLength);
 
             public: virtual ~RawDataBuffer();
 		};

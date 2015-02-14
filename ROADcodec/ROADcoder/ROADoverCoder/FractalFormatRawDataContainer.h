@@ -5,22 +5,24 @@
 #include <memory>
 
 
+#include "platformdependencies.h"
+
 namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
+    using namespace PlatformDependencies;
+
 		class FractalFormatRawDataContainer
 		{
-            private: std::unique_ptr<unsigned char> _data;
-            private: unsigned int _length;
+            private: std::unique_ptr<ROADByte> _data;
+            private: ROADUInt32 _length;
 
-            public: FractalFormatRawDataContainer(std::unique_ptr<unsigned char> &aData, unsigned int aLength);
+            public: FractalFormatRawDataContainer(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength);
 
-            public: unsigned char* getData() const;
+            public: PtrROADByte getData() const;
 
-            public: unsigned int getLength() const;
-
-
+            public: ROADUInt32 getLength() const;
 
 		};
 	}

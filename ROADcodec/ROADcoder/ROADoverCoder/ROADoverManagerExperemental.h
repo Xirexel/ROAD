@@ -18,12 +18,9 @@ namespace ROADcoder
 	namespace ROADoverCoder
 	{
 		class IROADoverEncodingOptions;
-		class FractalFirstOrderItemSuperFrameContainer;
-		// enum Result;
+        class FractalFirstOrderItemSuperFrameContainer;
 		class ROADover;
-		class ROADoverEncodingOptionsExperemental;
-		class ROADoverManager;
-		class ROADoverManagerExperemental;
+        class ROADoverEncodingOptionsExperemental;
 	}
 }
 
@@ -31,6 +28,7 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
+    using namespace PlatformDependencies;
 		class ROADoverManagerExperemental: public ROADcoder::ROADoverCoder::ROADoverManager
 		{
             private: std::unique_ptr<ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental> _options;
@@ -40,7 +38,7 @@ namespace ROADcoder
 
 			public: ROADcoder::ROADoverCoder::Result encode();
 
-            public: std::tuple<unsigned char *, unsigned int> getFractalFormatRawData();
+            public: std::tuple<PtrROADByte, ROADUInt32> getFractalFormatRawData();
 
 			public: ROADoverManagerExperemental(ROADcoder::ROADoverCoder::ROADover* aRoadOver, ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental* aOptions);
 

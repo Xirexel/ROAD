@@ -6,24 +6,26 @@
 namespace ROADcoder
 {
 	namespace ROADoverCoder
-	{
+	{    
+    using namespace PlatformDependencies;
+
 		class FractalAverItem: public ROADcoder::ROADCoder::IFractalAverItem
 		{
-			private: double _aver;
-			private: unsigned int _length;
-			private: unsigned int _index;
+            private: ROADReal _aver;
+            private: ROADUInt32 _length;
+            private: ROADUInt32 _index;
 
-			public: void setAver(double aValue);
+            public: void setAver(ROADReal aValue);
 
-			public: void setLength(unsigned int aValue);
+            public: void setLength(ROADUInt32 aValue);
 
-			public: void setIndex(unsigned int aValue);
+            public: void setIndex(ROADUInt32 aValue);
 
-			public: double getAver();
+            public: ROADReal getAver();
 
-			public: unsigned int getLength();
+            public: ROADUInt32 getLength();
 
-			public: unsigned int getIndex();
+            public: ROADUInt32 getIndex();
 		};
 	}
 }

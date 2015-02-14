@@ -3,13 +3,6 @@
 
 #include "IDoubleDataContainer.h"
 
-namespace ROADcoder
-{
-	namespace ROADoverCoder
-    {
-		class DoubleDataContainer;
-	}
-}
 
 namespace ROADcoder
 {

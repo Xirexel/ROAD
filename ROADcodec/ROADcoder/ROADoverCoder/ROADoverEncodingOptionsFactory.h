@@ -5,13 +5,13 @@
 #include <memory>
 
 #include "roadovercoder_global.h"
+#include "platformdependencies.h"
 
 namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
-		class IROADoverEncodingOptions;
-		class ROADoverEncodingOptionsFactory;
+        class IROADoverEncodingOptions;
 	}
 }
 
@@ -19,10 +19,11 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
+    using namespace PlatformDependencies;
         class ROADOVERCODERSHARED_EXPORT ROADoverEncodingOptionsFactory
 		{
-            public: static std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> getIROADoverEncodingOptions(unsigned int aType);
-            public: static std::vector<unsigned int> getSupportedFormats();
+            public: static std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> getIROADoverEncodingOptions(ROADUInt32 aType);
+            public: static std::vector<ROADUInt32> getSupportedFormats();
 		};
 	}
 }

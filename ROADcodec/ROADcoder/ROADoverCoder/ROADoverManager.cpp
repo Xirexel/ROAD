@@ -2,7 +2,7 @@
 #include "ROADover.h"
 #include "RawDataBuffer.h"
 
-ROADcoder::ROADoverCoder::ROADoverManager::ROADoverManager(ROADcoder::ROADoverCoder::ROADover* aRoadOver, unsigned int aAmountOfChannels, unsigned int aSuperFrameLength, unsigned int aFrameRangLength, unsigned int aSuperFrameSamplesLength)
+ROADcoder::ROADoverCoder::ROADoverManager::ROADoverManager(ROADcoder::ROADoverCoder::ROADover* aRoadOver, ROADUInt32 aAmountOfChannels, ROADUInt32 aSuperFrameLength, ROADUInt32 aFrameRangLength, ROADUInt32 aSuperFrameSamplesLength)
     : _roadOver(aRoadOver),
       _channelsDataBuffer(RawDataBuffer(aAmountOfChannels, aSuperFrameSamplesLength)),
       _superFrameSamplesLength(aSuperFrameSamplesLength),
@@ -13,12 +13,12 @@ ROADcoder::ROADoverCoder::ROADoverManager::ROADoverManager(ROADcoder::ROADoverCo
 
 
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverManager::getRangSampleLength()
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverManager::getRangSampleLength()
 {
     return this->_rangSampleLength;
 }
 
-unsigned int ROADcoder::ROADoverCoder::ROADoverManager::getBitsPerSample()
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverManager::getBitsPerSample()
 {
     return this->_bitsPerSample;
 }

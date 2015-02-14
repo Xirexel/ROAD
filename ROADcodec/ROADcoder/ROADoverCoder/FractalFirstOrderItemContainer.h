@@ -2,6 +2,7 @@
 #define __ROADcoder__ROADoverCoder__FractalFirstOrderItemContainer_h__
 
 #include "../ROADCoder/IFractalFirstOrderItemContainer.h"
+#include "platformdependencies.h"
 
 namespace ROADcoder
 {
@@ -23,12 +24,14 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
+    using namespace PlatformDependencies;
+
 		class FractalFirstOrderItemContainer: public ROADcoder::ROADCoder::IFractalFirstOrderItemContainer
 		{
 			private: ROADcoder::ROADoverCoder::FractalFirstOrderItem* _fractalFirstOrderItem;
 			private: ROADcoder::ROADoverCoder::FractalAverItem* _fractalAverItem;
-			private: unsigned int _fractalAverItemCount;
-			private: unsigned int _fractalFirstOrderItemCount;
+            private: ROADUInt32 _fractalAverItemCount;
+            private: ROADUInt32 _fractalFirstOrderItemCount;
 
 			public: ROADcoder::ROADCoder::IFractalFirstOrderItem* getIFractalFirstOrderItem();
 
@@ -36,17 +39,17 @@ namespace ROADcoder
 
             public: virtual ~FractalFirstOrderItemContainer();
 
-            public: FractalFirstOrderItemContainer(unsigned int aInitLength);
+            public: FractalFirstOrderItemContainer(ROADUInt32 aInitLength);
 
 			public: void resetCounts();
 
-			public: ROADcoder::ROADoverCoder::FractalAverItem* getFractalAverItem(unsigned int aIndex);
+            public: ROADcoder::ROADoverCoder::FractalAverItem* getFractalAverItem(ROADUInt32 aIndex);
 
-			public: ROADcoder::ROADoverCoder::FractalFirstOrderItem* getFractalFirstOrderItem(unsigned int aIndex);
+            public: ROADcoder::ROADoverCoder::FractalFirstOrderItem* getFractalFirstOrderItem(ROADUInt32 aIndex);
 
-			public: unsigned int getFractalAverItemCount();
+            public: ROADUInt32 getFractalAverItemCount();
 
-			public: unsigned int getFractalFirstOrderItemCount();
+            public: ROADUInt32 getFractalFirstOrderItemCount();
 		};
 	}
 }
