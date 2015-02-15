@@ -1,37 +1,29 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADdecoder__ROAD__IFractalItem_h__
 #define __ROADdecoder__ROAD__IFractalItem_h__
 
-namespace ROADdecoder
-{
-	namespace ROAD
-	{
-        class IFractalFirstOrderItem;
-	}
-}
+#include "platformdependencies.h"
 
 namespace ROADdecoder
 {
 	namespace ROAD
 	{
+
+    using namespace PlatformDependencies;
+
         class IFractalFirstOrderItem
 		{
 
-			public: virtual double getAver() = 0;
+            public: virtual ROADReal getAver() = 0;
 
-			public: virtual unsigned int getLength() = 0;
+            public: virtual ROADUInt32 getLength() = 0;
 
-			public: virtual bool isInversDirection() = 0;
+            public: virtual ROADBool isInversDirection() = 0;
 
-            public: virtual unsigned int getDomainOffset() = 0;
+            public: virtual ROADUInt32 getDomainOffset() = 0;
 
-			public: virtual double getScale() = 0;
+            public: virtual ROADReal getScale() = 0;
 
-			public: virtual unsigned int getPosition() = 0;
+            public: virtual ROADUInt32 getPosition() = 0;
 
             public: virtual ~IFractalFirstOrderItem(){}
 		};

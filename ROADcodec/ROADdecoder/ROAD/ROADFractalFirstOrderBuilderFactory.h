@@ -1,8 +1,3 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADdecoder__ROAD__ROADFractalFirstOrderBuilderFactory_h__
 #define __ROADdecoder__ROAD__ROADFractalFirstOrderBuilderFactory_h__
 
@@ -13,9 +8,7 @@ namespace ROADdecoder
 {
 	namespace ROAD
 	{
-		class IROADFractalFirstOrderBuilder;
-		class IROADFractalBuilderFactory;
-		class ROADFractalFirstOrderBuilderFactory;
+        class IROADFractalFirstOrderBuilder;
 	}
 }
 
@@ -25,10 +18,9 @@ namespace ROADdecoder
 	{
 		class ROADFractalFirstOrderBuilderFactory: public ROADdecoder::ROAD::IROADFractalBuilderFactory
 		{
+            public: ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* getIROADFractalFirstOrderBuilder(ROADUInt32 aIndex, ROADUInt32 aMaxRangeLength);
 
-			public: ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* getIROADFractalFirstOrderBuilder(unsigned int aIndex, unsigned int aMaxRangeLength);
-
-			public: unsigned int getOrder();
+            public: ROADUInt32 getOrder();
 		};
 	}
 }

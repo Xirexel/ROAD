@@ -7,7 +7,8 @@ using namespace std;
 #include "ROADFractalFirstOrderBuilderFactory.h"
 
 
-ROADdecoder::ROAD::IROADFractalBuilderFactory* ROADdecoder::ROAD::ROADFractalOrderFactory::getIROADFractalBuilderFactory(unsigned int aOrder) {
+ROADdecoder::ROAD::IROADFractalBuilderFactory* ROADdecoder::ROAD::ROADFractalOrderFactory::getIROADFractalBuilderFactory(ROADUInt32 aOrder)
+{
 
     ROADdecoder::ROAD::IROADFractalBuilderFactory *result = nullptr;
 
