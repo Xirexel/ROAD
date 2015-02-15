@@ -1,8 +1,3 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #include "MIDChannelsMixing.h"
 #include "IRawDataBuffer.h"
 #include "IDoubleDataContainer.h"
@@ -16,17 +11,17 @@ void ROADdecoder::ROADover::MIDChannelsMixing::compute(ROADdecoder::ROADover::IR
 
     if(lchannelsCount == 2)
     {
-        IDoubleDataContainer * lptrMID = aBuffer->getIDoubleDataContainer(0);
+        auto lptrMID = aBuffer->getIDoubleDataContainer(0);
 
-        IDoubleDataContainer * lptrSIDE = aBuffer->getIDoubleDataContainer(1);
+        auto lptrSIDE = aBuffer->getIDoubleDataContainer(1);
 
         auto lsamplesCount = lptrMID->getCount();
 
-        double *lptrMIDDouble = lptrMID->getData();
+        auto lptrMIDDouble = lptrMID->getData();
 
-        double *lptrSIDEDouble = lptrSIDE->getData();
+        auto lptrSIDEDouble = lptrSIDE->getData();
 
-        double tempValueL, tempValueR;
+        ROADReal tempValueL, tempValueR;
 
         for(decltype(lsamplesCount) index = 0;
             index < lsamplesCount;

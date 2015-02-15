@@ -1,8 +1,3 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #include "ROADoverManagerExperemental.h"
 #include "ROADover.h"
 #include "ROADoverDecodingOptionsExperemental.h"
@@ -27,10 +22,10 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(
                      aOptions->getFrameRangLength() *
                      aOptions->getSuperframeLength()),
       _options(aOptions),
-      _preListeningData(new unsigned char[4 * aOptions->getSamplesPerRang() *
+      _preListeningData(new ROADByte[4 * aOptions->getSamplesPerRang() *
                         aOptions->getFrameRangLength() *
                         aOptions->getSuperframeLength()]),
-      _preListeningDoubleData(new double[aOptions->getSamplesPerRang() *
+      _preListeningDoubleData(new ROADReal[aOptions->getSamplesPerRang() *
                                         aOptions->getFrameRangLength() *
                                         aOptions->getSuperframeLength()])
 {
@@ -81,7 +76,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
     this->_roadOver->lockResource();
 
-    int lreadROADdataLength = this->_roadOver->readROADdata(this->_bufferROADdata.get());
+    auto lreadROADdataLength = this->_roadOver->readROADdata(this->_bufferROADdata.get());
 
     switch(lreadROADdataLength)
     {
@@ -96,11 +91,11 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
         result = Result::DONE;
 
         {
-            unsigned int lFrameLengthLength = _options->getFrameRangLength() * _options->getSamplesPerRang();
+            ROADUInt32 lFrameLengthLength = _options->getFrameRangLength() * _options->getSamplesPerRang();
 
             do
             {
-                int lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningData.get());
+                auto lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningData.get());
 
                 this->_roadOver->convertByteArrayIntoDoubleArray(_preListeningData.get(), lreadPreListeningLength, _preListeningDoubleData.get());
 
@@ -108,7 +103,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 // Обработка буфера ROADdata для выделения длинн рангов.
 
 
-                const unsigned char* lptrData = this->_bufferROADdata.get();
+                auto lptrData = this->_bufferROADdata.get();
 
 
                 for(decltype(_options->getAmountOfChannels()) lChannel = 0;
@@ -123,15 +118,15 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                          ++lframeIndex)
                     {
 
-                        unsigned int lFractalAverItemCount = 0;
+                         ROADUInt32 lFractalAverItemCount = 0;
 
                         auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex);
 
-                        int lLength = lFrameLengthLength;
+                        auto lLength = lFrameLengthLength;
 
-                        unsigned char luctemp = 0;
+                        ROADUInt8 luctemp = 0;
 
-                        unsigned int lcurrentPosition = 0;
+                        ROADUInt32 lcurrentPosition = 0;
 
                         while(lLength > 0)
                         {
@@ -141,7 +136,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                             --lreadROADdataLength;
 
-                            unsigned int lrangeLength;
+                             ROADUInt32 lrangeLength;
 
                             auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalAverItem(lFractalAverItemCount);
 
@@ -174,7 +169,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
 // Обработка буфера предпрослушивания
 
-                double *lptrPreListeningDoubleData = _preListeningDoubleData.get();
+                ROADReal *lptrPreListeningDoubleData = _preListeningDoubleData.get();
 
                 FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
 
@@ -189,13 +184,13 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                     auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getIFractalAverItemCount();
 
 
-                    unsigned int count = 0;
+                    ROADUInt32 count = 0;
 
-                    unsigned int lrabgeLength = 0;
+                    ROADUInt32 lrabgeLength = 0;
 
                     while(count < lFractalAverItemCount)
                     {
-                        double lptrAver = *lptrPreListeningDoubleData;
+                        ROADReal lptrAver = *lptrPreListeningDoubleData;
 
                         FractalAverItem *lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalAverItem(count);
 
@@ -232,9 +227,9 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                         auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getIFractalAverItemCount();
 
-                        unsigned int lLengthByteArray = lFractalAverItemCount * (_options->getOriginalBitsPerSample() >> 3);
+                        ROADUInt32 lLengthByteArray = lFractalAverItemCount * (_options->getOriginalBitsPerSample() >> 3);
 
-                        unique_ptr<double> lptrAver(new double[lFractalAverItemCount]);
+                        std::unique_ptr<double> lptrAver(new ROADReal[lFractalAverItemCount]);
 
 
 
@@ -273,17 +268,17 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                         auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getIFractalAverItemCount();
 
 
-                        unsigned char ldomainIndex;
+                        ROADUInt8 ldomainIndex;
 
                         decltype(lFractalAverItemCount) itemCount = 0;
 
-                        unsigned int countDomainIndeces = 0;
+                        ROADUInt32 countDomainIndeces = 0;
 
                         while(itemCount < lFractalAverItemCount)
                         {
                             auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalAverItem(itemCount);
 
-                            unsigned char itemIndex = lptrFractalAverItem->getFractalItemIndex();
+                            ROADUInt8 itemIndex = lptrFractalAverItem->getFractalItemIndex();
 
 
                             if((itemIndex & 128) == 0)
@@ -294,7 +289,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                                 ++lptrData;
 
 
-                                unsigned int lDomainOffset = (itemIndex & 7) << 8;
+                                 ROADUInt32 lDomainOffset = (itemIndex & 7) << 8;
 
                                 lDomainOffset |= ldomainIndex;
 
@@ -313,7 +308,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                                 lptrFractalFirstOrderItem->setPosition(lptrFractalAverItem->getPosition());
 
-                                double lScale = 1.0;
+                                ROADReal lScale = 1.0;
 
                                 if((itemIndex & 8) == 8)
                                     lScale = -lScale;
@@ -355,11 +350,11 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                         {
                             auto lptrFractalFirstOrderItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItem(itemCount);
 
-                            unsigned char ldecimScale = *lptrData;
+                            ROADUInt8 ldecimScale = *lptrData;
 
                             ++lptrData;
 
-                            double lScale = static_cast<double> (ldecimScale) / 255.0;
+                            ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 255.0;
 
                             lptrFractalFirstOrderItem->setScale(lptrFractalFirstOrderItem->getScale() * lScale);
 
@@ -381,7 +376,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                     FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                    double* lptrDoubleData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();
+                    ROADReal* lptrDoubleData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();
 
                     for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
                          lframeIndex < _options->getSuperframeLength();
@@ -409,7 +404,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
 ROADdecoder::ROADover::ROADoverManagerExperemental::~ROADoverManagerExperemental()
 {
-    for(FractalFirstOrderItemSuperFrameContainer* item : _fractalItemSuperFrameContainer)
+    for(auto item : _fractalItemSuperFrameContainer)
         delete item;
 
     _fractalItemSuperFrameContainer.clear();

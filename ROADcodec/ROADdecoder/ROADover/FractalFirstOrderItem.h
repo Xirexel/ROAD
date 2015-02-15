@@ -1,8 +1,3 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADdecoder__ROADover__FractalItem_h__
 #define __ROADdecoder__ROADover__FractalItem_h__
 
@@ -24,40 +19,42 @@ namespace ROADdecoder
 {
 	namespace ROADover
 	{
+
+    using namespace PlatformDependencies;
         class FractalFirstOrderItem: public ROADdecoder::ROAD::IFractalFirstOrderItem
 		{
-			private: double _aver;
-			private: unsigned int _length;
-			private: bool _inversDirection;
-			private: unsigned int _domainOffset;
-			private: double _scale;
-			private: unsigned int _position;
+            private: ROADReal _aver;
+            private: ROADUInt32 _length;
+            private: ROADBool _inversDirection;
+            private: ROADUInt32 _domainOffset;
+            private: ROADReal _scale;
+            private: ROADUInt32 _position;
 
             public: FractalFirstOrderItem();
 
-			public: double getAver();
+            public: ROADReal getAver();
 
-			public: unsigned int getLength();
+            public: ROADUInt32 getLength();
 
-			public: bool isInversDirection();
+            public: ROADBool isInversDirection();
 
-			public: unsigned int getDomainOffset();
+            public: ROADUInt32 getDomainOffset();
 
-			public: double getScale();
+            public: ROADReal getScale();
 
-			public: unsigned int getPosition();
+            public: ROADUInt32 getPosition();
 
-			public: void setAver(double aAver);
+            public: void setAver(ROADReal aAver);
 
-			public: void setLength(unsigned int aLength);
+            public: void setLength(ROADUInt32 aLength);
 
-			public: void setInversDirection(bool aInversDirection);
+            public: void setInversDirection(ROADBool aInversDirection);
 
-			public: void setDomainOffset(unsigned int aDomainOffset);
+            public: void setDomainOffset(ROADUInt32 aDomainOffset);
 
-			public: void setScale(double aScale);
+            public: void setScale(ROADReal aScale);
 
-			public: void setPosition(unsigned int aPosition);
+            public: void setPosition(ROADUInt32 aPosition);
 		};
 	}
 }

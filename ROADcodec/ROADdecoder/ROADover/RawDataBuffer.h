@@ -1,14 +1,10 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADdecoder__ROADover__RawDataBuffer_h__
 #define __ROADdecoder__ROADover__RawDataBuffer_h__
 
-//#include "ROADdecoder/ROADover/DoubleDataContainer.h"
-// #include "ROADdecoder/ROADover/IDoubleDataContainer.h"
+#include <vector>
+
 #include "IRawDataBuffer.h"
+
 
 namespace ROADdecoder
 {
@@ -27,19 +23,19 @@ namespace ROADdecoder
 	{
 		class RawDataBuffer: public ROADdecoder::ROADover::IRawDataBuffer
 		{
-			private: unsigned int _count;
-            private: unsigned int _length;
+            private: ROADUInt32 _count;
+            private: ROADUInt32 _length;
 			private: std::vector<ROADdecoder::ROADover::DoubleDataContainer*> _dataCollection;
 
-			public: ROADdecoder::ROADover::IDoubleDataContainer* getIDoubleDataContainer(unsigned int aIndex);
+            public: ROADdecoder::ROADover::IDoubleDataContainer* getIDoubleDataContainer(ROADUInt32 aIndex);
 
-			public: unsigned int getCount();
+            public: ROADUInt32 getCount();
 
-            public: unsigned int getLength();
+            public: ROADUInt32 getLength();
 
             public: ~RawDataBuffer();
 
-            public: RawDataBuffer(unsigned int aCount, unsigned int aSuperFrameLength);
+            public: RawDataBuffer(ROADUInt32 aCount, ROADUInt32 aSuperFrameLength);
 		};
 	}
 }

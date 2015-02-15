@@ -1,17 +1,12 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #include "ROADoverDecodingOptionsFactory.h"
 #include "ROADoverDecodingOptionsExperemental.h"
 
 
-ROADdecoder::ROADover::IROADoverDecodingOptions *ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(unique_ptr<Driver::IDataReadDriver> &aPtrIDataReadDriver)
+ROADdecoder::ROADover::IROADoverDecodingOptions *ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(std::unique_ptr<Driver::IDataReadDriver> &aPtrIDataReadDriver)
 {
     ROADdecoder::ROADover::IROADoverDecodingOptions* result = nullptr;
 
-    unsigned int formatMode = 0;
+    ROADUInt32 formatMode = 0;
 
     aPtrIDataReadDriver.get()->operator >>(formatMode);
 

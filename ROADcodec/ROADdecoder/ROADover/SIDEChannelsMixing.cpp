@@ -15,17 +15,17 @@ void ROADdecoder::ROADover::SIDEChannelsMixing::compute(ROADdecoder::ROADover::I
 
     if(lchannelsCount == 2)
     {
-        IDoubleDataContainer * lptrMID = aBuffer->getIDoubleDataContainer(0);
+        auto lptrMID = aBuffer->getIDoubleDataContainer(0);
 
-        IDoubleDataContainer * lptrSIDE = aBuffer->getIDoubleDataContainer(1);
+        auto lptrSIDE = aBuffer->getIDoubleDataContainer(1);
 
         auto lsamplesCount = lptrMID->getCount();
 
-        double *lptrMIDDouble = lptrMID->getData();
+        auto lptrMIDDouble = lptrMID->getData();
 
-        double *lptrSIDEDouble = lptrSIDE->getData();
+        auto lptrSIDEDouble = lptrSIDE->getData();
 
-        double tempValueL, tempValueR;
+         ROADReal tempValueL, tempValueR;
 
         for(decltype(lsamplesCount) index = 0;
             index < lsamplesCount;

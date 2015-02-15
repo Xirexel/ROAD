@@ -16,14 +16,11 @@ else:unix:DESTDIR = ../../../Bin/ROADdecoder
 DEFINES += ROADOVER_LIBRARY
 
 SOURCES += \
-    ChannelsMixingMode.cpp \
     DoubleDataContainer.cpp \
     FractalAverItem.cpp \
     MIDChannelsMixing.cpp \
     NoneChannelsMixing.cpp \
     RawDataBuffer.cpp \
-    Result.cpp \
-    ROADFormatMode.cpp \
     ROADoverDecodingOptionsExperemental.cpp \
     ROADoverDecodingOptionsFactory.cpp \
     ROADoverManager.cpp \
