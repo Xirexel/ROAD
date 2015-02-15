@@ -27,7 +27,19 @@ PlatformDependencies::ROADInt16 Endian::LocalEndianConvertor::convertToINT16(Ptr
     return lresult;
 }
 
-PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADUInt32 aValue,PtrROADByte aData) {
+PlatformDependencies::ROADUInt8 Endian::LocalEndianConvertor::convertToUINT8(PtrROADByte aData) {
+    ROADUInt8 lresult = *(PtrROADUInt8)(aData);
+
+    return lresult;
+}
+
+PlatformDependencies::ROADInt8 Endian::LocalEndianConvertor::convertToINT8(PtrROADByte aData) {
+    ROADInt8 lresult = *(PtrROADInt8)(aData);
+
+    return lresult;
+}
+
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADUInt32 aValue, PtrROADByte aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 
@@ -41,7 +53,7 @@ PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROA
     return sizeof(aValue);
 }
 
-PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADUInt16 aValue,PtrROADByte aData) {
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADUInt16 aValue, PtrROADByte aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 
@@ -49,6 +61,20 @@ PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROA
 }
 
 PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADInt16 aValue,PtrROADByte aData) {
+
+    memcpy(aData, &aValue, sizeof(aValue));
+
+    return sizeof(aValue);
+}
+
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADUInt8 aValue, PtrROADByte aData) {
+
+    memcpy(aData, &aValue, sizeof(aValue));
+
+    return sizeof(aValue);
+}
+
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADInt8 aValue,PtrROADByte aData) {
 
     memcpy(aData, &aValue, sizeof(aValue));
 

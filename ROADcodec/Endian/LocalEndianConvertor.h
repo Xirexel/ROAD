@@ -22,13 +22,21 @@ namespace Endian
 
         public: ROADInt16 convertToINT16(PtrROADByte aData);
 
-        public: ROADInt32 convertToBytes(ROADUInt32 aValue,unsigned char *aData);
+        public: ROADUInt8 convertToUINT8(PtrROADByte Data);
 
-        public: ROADInt32 convertToBytes(ROADInt32 aValue,PtrROADByte aData);
+        public: ROADInt8 convertToINT8(PtrROADByte Data);
 
-        public: ROADInt32 convertToBytes(ROADUInt16 aValue,unsigned char *aData);
+        public: ROADInt32 convertToBytes(ROADUInt32 aValue, PtrROADByte aData);
+
+        public: ROADInt32 convertToBytes(ROADInt32 aValue, PtrROADByte aData);
+
+        public: ROADInt32 convertToBytes(ROADUInt16 aValue, PtrROADByte aData);
 
         public: ROADInt32 convertToBytes(ROADInt16 aValue,PtrROADByte aData);
+
+        public: ROADInt32 convertToBytes(ROADUInt8 aValue, PtrROADByte  aData);
+
+        public: ROADInt32 convertToBytes(ROADInt8 aValue, PtrROADByte  aData);
 	};
 }
 

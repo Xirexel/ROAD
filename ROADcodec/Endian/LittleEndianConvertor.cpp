@@ -53,6 +53,24 @@ PlatformDependencies::ROADInt16 Endian::LittleEndianConvertor::convertToINT16(Pt
     return lresult;
 }
 
+PlatformDependencies::ROADUInt8 Endian::LittleEndianConvertor::convertToUINT8(PtrROADByte aData) {
+
+    ROADUInt8 lresult = 0;
+
+    lresult |= (*aData);
+
+    return lresult;
+}
+
+PlatformDependencies::ROADInt8 Endian::LittleEndianConvertor::convertToINT8(PtrROADByte aData) {
+
+    ROADInt8 lresult = 0;
+
+    lresult |= (*aData);
+
+    return lresult;
+}
+
 PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADUInt32 aValue,PtrROADByte aData) {
 
     *aData++ = aValue;
@@ -93,6 +111,20 @@ PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(RO
     *aData++ = aValue;
 
     *aData++ = aValue >> 8;
+
+    return sizeof(aValue);
+}
+
+PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADUInt8 aValue, PtrROADByte aData) {
+
+    *aData = aValue;
+
+    return sizeof(aValue);
+}
+
+PlatformDependencies::ROADInt32 Endian::LittleEndianConvertor::convertToBytes(ROADInt8 aValue, PtrROADByte aData) {
+
+    *aData = aValue;
 
     return sizeof(aValue);
 }
