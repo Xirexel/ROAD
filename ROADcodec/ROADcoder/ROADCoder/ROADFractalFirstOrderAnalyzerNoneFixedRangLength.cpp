@@ -3,7 +3,6 @@
 #include <exception>
 #include <math.h>
 #include <limits>
-using namespace std;
 
 #include "ROADFractalFirstOrderAnalyzerNoneFixedRangLength.h"
 #include "DomainPool.h"
@@ -31,14 +30,14 @@ ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::ROADFrac
     {
         lTopDomainLength *= 2;
 
-        unsigned int lDomainPoolSize = this->_frameSampleLength - lTopDomainLength + 1;
+        ROADUInt32 lDomainPoolSize = this->_frameSampleLength - lTopDomainLength + 1;
 
         _domainPools.push_back( new ROADcoder::ROADCoder::DomainPool(lDomainPoolSize, lTopDomainLength, this->_domainShift));
     }
 
 }
 
-void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::analyze(double* aData, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalItemContainer) {
+void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::analyze(PtrROADReal aData, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalItemContainer) {
 
     this->_currentPosition = 0;
 
@@ -47,14 +46,14 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::ana
     silenceMatch(aData, this->_frameSampleLength, aFractalItemContainer);
 }
 
-void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::silenceMatch(double* aData, unsigned int aSilenceSampleLength, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalItemContainer) {
+void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::silenceMatch(PtrROADReal aData, ROADUInt32 aSilenceSampleLength, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalItemContainer) {
 
 
-    double laver = computeSumValue(aData, aSilenceSampleLength);
+    ROADReal laver = computeSumValue(aData, aSilenceSampleLength);
 
     laver /= aSilenceSampleLength;
 
-    double ldev = computeDeviationValue(aData, aSilenceSampleLength, laver);
+    ROADReal ldev = computeDeviationValue(aData, aSilenceSampleLength, laver);
 
     if( ldev > this->_silenceThreshold)
     {
@@ -80,13 +79,13 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::sil
 
         lptrIFractalAverItem ->setAver(laver);
 
-        unsigned int lLength = aSilenceSampleLength / (this->_rangTopSampleLength / (1 << this->_amountRangLevels));
+        ROADUInt32 lLength = aSilenceSampleLength / (this->_rangTopSampleLength / (1 << this->_amountRangLevels));
 
         lptrIFractalAverItem->setLength(lLength);
 
         this->_currentPosition += lLength;
 
-        unsigned int index = log2(static_cast<double>(lLength));
+        ROADUInt32 index = log2(static_cast<double>(lLength));
 
         index |= 128;
 
@@ -98,56 +97,56 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::sil
 
 }
 
-void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::domainIntoRangMatch(double* aData, unsigned int aRangSampleLength, unsigned int aDeepthIndex, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalItemContainer) {
+void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::domainIntoRangMatch(PtrROADReal aData, ROADUInt32 aRangSampleLength, ROADUInt32 aDeepthIndex, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalItemContainer) {
 
-    double lRangSum = computeSumValue(aData, aRangSampleLength);
+    ROADReal lRangSum = computeSumValue(aData, aRangSampleLength);
 
-    double lRangAver = lRangSum / aRangSampleLength;
+    ROADReal lRangAver = lRangSum / aRangSampleLength;
 
-    bool lDirection = false;
+    ROADBool lDirection = false;
 
-    unsigned int lDomain = 0;
+    ROADUInt32 lDomain = 0;
 
-    double lScale = 0.0f;
+    ROADReal lScale = 0.0f;
 
     DomainPool *lptrDomainPool = _domainPools.at(aDeepthIndex);
 
-    unsigned int countDomains = lptrDomainPool->getSize();
+    ROADUInt32 countDomains = lptrDomainPool->getSize();
 
 
 
-    double leastError = std::numeric_limits<double>::max();
+    ROADReal leastError = std::numeric_limits<double>::max();
 
-    for(unsigned int lDomainIndex = 0;
+    for(ROADUInt32 lDomainIndex = 0;
         lDomainIndex < countDomains;
         ++lDomainIndex)
     {
         Domain *lptrIDomain = lptrDomainPool->getDomain(lDomainIndex);
 
-        double lBeta = lptrIDomain->getBeta();
+        ROADReal lBeta = lptrIDomain->getBeta();
 
         if(lBeta == 0.0)
             continue;
 
-        double lDomainSum = lptrIDomain->getSum();
+        ROADReal lDomainSum = lptrIDomain->getSum();
 
-        double lDomainAver = lptrIDomain->getAver();
+        ROADReal lDomainAver = lptrIDomain->getAver();
 
-        double lTempValue;
-
-
-
-        const double *lptrDomainData = lptrIDomain->getForwardDirectionData();
-
-        double lForwardDirectionError = 0.0;
-
-        double lForwardDirectionScale = 0.0;
-
-        double lForwardDirectionValueOffset = 0.0;
+        ROADReal lTempValue;
 
 
 
-        double lAlpha = computeAlpha(aData, lptrDomainData, aRangSampleLength, lRangSum, lDomainSum);
+        PtrROADReal lptrDomainData = lptrIDomain->getForwardDirectionData();
+
+        ROADReal lForwardDirectionError = 0.0;
+
+        ROADReal lForwardDirectionScale = 0.0;
+
+        ROADReal lForwardDirectionValueOffset = 0.0;
+
+
+
+        ROADReal lAlpha = computeAlpha(aData, lptrDomainData, aRangSampleLength, lRangSum, lDomainSum);
 
         lForwardDirectionScale = lAlpha/lBeta;
 
@@ -156,14 +155,14 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::dom
         else if(lForwardDirectionScale < -0.996)
             lForwardDirectionScale = -0.996;
 
-        int ldecinScale = lForwardDirectionScale * 255.0;
+        ROADInt32 ldecinScale = lForwardDirectionScale * 255.0;
 
         lForwardDirectionScale = static_cast<double>(ldecinScale) / 255.0;
 
         lForwardDirectionValueOffset = lRangAver - lForwardDirectionScale * lDomainAver;
 
 
-        for(unsigned int index = 0;
+        for(ROADUInt32 index = 0;
             index < aRangSampleLength;
             ++index)
         {
@@ -181,11 +180,11 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::dom
 
         lptrDomainData = lptrIDomain->getBackDirectionData();
 
-        double lBackDirectionError = 0.0;
+        ROADReal lBackDirectionError = 0.0;
 
-        double lBackDirectionScale = 0.0;
+        ROADReal lBackDirectionScale = 0.0;
 
-        double lBackDirectionValueOffset = 0.0;
+        ROADReal lBackDirectionValueOffset = 0.0;
 
 
         lAlpha = computeAlpha(aData, lptrDomainData, aRangSampleLength, lRangSum, lDomainSum);
@@ -206,7 +205,7 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::dom
 
 
 
-        for(unsigned int index = 0;
+        for(ROADUInt32 index = 0;
             index < aRangSampleLength;
             ++index)
         {
@@ -222,9 +221,9 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::dom
 
         lTempValue = lForwardDirectionError;
 
-        bool lTempDirection = false;
+        ROADBool lTempDirection = false;
 
-        double lTempScale = lForwardDirectionScale;
+        ROADReal lTempScale = lForwardDirectionScale;
 
         if(lForwardDirectionError > lBackDirectionError)
         {
@@ -259,7 +258,7 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::dom
 
         lptrIFractalAverItem->setAver(lRangAver);
 
-        unsigned int lLength = aRangSampleLength / (this->_rangTopSampleLength / (1 << this->_amountRangLevels));
+        ROADUInt32 lLength = aRangSampleLength / (this->_rangTopSampleLength / (1 << this->_amountRangLevels));
 
         lptrIFractalFirstOrderItem->setLength(lLength);
 
@@ -273,7 +272,7 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::dom
 
         lptrIFractalFirstOrderItem->setPosition(this->_currentPosition);
 
-        unsigned int index = aDeepthIndex;
+        ROADUInt32 index = aDeepthIndex;
 
         lptrIFractalAverItem->setIndex(index);
 
@@ -291,9 +290,9 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::dom
     }
 }
 
-double ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::computeSumValue(double* aData, unsigned int aLength) {
+PlatformDependencies::ROADReal ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::computeSumValue(PtrROADReal aData, ROADUInt32 aLength) {
 
-    double laver = 0.0;
+    ROADReal laver = 0.0;
 
     for(decltype(aLength) index = 0;
         index < aLength;
@@ -303,11 +302,11 @@ double ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::c
     return laver;
 }
 
-double ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::computeDeviationValue(double* aData, unsigned int aLength, double aAverValue) {
+PlatformDependencies::ROADReal ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::computeDeviationValue(PtrROADReal aData, ROADUInt32 aLength, ROADReal aAverValue) {
 
-    double ldev = 0.0;
+    ROADReal ldev = 0.0;
 
-    double ltemp = 0.0;
+    ROADReal ltemp = 0.0;
 
     for(decltype(aLength) index = 0;
         index < aLength;
@@ -325,21 +324,21 @@ double ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::c
     return ldev;
 }
 
-void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::populateDomainPools(double* aData) {
+void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::populateDomainPools(PtrROADReal aData) {
 
     for(auto item: _domainPools)
          item->populate(aData);
 }
 
-double ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::computeAlpha(const double* aDataRang,
-                                                                                  const double* aDataDomain,
-                                                                                  unsigned int aLength,
-                                                                                  double aSumRang,
-                                                                                  double aSumDomain)
+PlatformDependencies::ROADReal ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::computeAlpha(const PtrROADReal aDataRang,
+                                                                                  const PtrROADReal aDataDomain,
+                                                                                  ROADUInt32 aLength,
+                                                                                  ROADReal aSumRang,
+                                                                                  ROADReal aSumDomain)
 {
-    double result = 0.0;
+    ROADReal result = 0.0;
 
-    for(unsigned int index = 0;
+    for(ROADUInt32 index = 0;
         index < aLength;
         ++index)
     {

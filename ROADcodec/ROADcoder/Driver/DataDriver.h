@@ -21,13 +21,12 @@ namespace ROADcoder
 	namespace Driver
 	{
 		class DataDriver
-		{
-
+        {
             private: DataDriver() = delete;
 
             private: virtual ~DataDriver() = delete;
 
-            public: static std::unique_ptr<ROADcoder::Driver::IDataWriteDriver> getIDataWriteDriver(std::unique_ptr<unsigned char> &aData, unsigned int aLength, Endian::EndianType aEndianType);
+            public: static std::unique_ptr<ROADcoder::Driver::IDataWriteDriver> getIDataWriteDriver(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength, Endian::EndianType aEndianType);
 		};
 	}
 }

@@ -1,17 +1,17 @@
 #include "DoubleDataContainer.h"
 
-ROADcoder::ROADoverCoder::DoubleDataContainer::DoubleDataContainer(unsigned int aLength)
-    : _data(new double[aLength]),
+ROADcoder::ROADoverCoder::DoubleDataContainer::DoubleDataContainer(ROADUInt32 aLength)
+    : _data(new ROADReal[aLength]),
       _length(aLength)
 {
 
 }
 
-unsigned int ROADcoder::ROADoverCoder::DoubleDataContainer::getLength() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::DoubleDataContainer::getLength() {
     return this->_length;
 }
 
-double* ROADcoder::ROADoverCoder::DoubleDataContainer::getData() {
+PlatformDependencies::PtrROADReal ROADcoder::ROADoverCoder::DoubleDataContainer::getData() {
     return this->_data;
 }
 

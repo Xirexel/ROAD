@@ -20,9 +20,9 @@ namespace ROADcoder
 	{
         class ROADFractalFirstOrderAnalyzerFactory: public ROADcoder::ROADCoder::IROADFractalAnalyzerFactory
 		{
-            public: static ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer* getIROADFractalFirstOrderAnalyzer(ROADcoder::ROADCoder::IFractalEncodingOptions* aOptions, unsigned int aType);
+            public: static ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer* getIROADFractalFirstOrderAnalyzer(ROADcoder::ROADCoder::IFractalEncodingOptions* aOptions, ROADUInt32 aType);
 
-            public: unsigned int getOrder();
+            public: ROADUInt32 getOrder();
 
         };
 	}

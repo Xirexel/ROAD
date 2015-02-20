@@ -19,7 +19,23 @@ IROADoverCoder* ROADoverWAVECoderPlugin::createIROADoverCoder(IROADoverRawReader
 
     aIROADoverCoderOptions->setEncryptionFormat(0);
 
-    aIROADoverCoderOptions->setBitsPerSample(aOriginalAudioStreamOptions->getBPS());
+    auto lTypeBitePerSample = aOriginalAudioStreamOptions->getTypeBitePerSample();
+
+    switch (lTypeBitePerSample) {
+    case IOriginalAudioStreamOptions::U8 :
+
+        break;
+    case IOriginalAudioStreamOptions::S16 :
+
+        break;
+    case IOriginalAudioStreamOptions::S32 :
+
+        break;
+    default:
+        break;
+    }
+
+    aIROADoverCoderOptions->setBitsPerSampleCode(aOriginalAudioStreamOptions->getBPS());
 
     return new ROADoverWAVECoder(outputFile, ptrReader, aOriginalAudioStreamOptions, aIROADoverCoderOptions);
 

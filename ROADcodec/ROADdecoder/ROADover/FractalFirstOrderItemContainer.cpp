@@ -1,27 +1,22 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #include "FractalFirstOrderItemContainer.h"
 #include "FractalFirstOrderItem.h"
 #include "FractalAverItem.h"
 #include "../ROAD/IFractalFirstOrderItem.h"
 #include "../ROAD/IFractalAverItem.h"
 
-ROADdecoder::ROAD::IFractalFirstOrderItem* ROADdecoder::ROADover::FractalFirstOrderItemContainer::getIFractalFirstOrderItem(unsigned int aIndex) {
+ROADdecoder::ROAD::IFractalFirstOrderItem* ROADdecoder::ROADover::FractalFirstOrderItemContainer::getIFractalFirstOrderItem(ROADUInt32 aIndex) {
     return this->_fractalItems + aIndex;
 }
 
-ROADdecoder::ROAD::IFractalAverItem* ROADdecoder::ROADover::FractalFirstOrderItemContainer::getIFractalAverItem(unsigned int aIndex) {
+ROADdecoder::ROAD::IFractalAverItem* ROADdecoder::ROADover::FractalFirstOrderItemContainer::getIFractalAverItem(ROADUInt32 aIndex) {
     return this->_fractalAverItems + aIndex;
 }
 
-unsigned int ROADdecoder::ROADover::FractalFirstOrderItemContainer::getIFractalFirstOrderItemCount() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::FractalFirstOrderItemContainer::getIFractalFirstOrderItemCount() {
     return this->_fractalItemCount;
 }
 
-unsigned int ROADdecoder::ROADover::FractalFirstOrderItemContainer::getIFractalAverItemCount() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::FractalFirstOrderItemContainer::getIFractalAverItemCount() {
     return this->_fractalAverItemCount;
 }
 
@@ -30,7 +25,7 @@ ROADdecoder::ROADover::FractalFirstOrderItemContainer::~FractalFirstOrderItemCon
     delete []this->_fractalAverItems;
 }
 
-ROADdecoder::ROADover::FractalFirstOrderItemContainer::FractalFirstOrderItemContainer(unsigned int aMaxCount)
+ROADdecoder::ROADover::FractalFirstOrderItemContainer::FractalFirstOrderItemContainer(ROADUInt32 aMaxCount)
     : _fractalItems(new FractalFirstOrderItem[aMaxCount]),
       _fractalAverItems(new FractalAverItem[aMaxCount]),
       _fractalAverItemCount(0),
@@ -38,20 +33,20 @@ ROADdecoder::ROADover::FractalFirstOrderItemContainer::FractalFirstOrderItemCont
 {
 }
 
-void ROADdecoder::ROADover::FractalFirstOrderItemContainer::setFractalAverItemCount(unsigned int aFractalAverItemCount) {
+void ROADdecoder::ROADover::FractalFirstOrderItemContainer::setFractalAverItemCount(ROADUInt32 aFractalAverItemCount) {
 	this->_fractalAverItemCount = aFractalAverItemCount;
 }
 
-void ROADdecoder::ROADover::FractalFirstOrderItemContainer::setFractalFirstOrderItemCount(unsigned int aFractalItemCount) {
+void ROADdecoder::ROADover::FractalFirstOrderItemContainer::setFractalFirstOrderItemCount(ROADUInt32 aFractalItemCount) {
 	this->_fractalItemCount = aFractalItemCount;
 }
 
-ROADdecoder::ROADover::FractalFirstOrderItem* ROADdecoder::ROADover::FractalFirstOrderItemContainer::getFractalFirstOrderItem(unsigned int aIndex)
+ROADdecoder::ROADover::FractalFirstOrderItem* ROADdecoder::ROADover::FractalFirstOrderItemContainer::getFractalFirstOrderItem(ROADUInt32 aIndex)
 {
     return this->_fractalItems + aIndex;
 }
 
-ROADdecoder::ROADover::FractalAverItem* ROADdecoder::ROADover::FractalFirstOrderItemContainer::getFractalAverItem(unsigned int aIndex)
+ROADdecoder::ROADover::FractalAverItem* ROADdecoder::ROADover::FractalFirstOrderItemContainer::getFractalAverItem(ROADUInt32 aIndex)
 {
     return this->_fractalAverItems + aIndex;
 }

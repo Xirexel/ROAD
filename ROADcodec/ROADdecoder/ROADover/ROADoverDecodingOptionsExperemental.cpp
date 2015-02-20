@@ -1,11 +1,6 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #include "ROADoverDecodingOptionsExperemental.h"
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getROADFormatMode() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getROADFormatMode() {
     return this->_formatMode;
 }
 
@@ -24,7 +19,7 @@ ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::ROADoverDecodingOpti
 
     *aPtrIDataReadDriver >>(this->_amountOfChannels);
 
-    unsigned int lchannelsMixingMode;
+    ROADInt32 lchannelsMixingMode;
 
     *aPtrIDataReadDriver >>(lchannelsMixingMode);
 
@@ -41,11 +36,11 @@ ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::~ROADoverDecodingOpt
 
 }
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getAmountOfChannels() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getAmountOfChannels() {
     return this->_amountOfChannels;
 }
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getSuperframeLength() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getSuperframeLength() {
     return this->_superframeLength;
 }
 
@@ -53,41 +48,41 @@ ROADdecoder::ROADover::ChannelsMixingMode ROADdecoder::ROADover::ROADoverDecodin
     return this->_channelsMixingMode;
 }
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getFrameRangLength() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getFrameRangLength() {
     return this->_frameRangLength;
 }
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getSamplesPerRang() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getSamplesPerRang() {
     return this->_samplesPerRang;
 }
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getRelativeDomainShift() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getRelativeDomainShift() {
     return this->_relativeDomainShift;
 }
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getScaleDomainShift() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getScaleDomainShift() {
     return this->_scaleDomainShift;
 }
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalSamplesPerRang() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalSamplesPerRang() {
     return this->_scaleDomainShift;
 }
 
-void ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::setSamplesPerRang(unsigned int aValue) {
+void ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::setSamplesPerRang(ROADUInt32 aValue) {
     this->_samplesPerRang = aValue;
 }
 
-void ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::setOriginalBitsPerSample(unsigned int aValue)
+void ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::setOriginalBitsPerSample(ROADUInt32 aValue)
 {
     this->_originalBitsPerSample = aValue;
 }
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalBitsPerSample()
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalBitsPerSample()
 {
     return this->_originalBitsPerSample;
 }
 
-unsigned int ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getEncriptionCode()
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getEncriptionCode()
 {
     return this->_encriptionCode;
 }

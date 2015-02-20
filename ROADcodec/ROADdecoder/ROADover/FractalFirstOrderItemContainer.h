@@ -1,8 +1,3 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADdecoder__ROADover__FractalItemContainer_h__
 #define __ROADdecoder__ROADover__FractalItemContainer_h__
 
@@ -32,32 +27,34 @@ namespace ROADdecoder
 {
 	namespace ROADover
 	{
+
+    using namespace PlatformDependencies;
         class FractalFirstOrderItemContainer: public ROADdecoder::ROAD::IFractalFirstOrderItemContainer
 		{
             private: ROADdecoder::ROADover::FractalFirstOrderItem* _fractalItems;
 			private: ROADdecoder::ROADover::FractalAverItem* _fractalAverItems;
-			private: unsigned int _fractalAverItemCount;
-			private: unsigned int _fractalItemCount;
+            private: ROADUInt32 _fractalAverItemCount;
+            private: ROADUInt32 _fractalItemCount;
 
-            public: ROADdecoder::ROAD::IFractalFirstOrderItem* getIFractalFirstOrderItem(unsigned int aIndex);
+            public: ROADdecoder::ROAD::IFractalFirstOrderItem* getIFractalFirstOrderItem(ROADUInt32 aIndex);
 
-			public: ROADdecoder::ROAD::IFractalAverItem* getIFractalAverItem(unsigned int aIndex);
+            public: ROADdecoder::ROAD::IFractalAverItem* getIFractalAverItem(ROADUInt32 aIndex);
 
-            public: unsigned int getIFractalFirstOrderItemCount();
+            public: ROADUInt32 getIFractalFirstOrderItemCount();
 
-			public: unsigned int getIFractalAverItemCount();
+            public: ROADUInt32 getIFractalAverItemCount();
 
             public: virtual ~FractalFirstOrderItemContainer();
 
-            public: FractalFirstOrderItemContainer(unsigned int aMaxCount);
+            public: FractalFirstOrderItemContainer(ROADUInt32 aMaxCount);
 
-			public: void setFractalAverItemCount(unsigned int aFractalAverItemCount);
+            public: void setFractalAverItemCount(ROADUInt32 aFractalAverItemCount);
 
-            public: void setFractalFirstOrderItemCount(unsigned int aFractalItemCount);
+            public: void setFractalFirstOrderItemCount(ROADUInt32 aFractalItemCount);
 
-            public: ROADdecoder::ROADover::FractalFirstOrderItem* getFractalFirstOrderItem(unsigned int aIndex);
+            public: ROADdecoder::ROADover::FractalFirstOrderItem* getFractalFirstOrderItem(ROADUInt32 aIndex);
 
-            public: ROADdecoder::ROADover::FractalAverItem* getFractalAverItem(unsigned int aIndex);
+            public: ROADdecoder::ROADover::FractalAverItem* getFractalAverItem(ROADUInt32 aIndex);
 		};
 	}
 }

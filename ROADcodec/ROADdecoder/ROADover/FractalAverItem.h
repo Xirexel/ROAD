@@ -1,51 +1,37 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADdecoder__ROADover__FractalAverItem_h__
 #define __ROADdecoder__ROADover__FractalAverItem_h__
 
 #include "../ROAD/IFractalAverItem.h"
 
-namespace ROADdecoder
-{
-	namespace ROAD
-	{
-		class IFractalAverItem;
-	}
-	namespace ROADover
-	{
-		class FractalAverItem;
-	}
-}
 
 namespace ROADdecoder
 {
 	namespace ROADover
 	{
+
+    using namespace PlatformDependencies;
 		class FractalAverItem: public ROADdecoder::ROAD::IFractalAverItem
 		{
-			private: double _aver;
-			private: unsigned int _length;
-			private: unsigned char _fractalItemIndex;
-			private: unsigned int _position;
+            private: ROADReal _aver;
+            private: ROADUInt32 _length;
+            private: ROADUInt8 _fractalItemIndex;
+            private: ROADUInt32 _position;
 
-			public: double getAver();
+            public: ROADReal getAver();
 
-			public: unsigned int getLength();
+            public: ROADUInt32 getLength();
 
-			public: unsigned int getPosition();
+            public: ROADUInt32 getPosition();
 
-			public: void setAver(double aAver);
+            public: void setAver(ROADReal aAver);
 
-			public: void setLength(unsigned int aLength);
+            public: void setLength(ROADUInt32 aLength);
 
-			public: void setFractalItemIndex(unsigned char aFractalItemIndex);
+            public: void setFractalItemIndex(ROADUInt8 aFractalItemIndex);
 
-			public: unsigned char getFractalItemIndex();
+            public: ROADUInt8 getFractalItemIndex();
 
-			public: void setPosition(unsigned int aPosition);
+            public: void setPosition(ROADUInt32 aPosition);
 		};
 	}
 }

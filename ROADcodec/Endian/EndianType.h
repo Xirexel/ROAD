@@ -6,7 +6,7 @@ namespace Endian
 {
 	enum EndianType
 	{
-		BIG, LITTLE
+        BIG=0, LITTLE=1
 	};
 }
 

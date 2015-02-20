@@ -1,12 +1,10 @@
-#include <string>
-#include <vector>
-#include <exception>
-#include <memory>
-
 #ifndef __ROADcoder__ROADCoder__ROADOrderedFractalAnalyzerFactory_h__
 #define __ROADcoder__ROADCoder__ROADOrderedFractalAnalyzerFactory_h__
 
- #include "IROADFractalAnalyzerFactory.h"
+#include <memory>
+
+
+#include "IROADFractalAnalyzerFactory.h"
 
 namespace ROADcoder
 {
@@ -24,7 +22,7 @@ namespace ROADcoder
 		class ROADOrderedFractalAnalyzerFactory
 		{
 
-        public: static std::unique_ptr<ROADcoder::ROADCoder::IROADFractalAnalyzerFactory> getIROADFractalAnalyzerFactory(unsigned int aOrder);
+        public: static std::unique_ptr<ROADcoder::ROADCoder::IROADFractalAnalyzerFactory> getIROADFractalAnalyzerFactory(ROADUInt32 aOrder);
 		};
 	}
 }

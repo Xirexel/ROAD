@@ -1,26 +1,11 @@
-#include <string>
-#include <vector>
-#include <exception>
-#include <memory>
-
 #ifndef __ROADdecoder__Driver__DataReadDriver_h__
 #define __ROADdecoder__Driver__DataReadDriver_h__
+
+#include <memory>
 
 #include "IEndianConvertor.h"
 #include "IDataReadDriver.h"
 
-namespace Endian
-{
-	class IEndianConvertor;
-}
-namespace ROADdecoder
-{
-	namespace Driver
-	{
-		class IDataReadDriver;
-		class DataReadDriver;
-	}
-}
 
 namespace ROADdecoder
 {
@@ -28,14 +13,28 @@ namespace ROADdecoder
 	{
 		class DataReadDriver: public ROADdecoder::Driver::IDataReadDriver
 		{
-            private: std::unique_ptr<unsigned char> _data;
-			private: unsigned int _length;
-			private: unsigned int _position;
+            private: std::unique_ptr<ROADByte> _data;
+            private: ROADUInt32 _length;
+            private: ROADUInt32 _position;
             private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
 
-            public: DataReadDriver(std::unique_ptr<unsigned char> &aData, unsigned int aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
+            public: DataReadDriver(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
 
-            public: IDataReadDriver &operator >>(unsigned int &aValue);
+            public: virtual ROADUInt32 getLength();
+
+            public: virtual ROADUInt32 getPosition();
+
+            public: virtual IDataReadDriver &operator >>(ROADInt8 &aValue);
+
+            public: virtual IDataReadDriver &operator >>(ROADUInt8 &aValue);
+
+            public: virtual IDataReadDriver &operator >>(ROADInt16 &aValue);
+
+            public: virtual IDataReadDriver &operator >>(ROADUInt16 &aValue);
+
+            public: virtual IDataReadDriver &operator >>(ROADInt32 &aValue);
+
+            public: virtual IDataReadDriver &operator >>(ROADUInt32 &aValue);
 
             public: virtual ~DataReadDriver();
 		};

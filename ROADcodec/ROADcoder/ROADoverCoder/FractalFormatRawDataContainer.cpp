@@ -1,18 +1,17 @@
 #include "FractalFormatRawDataContainer.h"
-void ROADcoder::ROADoverCoder::FractalFormatRawDataContainer::setRawData(char* aData, unsigned int aLength) {
-    this->_data.reset(aData);
 
-    this->_length = aLength;
+ROADcoder::ROADoverCoder::FractalFormatRawDataContainer::FractalFormatRawDataContainer(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength)
+    : _data(aData.release()),
+      _length(aLength)
+{
 }
 
-ROADcoder::ROADoverCoder::FractalFormatRawDataContainer::FractalFormatRawDataContainer() {
-}
-
-char* ROADcoder::ROADoverCoder::FractalFormatRawDataContainer::getData() {
+PlatformDependencies::PtrROADByte ROADcoder::ROADoverCoder::FractalFormatRawDataContainer::getData() const {
     return this->_data.get();
 }
 
-unsigned int ROADcoder::ROADoverCoder::FractalFormatRawDataContainer::getLength() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::FractalFormatRawDataContainer::getLength() const {
 	return this->_length;
 }
+
 

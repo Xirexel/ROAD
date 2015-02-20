@@ -1,32 +1,33 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADcoder__Driver__IDataWriteDriver_h__
 #define __ROADcoder__Driver__IDataWriteDriver_h__
 
-namespace ROADcoder
-{
-	namespace Driver
-	{
-		class IDataWriteDriver;
-	}
-}
+#include "platformdependencies.h"
+
 
 namespace ROADcoder
 {
 	namespace Driver
 	{
+
+        using namespace PlatformDependencies;
 		class IDataWriteDriver
-		{
-            public: virtual IDataWriteDriver &operator <<(unsigned int &aValue) = 0;
+        {
 
-            public: virtual IDataWriteDriver &operator <<(int &aValue) = 0;
+            public: virtual ROADUInt32 getLength() = 0;
 
-            public: virtual IDataWriteDriver &operator <<(unsigned short &aValue) = 0;
+            public: virtual ROADUInt32 getPosition() = 0;
 
-            public: virtual IDataWriteDriver &operator <<(short &aValue) = 0;
+            public: virtual IDataWriteDriver &operator <<(ROADUInt32 aValue) = 0;
+
+            public: virtual IDataWriteDriver &operator <<(ROADInt32 aValue) = 0;
+
+            public: virtual IDataWriteDriver &operator <<(ROADUInt16 aValue) = 0;
+
+            public: virtual IDataWriteDriver &operator <<(ROADInt16 aValue) = 0;
+
+            public: virtual IDataWriteDriver &operator <<(ROADByte aValue) = 0;
+
+            public: virtual IDataWriteDriver &operator <<(ROADChar aValue) = 0;
 
             public: virtual ~IDataWriteDriver(){}
 		};

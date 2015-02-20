@@ -4,7 +4,7 @@
 
 
 ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer* ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerFactory::getIROADFractalFirstOrderAnalyzer(ROADcoder::ROADCoder::IFractalEncodingOptions* aOptions,
-                                                                                                                      unsigned int aType)
+                                                                                                                      ROADUInt32 aType)
 {
     ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer *result = nullptr;
 
@@ -16,7 +16,7 @@ ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer* ROADcoder::ROADCoder::ROAD
     return result;
 }
 
-unsigned int ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerFactory::getOrder()
+PlatformDependencies::ROADUInt32 ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerFactory::getOrder()
 {
     return 1;
 }

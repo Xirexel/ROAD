@@ -1,31 +1,17 @@
-#include <string>
-#include <vector>
-#include <exception>
-#include <memory>
-
 #ifndef __ROADdecoder__Driver__DataDriver_h__
 #define __ROADdecoder__Driver__DataDriver_h__
+
+#include <memory>
 
 #include "EndianType.h"
 #include "IDataReadDriver.h"
 
-namespace Endian
-{
-	// enum EndianType;
-}
-namespace ROADdecoder
-{
-	namespace Driver
-	{
-		class IDataReadDriver;
-		class DataDriver;
-	}
-}
 
 namespace ROADdecoder
 {
 	namespace Driver
 	{
+    using namespace PlatformDependencies;
 		class DataDriver
         {
 
@@ -33,7 +19,7 @@ namespace ROADdecoder
 
         private: virtual ~DataDriver() = delete;
 
-        public: static std::unique_ptr<Driver::IDataReadDriver> getIDataReadDriver(std::unique_ptr<unsigned char> &aData, unsigned int aLength, Endian::EndianType aEndianType);
+        public: static std::unique_ptr<Driver::IDataReadDriver> getIDataReadDriver(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength, Endian::EndianType aEndianType);
 		};
 	}
 }

@@ -1,11 +1,11 @@
 #include "FractalFirstOrderItemSuperFrameContainer.h"
 #include "FractalFirstOrderItemContainer.h"
 
-ROADcoder::ROADoverCoder::FractalFirstOrderItemContainer* ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer::getFractalItemContainer(unsigned int aIndex) {
+ROADcoder::ROADoverCoder::FractalFirstOrderItemContainer* ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer::getFractalItemContainer(ROADUInt32 aIndex) {
     return this->_fractalItemContainerCollection.at(aIndex);
 }
 
-ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer::FractalFirstOrderItemSuperFrameContainer(unsigned int aSuperFrameLength, unsigned int aMaxFrameRangLength)
+ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer::FractalFirstOrderItemSuperFrameContainer(ROADUInt32 aSuperFrameLength, ROADUInt32 aMaxFrameRangLength)
     : _count(aSuperFrameLength)
 {
 
@@ -21,7 +21,7 @@ ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer::FractalFirst
     }
 }
 
-unsigned int ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer::getCount() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer::getCount() {
     return this->_count;
 }
 

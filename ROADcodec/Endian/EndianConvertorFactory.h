@@ -8,16 +8,14 @@
 
 namespace Endian
 {
-	class IEndianConvertor;
-	// enum EndianType;
-	class EndianConvertorFactory;
+    class IEndianConvertor;
 }
 
 namespace Endian
 {
 	class EndianConvertorFactory
 	{
-        private: static Endian::EndianType _localEndianType;
+        private: Endian::EndianType _localEndianType;
 
 
         private: EndianConvertorFactory();

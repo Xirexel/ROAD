@@ -1,8 +1,3 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #include "ROADover.h"
 #include "IROADoverDecodingOptions.h"
 #include "ROADoverDecodingOptionsExperemental.h"
@@ -50,22 +45,22 @@ ROADdecoder::ROADover::ROADover::~ROADover()
     delete this->_manager;
 }
 
-unsigned int ROADdecoder::ROADover::ROADover::getAmountOfChannels()
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADover::getAmountOfChannels()
 {
     return this->_amountOfChannels;
 }
 
-unsigned int ROADdecoder::ROADover::ROADover::getSuperframeLength()
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADover::getSuperframeLength()
 {
     return this->_superframeLength;
 }
 
-unsigned int ROADdecoder::ROADover::ROADover::getFrameRangLength()
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADover::getFrameRangLength()
 {
     return this->_frameRangLength;
 }
 
-unsigned int ROADdecoder::ROADover::ROADover::getSamplesPerRang()
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADover::getSamplesPerRang()
 {
     return this->_samplesPerRang;
 }

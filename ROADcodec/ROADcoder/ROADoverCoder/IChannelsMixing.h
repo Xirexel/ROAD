@@ -14,7 +14,7 @@ namespace ROADcoder
 namespace ROADcoder
 {
 	namespace ROADoverCoder
-	{
+    {
 		class IChannelsMixing
 		{
 

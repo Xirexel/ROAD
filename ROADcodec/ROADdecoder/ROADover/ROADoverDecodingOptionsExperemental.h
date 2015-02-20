@@ -1,9 +1,3 @@
-#include <string>
-#include <vector>
-#include <exception>
-#include <memory>
-using namespace std;
-
 #ifndef __ROADdecoder__ROADover__ROADoverDecodingOptionsExperemental_h__
 #define __ROADdecoder__ROADover__ROADoverDecodingOptionsExperemental_h__
 
@@ -11,16 +5,7 @@ using namespace std;
 #include "IROADoverDecodingOptions.h"
 #include "../Driver/IDataReadDriver.h"
 #include "roadover_global.h"
-namespace ROADdecoder
-{
-	namespace ROADover
-	{
-		// enum ROADFormatMode;
-		// enum ChannelsMixingMode;
-		class IROADoverDecodingOptions;
-		class ROADoverDecodingOptionsExperemental;
-	}
-}
+
 
 namespace ROADdecoder
 {
@@ -30,44 +15,44 @@ namespace ROADdecoder
 		{
             private: ROADdecoder::ROADover::ROADFormatMode _formatMode;
             private: ROADdecoder::ROADover::ChannelsMixingMode _channelsMixingMode;
-            private: unsigned int _amountOfChannels;
-			private: unsigned int _superframeLength;
-            private: unsigned int _frameRangLength;
-			private: unsigned int _samplesPerRang;
-			private: unsigned int _relativeDomainShift;
-            private: unsigned int _scaleDomainShift;
-            private: unsigned int _encriptionCode;
-            private: unsigned int _originalBitsPerSample;
+            private: ROADUInt32 _amountOfChannels;
+            private: ROADUInt32 _superframeLength;
+            private: ROADUInt32 _frameRangLength;
+            private: ROADUInt32 _samplesPerRang;
+            private: ROADUInt32 _relativeDomainShift;
+            private: ROADUInt32 _scaleDomainShift;
+            private: ROADUInt32 _encriptionCode;
+            private: ROADUInt32 _originalBitsPerSample;
 
-            public: unsigned int getROADFormatMode();
+            public: ROADUInt32 getROADFormatMode();
 
             public: ROADoverDecodingOptionsExperemental(Driver::IDataReadDriver *aPtrIDataReadDriver);
 
             public: virtual ~ROADoverDecodingOptionsExperemental();
 
-			public: unsigned int getAmountOfChannels();
+            public: ROADUInt32 getAmountOfChannels();
 
-			public: unsigned int getSuperframeLength();
+            public: ROADUInt32 getSuperframeLength();
 
 			public: ROADdecoder::ROADover::ChannelsMixingMode getChannelsMixingMode();
 
-            public: unsigned int getFrameRangLength();
+            public: ROADUInt32 getFrameRangLength();
 
-			public: unsigned int getSamplesPerRang();
+            public: ROADUInt32 getSamplesPerRang();
 
-			public: unsigned int getRelativeDomainShift();
+            public: ROADUInt32 getRelativeDomainShift();
 
-			public: unsigned int getScaleDomainShift();
+            public: ROADUInt32 getScaleDomainShift();
 
-			public: unsigned int getOriginalSamplesPerRang();
+            public: ROADUInt32 getOriginalSamplesPerRang();
 
-            public: void setSamplesPerRang(unsigned int aValue);
+            public: void setSamplesPerRang(ROADUInt32 aValue);
 
-            public: void setOriginalBitsPerSample( unsigned int aValue);
+            public: void setOriginalBitsPerSample(ROADUInt32 aValue);
 
-            public: unsigned int getOriginalBitsPerSample();
+            public: ROADUInt32 getOriginalBitsPerSample();
 
-            public: unsigned int getEncriptionCode();
+            public: ROADUInt32 getEncriptionCode();
 		};
 	}
 }

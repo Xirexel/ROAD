@@ -7,18 +7,6 @@
 #include "IEndianConvertor.h"
 #include "IDataWriteDriver.h"
 
-namespace Endian
-{
-	class IEndianConvertor;
-}
-namespace ROADcoder
-{
-	namespace Driver
-	{
-		class IDataWriteDriver;
-		class DataWriteDriver;
-	}
-}
 
 namespace ROADcoder
 {
@@ -26,22 +14,42 @@ namespace ROADcoder
 	{
 		class DataWriteDriver: public ROADcoder::Driver::IDataWriteDriver
 		{
-            private: std::unique_ptr<unsigned char> _data;
-			private: unsigned int _length;
-			private: unsigned int _position;
+            private: std::unique_ptr<ROADByte> _data;
+            private: ROADUInt32 _length;
+            private: ROADUInt32 _position;
             private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
+
+            public: virtual ROADUInt32 getLength();
+
+            public: virtual ROADUInt32 getPosition();
 
             public: virtual ~DataWriteDriver();
 
-            public: DataWriteDriver(std::unique_ptr<unsigned char> &aData, unsigned int aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
+            public: DataWriteDriver(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
 
-            public: virtual IDataWriteDriver &operator << (unsigned int &aValue);
+            public: virtual IDataWriteDriver &operator <<(ROADUInt32 aValue);
 
-            public: virtual IDataWriteDriver &operator <<(int &aValue);
+            public: virtual IDataWriteDriver &operator <<(ROADInt32 aValue);
 
-            public: virtual IDataWriteDriver &operator <<(unsigned short &aValue);
+            public: virtual IDataWriteDriver &operator <<(ROADUInt16 aValue);
 
-            public: virtual IDataWriteDriver &operator <<(short &aValue);
+            public: virtual IDataWriteDriver &operator <<(ROADInt16 aValue);
+
+            public: virtual IDataWriteDriver &operator <<(ROADByte aValue);
+
+            public: virtual IDataWriteDriver &operator <<(ROADChar aValue);
+
+            private: template<typename T> void writeData(T aValue)
+                {
+                    if(_length >= (_position + sizeof(T)))
+                    {
+                        _convertor->convertToBytes(aValue, _data.get() + _position);
+
+                        _position += sizeof(T);
+                    }
+                    else
+                        throw std::range_error("Position of pointer is out of range!!!");
+                }
 		};
 	}
 }

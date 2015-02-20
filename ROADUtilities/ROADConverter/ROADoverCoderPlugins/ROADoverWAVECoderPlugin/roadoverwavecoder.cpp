@@ -105,7 +105,7 @@ ROADcoder::ROADoverCoder::Result ROADoverWAVECoder::readRawData(ROADcoder::ROADo
     return result;
 }
 
-unsigned int ROADoverWAVECoder::convertDoubleArrayIntoByteArray(const double* aDoubleData, unsigned int aLengthDoubleArray, unsigned char* aByteData)
+unsigned int ROADoverWAVECoder::convertDoubleArrayIntoByteArray(const PtrROADReal aDoubleData, ROADUInt32 aLengthDoubleArray, PtrROADByte aByteData)
 {
     return _unique_ptrAWaveFractalWriter->convertDoubleArrayToByteArray(aDoubleData, aLengthDoubleArray, aByteData);
 }
@@ -149,7 +149,7 @@ void ROADoverWAVECoder::flushAndCloseFile()
 {
     auto lptrFractalFormatRawData = getFractalFormatRawData();
 
-    _unique_ptrAWaveFractalWriter->flushAndCloseFile(std::get<0>(lptrFractalFormatRawData),
+    _unique_ptrAWaveFractalWriter->flushAndCloseFile((char*) std::get<0>(lptrFractalFormatRawData),
                                                      std::get<1>(lptrFractalFormatRawData));
 }
 

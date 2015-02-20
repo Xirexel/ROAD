@@ -1,7 +1,7 @@
 #include "ROADFractalFirstOrderBuilderFactory.h"
 #include "ROADFractalFirstOrderBuilderNoneFixedRangLength.h"
 
-ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* ROADdecoder::ROAD::ROADFractalFirstOrderBuilderFactory::getIROADFractalFirstOrderBuilder(unsigned int index, unsigned int aMaxRangeLength)
+ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* ROADdecoder::ROAD::ROADFractalFirstOrderBuilderFactory::getIROADFractalFirstOrderBuilder(ROADUInt32 index, ROADUInt32 aMaxRangeLength)
 {
     ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* result = nullptr;
 
@@ -11,7 +11,7 @@ ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* ROADdecoder::ROAD::ROADFractal
     return result;
 }
 
-unsigned int ROADdecoder::ROAD::ROADFractalFirstOrderBuilderFactory::getOrder()
+PlatformDependencies::ROADUInt32 ROADdecoder::ROAD::ROADFractalFirstOrderBuilderFactory::getOrder()
 {
     return 1;
 }

@@ -8,9 +8,7 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
-		class IRawDataBuffer;
-		class IChannelsMixing;
-		class NoneChannelsMixing;
+        class IRawDataBuffer;
 	}
 }
 

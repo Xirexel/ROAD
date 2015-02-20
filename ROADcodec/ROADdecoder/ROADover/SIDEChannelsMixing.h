@@ -1,8 +1,3 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADdecoder__ROADover__SIDEChannelsMixing_h__
 #define __ROADdecoder__ROADover__SIDEChannelsMixing_h__
 
@@ -13,9 +8,7 @@ namespace ROADdecoder
 {
 	namespace ROADover
 	{
-		class IRawDataBuffer;
-		class IChannelsMixing;
-		class SIDEChannelsMixing;
+        class IRawDataBuffer;
 	}
 }
 

@@ -1,40 +1,30 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADdecoder__ROADover__DoubleDataContainer_h__
 #define __ROADdecoder__ROADover__DoubleDataContainer_h__
 
- #include "IDoubleDataContainer.h"
+#include "IDoubleDataContainer.h"
+
+#include "platformdependencies.h"
 
 namespace ROADdecoder
 {
 	namespace ROADover
 	{
-		class IDoubleDataContainer;
-		class DoubleDataContainer;
-	}
-}
+    using namespace PlatformDependencies;
 
-namespace ROADdecoder
-{
-	namespace ROADover
-	{
 		class DoubleDataContainer: public ROADdecoder::ROADover::IDoubleDataContainer
 		{
-            private: double *_data;
-            private: unsigned int _count;
+            private: PtrROADReal _data;
+            private: ROADUInt32 _count;
 
-			public: double* getData();
+            public: PtrROADReal getData();
 
-			public: unsigned int getCount();
+            public: ROADUInt32 getCount();
 
-			public: void setCount(unsigned int aValue);
+            public: void setCount(ROADUInt32 aValue);
 
             public: ~DoubleDataContainer();
 
-            public: DoubleDataContainer(unsigned int aLength);
+            public: DoubleDataContainer(ROADUInt32 aLength);
 		};
 	}
 }

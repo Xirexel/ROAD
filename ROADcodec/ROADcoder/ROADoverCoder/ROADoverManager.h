@@ -24,23 +24,24 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
+    using namespace PlatformDependencies;
 		class ROADoverManager: public ROADcoder::ROADoverCoder::IROADoverManager
 		{
             protected: ROADcoder::ROADoverCoder::ROADover* _roadOver;
             protected: ROADcoder::ROADoverCoder::RawDataBuffer _channelsDataBuffer;
             protected: std::unique_ptr<ROADcoder::ROADoverCoder::IChannelsMixing> _channelsMixing;
-			protected: unsigned int _superFrameSamplesLength;
-			protected: unsigned int _superFrameLength;
-			protected: unsigned int _frameRangLength;
-            protected: unsigned int _rangSampleLength;
-            protected: unsigned int _bitsPerSample;
-            protected: std::unique_ptr<unsigned char> _bufferROADdata;
+            protected: ROADUInt32 _superFrameSamplesLength;
+            protected: ROADUInt32 _superFrameLength;
+            protected: ROADUInt32 _frameRangLength;
+            protected: ROADUInt32 _rangSampleLength;
+            protected: ROADUInt32 _bitsPerSample;
+            protected: std::unique_ptr<ROADByte> _bufferROADdata;
 
-            public: ROADoverManager(ROADcoder::ROADoverCoder::ROADover* aRoadOver, unsigned int aAmountOfChannels, unsigned int aSuperFrameLength, unsigned int aFrameRangLength, unsigned int aSuperFrameSamplesLength);
+            public: ROADoverManager(ROADcoder::ROADoverCoder::ROADover* aRoadOver, ROADUInt32 aAmountOfChannels, ROADUInt32 aSuperFrameLength, ROADUInt32 aFrameRangLength, ROADUInt32 aSuperFrameSamplesLength);
 
-            public: unsigned int getRangSampleLength();
+            public: ROADUInt32 getRangSampleLength();
 
-            public: unsigned int getBitsPerSample();
+            public: ROADUInt32 getBitsPerSample();
 
             public: virtual ~ROADoverManager(){}
 		};

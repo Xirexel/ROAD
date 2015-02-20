@@ -1,12 +1,7 @@
-#include <string>
-#include <vector>
-#include <exception>
-#include <memory>
-using namespace std;
-
 #ifndef __ROADdecoder__ROADover__ROADoverManager_h__
 #define __ROADdecoder__ROADover__ROADoverManager_h__
 
+#include <memory>
 
 #include "RawDataBuffer.h"
 #include "IROADoverManager.h"
@@ -38,18 +33,18 @@ namespace ROADdecoder
             protected: std::unique_ptr<ROADdecoder::ROADover::IChannelsMixing> _channelsMixing;
 			protected: ROADdecoder::ROADover::ROADover* _roadOver;
             protected: ROADdecoder::ROADover::RawDataBuffer _channelsDataBuffer;
-            protected: std::unique_ptr<unsigned char> _bufferROADdata;
-            protected: unsigned int _frequencyScale;
-            protected: unsigned int _superFrameSamplesLength;
-            protected: unsigned int _superFrameLength;
-            protected: unsigned int _frameRangLength;
+            protected: std::unique_ptr<ROADByte> _bufferROADdata;
+            protected: ROADUInt32 _frequencyScale;
+            protected: ROADUInt32 _superFrameSamplesLength;
+            protected: ROADUInt32 _superFrameLength;
+            protected: ROADUInt32 _frameRangLength;
 
             public: ROADoverManager(ROADdecoder::ROADover::ROADover* aRoadOver,
-                                    unsigned int aAmountOfChannels,
-                                    unsigned int aSampleLength,
-                                    unsigned int aSuperFrameLength,
-                                    unsigned int aFrameRangLength,
-                                    unsigned int aSuperFrameSamplesLength);
+                                    ROADUInt32 aAmountOfChannels,
+                                    ROADUInt32 aSampleLength,
+                                    ROADUInt32 aSuperFrameLength,
+                                    ROADUInt32 aFrameRangLength,
+                                    ROADUInt32 aSuperFrameSamplesLength);
 
             public: virtual ~ROADoverManager();
 		};

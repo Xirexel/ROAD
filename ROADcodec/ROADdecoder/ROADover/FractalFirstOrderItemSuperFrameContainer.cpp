@@ -1,16 +1,11 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #include "FractalFirstOrderItemSuperFrameContainer.h"
 #include "FractalFirstOrderItemContainer.h"
 
-ROADdecoder::ROADover::FractalFirstOrderItemContainer* ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer::getFractalFirstOrderItemContainer(unsigned int aIndex) {
+ROADdecoder::ROADover::FractalFirstOrderItemContainer* ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer::getFractalFirstOrderItemContainer(ROADUInt32 aIndex) {
     return this->_fractalItemContainerCollection.at(aIndex);
 }
 
-ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer::FractalFirstOrderItemSuperFrameContainer(unsigned int aSuperFrameLength, unsigned int aMaxFrameRangLength)
+ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer::FractalFirstOrderItemSuperFrameContainer(ROADUInt32 aSuperFrameLength, ROADUInt32 aMaxFrameRangLength)
     : _count(aSuperFrameLength)
 {
     for(decltype(aSuperFrameLength) lindex = 0;
@@ -22,13 +17,13 @@ ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer::FractalFirstOrd
     }
 }
 
-unsigned int ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer::getCount() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer::getCount() {
     return this->_count;
 }
 
 ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer::~FractalFirstOrderItemSuperFrameContainer()
 {
-    for(FractalFirstOrderItemContainer* item: _fractalItemContainerCollection)
+    for(auto item: _fractalItemContainerCollection)
         delete item;
 
     _fractalItemContainerCollection.clear();

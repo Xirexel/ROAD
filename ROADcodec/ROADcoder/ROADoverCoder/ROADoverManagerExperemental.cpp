@@ -41,7 +41,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
             ++lindexChannel)
         {
 
-            double *lptrData = _channelsDataBuffer.getIDoubleDataContainer(lindexChannel)->getData();
+            ROADReal *lptrData = _channelsDataBuffer.getIDoubleDataContainer(lindexChannel)->getData();
 
             auto lptrItemContainer = _fractalItemSuperFrameContainer.at(lindexChannel);
 
@@ -63,30 +63,30 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
 
 
 
-        unsigned int llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSample() >> 3);
+        auto llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSample() >> 3);
 
 
 
-        std::unique_ptr<unsigned char> lpackDomainsBuffer(new unsigned char[llength]);
+        std::unique_ptr<ROADByte> lpackDomainsBuffer(new ROADByte[llength]);
 
-        unsigned char* lpackDomainsBufferData = lpackDomainsBuffer.get();
+        ROADByte* lpackDomainsBufferData = lpackDomainsBuffer.get();
 
-        unsigned int lpackDomainsBufferLength = 0;
+        ROADUInt32 lpackDomainsBufferLength = 0;
 
 
 
-        std::unique_ptr<unsigned char> lpackScalesBuffer(new unsigned char[llength]);
+        std::unique_ptr<ROADByte> lpackScalesBuffer(new ROADByte[llength]);
 
-        unsigned char* lpackScalesBufferData = lpackScalesBuffer.get();
+        ROADByte* lpackScalesBufferData = lpackScalesBuffer.get();
 
-        unsigned int lpackScalesBufferLength = 0;
+        ROADUInt32 lpackScalesBufferLength = 0;
 
         // Обработка буфера ROADdata для записи индексов.
 
 
-        unsigned char* lptrbufferROADdata = this->_bufferROADdata.get();
+        ROADByte* lptrbufferROADdata = this->_bufferROADdata.get();
 
-        unsigned int lbufferROADdataLength = 0;
+        ROADUInt32 lbufferROADdataLength = 0;
 
 
         for(decltype(_options->getAmountOfChannels()) lChannel = 0;
@@ -103,11 +103,11 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
 
                 auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemSuperFrameContainer->getFractalItemContainer(lframeIndex);
 
-                unsigned char lindekcestemp = 0;
+                ROADByte lindekcestemp = 0;
 
-                unsigned char ldomainIndex = 0;
+                ROADByte ldomainIndex = 0;
 
-                double ltempScale = 0.0;
+                ROADReal ltempScale = 0.0;
 
                 auto lfractalAverItemCount = lptrFractalFirstOrderItemContainer->getFractalAverItemCount();
 
@@ -129,7 +129,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
 
                         auto lptrFractalFirstOrderItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItem(lCountFractalFirstOrderItem);
 
-                        unsigned int ldomainOffset = lptrFractalFirstOrderItem->getDomainOffset();
+                        ROADUInt32 ldomainOffset = lptrFractalFirstOrderItem->getDomainOffset();
 
                         ldomainIndex = ldomainOffset & 255;
 
@@ -151,7 +151,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
                             ltempScale = -ltempScale;
                         }
 
-                        unsigned char lScale = static_cast<unsigned char> (ltempScale * 255.0);
+                        ROADByte lScale = static_cast<ROADByte> (ltempScale * 255.0);
 
                         *lpackScalesBufferData = lScale;
 
@@ -182,11 +182,11 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
         }
 
 
-        std::unique_ptr<double> ldoubleBuffer(new double[_options->getSuperFrameLength() * _options->getFrameSampleLength() * _options->getAmountOfChannels()]);
+        std::unique_ptr<ROADReal> lROADRealBuffer(new ROADReal[_options->getSuperFrameLength() * _options->getFrameSampleLength() * _options->getAmountOfChannels()]);
 
-        unsigned int ldoubleBufferLength = 0;
+        ROADUInt32 lROADRealBufferLength = 0;
 
-        double* lptrDoubleData = ldoubleBuffer.get();
+        ROADReal* lptrROADRealData = lROADRealBuffer.get();
 
         FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
 
@@ -202,7 +202,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
             {
                 auto lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(lItemIndex);
 
-                double laver = lptrFractalAverItem->getAver();
+                ROADReal laver = lptrFractalAverItem->getAver();
 
 //                if(lframeIndex == (_options->getSuperFrameLength() - 1) && lItemIndex >= lptrFractalItemContainer->getFractalAverItemCount() - 3)
 //                {
@@ -210,28 +210,28 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
 
 //                }
 
-                unsigned int lLength = lptrFractalAverItem->getLength();
+                ROADUInt32 lLength = lptrFractalAverItem->getLength();
 
-                for(unsigned int lpos = 0;
+                for(ROADUInt32 lpos = 0;
                     lpos < lLength;
                     ++lpos)
                 {
-                    *lptrDoubleData = laver;
+                    *lptrROADRealData = laver;
 
-                    ++lptrDoubleData;
+                    ++lptrROADRealData;
 
-                    ++ldoubleBufferLength;
+                    ++lROADRealBufferLength;
                 }
 
             }
 
         }
 
-        this->_roadOver->writePreListening(ldoubleBuffer.get(), ldoubleBufferLength);
+        this->_roadOver->writePreListening(lROADRealBuffer.get(), lROADRealBufferLength);
 
-        ldoubleBufferLength = 0;
+        lROADRealBufferLength = 0;
 
-        lptrDoubleData = ldoubleBuffer.get();
+        lptrROADRealData = lROADRealBuffer.get();
 
         for(decltype(_options->getAmountOfChannels()) lChannel = 1;
             lChannel < _options->getAmountOfChannels();
@@ -252,14 +252,14 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
                 {
                     auto lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(lItemIndex);
 
-                    double laver = lptrFractalAverItem->getAver();
+                    ROADReal laver = lptrFractalAverItem->getAver();
 
 
-                    *lptrDoubleData = laver;
+                    *lptrROADRealData = laver;
 
-                    ++lptrDoubleData;
+                    ++lptrROADRealData;
 
-                    ++ldoubleBufferLength;
+                    ++lROADRealBufferLength;
 
                 }
 
@@ -268,7 +268,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
         }
 
 
-        unsigned int lConvertLength = this->_roadOver->convertDoubleArrayIntoByteArray(ldoubleBuffer.get(), ldoubleBufferLength, lptrbufferROADdata);
+        ROADUInt32 lConvertLength = this->_roadOver->convertDoubleArrayIntoByteArray(lROADRealBuffer.get(), lROADRealBufferLength, lptrbufferROADdata);
 
         lptrbufferROADdata += lConvertLength;
 
@@ -325,7 +325,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerExperemental::ROADoverManagerExperement
         break;
     }
 
-    unsigned int lMaxFrameRangLength = _options->getFrameSampleLength();
+    ROADUInt32 lMaxFrameRangLength = _options->getFrameSampleLength();
 
     auto lcountOfChannels = _options->getAmountOfChannels();
 
@@ -346,113 +346,12 @@ ROADcoder::ROADoverCoder::ROADoverManagerExperemental::ROADoverManagerExperement
                                                                                 _options->getRangThreshold()
                                                                                 ));
 
-    unsigned int lLength = 40;
+    auto lptrRawData = this->_options->getFractalFormatRawDataContainer();
 
-    std::unique_ptr<char> lFractalFormat(new char[lLength]);
+    _fractalFormatRawDataContainer.reset(lptrRawData.release());
 
-    char* lptrFractalFormat = lFractalFormat.get();
 
-    lptrFractalFormat[0] = 'R';
-
-    lptrFractalFormat[1] = 'O';
-
-    lptrFractalFormat[2] = 'A';
-
-    lptrFractalFormat[3] = 'D';
-
-
-    lptrFractalFormat+=4;
-
-
-    unsigned int ldata = 32;
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-    lptrFractalFormat[0] = 0;
-
-    lptrFractalFormat[1] = 0;
-
-    lptrFractalFormat[2] = 0;
-
-    lptrFractalFormat[3] = 0;
-
-
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = this->_options->getSuperFrameLength();
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = this->_options->getFrameSampleLength() / (this->_options->getRangTopSampleLength() >> this->_options->getAmountRangLevels());
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = this->_options->getDomainShift();
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = (this->_options->getRangTopSampleLength() >> this->_options->getAmountRangLevels());
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = this->_options->getAmountOfChannels();
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = this->_options->getMixingChannelsMode();
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-
-    ldata = 0;
-
-    memcpy(lptrFractalFormat, (void*) &ldata , 4);
-
-    lptrFractalFormat+=4;
-
-
-
-    _fractalFormatRawDataContainer.setRawData(lFractalFormat.release(), lLength);
-
-
-    class CreateAnalyzerException: public exception
+    class CreateAnalyzerException: public std::exception
     {
     public:
 
@@ -477,15 +376,15 @@ ROADcoder::ROADoverCoder::ROADoverManagerExperemental::ROADoverManagerExperement
     if(!_analyzer)
         throw new CreateAnalyzerException;
 
-    unsigned int llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSample() >> 3);
+    ROADUInt32 llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSample() >> 3);
 
-    _bufferROADdata.reset(new unsigned char[llength]);
+    _bufferROADdata.reset(new ROADByte[llength]);
 }
 
-std::tuple<char *, unsigned int> ROADcoder::ROADoverCoder::ROADoverManagerExperemental::getFractalFormatRawData()
+std::tuple<PlatformDependencies::PtrROADByte, PlatformDependencies::ROADUInt32> ROADcoder::ROADoverCoder::ROADoverManagerExperemental::getFractalFormatRawData()
 {
-    std::tuple<char *, unsigned int> result(this->_fractalFormatRawDataContainer.getData(),
-                                          this->_fractalFormatRawDataContainer.getLength());
+    std::tuple<ROADByte *, ROADUInt32> result(this->_fractalFormatRawDataContainer->getData(),
+                                          this->_fractalFormatRawDataContainer->getLength());
     return result;
 }
 

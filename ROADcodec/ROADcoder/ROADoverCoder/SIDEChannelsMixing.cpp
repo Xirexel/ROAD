@@ -17,11 +17,11 @@ void ROADcoder::ROADoverCoder::SIDEChannelsMixing::compute(ROADcoder::ROADoverCo
 
         auto lsamplesCount = lptrLeftChannel->getLength();
 
-        double *lptrLeftChannelDouble = lptrLeftChannel->getData();
+        auto lptrLeftChannelDouble = lptrLeftChannel->getData();
 
-        double *lptrRightChannnelDouble = lptrRightChannel->getData();
+        auto lptrRightChannnelDouble = lptrRightChannel->getData();
 
-        double tempValueMID, tempValueSIDE;
+        ROADReal tempValueMID, tempValueSIDE;
 
         for(decltype(lsamplesCount) index = 0;
             index < lsamplesCount;

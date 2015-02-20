@@ -1,29 +1,19 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADcoder__ROADCoder__IROADFractalAnalyzerFactory_h__
 #define __ROADcoder__ROADCoder__IROADFractalAnalyzerFactory_h__
 
-namespace ROADcoder
-{
-	namespace ROADCoder
-	{
-		class IROADFractalAnalyzerFactory;
-	}
-}
+
+#include "platformdependencies.h"
 
 namespace ROADcoder
 {
 	namespace ROADCoder
 	{
+    using namespace PlatformDependencies;
 		class IROADFractalAnalyzerFactory
 		{
-
             public: virtual ~IROADFractalAnalyzerFactory(){}
 
-			public: virtual unsigned int getOrder() = 0;
+            public: virtual ROADUInt32 getOrder() = 0;
 		};
 	}
 }

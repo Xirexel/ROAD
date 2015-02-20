@@ -5,30 +5,31 @@
 
 namespace Endian
 {
-	class IEndianConvertor;
-	class BigEndianConvertor;
-}
-
-namespace Endian
-{
 	class BigEndianConvertor: public Endian::IEndianConvertor
-	{
+    {
+        public: ROADUInt32 convertToUINT32(PtrROADByte  aData);
 
-		public: unsigned int convertToUINT32(unsigned char* aData);
+        public: ROADInt32 convertToINT32(PtrROADByte  aData);
 
-		public: int convertToINT32(unsigned char* aData);
+        public: ROADUInt16 convertToUINT16(PtrROADByte  aData);
 
-		public: unsigned short convertToUINT16(unsigned char* aData);
+        public: ROADInt16 convertToINT16(PtrROADByte  aData);
 
-		public: short convertToINT16(unsigned char* aData);
+        public: ROADUInt8 convertToUINT8(PtrROADByte Data);
 
-        public: int convertToBytes(unsigned int aValue, unsigned char* aData);
+        public: ROADInt8 convertToINT8(PtrROADByte Data);
 
-        public: int convertToBytes(int aValue, unsigned char* aData);
+        public: ROADInt32 convertToBytes(ROADUInt32 aValue, PtrROADByte  aData);
 
-        public: int convertToBytes(unsigned short aValue, unsigned char* aData);
+        public: ROADInt32 convertToBytes(ROADInt32 aValue, PtrROADByte  aData);
 
-        public: int convertToBytes(short aValue, unsigned char* aData);
+        public: ROADInt32 convertToBytes(ROADUInt16 aValue, PtrROADByte  aData);
+
+        public: ROADInt32 convertToBytes(ROADInt16 aValue, PtrROADByte  aData);
+
+        public: ROADInt32 convertToBytes(ROADUInt8 aValue, PtrROADByte  aData);
+
+        public: ROADInt32 convertToBytes(ROADInt8 aValue, PtrROADByte  aData);
 	};
 }
 

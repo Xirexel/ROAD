@@ -9,27 +9,27 @@ using namespace std;
 #include "IFractalFirstOrderItem.h"
 #include "IFractalAverItem.h"
 
-void ROADdecoder::ROAD::ROADFractalFirstOrderBuilderNoneFixedRangLength::build(double* aData, ROADdecoder::ROAD::IFractalFirstOrderItemContainer* aFractalFirstOrderItemContainer) {
+void ROADdecoder::ROAD::ROADFractalFirstOrderBuilderNoneFixedRangLength::build(PtrROADReal aData, ROADdecoder::ROAD::IFractalFirstOrderItemContainer* aFractalFirstOrderItemContainer) {
 
-    unsigned int countFractalItems = 0;
+    ROADUInt32 countFractalItems = 0;
 
-    double* lFramePos = aData;
+    PtrROADReal lFramePos = aData;
 
-    unsigned int lmaxCount = aFractalFirstOrderItemContainer->getIFractalAverItemCount();
+    ROADUInt32 lmaxCount = aFractalFirstOrderItemContainer->getIFractalAverItemCount();
 
     while(countFractalItems < lmaxCount)
     {
         IFractalAverItem * item = aFractalFirstOrderItemContainer->getIFractalAverItem(countFractalItems);
 
-        unsigned int lrangeLength = item->getLength();
+        ROADUInt32 lrangeLength = item->getLength();
 
-        unsigned int lrangPosition = item->getPosition();
+        ROADUInt32 lrangPosition = item->getPosition();
 
-        double lAver = item->getAver();
+        ROADReal lAver = item->getAver();
 
         lFramePos = aData + lrangPosition;
 
-        for(unsigned int index = 0;
+        for(ROADUInt32 index = 0;
                 index < lrangeLength;
                 ++index)
         {
@@ -46,7 +46,7 @@ void ROADdecoder::ROAD::ROADFractalFirstOrderBuilderNoneFixedRangLength::build(d
     if(lmaxCount == 0)
         return;
 
-    for(unsigned int index = 0;
+    for(ROADUInt32 index = 0;
         index < 4;
         ++index)
     {
@@ -57,27 +57,27 @@ void ROADdecoder::ROAD::ROADFractalFirstOrderBuilderNoneFixedRangLength::build(d
         {
             IFractalFirstOrderItem * item = aFractalFirstOrderItemContainer->getIFractalFirstOrderItem(countFractalItems);
 
-            unsigned int lrangLength = item->getLength();
+            ROADUInt32 lrangLength = item->getLength();
 
-            unsigned int lrangPosition = item->getPosition();
+            ROADUInt32 lrangPosition = item->getPosition();
 
-            double lAver = item->getAver();
+            ROADReal lAver = item->getAver();
 
-            bool lInversDirection = item->isInversDirection();
+            ROADBool lInversDirection = item->isInversDirection();
 
-            unsigned int lDomainOffset = item->getDomainOffset();
+            ROADUInt32 lDomainOffset = item->getDomainOffset();
 
-            double lScale = item->getScale();
+            ROADReal lScale = item->getScale();
 
-            double * lptrDomain = _domainProcessor.process(aData, lrangLength, lInversDirection, lDomainOffset);
+            auto lptrDomain = _domainProcessor.process(aData, lrangLength, lInversDirection, lDomainOffset);
 
             lFramePos = aData + lrangPosition;
 
-            for(unsigned int index = 0;
+            for(ROADUInt32 index = 0;
                     index < lrangLength;
                     ++index)
             {
-                double t = lptrDomain[index] * lScale + lAver;
+                ROADReal t = lptrDomain[index] * lScale + lAver;
 
                 *lFramePos = t;
 
@@ -94,7 +94,7 @@ ROADdecoder::ROAD::ROADFractalFirstOrderBuilderNoneFixedRangLength::~ROADFractal
 
 }
 
-ROADdecoder::ROAD::ROADFractalFirstOrderBuilderNoneFixedRangLength::ROADFractalFirstOrderBuilderNoneFixedRangLength(unsigned int aMaxRangeLength)
+ROADdecoder::ROAD::ROADFractalFirstOrderBuilderNoneFixedRangLength::ROADFractalFirstOrderBuilderNoneFixedRangLength(ROADUInt32 aMaxRangeLength)
     :_domainProcessor(DomainProcessorFirstOrderNoneFixedLength(aMaxRangeLength))
 {
 

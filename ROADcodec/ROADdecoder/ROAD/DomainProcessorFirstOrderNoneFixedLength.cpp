@@ -8,19 +8,19 @@ ROADdecoder::ROAD::DomainProcessorFirstOrderNoneFixedLength::~DomainProcessorFir
     delete []this->_data;
 }
 
-ROADdecoder::ROAD::DomainProcessorFirstOrderNoneFixedLength::DomainProcessorFirstOrderNoneFixedLength(unsigned int aMaxLength)
-    : _data(new double[aMaxLength])
+ROADdecoder::ROAD::DomainProcessorFirstOrderNoneFixedLength::DomainProcessorFirstOrderNoneFixedLength(ROADUInt32 aMaxLength)
+    : _data(new ROADReal[aMaxLength])
 {
 }
 
-double* ROADdecoder::ROAD::DomainProcessorFirstOrderNoneFixedLength::process(double* aData, unsigned int aLength, bool aInversDirection, unsigned int aDomainOffset) {
-    double lAver = 0.0;
+PlatformDependencies::PtrROADReal ROADdecoder::ROAD::DomainProcessorFirstOrderNoneFixedLength::process(PtrROADReal aData, ROADUInt32 aLength, ROADBool aInversDirection, ROADUInt32 aDomainOffset) {
+    ROADReal lAver = 0.0;
 
-    double lTmepValue = 0;
+    ROADReal lTmepValue = 0;
 
-    unsigned int lOffset = 0;
+    ROADUInt32 lOffset = 0;
 
-    for(unsigned int index = 0;
+    for(ROADUInt32 index = 0;
         index < aLength;
         ++index)
     {
@@ -35,7 +35,7 @@ double* ROADdecoder::ROAD::DomainProcessorFirstOrderNoneFixedLength::process(dou
 
     lAver /= aLength;
 
-    for(unsigned int index = 0;
+    for(ROADUInt32 index = 0;
         index < aLength;
         ++index)
     {
@@ -50,13 +50,13 @@ double* ROADdecoder::ROAD::DomainProcessorFirstOrderNoneFixedLength::process(dou
     return this->_data;
 }
 
-void ROADdecoder::ROAD::DomainProcessorFirstOrderNoneFixedLength::backFlip(unsigned int aLength) {
+void ROADdecoder::ROAD::DomainProcessorFirstOrderNoneFixedLength::backFlip(ROADUInt32 aLength) {
 
-    double lTempValue;
+    ROADReal lTempValue;
 
-    unsigned int lHalfLength = aLength >> 1;
+    ROADUInt32 lHalfLength = aLength >> 1;
 
-    for(unsigned int index = 0;
+    for(ROADUInt32 index = 0;
         index < lHalfLength;
         ++index)
     {

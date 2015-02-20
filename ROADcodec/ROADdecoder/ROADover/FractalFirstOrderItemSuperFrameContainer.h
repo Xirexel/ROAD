@@ -1,19 +1,15 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #ifndef __ROADdecoder__ROADover__FractalItemSuperFrameContainer_h__
 #define __ROADdecoder__ROADover__FractalItemSuperFrameContainer_h__
 
+#include <vector>
 
+#include "platformdependencies.h"
 
 namespace ROADdecoder
 {
 	namespace ROADover
 	{
         class FractalFirstOrderItemContainer;
-        class FractalFirstOrderItemSuperFrameContainer;
 	}
 }
 
@@ -21,17 +17,19 @@ namespace ROADdecoder
 {
 	namespace ROADover
 	{
+
+    using namespace PlatformDependencies;
         class FractalFirstOrderItemSuperFrameContainer
 		{
-            private: const unsigned int _count;
+            private: const ROADUInt32 _count;
 
             public: std::vector<ROADdecoder::ROADover::FractalFirstOrderItemContainer*> _fractalItemContainerCollection;
 
-            public: ROADdecoder::ROADover::FractalFirstOrderItemContainer* getFractalFirstOrderItemContainer(unsigned int aIndex);
+            public: ROADdecoder::ROADover::FractalFirstOrderItemContainer* getFractalFirstOrderItemContainer(ROADUInt32 aIndex);
 
-            public: FractalFirstOrderItemSuperFrameContainer(unsigned int aSuperFrameLength, unsigned int aMaxFrameRangLength);
+            public: FractalFirstOrderItemSuperFrameContainer(ROADUInt32 aSuperFrameLength, ROADUInt32 aMaxFrameRangLength);
 
-			public: unsigned int getCount();
+            public: ROADUInt32 getCount();
 
             public: virtual ~FractalFirstOrderItemSuperFrameContainer();
 		};

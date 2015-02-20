@@ -1,11 +1,9 @@
-#include <string>
-#include <vector>
-#include <exception>
-
 #ifndef __ROADcoder__ROADCoder__ROADFractalFirstOrderAnalyzerNoneFixedRangLength_h__
 #define __ROADcoder__ROADCoder__ROADFractalFirstOrderAnalyzerNoneFixedRangLength_h__
 
-// #include "ROADcoder/ROADCoder/DomainPool.h"
+#include <vector>
+
+
 #include "IFractalFirstOrderItemContainer.h"
 #include "IROADFractalFirstOrderAnalyzer.h"
 
@@ -27,13 +25,13 @@ namespace ROADcoder
 	{
         class ROADFractalFirstOrderAnalyzerNoneFixedRangLength: public ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer
         {
-            private: unsigned int _amountRangLevels;
-            private: unsigned int _domainShift;
-            private: unsigned int _frameSampleLength;
-            private: unsigned int _rangTopSampleLength;
-            private: double _rangThreshold;
-            private: double _silenceThreshold;
-            private: unsigned int _currentPosition;
+            private: ROADUInt32 _amountRangLevels;
+            private: ROADUInt32 _domainShift;
+            private: ROADUInt32 _frameSampleLength;
+            private: ROADUInt32 _rangTopSampleLength;
+            private: ROADReal _rangThreshold;
+            private: ROADReal _silenceThreshold;
+            private: ROADUInt32 _currentPosition;
 
 
 
@@ -41,19 +39,19 @@ namespace ROADcoder
 
             public: ROADFractalFirstOrderAnalyzerNoneFixedRangLength(ROADcoder::ROADCoder::IFractalEncodingOptions* aOptions);
 
-            public: void analyze(double* aData, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalFirstOrderItemContainer);
+            public: void analyze(PtrROADReal aData, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalFirstOrderItemContainer);
 
-            private: void silenceMatch(double* aData, unsigned int aSilenceSampleLength, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalFirstOrderItemContainer);
+            private: void silenceMatch(PtrROADReal aData, ROADUInt32 aSilenceSampleLength, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalFirstOrderItemContainer);
 
-            private: void domainIntoRangMatch(double* aData, unsigned int aRangSampleLength, unsigned int aDeepthIndex, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalFirstOrderItemContainer);
+            private: void domainIntoRangMatch(PtrROADReal aData, ROADUInt32 aRangSampleLength, ROADUInt32 aDeepthIndex, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalFirstOrderItemContainer);
 
-			private: double computeSumValue(double* aData, unsigned int aLength);
+            private: ROADReal computeSumValue(PtrROADReal aData, ROADUInt32 aLength);
 
-			private: double computeDeviationValue(double* aData, unsigned int aLength, double aAverValue);
+            private: ROADReal computeDeviationValue(PtrROADReal aData, ROADUInt32 aLength, ROADReal aAverValue);
 
-			private: void populateDomainPools(double* aData);
+            private: void populateDomainPools(PtrROADReal aData);
 
-            private: double computeAlpha(const double *aDataRang, const double *aDataDomain, unsigned int aLength, double aSumRang, double aSumDomain);
+            private: ROADReal computeAlpha(const PtrROADReal aDataRang, const PtrROADReal aDataDomain, ROADUInt32 aLength, ROADReal aSumRang, ROADReal aSumDomain);
 
             public: virtual ~ROADFractalFirstOrderAnalyzerNoneFixedRangLength();
 		};

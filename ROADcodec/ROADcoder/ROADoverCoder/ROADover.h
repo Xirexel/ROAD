@@ -7,6 +7,7 @@
 #include "Result.h"
 #include "RawDataBuffer.h"
 #include "IROADoverManager.h"
+#include "platformdependencies.h"
 
 namespace ROADcoder
 {
@@ -22,27 +23,28 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
+    using namespace PlatformDependencies;
         class ROADOVERCODERSHARED_EXPORT ROADover
 		{
             private: std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverManager> _manager;
 
-            public: unsigned int getRangSampleLength();
+            public: ROADUInt32 getRangSampleLength();
 
-            public: unsigned int getBitsPerSample();
+            public: ROADUInt32 getBitsPerSample();
 
-            public: std::tuple<char *, unsigned int> getFractalFormatRawData();
+            public: std::tuple<PtrROADByte, ROADUInt32> getFractalFormatRawData();
 
-			public: virtual bool lockResource() = 0;
+            public: virtual ROADBool lockResource() = 0;
 
-			public: virtual bool unlockResource() = 0;
+            public: virtual ROADBool unlockResource() = 0;
 
             public: virtual ROADcoder::ROADoverCoder::Result readRawData(ROADcoder::ROADoverCoder::RawDataBuffer &aRawDataBuffer) = 0;
 
-            public: virtual unsigned int convertDoubleArrayIntoByteArray(const double* aDoubleData, unsigned int aLengthDoubleArray, unsigned char* aByteData) = 0;
+            public: virtual ROADUInt32 convertDoubleArrayIntoByteArray(const PtrROADReal aDoubleData, ROADUInt32 aLengthDoubleArray, PtrROADByte aByteData) = 0;
 
-            public: virtual void writePreListening(double *aDoubleData, unsigned int aLength) = 0;
+            public: virtual void writePreListening(PtrROADReal aDoubleData, ROADUInt32 aLength) = 0;
 
-            public: virtual void writeROADdata(unsigned char* aByteData, unsigned int aLength) = 0;
+            public: virtual void writeROADdata(PtrROADByte aByteData, ROADUInt32 aLength) = 0;
 
             public: ROADcoder::ROADoverCoder::Result doOneStepEncoding();
 

@@ -1,12 +1,9 @@
-#include <string>
-#include <vector>
-#include <exception>
-#include <memory>
-using namespace std;
-
 #ifndef __ROADdecoder__ROADover__ROADoverManagerExperemental_h__
 #define __ROADdecoder__ROADover__ROADoverManagerExperemental_h__
 
+
+#include <vector>
+#include <memory>
 // #include "ROADdecoder/ROADover/ROADover.h"
 // #include "ROADdecoder/ROADover/ROADoverDecodingOptionsExperemental.h"
 #include "../ROAD/IROADFractalFirstOrderBuilder.h"
@@ -20,9 +17,6 @@ namespace ROADdecoder
 		class ROADover;
 		class ROADoverDecodingOptionsExperemental;
         class FractalFirstOrderItemSuperFrameContainer;
-		// enum Result;
-		class ROADoverManager;
-		class ROADoverManagerExperemental;
 	}
 }
 
@@ -37,9 +31,9 @@ namespace ROADdecoder
 
             protected: ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* _options;
 
-            private: std::unique_ptr<unsigned char> _preListeningData;
+            private: std::unique_ptr<ROADByte> _preListeningData;
 
-            private: std::unique_ptr<double> _preListeningDoubleData;
+            private: std::unique_ptr<ROADReal> _preListeningDoubleData;
 
 			public: ROADoverManagerExperemental(ROADdecoder::ROADover::ROADover* aRoadOver, ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* aOptions);
 

@@ -1,8 +1,3 @@
-#include <string>
-#include <vector>
-#include <exception>
-using namespace std;
-
 #include "FractalFirstOrderItem.h"
 
 ROADdecoder::ROADover::FractalFirstOrderItem::FractalFirstOrderItem()
@@ -16,51 +11,51 @@ ROADdecoder::ROADover::FractalFirstOrderItem::FractalFirstOrderItem()
 
 }
 
-double ROADdecoder::ROADover::FractalFirstOrderItem::getAver() {
+PlatformDependencies::ROADReal ROADdecoder::ROADover::FractalFirstOrderItem::getAver() {
     return this->_aver;
 }
 
-unsigned int ROADdecoder::ROADover::FractalFirstOrderItem::getLength() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::FractalFirstOrderItem::getLength() {
     return this->_length;
 }
 
-bool ROADdecoder::ROADover::FractalFirstOrderItem::isInversDirection() {
+PlatformDependencies::ROADBool ROADdecoder::ROADover::FractalFirstOrderItem::isInversDirection() {
     return this->_inversDirection;
 }
 
-unsigned int ROADdecoder::ROADover::FractalFirstOrderItem::getDomainOffset() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::FractalFirstOrderItem::getDomainOffset() {
     return this->_domainOffset;
 }
 
-double ROADdecoder::ROADover::FractalFirstOrderItem::getScale() {
+PlatformDependencies::ROADReal ROADdecoder::ROADover::FractalFirstOrderItem::getScale() {
     return this->_scale;
 }
 
-unsigned int ROADdecoder::ROADover::FractalFirstOrderItem::getPosition() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::FractalFirstOrderItem::getPosition() {
     return this->_position;
 }
 
-void ROADdecoder::ROADover::FractalFirstOrderItem::setAver(double aAver) {
+void ROADdecoder::ROADover::FractalFirstOrderItem::setAver(ROADReal aAver) {
 	this->_aver = aAver;
 }
 
-void ROADdecoder::ROADover::FractalFirstOrderItem::setLength(unsigned int aLength) {
+void ROADdecoder::ROADover::FractalFirstOrderItem::setLength(ROADUInt32 aLength) {
 	this->_length = aLength;
 }
 
-void ROADdecoder::ROADover::FractalFirstOrderItem::setInversDirection(bool aInversDirection) {
+void ROADdecoder::ROADover::FractalFirstOrderItem::setInversDirection(ROADBool aInversDirection) {
 	this->_inversDirection = aInversDirection;
 }
 
-void ROADdecoder::ROADover::FractalFirstOrderItem::setDomainOffset(unsigned int aDomainOffset) {
+void ROADdecoder::ROADover::FractalFirstOrderItem::setDomainOffset(ROADUInt32 aDomainOffset) {
 	this->_domainOffset = aDomainOffset;
 }
 
-void ROADdecoder::ROADover::FractalFirstOrderItem::setScale(double aScale) {
+void ROADdecoder::ROADover::FractalFirstOrderItem::setScale(ROADReal aScale) {
 	this->_scale = aScale;
 }
 
-void ROADdecoder::ROADover::FractalFirstOrderItem::setPosition(unsigned int aPosition) {
+void ROADdecoder::ROADover::FractalFirstOrderItem::setPosition(ROADUInt32 aPosition) {
 	this->_position = aPosition;
 }
 
