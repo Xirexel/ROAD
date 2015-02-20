@@ -12,7 +12,6 @@ namespace ROADdecoder
 		class IROADoverManager;
 		class IRawDataBuffer;
 		class IROADoverDecodingOptions;
-		// enum Result;
 		class ROADover;
 	}
 }
