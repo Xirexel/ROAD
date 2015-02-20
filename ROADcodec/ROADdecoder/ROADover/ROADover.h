@@ -57,13 +57,13 @@ namespace ROADdecoder
 
             public: virtual ~ROADover();
 
-            public: unsigned int getAmountOfChannels();
+            public: ROADUInt32 getAmountOfChannels();
 
-            protected: unsigned int getSuperframeLength();
+            protected: ROADUInt32 getSuperframeLength();
 
-            protected: unsigned int getFrameRangLength();
+            protected: ROADUInt32 getFrameRangLength();
 
-            protected: unsigned int getSamplesPerRang();
+            protected: ROADUInt32 getSamplesPerRang();
 
 
 

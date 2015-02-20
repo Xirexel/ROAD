@@ -5,17 +5,19 @@
 #include "IROADoverEncodingOptions.h"
 #include "FractalFormatRawDataContainer.h"
 
+#include "roadovercoder_global.h"
+
 
 
 namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
-		class ROADoverEncodingOptionsFirstVersion: public ROADcoder::ROADoverCoder::IROADoverEncodingOptions
+        class ROADOVERCODERSHARED_EXPORT ROADoverEncodingOptionsFirstVersion: public ROADcoder::ROADoverCoder::IROADoverEncodingOptions
         {
-            private: ROADByte _superFrameLength;
-            private: ROADByte _rangSampleLength;
-            private: ROADByte _amountRangLevels;
+            private: ROADUInt8 _maxSuperFrameLength;
+            private: ROADUInt8 _rangSampleLength;
+            private: ROADUInt8 _amountRangLevels;
             private: ROADByte _domainShift;
             private: ROADReal _silenceThreshold;
             private: ROADReal _rangThreshold;
@@ -24,7 +26,7 @@ namespace ROADcoder
             private: ROADUInt32 _encryptionFormat;
             private: ROADByte _bitsPerSampleCode;
             private: ROADUInt16 _selectedPreListeningChannel;
-            private: ROADByte _endianType;
+            private: ROADUInt8 _endianType;
             private: ROADInt8 _constantScale;
             private: ROADUInt32 _originalFrequency;
 
@@ -38,17 +40,17 @@ namespace ROADcoder
 
             public: ROADUInt32 getFrameSampleLength();
 
-            public: void setSuperFrameLength(ROADByte aSuperFrameLength);
+            public: void setMaxSuperFrameLength(ROADUInt8 aSuperFrameLength);
 
-            public: ROADByte getSuperFrameLength();
+            public: ROADUInt8 getMaxSuperFrameLength();
 
-            public: void setPowerRangSampleLength(ROADByte aRangSampleLength);
+            public: void setRangSampleLength(ROADUInt8 aRangSampleLength);
 
-            public: ROADByte getRangSampleLength();
+            public: ROADUInt8 getRangSampleLength();
 
-            public: void setAmountRangLevels(ROADByte aAmountRangLevels);
+            public: void setAmountRangLevels(ROADUInt8 aAmountRangLevels);
 
-            public: ROADByte getAmountRangLevels();
+            public: ROADUInt8 getAmountRangLevels();
 
             public: void setDomainShift(ROADByte aDomainShift);
 
@@ -82,9 +84,9 @@ namespace ROADcoder
 
             public: ROADUInt16 getSelectedPreListeningChannel();
 
-            public: ROADUInt32 getEndianType();
+            public: ROADUInt8 getEndianType();
 
-            public: void setEndianType(ROADUInt32 aEndianType);
+            public: void setEndianType(ROADUInt8 aEndianType);
 
             public: ROADInt8 getConstantScale();
 

@@ -90,8 +90,8 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
             FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-            for( decltype(_options->getSuperFrameLength()) lframeIndex = 0;
-                 lframeIndex < _options->getSuperFrameLength();
+            for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+                 lframeIndex < _options->getMaxSuperFrameLength();
                  ++lframeIndex)
             {
 
@@ -176,7 +176,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
         }
 
 
-        std::unique_ptr<ROADReal> ldoubleBuffer(new ROADReal[_options->getSuperFrameLength() * _options->getFrameSampleLength() * _options->getAmountOfChannels()]);
+        std::unique_ptr<ROADReal> ldoubleBuffer(new ROADReal[_options->getMaxSuperFrameLength() * _options->getFrameSampleLength() * _options->getAmountOfChannels()]);
 
         ROADUInt32 ldoubleBufferLength = 0;
 
@@ -184,8 +184,8 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
 
-        for( decltype(_options->getSuperFrameLength()) lframeIndex = 0;
-             lframeIndex < _options->getSuperFrameLength();
+        for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+             lframeIndex < _options->getMaxSuperFrameLength();
              ++lframeIndex)
         {
             auto lptrFractalItemContainer = lptrFractalFirstOrderItemSuperFrameContainer->getFractalItemContainer(lframeIndex);
@@ -234,8 +234,8 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
             FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-            for( decltype(_options->getSuperFrameLength()) lframeIndex = 0;
-                 lframeIndex < _options->getSuperFrameLength();
+            for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+                 lframeIndex < _options->getMaxSuperFrameLength();
                  ++lframeIndex)
             {
                 auto lptrFractalItemContainer = lptrFractalFirstOrderItemSuperFrameContainer->getFractalItemContainer(lframeIndex);
@@ -306,7 +306,7 @@ std::tuple<PlatformDependencies::PtrROADByte, PlatformDependencies::ROADUInt32> 
 }
 
 ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersion(ROADcoder::ROADoverCoder::ROADover* aRoadOver, ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion* aOptions)
-    : ROADoverManager(aRoadOver, aOptions->getAmountOfChannels(), aOptions->getSuperFrameLength(), 0, aOptions->getFrameSampleLength() * aOptions->getSuperFrameLength()),
+    : ROADoverManager(aRoadOver, aOptions->getAmountOfChannels(), aOptions->getMaxSuperFrameLength(), 0, aOptions->getFrameSampleLength() * aOptions->getMaxSuperFrameLength()),
       _options(aOptions)
 {
     this->_bitsPerSample = aOptions->getBitsPerSampleCode();
@@ -333,7 +333,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     while(lcountOfChannels > 0)
     {
 
-        _fractalItemSuperFrameContainer.push_back(new FractalFirstOrderItemSuperFrameContainer(_options->getSuperFrameLength(),
+        _fractalItemSuperFrameContainer.push_back(new FractalFirstOrderItemSuperFrameContainer(_options->getMaxSuperFrameLength(),
                                                                                                lMaxFrameRangLength));
 
         --lcountOfChannels;

@@ -22,31 +22,31 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::R
 }
 
 PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFrameSampleLength() {
-    return 2048;
+    return 4096;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setSuperFrameLength(ROADByte aSuperFrameLength) {
-	this->_superFrameLength = aSuperFrameLength;
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setMaxSuperFrameLength(ROADUInt8 aMaxSuperFrameLength) {
+    this->_maxSuperFrameLength = aMaxSuperFrameLength;
 }
 
-PlatformDependencies::ROADByte ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getSuperFrameLength() {
-	return this->_superFrameLength;
+PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getMaxSuperFrameLength() {
+    return this->_maxSuperFrameLength;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setPowerRangSampleLength(ROADByte aRangSampleLength) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setRangSampleLength(ROADUInt8 aRangSampleLength) {
     this->_rangSampleLength = aRangSampleLength;
 }
 
-PlatformDependencies::ROADByte ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getRangSampleLength() {
+PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getRangSampleLength() {
 //    return this->_rangSampleLength;
     return 4;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setAmountRangLevels(ROADByte aAmountRangLevels) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setAmountRangLevels(ROADUInt8 aAmountRangLevels) {
     this->_amountRangLevels = aAmountRangLevels;
 }
 
-PlatformDependencies::ROADByte ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getAmountRangLevels() {
+PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getAmountRangLevels() {
     return this->_amountRangLevels;
 }
 
@@ -114,12 +114,12 @@ PlatformDependencies::ROADUInt16 ROADcoder::ROADoverCoder::ROADoverEncodingOptio
 	return this->_selectedPreListeningChannel;
 }
 
-PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getEndianType()
+PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getEndianType()
 {
     return this->_endianType;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setEndianType(ROADUInt32 aEndianType)
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setEndianType(ROADUInt8 aEndianType)
 {
     this->_endianType = aEndianType;
 }
@@ -171,9 +171,8 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
         lEndianType = Endian::BIG;
         break;
     case 1:
-        lEndianType = Endian::LITTLE;
-        break;
     default:
+        lEndianType = Endian::LITTLE;
         break;
     }
 
@@ -185,12 +184,12 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
                                        << 'd' // 1 byte
                                        << (ROADUInt8) lEndianType << 7 // 1 byte
                                        << (ROADUInt16) (lLength - 7) // 2 bytes
-                                       << getAmountOfChannels() // 2 bytes
                                        << getMixingChannelsMode() // 1 byte
+                                       << getAmountOfChannels() // 2 bytes
                                        << getSelectedPreListeningChannel() // 2 bytes
                                        << getBitsPerSampleCode() // 1 byte
                                        << getOriginalFrequency() // 4 bytes
-                                       << getSuperFrameLength() // 1 byte
+                                       << (ROADUInt8)(getMaxSuperFrameLength() - 1) // 1 byte
                                        << getAmountRangLevels() // 1 byte
                                        << getRangSampleLength() // 1 byte
                                        << getConstantScale() // 1 byte

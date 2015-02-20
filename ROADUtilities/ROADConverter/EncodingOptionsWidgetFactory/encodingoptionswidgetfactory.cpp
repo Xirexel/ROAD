@@ -1,6 +1,8 @@
 #include "encodingoptionswidgetfactory.h"
 #include "encodingoptionsexperementalwidget.h"
+#include "EncodingOptionsFirstVersionWidget.h"
 #include "ROADoverEncodingOptionsFactory.h"
+#include "ROADoverEncodingOptionsFirstVersion.h"
 #include "encodingoptionsfactory.h"
 
 using namespace EncodingOptions;
@@ -9,32 +11,43 @@ std::unique_ptr<EncodingOptions::EncodingOptionsWidget> EncodingOptionsWidgetFac
 {
     using namespace ROADcoder::ROADoverCoder;
 
-    std::unique_ptr<EncodingOptionsWidget> result;
+//    std::unique_ptr<EncodingOptionsWidget> result;
 
     auto lencodingOptions = EncodingOptionsFactory::getIROADoverEncodingOptions(aType);
 
-    do
-    {
+    return getEncodingOptionsWidget(lencodingOptions);
 
-        std::unique_ptr<ROADoverEncodingOptionsExperemental> loptions(dynamic_cast<ROADoverEncodingOptionsExperemental*>(lencodingOptions.release()));
+//    do
+//    {
 
-        if(!loptions)
-            break;
+//        switch (aType) {
+//        case EXPEREMENTAL:
+//        {
+//            std::unique_ptr<ROADoverEncodingOptionsExperemental> loptions(dynamic_cast<ROADoverEncodingOptionsExperemental*>(lencodingOptions.release()));
 
-        switch (aType) {
-        case 0:
+//            if(!loptions)
+//                break;
 
-            result.reset(new EncodingOptionsExperementalWidget(loptions));
+//            result.reset(new EncodingOptionsExperementalWidget(loptions));
+//        }
 
+//            break;
+//        case FIRSTVERSION:
 
-            break;
-        default:
-            break;
-        }
+//        {
 
-    }while(false);
+//            std::unique_ptr<ROADoverEncodingOptionsFirstVersion> loptions(dynamic_cast<ROADoverEncodingOptionsFirstVersion*>(lencodingOptions.release()));
 
-    return result;
+//            result.reset(new EncodingOptionsFirstVersionWidget(loptions));
+
+//        }
+//        default:
+//            break;
+//        }
+
+//    }while(false);
+
+//    return result;
 }
 
 std::unique_ptr<EncodingOptions::EncodingOptionsWidget> EncodingOptionsWidgetFactory::getEncodingOptionsWidget(std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aOptions)
@@ -50,7 +63,7 @@ std::unique_ptr<EncodingOptions::EncodingOptionsWidget> EncodingOptionsWidgetFac
             break;
 
         switch (aOptions->getROADFormatMode()) {
-        case 0:
+        case EXPEREMENTAL:
 
         {
 
@@ -61,6 +74,19 @@ std::unique_ptr<EncodingOptions::EncodingOptionsWidget> EncodingOptionsWidgetFac
         }
 
             break;
+        case FIRSTVERSION:
+
+        {
+
+            std::unique_ptr<ROADoverEncodingOptionsFirstVersion> loptions(dynamic_cast<ROADoverEncodingOptionsFirstVersion*>(aOptions.release()));
+
+            result.reset(new EncodingOptionsFirstVersionWidget(loptions));
+
+        }
+
+            break;
+
+
         default:
             break;
         }
@@ -80,8 +106,11 @@ std::map<QString, unsigned int> EncodingOptionsWidgetFactory::getEncodingOptions
 
     for(auto item: llistFormats)
     {
-        if(item == 0)
-            lresult["ROAD Experemental"] = 0;
+        if(item == EXPEREMENTAL)
+            lresult["ROAD Experemental"] = EXPEREMENTAL;
+
+        if(item == FIRSTVERSION)
+            lresult["ROAD First Version"] = FIRSTVERSION;
     }
 
     return lresult;

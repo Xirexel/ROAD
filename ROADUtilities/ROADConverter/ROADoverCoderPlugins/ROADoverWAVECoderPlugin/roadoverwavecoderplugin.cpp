@@ -35,7 +35,7 @@ IROADoverCoder* ROADoverWAVECoderPlugin::createIROADoverCoder(IROADoverRawReader
         break;
     }
 
-    aIROADoverCoderOptions->setBitsPerSample(aOriginalAudioStreamOptions->getBPS());
+    aIROADoverCoderOptions->setBitsPerSampleCode(aOriginalAudioStreamOptions->getBPS());
 
     return new ROADoverWAVECoder(outputFile, ptrReader, aOriginalAudioStreamOptions, aIROADoverCoderOptions);
 

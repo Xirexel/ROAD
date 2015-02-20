@@ -1,6 +1,7 @@
 #include "persistroadencodingoptions.h"
 #include "ROADoverEncodingOptionsFactory.h"
 #include "ROADoverEncodingOptionsExperemental.h"
+#include "ROADoverEncodingOptionsFirstVersion.h"
 
 #include <QSettings>
 
@@ -26,12 +27,20 @@ PersistROADEncodingOptions& PersistROADEncodingOptions::getInstance()
 
 std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> PersistROADEncodingOptions::loadIROADoverEncodingOptions(unsigned int aROADFormat)
 {
+    using namespace ROADcoder::ROADoverCoder;
+
     std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> result;
 
     switch (aROADFormat) {
-    case 0:
+    case EXPEREMENTAL:
 
         result.reset(loadROADoverEncodingOptionsExperemental().release());
+
+        break;
+
+    case FIRSTVERSION:
+
+        result.reset(loadROADoverEncodingOptionsFirstVersion().release());
 
         break;
     default:
@@ -130,6 +139,54 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> PersistROADE
         loptions->setRangTopSampleLength(settings.value("rangTopSampleLength", 32).toInt());
 
         loptions->setSuperFrameLength(settings.value("superFrameLength", 10).toInt());
+
+        loptions->setEncryptionFormat(settings.value("encryptionFormat", 0).toInt());
+
+        settings.endGroup();
+
+    }while(false);
+
+
+    return lresult;
+}
+
+std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> PersistROADEncodingOptions::loadROADoverEncodingOptionsFirstVersion()
+{
+    using namespace ROADcoder::ROADoverCoder;
+
+    std::unique_ptr<IROADoverEncodingOptions> lresult(ROADoverEncodingOptionsFactory::getIROADoverEncodingOptions(FIRSTVERSION));
+
+    do
+    {
+        if(!lresult)
+            break;
+
+        auto loptions = dynamic_cast<ROADoverEncodingOptionsFirstVersion*>(lresult.get());
+
+        if(loptions == nullptr)
+            break;
+
+        settings.beginGroup("ROADoverEncodingOptionsFirstVersion");
+
+        loptions->setAmountRangLevels((ROADUInt8)settings.value("amountRangeLevels", 0).toInt());
+
+        loptions->setConstantScale((ROADInt8)settings.value("constantScale", 96).toUInt());
+
+        loptions->setDomainShift(settings.value("domainShift", 1).toInt());
+
+        loptions->setEndianType((ROADUInt8)settings.value("endianType", 1).toInt());
+
+        loptions->setMaxSuperFrameLength((ROADUInt8)settings.value("maxSuperFrameLength", 10).toInt());
+
+        loptions->setMixingChannelsMode(
+                    ROADcoder::ROADoverCoder::ChannelsMixingMode(settings.value("mixingChannelsMode",
+                                                                 ROADcoder::ROADoverCoder::ChannelsMixingMode::MID).toInt()));
+
+        loptions->setRangSampleLength((ROADUInt8)settings.value("maxSuperFrameLength", 4).toInt());
+
+        loptions->setRangThreshold(settings.value("rangThreshold", 120.0).toDouble());
+
+        loptions->setSilenceThreshold(settings.value("silenceThreshold", 120.0).toDouble());
 
         loptions->setEncryptionFormat(settings.value("encryptionFormat", 0).toInt());
 

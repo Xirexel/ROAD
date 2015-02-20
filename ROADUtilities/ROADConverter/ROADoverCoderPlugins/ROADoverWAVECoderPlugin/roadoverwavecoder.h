@@ -13,6 +13,7 @@
 
 
 
+using namespace PlatformDependencies;
 
 class ROADOVERWAVECODERSHARED_EXPORT ROADoverWAVECoder: public ROADcoder::ROADoverCoder::ROADover, public IROADoverCoder
 {
@@ -37,7 +38,7 @@ public:
 
     virtual ROADcoder::ROADoverCoder::Result readRawData(ROADcoder::ROADoverCoder::RawDataBuffer &aRawDataBuffer);
 
-    virtual unsigned int convertDoubleArrayIntoByteArray(const double* aDoubleData, unsigned int aLengthDoubleArray, unsigned char* aByteData);
+    virtual unsigned int convertDoubleArrayIntoByteArray(const PtrROADReal aDoubleData, ROADUInt32 aLengthDoubleArray, PtrROADByte aByteData);
 
     virtual void writePreListening(double *aDoubleData, unsigned int aLength);
 

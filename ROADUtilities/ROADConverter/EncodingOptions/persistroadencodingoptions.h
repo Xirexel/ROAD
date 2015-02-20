@@ -29,6 +29,11 @@ private:
 
     std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> loadROADoverEncodingOptionsExperemental();
 
+    std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> loadROADoverEncodingOptionsFirstVersion();
+
+
+
+
     void persistROADoverEncodingOptionsExperemental(ROADcoder::ROADoverCoder::IROADoverEncodingOptions * aPtrOptions);
 
 

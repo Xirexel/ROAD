@@ -36,7 +36,7 @@ namespace ROADdecoder
 
             public: virtual ROADInt32 readPreListening(PtrROADByte aData) = 0;
 
-            public: virtual void convertByteArrayIntoDoubleArray(const PtrROADByte aByteData, ROADUInt32 aLengthByteArray, PtrROADReal aDoubleData) = 0;
+            public: virtual void convertByteArrayIntoDoubleArray(PtrROADByte aByteData, ROADUInt32 aLengthByteArray, PtrROADReal aDoubleData) = 0;
 
             public: virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer) = 0;
 

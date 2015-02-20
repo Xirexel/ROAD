@@ -1,5 +1,6 @@
 #include "ROADoverEncodingOptionsFactory.h"
 #include "ROADoverEncodingOptionsExperemental.h"
+#include "ROADoverEncodingOptionsFirstVersion.h"
 
 #include "ROADFormatMode.h"
 
@@ -11,6 +12,11 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::R
     case EXPEREMENTAL:
 
         result.reset(new ROADoverEncodingOptionsExperemental);
+
+        break;
+    case FIRSTVERSION:
+
+        result.reset(new ROADoverEncodingOptionsFirstVersion);
 
         break;
     default:

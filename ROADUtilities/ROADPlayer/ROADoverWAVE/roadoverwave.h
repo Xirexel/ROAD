@@ -19,6 +19,8 @@ typedef long long int64;
 
 #define UNUSED(x) (void)x;
 
+using namespace PlatformDependencies;
+
 template<typename T, typename O>
 class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
 {
@@ -177,7 +179,7 @@ protected:
         return _superFramePreListeningBytesLength;
     }
 
-    virtual void convertByteArrayIntoDoubleArray(const unsigned char* aByteData, unsigned int aLengthByteArray, double* aDoubleData)
+    virtual void convertByteArrayIntoDoubleArray(PtrROADByte aByteData, ROADUInt32 aLengthByteArray, PtrROADReal aDoubleData)
     {
         typeInSample laver;
 
