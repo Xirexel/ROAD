@@ -10,6 +10,12 @@
     <height>386</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>420</width>
+    <height>386</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -18,7 +24,7 @@
     <widget class="QWidget" name="widget" native="true">
      <property name="minimumSize">
       <size>
-       <width>170</width>
+       <width>220</width>
        <height>0</height>
       </size>
      </property>
@@ -28,39 +34,79 @@
        <height>16777215</height>
       </size>
      </property>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>152</width>
-        <height>56</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Samples length of 
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Samples length of 
 encoding frame:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>90</y>
-        <width>151</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Max super frame length:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Max super frame length:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Minimum rang sample length:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Depth of fractal analyse:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Shift of Domains:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Endian type:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Constant scale:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
@@ -68,10 +114,10 @@ encoding frame:</string>
      <widget class="QLabel" name="m_sampleLength">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>211</width>
-        <height>16</height>
+        <x>2</x>
+        <y>27</y>
+        <width>171</width>
+        <height>20</height>
        </rect>
       </property>
       <property name="text">
@@ -82,8 +128,8 @@ encoding frame:</string>
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>92</y>
-        <width>221</width>
+        <y>69</y>
+        <width>171</width>
         <height>22</height>
        </rect>
       </property>
@@ -95,6 +141,90 @@ encoding frame:</string>
       </property>
       <property name="value">
        <number>1</number>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="m_RangSampleLengthComboBox">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>123</y>
+        <width>171</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="m_DepthFractalAnalyseComboBox">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>172</y>
+        <width>171</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="m_ShiftDomainsSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>222</y>
+        <width>171</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>256</number>
+      </property>
+      <property name="value">
+       <number>1</number>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="m_endianTypeComboBox">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>272</y>
+        <width>171</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>BIG</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>LITTLE</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QDoubleSpinBox" name="m_ConstantScaleDoubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>323</y>
+        <width>171</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="decimals">
+       <number>6</number>
+      </property>
+      <property name="minimum">
+       <double>-0.992187000000000</double>
+      </property>
+      <property name="maximum">
+       <double>0.992187000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>0.007812000000000</double>
+      </property>
+      <property name="value">
+       <double>0.000000000000000</double>
       </property>
      </widget>
     </widget>

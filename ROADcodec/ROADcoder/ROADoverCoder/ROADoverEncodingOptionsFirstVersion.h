@@ -16,7 +16,7 @@ namespace ROADcoder
         class ROADOVERCODERSHARED_EXPORT ROADoverEncodingOptionsFirstVersion: public ROADcoder::ROADoverCoder::IROADoverEncodingOptions
         {
             private: ROADUInt8 _maxSuperFrameLength;
-            private: ROADUInt8 _rangSampleLength;
+            private: ROADUInt8 _rangSampleLengthPowerOfTwoScale;
             private: ROADUInt8 _amountRangLevels;
             private: ROADByte _domainShift;
             private: ROADReal _silenceThreshold;
@@ -44,9 +44,13 @@ namespace ROADcoder
 
             public: ROADUInt8 getMaxSuperFrameLength();
 
-            public: void setRangSampleLength(ROADUInt8 aRangSampleLength);
+            public: void setRangSampleLengthPowerOfTwoScale(ROADUInt8 aRangSampleLength);
 
-            public: ROADUInt8 getRangSampleLength();
+            public: ROADUInt8 getRangSampleLengthPowerOfTwoScale();
+
+            public: ROADUInt32 getRangSampleLength();
+
+            public: ROADUInt32 getInitRangSampleLength();
 
             public: void setAmountRangLevels(ROADUInt8 aAmountRangLevels);
 

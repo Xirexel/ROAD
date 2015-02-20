@@ -33,12 +33,26 @@ PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOption
     return this->_maxSuperFrameLength;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setRangSampleLength(ROADUInt8 aRangSampleLength) {
-    this->_rangSampleLength = aRangSampleLength;
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setRangSampleLengthPowerOfTwoScale(ROADUInt8 aRangSampleLength) {
+    this->_rangSampleLengthPowerOfTwoScale = aRangSampleLength;
 }
 
-PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getRangSampleLength() {
-//    return this->_rangSampleLength;
+PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getRangSampleLengthPowerOfTwoScale() {
+    return this->_rangSampleLengthPowerOfTwoScale;
+}
+
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getRangSampleLength() {
+
+    ROADUInt32 lresult = getInitRangSampleLength() << this->_rangSampleLengthPowerOfTwoScale;
+
+    if((lresult << 1) > getFrameSampleLength())
+        lresult = getFrameSampleLength() >> 1;
+
+    return lresult;
+}
+
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getInitRangSampleLength()
+{
     return 4;
 }
 
@@ -191,7 +205,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
                                        << getOriginalFrequency() // 4 bytes
                                        << (ROADUInt8)(getMaxSuperFrameLength() - 1) // 1 byte
                                        << getAmountRangLevels() // 1 byte
-                                       << getRangSampleLength() // 1 byte
+                                       << getRangSampleLengthPowerOfTwoScale() // 1 byte
                                        << getConstantScale() // 1 byte
                                        << getDomainShift() // 1 byte
                                        << getEncryptionFormat() // 4 bytes

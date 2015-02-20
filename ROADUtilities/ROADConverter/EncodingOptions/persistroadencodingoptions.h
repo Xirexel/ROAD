@@ -27,14 +27,12 @@ private:
 
     PersistROADEncodingOptions& operator= (const PersistROADEncodingOptions&) = delete;
 
-    std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> loadROADoverEncodingOptionsExperemental();
-
-    std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> loadROADoverEncodingOptionsFirstVersion();
+    std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> loadROADoverEncodingOptions(unsigned int aROADFormat);
 
 
 
 
-    void persistROADoverEncodingOptionsExperemental(ROADcoder::ROADoverCoder::IROADoverEncodingOptions * aPtrOptions);
+    void persistROADoverEncodingOptions(ROADcoder::ROADoverCoder::IROADoverEncodingOptions * aPtrOptions);
 
 
 };
