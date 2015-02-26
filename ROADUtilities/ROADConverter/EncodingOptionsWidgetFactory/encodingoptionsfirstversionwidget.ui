@@ -24,7 +24,7 @@
     <widget class="QWidget" name="widget" native="true">
      <property name="minimumSize">
       <size>
-       <width>220</width>
+       <width>200</width>
        <height>0</height>
       </size>
      </property>
@@ -203,11 +203,14 @@ encoding frame:</string>
       </item>
      </widget>
      <widget class="QDoubleSpinBox" name="m_ConstantScaleDoubleSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>323</y>
-        <width>171</width>
+        <width>71</width>
         <height>22</height>
        </rect>
       </property>
@@ -227,10 +230,40 @@ encoding frame:</string>
        <double>0.000000000000000</double>
       </property>
      </widget>
+     <widget class="QCheckBox" name="m_ConstantScaleEnableCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>326</y>
+        <width>111</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Constant scale</string>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>m_ConstantScaleEnableCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_ConstantScaleDoubleSpinBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>350</x>
+     <y>345</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>250</x>
+     <y>342</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
