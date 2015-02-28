@@ -178,27 +178,18 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
 
     PtrROADByte lPtrFractalFormat = lFractalFormat.get();
 
-    Endian::EndianType lEndianType = Endian::LITTLE;
+    ROADUInt8 lHead = this->_endianType;
 
-    switch (this->_endianType) {
-    case 0:
-        lEndianType = Endian::BIG;
-        break;
-    case 1:
-    default:
-        lEndianType = Endian::LITTLE;
-        break;
-    }
 
-    auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, lLength, lEndianType);
+
+    auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, lLength, Endian::EndianType(this->_endianType));
 
     lptrIDataWriteDriver.get()->operator<<('R') // 1 byte
                                        << 'o' // 1 byte
                                        << 'A' // 1 byte
                                        << 'd' // 1 byte
-                                       << (ROADUInt8) lEndianType << 7 // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: ROADINFO - 0
+                                       << lHead // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: ROADINFO - 0
                                        << (ROADUInt16) (lLength - 7) // 2 bytes: length of block
-                                       << getMixingChannelsMode() // 1 byte: code of mixing channels - 0(NONE), 1(MID - prelistening channel is averade of sterio), 2(SIDE - prelistening channel is diff of sterio), 3(CUSTOMIZE - select one channel for prelistening)
                                        << getAmountOfChannels() // 2 bytes: original amount of channels
                                        << getBitsPerSampleCode() // 1 byte: code of bits per sample:
                                           /* U8 = 0x08 - unsigned integer 8 bits,
@@ -218,6 +209,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
                                            * F32 = 0x46 - float 32 bits,
                                            * D64 = 0x44 - double 64 bits*/
                                        << getOriginalFrequency() // 4 bytes: original frequency of samples.
+                                       << getMixingChannelsMode() // 1 byte: code of mixing channels - 0(NONE), 1(MID - prelistening channel is averade of sterio), 2(SIDE - prelistening channel is diff of sterio), 3(CUSTOMIZE - select one channel for prelistening)
                                        << getSelectedPreListeningChannel() // 2 bytes: selected channel for prelistening.
                                        << (ROADUInt8)(getMaxSuperFrameLength() - 1) // 1 byte: maximum amount of frames in one super frame - from 1 to 256 (0 to 255).
                                        << getAmountRangLevels() // 1 byte:  Depth of bintree of the fractal analyse (0 - 3)

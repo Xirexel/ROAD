@@ -1,5 +1,6 @@
 #include "persistroadencodingoptions.h"
 #include "ROADoverEncodingOptionsFactory.h"
+#include "../Endian/EndianType.h"
 #include "ROADoverEncodingOptionsExperemental.h"
 #include "ROADoverEncodingOptionsFirstVersion.h"
 
@@ -183,7 +184,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> PersistROADE
 
             loptions->setDomainShift(settings.value("domainShift", 1).toInt());
 
-            loptions->setEndianType((ROADUInt8)settings.value("endianType", 1).toInt());
+            loptions->setEndianType((ROADUInt8)settings.value("endianType", (ROADUInt8)Endian::LITTLE).toInt());
 
             loptions->setMaxSuperFrameLength((ROADUInt8)settings.value("maxSuperFrameLength", 10).toInt());
 
