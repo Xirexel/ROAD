@@ -12,3 +12,14 @@ void EncodingOptionsFactory::persistIROADoverEncodingOptions(std::unique_ptr<ROA
 {
     EncodingOptions::PersistROADEncodingOptions::getInstance().persistIROADoverEncodingOptions(aOptions);
 }
+
+
+void EncodingOptionsFactory::setAsDefaultIROADoverEncodingOptions(unsigned int aROADFormat)
+{
+    return EncodingOptions::PersistROADEncodingOptions::getInstance().persistROADFormatAsDefault(aROADFormat);
+}
+
+unsigned int EncodingOptionsFactory::getAsDefaultIROADoverEncodingOptions()
+{
+    return EncodingOptions::PersistROADEncodingOptions::getInstance().loadDefaultROADFormat();
+}

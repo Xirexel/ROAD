@@ -2,9 +2,11 @@
 #include "QApplication"
 
 
+#include "encodingoptionsfactory.h"
+
 
  ModelOptions::ModelOptions()
-     : _localROADoverCoderOptions(0),
+     : _localROADoverCoderOptions(EncodingOptionsFactory::getAsDefaultIROADoverEncodingOptions()),
        _pluginROADoverCodersDirPath(QString(QApplication::applicationDirPath() + "/Plugins/ROADoverCoderPlugins"))
 
  {
@@ -19,6 +21,8 @@ unsigned int ModelOptions::getROADoverCoderOptions()
 void ModelOptions::setROADoverCoderOptions(unsigned int aROADoverCoderOptions)
 {
     this->_localROADoverCoderOptions = aROADoverCoderOptions;
+
+    EncodingOptionsFactory::setAsDefaultIROADoverEncodingOptions(aROADoverCoderOptions);
 }
 
 QString ModelOptions::getPluginROADoverCodersDirPath()

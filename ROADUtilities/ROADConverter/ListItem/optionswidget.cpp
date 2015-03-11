@@ -13,15 +13,6 @@ OptionsWidget::OptionsWidget(std::unique_ptr<ROADcoder::ROADoverCoder::IROADover
 {
     ui->setupUi(this);
 
-    connect(ui->selectTypeOfROADencodingComboBox, SIGNAL(currentIndexChanged(QString)), SLOT(updateEncodingOptionsWidget(QString)));
-
-    connect(ui->confirmPushButton, SIGNAL(clicked()), SLOT(confirmOptions()));
-
-    connect(ui->confirmPushButton, SIGNAL(clicked()), SIGNAL(closeWidget()));
-
-    connect(ui->cancelPushButton, SIGNAL(clicked()), SIGNAL(closeWidget()));
-
-
 
     ui->selectTypeOfROADencodingComboBox->addItems(m_dicROADFormats.keys());
 
@@ -33,6 +24,17 @@ OptionsWidget::OptionsWidget(std::unique_ptr<ROADcoder::ROADoverCoder::IROADover
 
         setEncodingOptionsWidget(_optionsROADoverCoder);
     }
+
+    connect(ui->selectTypeOfROADencodingComboBox, SIGNAL(currentIndexChanged(QString)), SLOT(updateEncodingOptionsWidget(QString)));
+
+    connect(ui->confirmPushButton, SIGNAL(clicked()), SLOT(confirmOptions()));
+
+    connect(ui->confirmPushButton, SIGNAL(clicked()), SIGNAL(closeWidget()));
+
+    connect(ui->cancelPushButton, SIGNAL(clicked()), SIGNAL(closeWidget()));
+
+
+
 }
 
 OptionsWidget::~OptionsWidget()
@@ -56,6 +58,8 @@ void OptionsWidget::updateEncodingOptionsWidget(QString aIndex)
     connect(loptionsWidget.get(), SIGNAL(updatedState(bool)), SLOT(updateState(bool)));
 
     ui->widgetScrollArea->setWidget(loptionsWidget.release());
+
+    updateState(true);
 }
 
 void OptionsWidget::confirmOptions()

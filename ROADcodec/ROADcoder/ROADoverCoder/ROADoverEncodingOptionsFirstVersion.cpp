@@ -135,7 +135,10 @@ PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOption
 
 void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setEndianType(ROADUInt8 aEndianType)
 {
-    this->_endianType = aEndianType;
+    if(aEndianType == 0)
+        this->_endianType = Endian::BIG;
+    else
+        this->_endianType = Endian::LITTLE;
 }
 
 PlatformDependencies::ROADInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getConstantScale()

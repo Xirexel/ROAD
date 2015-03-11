@@ -32,8 +32,6 @@ private:
 
     std::unique_ptr<ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion> m_options;
 
-    void recompute();
-
 
 };
 

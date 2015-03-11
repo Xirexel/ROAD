@@ -28,7 +28,17 @@ EncodingOptionsFirstVersionWidget::EncodingOptionsFirstVersionWidget(std::unique
         ++lcount;
     }
 
-    recompute();
+    for(quint32 lIndex = 0; lIndex < 4; ++lIndex)
+    {
+        ui->m_DepthFractalAnalyseComboBox->addItem(QString("%1 levels").arg(lIndex + 1),
+                                                lIndex);
+    }
+
+
+    quint32 lcurrFractalAnalyseLevels = m_options->getAmountRangLevels();
+
+    ui->m_DepthFractalAnalyseComboBox->setCurrentIndex(lcurrFractalAnalyseLevels);
+
 
     ui->m_ShiftDomainsSpinBox->setValue((int)m_options->getDomainShift());
 
@@ -37,29 +47,51 @@ EncodingOptionsFirstVersionWidget::EncodingOptionsFirstVersionWidget(std::unique
     else
         ui->m_endianTypeComboBox->setCurrentIndex(1);
 
-    ui->m_ConstantScaleDoubleSpinBox->setValue((double)m_options->getConstantScale()/128.0);
+    connect(ui->m_ConstantScaleEnableCheckBox, SIGNAL(toggled(bool)), ui->m_ConstantScaleDoubleSpinBox, SLOT(setEnabled(bool)));
 
-}
-
-void EncodingOptionsFirstVersionWidget::recompute()
-{
-    quint32 lrangSampleLength = (quint32)(m_options->getInitRangSampleLength() << ui->m_RangSampleLengthComboBox->currentData().toUInt());
-
-    quint32 lmaxFractalAnalyseLevels = (quint32)log2(m_options->getFrameSampleLength() / lrangSampleLength);
-
-    for(quint32 lIndex = 0; lIndex < lmaxFractalAnalyseLevels; ++lIndex)
+    if(m_options->getConstantScale() != 0)
     {
-        ui->m_DepthFractalAnalyseComboBox->addItem(QString("%1 levels").arg(lIndex + 1),
-                                                lIndex);
+        ui->m_ConstantScaleEnableCheckBox->setChecked(true);
+
+        ui->m_ConstantScaleDoubleSpinBox->setValue((double)m_options->getConstantScale()/128.0);
     }
+
+
+    connect(ui->m_maxSuperFrameSpinBox, SIGNAL(valueChanged(int)) , SLOT(setState()));
+
+    connect(ui->m_RangSampleLengthComboBox, SIGNAL(currentIndexChanged(int)) , SLOT(setState()));
+
+    connect(ui->m_DepthFractalAnalyseComboBox, SIGNAL(currentIndexChanged(int)) , SLOT(setState()));
+
+    connect(ui->m_ShiftDomainsSpinBox, SIGNAL(valueChanged(int)) , SLOT(setState()));
+
+    connect(ui->m_endianTypeComboBox, SIGNAL(currentIndexChanged(int)) , SLOT(setState()));
+
+    connect(ui->m_ConstantScaleDoubleSpinBox, SIGNAL(valueChanged(double)) , SLOT(setState()));
+
+    connect(ui->m_ConstantScaleEnableCheckBox, SIGNAL(clicked()) , SLOT(setState()));
+
 
 }
 
 void EncodingOptionsFirstVersionWidget::setState()
 {
-//    this->m_options->setSuperFrameLength(ui->superFrameLengthspinBox->value());
+    using namespace PlatformDependencies;
 
-//    this->m_options->setDomainShift(ui->realtiveDomainShiftspinBox->value());
+    this->m_options->setMaxSuperFrameLength(ui->m_maxSuperFrameSpinBox->value());
+
+    this->m_options->setRangSampleLengthPowerOfTwoScale(ui->m_RangSampleLengthComboBox->currentData().toInt());
+
+    this->m_options->setAmountRangLevels(ui->m_DepthFractalAnalyseComboBox->currentData().toInt());
+
+    this->m_options->setDomainShift(ui->m_ShiftDomainsSpinBox->value());
+
+    this->m_options->setEndianType(ui->m_endianTypeComboBox->currentIndex());
+
+    if(ui->m_ConstantScaleEnableCheckBox->isChecked())
+        this->m_options->setConstantScale((ROADInt8) (ui->m_ConstantScaleDoubleSpinBox->value() * 128.0));
+    else
+        this->m_options->setConstantScale((ROADInt8)0);
 
 //    this->m_options->setAmountRangLevels(ui->minSampleLengthRangcomboBox->currentIndex());
 

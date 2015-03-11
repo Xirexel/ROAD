@@ -20,6 +20,10 @@ public:
 
     void persistIROADoverEncodingOptions(std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aPtrOptions);
 
+    void persistROADFormatAsDefault(unsigned int aROADFormat);
+
+    unsigned int loadDefaultROADFormat();
+
 private:
     PersistROADEncodingOptions();
 

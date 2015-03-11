@@ -38,6 +38,36 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> PersistROADE
 }
 
 
+void PersistROADEncodingOptions::persistROADFormatAsDefault(unsigned int aROADFormat)
+{
+    settings.beginGroup("DefaultOptions");
+
+    settings.setValue("defaultROADFormat", aROADFormat);
+
+    settings.endGroup();
+}
+
+unsigned int PersistROADEncodingOptions::loadDefaultROADFormat()
+{
+    unsigned int lresult;
+
+    settings.beginGroup("DefaultOptions");
+
+    lresult = settings.value("defaultROADFormat", 0).toUInt();
+
+    auto lListOfSupportedROADFormats = ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFactory::getSupportedFormats();
+
+    auto liter = std::find(lListOfSupportedROADFormats.begin(), lListOfSupportedROADFormats.end(),
+                           lresult);
+
+    if(liter == lListOfSupportedROADFormats.end())
+        lresult = 0;
+
+    settings.endGroup();
+
+    return lresult;
+}
+
 void PersistROADEncodingOptions::persistIROADoverEncodingOptions(std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aPtrOptions)
 {
     persistROADoverEncodingOptions(aPtrOptions.get());
