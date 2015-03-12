@@ -75,9 +75,9 @@ public:
     virtual ~IROADoverCoderPlugin() {}
 
     virtual IROADoverCoder* createIROADoverCoder(IROADoverRawReader* ptrReader,
-                                                 std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aIROADoverCoderOptions,
-                                                 IOriginalAudioStreamOptions *
-                                                 aOriginalAudioStreamOptions,
+                                                 std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions>
+                                                 &aIROADoverCoderOptions,
+                                                 IOriginalAudioStreamOptions *aOriginalAudioStreamOptions,
                                                  QString outputFile) = 0;
 
     virtual bool checkPlugin() const = 0;

@@ -1,7 +1,7 @@
 #include "FractalFormatRawDataContainer.h"
 
-ROADcoder::ROADoverCoder::FractalFormatRawDataContainer::FractalFormatRawDataContainer(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength)
-    : _data(aData.release()),
+ROADcoder::ROADoverCoder::FractalFormatRawDataContainer::FractalFormatRawDataContainer(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength)
+    : _data(aData),
       _length(aLength)
 {
 }

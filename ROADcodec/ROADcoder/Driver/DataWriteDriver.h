@@ -14,7 +14,7 @@ namespace ROADcoder
 	{
 		class DataWriteDriver: public ROADcoder::Driver::IDataWriteDriver
 		{
-            private: std::unique_ptr<ROADByte> _data;
+            private: std::shared_ptr<ROADByte> _data;
             private: ROADUInt32 _length;
             private: ROADUInt32 _position;
             private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
@@ -25,7 +25,7 @@ namespace ROADcoder
 
             public: virtual ~DataWriteDriver();
 
-            public: DataWriteDriver(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
+            public: DataWriteDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
 
             public: virtual IDataWriteDriver &operator <<(ROADUInt32 aValue);
 

@@ -177,13 +177,11 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
 {
     ROADUInt32 lLength = 28;
 
-    std::unique_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
+    std::shared_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
 
     PtrROADByte lPtrFractalFormat = lFractalFormat.get();
 
     ROADUInt8 lHead = this->_endianType;
-
-
 
     auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, lLength, Endian::EndianType(this->_endianType));
 

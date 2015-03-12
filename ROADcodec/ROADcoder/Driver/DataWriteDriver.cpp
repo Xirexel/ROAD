@@ -4,8 +4,8 @@
 #include "IEndianConvertor.h"
 
 
-ROADcoder::Driver::DataWriteDriver::DataWriteDriver(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor)
-    : _data(aData.release()),
+ROADcoder::Driver::DataWriteDriver::DataWriteDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor)
+    : _data(aData),
       _length(aLength),
       _position(0),
       _convertor(aConvertor.release())

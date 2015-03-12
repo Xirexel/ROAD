@@ -113,7 +113,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
 {
     ROADUInt32 lLength = 40;
 
-    std::unique_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
+    std::shared_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
 
     PtrROADByte lptrFractalFormat = lFractalFormat.get();
 
