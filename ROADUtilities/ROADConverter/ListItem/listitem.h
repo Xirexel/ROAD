@@ -36,7 +36,7 @@ public:
     };
 
     explicit ListItem(TypeSource aTypeSource,
-                      QVarLengthArray<IROADoverCoderPlugin *> vPtrIROADoverCoderPlugin,
+                      QVarLengthArray<IROADoverCoderFactory *> vPtrIROADoverCoderFactory,
                       QString filePath,
                       unsigned int aROADoverCoderOptions,
                       QWidget *parent = 0);
@@ -51,7 +51,7 @@ private:
 
     TypeSource _typeROADoverCoder;
 
-    QVarLengthArray<IROADoverCoderPlugin *> _ptrIROADoverCoderPluginCollection;
+    QVarLengthArray<IROADoverCoderFactory *> _vPtrIROADoverCoderFactoryCollection;
 
     std::unique_ptr<EncodingThread> _smartPTREncodingThread;
 

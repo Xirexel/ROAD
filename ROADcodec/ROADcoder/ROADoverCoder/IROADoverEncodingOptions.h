@@ -6,6 +6,7 @@
 
 #include "ROADFormatMode.h"
 #include "platformdependencies.h"
+#include "ROADRawDataFormat.h"
 
 namespace ROADcoder
 {
@@ -23,7 +24,11 @@ namespace ROADcoder
 
             public: virtual void setEncryptionFormat(ROADUInt32 aEncryptionFormat) = 0;
 
-            public: virtual void setBitsPerSampleCode(ROADByte aBitsPerSampleCode) = 0;
+            public: virtual void setBitsPerSampleCode(ROADRawDataFormat aBitsPerSampleCode) = 0;
+
+            public: virtual void setOriginalFrequency(ROADUInt32){}
+
+            public: virtual void setSelectedPreListeningChannel(ROADUInt16){}
 
             public: virtual std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> clone() = 0;
 		};

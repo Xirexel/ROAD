@@ -69,10 +69,10 @@ public:
     virtual void reject() = 0;
 };
 
-class IROADoverCoderPlugin
+class IROADoverCoderFactory
 {
 public:
-    virtual ~IROADoverCoderPlugin() {}
+    virtual ~IROADoverCoderFactory() {}
 
     virtual IROADoverCoder* createIROADoverCoder(IROADoverRawReader* ptrReader,
                                                  std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions>
@@ -80,11 +80,21 @@ public:
                                                  IOriginalAudioStreamOptions *aOriginalAudioStreamOptions,
                                                  QString outputFile) = 0;
 
+    virtual QString name() const = 0;
+
+    virtual QWidget *getLowFormatOptionsWidget() = 0;
+};
+
+class IROADoverCoderPlugin
+{
+public:
+    virtual ~IROADoverCoderPlugin() {}
+
+    virtual IROADoverCoderFactory* createIROADoverCoderFactory() = 0;
+
     virtual bool checkPlugin() const = 0;
 
     virtual QString name() const = 0;
-
-    virtual QWidget *getOptionsWidget() = 0;
 };
 
 #define IROADoverCoderPlugin_iid "ROADConvertor.IROADoverCoderPlugin"

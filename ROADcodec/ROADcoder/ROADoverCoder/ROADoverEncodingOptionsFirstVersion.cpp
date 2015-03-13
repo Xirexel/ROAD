@@ -112,11 +112,11 @@ PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::ROADoverEncodingOptio
 	return this->_encryptionFormat;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setBitsPerSampleCode(ROADByte aBitsPerSampleCode) {
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setBitsPerSampleCode(ROADRawDataFormat aBitsPerSampleCode) {
     this->_bitsPerSampleCode = aBitsPerSampleCode;
 }
 
-PlatformDependencies::ROADByte ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getBitsPerSampleCode() {
+ROADcoder::ROADoverCoder::ROADRawDataFormat ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getBitsPerSampleCode() {
     return this->_bitsPerSampleCode;
 }
 
@@ -192,7 +192,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
                                        << lHead // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: ROADINFO - 0
                                        << (ROADUInt16) (lLength - 7) // 2 bytes: length of block
                                        << getAmountOfChannels() // 2 bytes: original amount of channels
-                                       << getBitsPerSampleCode() // 1 byte: code of bits per sample:
+                                       << (ROADUInt8)getBitsPerSampleCode() // 1 byte: code of bits per sample:
                                           /* U8 = 0x08 - unsigned integer 8 bits,
                                            * S8 = 0xF8 - signed integer 8 bits,
                                            * U12 = 0xF4 - unsigned integer 12 bits,

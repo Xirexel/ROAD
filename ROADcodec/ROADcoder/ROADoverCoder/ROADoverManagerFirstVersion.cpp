@@ -57,7 +57,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
 
 
-        auto llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSampleCode() >> 3);
+        auto llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
 
 
 
@@ -309,7 +309,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     : ROADoverManager(aRoadOver, aOptions->getAmountOfChannels(), aOptions->getMaxSuperFrameLength(), 0, aOptions->getFrameSampleLength() * aOptions->getMaxSuperFrameLength()),
       _options(aOptions)
 {
-    this->_bitsPerSample = aOptions->getBitsPerSampleCode();
+    this->_bitsPerSample = ROADConvertor::getBitLength(aOptions->getBitsPerSampleCode());
 
     this->_rangSampleLength = aOptions->getRangSampleLength();
 
@@ -378,7 +378,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     if(!_analyzer)
         throw new CreateAnalyzerException;
 
-    ROADUInt32 llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSampleCode() >> 3);
+    ROADUInt32 llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
 
     _bufferROADdata.reset(new ROADByte[llength]);
 }

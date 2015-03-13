@@ -21,7 +21,8 @@ DEFINES += ROADOVERWAVECODER_LIBRARY
 
 SOURCES += roadoverwavecoder.cpp \
     roadoverwavecoderplugin.cpp \
-    awavefractalwriter.cpp
+    awavefractalwriter.cpp \
+    roadovercoderfactory.cpp
 
 HEADERS += roadoverwavecoder.h\
         roadoverwavecoder_global.h \
@@ -29,7 +30,8 @@ HEADERS += roadoverwavecoder.h\
     awavefractalwriter.h \
     fractalchanks.h \
     WaveFractalWriter.h \
-    wave_chunks.h
+    wave_chunks.h \
+    roadovercoderfactory.h
 
 
 

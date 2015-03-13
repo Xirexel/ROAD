@@ -80,7 +80,7 @@ namespace ROADcoder
 
             public: ROADUInt32 getEncryptionFormat();
 
-            public: void setBitsPerSampleCode(ROADUInt8 aBitsPerSample);
+            public: void setBitsPerSampleCode(ROADRawDataFormat aBitsPerSample);
 
             public: ROADUInt8 getBitsPerSample();
 
