@@ -4,10 +4,17 @@
 #include "ChannelsMixingMode.h"
 #include "IROADoverEncodingOptions.h"
 #include "FractalFormatRawDataContainer.h"
+//#include "IDataWriteDriver.h"
 
 #include "roadovercoder_global.h"
 
-
+namespace ROADcoder
+{
+    namespace Driver
+    {
+        class IDataWriteDriver;
+    }
+}
 
 namespace ROADcoder
 {
@@ -101,6 +108,10 @@ namespace ROADcoder
             public: void setOriginalFrequency(ROADUInt32 aOriginalFrequency);
 
             public: std::unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer();
+
+            protected: void readROADINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver);
+
+            protected: void readDATAINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver);
 		};
 	}
 }

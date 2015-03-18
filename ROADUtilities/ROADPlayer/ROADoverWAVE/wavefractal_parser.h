@@ -304,9 +304,9 @@ private:
 
     proxy::optional<__WAVEFORMAT> parseWaveFormat(FILE * pFile, __WAVECHUNKHEAD aHead);
 
-    ROADdecoder::ROADover::IROADoverDecodingOptions *parsExperementalFormat(FILE * pFile, int &aPos, __FRACDESCR lfractDescr);
+    void parsExperementalFormat(FILE * pFile, int &aPos, __FRACDESCR &aFractDescr);
 
-    ROADdecoder::ROADover::IROADoverDecodingOptions *parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR lfractDescr);
+    void parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR &aFractDescr);
 
 };
 

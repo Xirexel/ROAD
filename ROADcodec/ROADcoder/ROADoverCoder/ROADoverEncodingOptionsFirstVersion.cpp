@@ -2,7 +2,6 @@
 #include "ROADFormatMode.h"
 #include "../Driver/DataDriver.h"
 #include "../../Endian/EndianType.h"
-#include "crc.h"
 
 
 
@@ -175,22 +174,32 @@ ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::~ROADoverEncoding
 
 std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFractalFormatRawDataContainer()
 {
-    ROADUInt32 lLength = 28;
+    ROADUInt32 lLength = 30;
 
     std::shared_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
 
-    PtrROADByte lPtrFractalFormat = lFractalFormat.get();
-
-    ROADUInt8 lHead = this->_endianType;
-
     auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, lLength, Endian::EndianType(this->_endianType));
 
-    lptrIDataWriteDriver.get()->operator<<('R') // 1 byte
+    lptrIDataWriteDriver->operator<<('R') // 1 byte
                                        << 'o' // 1 byte
                                        << 'A' // 1 byte
-                                       << 'd' // 1 byte
-                                       << lHead // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: ROADINFO - 0
-                                       << (ROADUInt16) (lLength - 7) // 2 bytes: length of block
+                                       << 'd'; // 1 byte
+
+    readROADINFO(lptrIDataWriteDriver.get());
+
+    readDATAINFO(lptrIDataWriteDriver.get());
+
+    std::unique_ptr<FractalFormatRawDataContainer> lptrfractalFormatRawDataContainer(new FractalFormatRawDataContainer(lFractalFormat, lLength));
+
+    return lptrfractalFormatRawDataContainer;
+}
+
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::readROADINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver)
+{
+    ROADUInt8 lHead = this->_endianType;
+
+    aIDataWriteDriver->operator<<(lHead) // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: ROADINFO - 0
+                                       << (ROADUInt32)25 // 4 bytes: length of block
                                        << getAmountOfChannels() // 2 bytes: original amount of channels
                                        << (ROADUInt8)getBitsPerSampleCode() // 1 byte: code of bits per sample:
                                           /* U8 = 0x08 - unsigned integer 8 bits,
@@ -217,11 +226,19 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
                                        << getRangSampleLengthPowerOfTwoScale() // 1 byte: ths scale of initial range length 4 samples - 4 * 2^n (0 to 11)
                                        << getConstantScale() // 1 byte: value of constant scale - if equal 0 than scale is read from data stream.
                                        << getDomainShift() // 1 byte: shifting between two neighbour domains by 2^n
-                                       << getEncryptionFormat() // 4 bytes: unique code of encription.
-                                       << CRCSupport::CRC::CRC16(lPtrFractalFormat,lptrIDataWriteDriver->getPosition() - 4); // 2 bytes - CRC16 code.
+                                       << getEncryptionFormat(); // 4 bytes: unique code of encription.
 
-    std::unique_ptr<FractalFormatRawDataContainer> lptrfractalFormatRawDataContainer(new FractalFormatRawDataContainer(lFractalFormat, lLength));
 
-    return lptrfractalFormatRawDataContainer;
+    aIDataWriteDriver->computeAndAppendCRC16(24); // 2 bytes - CRC16 code.
 }
 
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::readDATAINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver)
+{
+    ROADUInt8 lHead = this->_endianType;
+
+    aIDataWriteDriver->operator<<((ROADUInt8)(lHead | 0xEF)) // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: DATAINFO - 127
+                                       << (ROADUInt32)16 // 4 bytes: length of block
+                                       << (ROADUInt64)0;  // 8 bytes: amount of samples
+
+   aIDataWriteDriver->computeAndAppendCRC16(13);
+}

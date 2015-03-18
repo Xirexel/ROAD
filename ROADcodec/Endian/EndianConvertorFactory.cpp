@@ -33,6 +33,11 @@ std::unique_ptr<Endian::IEndianConvertor> Endian::EndianConvertorFactory::getIEn
     return lResult;
 }
 
+Endian::EndianType Endian::EndianConvertorFactory::getLocalEndianType()
+{
+    return this->_localEndianType;
+}
+
 Endian::EndianConvertorFactory::EndianConvertorFactory()
 {    
     const ROADUInt16 lx = 1;
