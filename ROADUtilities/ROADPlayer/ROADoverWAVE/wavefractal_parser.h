@@ -99,17 +99,39 @@ struct __WAVEDESCRDATA
 
 struct __FRACDESCR
 {
+    enum Format
+    {
+        EXPEREMENTAL,
+        MAIN,
+        ERROR
+    };
 
     __FRACDESCR()
     {
     }
 
-    bool check()
+    Format check()
     {
-        return this->_chunkHead.id[0] == 'R'
+        Format lresult = ERROR;
+
+        if(this->_chunkHead.id[0] == 'R'
                 && this->_chunkHead.id[1] == 'O'
                 && this->_chunkHead.id[2] == 'A'
-                && this->_chunkHead.id[3] == 'D';
+                && this->_chunkHead.id[3] == 'D')
+        {
+            lresult = EXPEREMENTAL;
+        }
+        else if(
+                this->_chunkHead.id[0] == 'R'
+                && this->_chunkHead.id[1] == 'o'
+                && this->_chunkHead.id[2] == 'A'
+                && this->_chunkHead.id[3] == 'd')
+        {
+            lresult = MAIN;
+        }
+
+
+        return lresult;
     }
 
     __WAVECHUNKHEAD _chunkHead;
@@ -281,6 +303,10 @@ private:
     proxy::optional<__WAVEDESCR> parseWaveDescr(FILE * pFile);
 
     proxy::optional<__WAVEFORMAT> parseWaveFormat(FILE * pFile, __WAVECHUNKHEAD aHead);
+
+    ROADdecoder::ROADover::IROADoverDecodingOptions *parsExperementalFormat(FILE * pFile, int &aPos, __FRACDESCR lfractDescr);
+
+    ROADdecoder::ROADover::IROADoverDecodingOptions *parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR lfractDescr);
 
 };
 
