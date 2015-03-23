@@ -174,16 +174,16 @@ ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::~ROADoverEncoding
 
 std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFractalFormatRawDataContainer()
 {
-    ROADUInt32 lLength = 30;
+    ROADUInt32 lLength = 45;
 
     std::shared_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
 
     auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, lLength, Endian::EndianType(this->_endianType));
 
-    lptrIDataWriteDriver->operator<<('R') // 1 byte
-                                       << 'o' // 1 byte
-                                       << 'A' // 1 byte
-                                       << 'd'; // 1 byte
+    lptrIDataWriteDriver->operator<<('R') // 1 byte: 0x52
+                                  << 'o' // 1 byte: 0x6F
+                                  << 'A' // 1 byte: 0x41
+                                  << 'd'; // 1 byte: 0x64
 
     readROADINFO(lptrIDataWriteDriver.get());
 
@@ -236,9 +236,9 @@ void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::readDATAINFO
 {
     ROADUInt8 lHead = this->_endianType;
 
-    aIDataWriteDriver->operator<<((ROADUInt8)(lHead | 0xEF)) // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: DATAINFO - 127
+    aIDataWriteDriver->operator<<((ROADUInt8)(lHead | 0x7F)) // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: DATAINFO - 127
                                        << (ROADUInt32)16 // 4 bytes: length of block
                                        << (ROADUInt64)0;  // 8 bytes: amount of samples
 
-   aIDataWriteDriver->computeAndAppendCRC16(13);
+   aIDataWriteDriver->computeAndAppendCRC16(13); // 2 bytes - CRC16 code.
 }
