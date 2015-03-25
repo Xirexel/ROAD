@@ -54,7 +54,8 @@ HEADERS +=\
     ROADover.h \
     FractalFirstOrderItem.h \
     FractalFirstOrderItemContainer.h \
-    FractalFirstOrderItemSuperFrameContainer.h
+    FractalFirstOrderItemSuperFrameContainer.h \
+    ROADRawMetaDataContainer.h
 
 
 

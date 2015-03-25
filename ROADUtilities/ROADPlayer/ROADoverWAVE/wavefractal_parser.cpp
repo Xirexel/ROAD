@@ -192,7 +192,7 @@ void WaveFractal_parser::parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR &aF
 
         ROADByte lHead;
 
-        std::unique_ptr<ROADByte> lRawDataLength(new ROADByte[4]);
+        std::unique_ptr<ROADByte> lRawDataLength(new ROADByte[8]);
 
         aPos += 4;
 
@@ -207,12 +207,12 @@ void WaveFractal_parser::parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR &aF
 
             ++aPos;
 
-            fread(lRawDataLength.get(), 1, 4, pFile);
+            fread(lRawDataLength.get(), 1, 8, pFile);
 
             if(feof(pFile))
                 break;
 
-            aPos += 4;
+            aPos += 8;
 
             Endian::EndianType lEndianType = Endian::EndianType::LITTLE;
 
@@ -221,12 +221,17 @@ void WaveFractal_parser::parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR &aF
 
             auto lconvertor = Endian::EndianConvertorFactory::getInstance().getIEndianConvertor(lEndianType);
 
-            ROADUInt32 lblockLength = lconvertor->convertToUINT32(lRawDataLength.get());
+            ROADUInt64 lblockLength = lconvertor->convertToUINT64(lRawDataLength.get());
 
-            if((lHead & 127) == 0)//MAININFO
+            if((lHead & 127) == 0)//ROADINFO
             {
 
 
+            }
+
+            if((lHead & 127) == 127)//DATAINFO
+            {
+                break;
             }
 
             aPos += (decltype(aPos))lblockLength;
