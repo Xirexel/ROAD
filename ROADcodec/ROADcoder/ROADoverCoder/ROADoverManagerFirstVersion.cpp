@@ -300,6 +300,10 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
 std::tuple<PlatformDependencies::PtrROADByte, PlatformDependencies::ROADUInt32> ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::getFractalFormatRawData()
 {
+    auto lptrRawData = this->_options->getFractalFormatRawDataContainer();
+
+    _fractalFormatRawDataContainer.reset(lptrRawData.release());
+
     std::tuple<PtrROADByte, ROADUInt32> result(this->_fractalFormatRawDataContainer->getData(),
                                           this->_fractalFormatRawDataContainer->getLength());
     return result;
@@ -346,12 +350,6 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
                                                                                 _options->getSilenceThreshold(),
                                                                                 _options->getRangThreshold()
                                                                                 ));
-
-
-
-    auto lptrRawData = this->_options->getFractalFormatRawDataContainer();
-
-    _fractalFormatRawDataContainer.reset(lptrRawData.release());
 
     class CreateAnalyzerException: public std::exception
     {

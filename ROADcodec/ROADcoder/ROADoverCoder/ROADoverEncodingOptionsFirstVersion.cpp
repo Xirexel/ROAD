@@ -172,9 +172,10 @@ ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::~ROADoverEncoding
 
 }
 
-std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFractalFormatRawDataContainer()
+std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFractalFormatRawDataContainer(std::list<ROADSeekPoint> &aSeekPoints)
 {
-    ROADUInt32 lLength = 45;
+    ROADUInt32 lLength = 44 +
+            (aSeekPoints.size() + 9);
 
     std::shared_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
 
@@ -185,21 +186,48 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
                                   << 'A' // 1 byte: 0x41
                                   << 'd'; // 1 byte: 0x64
 
-    readROADINFO(lptrIDataWriteDriver.get());
+    writeROADINFO(lptrIDataWriteDriver.get());
 
-    readDATAINFO(lptrIDataWriteDriver.get());
+    if(aSeekPoints.size() > 0)
+    {
+        writeSEEKTABLE(lptrIDataWriteDriver.get(), aSeekPoints);
+    }
+
+    writeDATAINFO(lptrIDataWriteDriver.get());
 
     std::unique_ptr<FractalFormatRawDataContainer> lptrfractalFormatRawDataContainer(new FractalFormatRawDataContainer(lFractalFormat, lLength));
 
     return lptrfractalFormatRawDataContainer;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::readROADINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver)
+std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFractalFormatRawDataContainer()
+{
+    ROADUInt32 lLength = 44;
+
+    std::shared_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
+
+    auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, lLength, Endian::EndianType(this->_endianType));
+
+    lptrIDataWriteDriver->operator<<('R') // 1 byte: 0x52
+                                  << 'o' // 1 byte: 0x6F
+                                  << 'A' // 1 byte: 0x41
+                                  << 'd'; // 1 byte: 0x64
+
+    writeROADINFO(lptrIDataWriteDriver.get());
+
+    writeDATAINFO(lptrIDataWriteDriver.get());
+
+    std::unique_ptr<FractalFormatRawDataContainer> lptrfractalFormatRawDataContainer(new FractalFormatRawDataContainer(lFractalFormat, lLength));
+
+    return lptrfractalFormatRawDataContainer;
+}
+
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::writeROADINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver)
 {
     ROADUInt8 lHead = this->_endianType;
 
-    aIDataWriteDriver->operator<<(lHead) // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: ROADINFO - 0
-                                       << (ROADUInt32)25 // 4 bytes: length of block
+    aIDataWriteDriver->operator<<((ROADUInt8)(lHead | 0x00)) // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: ROADINFO - 0
+                                       << (ROADUInt32)21 // 4 bytes: length of block
                                        << getAmountOfChannels() // 2 bytes: original amount of channels
                                        << (ROADUInt8)getBitsPerSampleCode() // 1 byte: code of bits per sample:
                                           /* U8 = 0x08 - unsigned integer 8 bits,
@@ -232,13 +260,30 @@ void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::readROADINFO
     aIDataWriteDriver->computeAndAppendCRC16(24); // 2 bytes - CRC16 code.
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::readDATAINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver)
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::writeSEEKTABLE(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver, std::list<ROADSeekPoint> &aSeekPoints)
+{
+    ROADUInt8 lHead = this->_endianType;
+
+    auto lIter = aSeekPoints.begin();
+
+    auto lEnd = aSeekPoints.end();
+
+    aIDataWriteDriver->operator<<((ROADUInt8)(lHead | 0x01)) // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: SEEKTABLE - 1
+                               <<(ROADUInt32)(aSeekPoints.size() + 4); // 4 bytes: length of block
+
+    for(; lIter != lEnd; ++lIter)
+        aIDataWriteDriver->operator<<((*lIter).getSuperFrameSize());
+
+    aIDataWriteDriver->computeAndAppendCRC32((ROADUInt32)(aSeekPoints.size() + 5)); // 4 bytes - CRC8 code.
+}
+
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::writeDATAINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver)
 {
     ROADUInt8 lHead = this->_endianType;
 
     aIDataWriteDriver->operator<<((ROADUInt8)(lHead | 0x7F)) // 1 byte: 7 bit - Endian flag, 6 to 0 bits - code of block: DATAINFO - 127
-                                       << (ROADUInt32)16 // 4 bytes: length of block
+                                       << (ROADUInt32)9 // 4 bytes: length of block
                                        << (ROADUInt64)0;  // 8 bytes: amount of samples
 
-   aIDataWriteDriver->computeAndAppendCRC16(13); // 2 bytes - CRC16 code.
+   aIDataWriteDriver->computeAndAppendCRC8(13); // 1 bytes - CRC8 code.
 }

@@ -1,9 +1,13 @@
 #ifndef __ROADcoder__ROADoverCoder__ROADoverEncodingOptionsFirstVersion_h__
 #define __ROADcoder__ROADoverCoder__ROADoverEncodingOptionsFirstVersion_h__
 
+#include <list>
+
+
 #include "ChannelsMixingMode.h"
 #include "IROADoverEncodingOptions.h"
 #include "FractalFormatRawDataContainer.h"
+#include "ROADSeekPoint.h"
 //#include "IDataWriteDriver.h"
 
 #include "roadovercoder_global.h"
@@ -107,11 +111,15 @@ namespace ROADcoder
 
             public: void setOriginalFrequency(ROADUInt32 aOriginalFrequency);
 
+            public: std::unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer(std::list<ROADSeekPoint> &aSeekPoints);
+
             public: std::unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer();
 
-            protected: void readROADINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver);
+            protected: void writeROADINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver);
 
-            protected: void readDATAINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver);
+            protected: void writeSEEKTABLE(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver, std::list<ROADSeekPoint> &aSeekPoints);
+
+            protected: void writeDATAINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver);
 		};
 	}
 }
