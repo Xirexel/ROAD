@@ -15,11 +15,11 @@ namespace ROADdecoder
     {
         class ROADOVERSHARED_EXPORT ROADRawMetaDataContainer
         {
-            private: std::unique_ptr<PlatformDependencies::ROADByte> _data;
-
-            private: PlatformDependencies::ROADByte _head;
+            private: std::shared_ptr<PlatformDependencies::ROADByte> _data;
 
             private: PlatformDependencies::ROADUInt64 _dataLength;
+
+            private: PlatformDependencies::ROADByte _head;
 
             public: ROADRawMetaDataContainer(std::unique_ptr<PlatformDependencies::ROADByte> &aData,
                                              PlatformDependencies::ROADUInt64 aDataLength,

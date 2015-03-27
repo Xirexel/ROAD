@@ -19,9 +19,9 @@ namespace ROADdecoder
 
             public: virtual ROADUInt32 getOriginalSamplesPerRang() = 0;
 
-            public: virtual void setSamplesPerRang(ROADUInt32 aValue) = 0;
+            public: virtual void setFrequencyScale(ROADUInt32 aValue) = 0;
 
-            public: virtual ROADUInt32 getEncriptionCode() = 0;
+            public: virtual ROADUInt32 getEncriptionFormat() = 0;
 
 
 		};

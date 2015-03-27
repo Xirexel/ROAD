@@ -29,7 +29,8 @@ SOURCES += \
     ROADover.cpp \
     FractalFirstOrderItem.cpp \
     FractalFirstOrderItemContainer.cpp \
-    FractalFirstOrderItemSuperFrameContainer.cpp
+    FractalFirstOrderItemSuperFrameContainer.cpp \
+    ROADoverDecodingOptionsFirstVersion.cpp
 
 HEADERS +=\
         roadover_global.h \
@@ -55,7 +56,9 @@ HEADERS +=\
     FractalFirstOrderItem.h \
     FractalFirstOrderItemContainer.h \
     FractalFirstOrderItemSuperFrameContainer.h \
-    ROADRawMetaDataContainer.h
+    ROADRawMetaDataContainer.h \
+    ROADoverDecodingOptionsFirstVersion.h \
+    ROADRawDataFormat.h
 
 
 

@@ -28,7 +28,7 @@ namespace ROADdecoder
 		{
         public: static IROADoverDecodingOptions* getIROADoverDecodingOptions(std::unique_ptr<Driver::IDataReadDriver> &aPtrIDataReadDriver);
 
-        public: static IROADoverDecodingOptions* getIROADoverDecodingOptions(std::list<ROADRawMetaDataContainer> aPtrIDataReadDriver);
+        public: static IROADoverDecodingOptions* getIROADoverDecodingOptions(std::list<ROADRawMetaDataContainer> aListROADRawMetaDataContainer);
 		};
 	}
 }

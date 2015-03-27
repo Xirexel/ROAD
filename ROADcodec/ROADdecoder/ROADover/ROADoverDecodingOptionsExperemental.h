@@ -46,13 +46,13 @@ namespace ROADdecoder
 
             public: ROADUInt32 getOriginalSamplesPerRang();
 
-            public: void setSamplesPerRang(ROADUInt32 aValue);
+            public: void setFrequencyScale(ROADUInt32 aValue);
 
             public: void setOriginalBitsPerSample(ROADUInt32 aValue);
 
             public: ROADUInt32 getOriginalBitsPerSample();
 
-            public: ROADUInt32 getEncriptionCode();
+            public: ROADUInt32 getEncriptionFormat();
 		};
 	}
 }
