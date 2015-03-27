@@ -39,10 +39,12 @@ namespace ROADdecoder
             private: ROADUInt16 _amountOfChannels;
             private: ROADUInt32 _encryptionFormat;
             private: ROADRawDataFormat _bitsPerSampleCode;
+            private: ROADByte _bitsPerSampleCodeValue;
             private: ROADUInt16 _selectedPreListeningChannel;
             private: ROADUInt8 _endianType;
             private: ROADInt8 _constantScale;
             private: ROADUInt32 _originalFrequency;
+            private: ROADUInt64 _amountOfSamples;
 
             public: ROADoverDecodingOptionsFirstVersion(std::list<ROADRawMetaDataContainer> aListROADRawMetaDataContainer);
 
@@ -52,7 +54,7 @@ namespace ROADdecoder
 
             public: ROADUInt32 getFrameSampleLength();
 
-            public: ROADUInt8 getMaxSuperFrameLength();
+            public: ROADUInt32 getMaxSuperFrameLength();
 
             public: ROADUInt8 getRangSampleLengthPowerOfTwoScale();
 
@@ -68,7 +70,7 @@ namespace ROADdecoder
 
             public: ROADUInt16 getAmountOfChannels();
 
-            public: ROADUInt32 getEncriptionFormat();
+            public: ROADUInt32 getEncryptionFormat();
 
             public: ROADRawDataFormat getBitsPerSampleCode();
 
@@ -82,9 +84,11 @@ namespace ROADdecoder
 
             public: void setFrequencyScale(ROADUInt32 aValue);
 
-            protected: void readROADINFO(ROADdecoder::Driver::IDataReadDriver *aIDataWriteDriver);
+            protected: void readROADINFO(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver);
 
-            protected: void readDATAINFO(ROADdecoder::Driver::IDataReadDriver *aIDataWriteDriver);
+            protected: void readDATAINFO(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver);
+
+            protected: void checkBitsPerSampleCode();
 
         };
     }

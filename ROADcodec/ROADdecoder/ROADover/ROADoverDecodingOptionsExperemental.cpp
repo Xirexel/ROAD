@@ -82,7 +82,7 @@ PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsE
     return this->_originalBitsPerSample;
 }
 
-PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getEncriptionFormat()
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getEncryptionFormat()
 {
     return this->_encriptionCode;
 }

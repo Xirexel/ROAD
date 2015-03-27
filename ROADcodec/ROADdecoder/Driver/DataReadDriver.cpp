@@ -1,4 +1,5 @@
 #include "DataReadDriver.h"
+#include "crc.h"
 
 ROADdecoder::Driver::DataReadDriver::DataReadDriver(std::unique_ptr<ROADByte> &aData,
                                                     ROADUInt32 aLength,
@@ -15,6 +16,34 @@ ROADdecoder::Driver::DataReadDriver::~DataReadDriver()
 
 }
 
+ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADInt64 &aValue)
+{
+    if(_length >= (_position + 8))
+    {
+        aValue = _convertor->convertToINT64(_data.get() + _position);
+
+        _position += 8;
+    }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
+
+    return *this;
+}
+
+ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADUInt64 &aValue)
+{
+    if(_length >= (_position + 8))
+    {
+        aValue = _convertor->convertToUINT64(_data.get() + _position);
+
+        _position += 8;
+    }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
+
+    return *this;
+}
+
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADUInt32 &aValue)
 {
     if(_length >= (_position + 4))
@@ -23,6 +52,8 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
         _position += 4;
     }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
 
     return *this;
 }
@@ -35,6 +66,8 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
         _position += 4;
     }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
 
     return *this;
 }
@@ -47,6 +80,8 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
         _position += 2;
     }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
 
     return *this;
 }
@@ -59,6 +94,8 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
         _position += 2;
     }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
 
     return *this;
 }
@@ -71,6 +108,8 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
         _position += 1;
     }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
 
     return *this;
 }
@@ -83,6 +122,8 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
         _position += 1;
     }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
 
     return *this;
 }
@@ -96,4 +137,53 @@ PlatformDependencies::ROADUInt32 ROADdecoder::Driver::DataReadDriver::getLength(
 PlatformDependencies::ROADUInt32 ROADdecoder::Driver::DataReadDriver::getPosition()
 {
     return this->_position;
+}
+
+
+ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::computeAndCheckCRC8(ROADUInt32 aLength, ROADBool &aOk)
+{
+    if(this->_position + aLength + 1 <= this->_length)
+    {
+        auto lresult = CRCSupport::CRC::CRC8(_data.get() + this->_position, aLength);// 1 bytes - CRC8 code.
+
+        auto lvalue = _convertor->convertToUINT8(_data.get() + (this->_position + aLength));
+
+        aOk = lresult == lvalue;
+    }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
+
+    return *this;
+}
+
+ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::computeAndCheckCRC16(ROADUInt32 aLength, ROADBool &aOk)
+{
+    if(this->_position + aLength + 2 <= this->_length)
+    {
+        auto lresult = CRCSupport::CRC::CRC16(_data.get() + this->_position, aLength);// 2 bytes - CRC8 code.
+
+        auto lvalue = _convertor->convertToUINT16(_data.get() + (this->_position + aLength));
+
+        aOk = lresult == lvalue;
+    }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
+
+    return *this;
+}
+
+ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::computeAndCheckCRC32(ROADUInt32 aLength, ROADBool &aOk)
+{
+    if(this->_position + aLength + 4 <= this->_length)
+    {
+        auto lresult = CRCSupport::CRC::CRC32(_data.get() + this->_position, aLength);// 4 bytes - CRC8 code.
+
+        auto lvalue = _convertor->convertToUINT32(_data.get() + (this->_position + aLength));
+
+        aOk = lresult == lvalue;
+    }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
+
+    return *this;
 }

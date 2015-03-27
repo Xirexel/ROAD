@@ -30,7 +30,11 @@ namespace ROADdecoder
 
             public: PlatformDependencies::PtrROADByte getData()
                 {
-                    return this->_data.get();
+                    auto lresult = _data.get();
+
+                    _data.reset();
+
+                    return lresult;
                 }
 
             public: PlatformDependencies::ROADUInt64 getDataLength()

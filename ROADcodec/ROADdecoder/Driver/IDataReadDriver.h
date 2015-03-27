@@ -28,6 +28,16 @@ namespace ROADdecoder
 
             public: virtual IDataReadDriver &operator >>(ROADUInt32 &aValue) = 0;
 
+            public: virtual IDataReadDriver &operator >>(ROADInt64 &aValue) = 0;
+
+            public: virtual IDataReadDriver &operator >>(ROADUInt64 &aValue) = 0;
+
+            public: virtual IDataReadDriver &computeAndCheckCRC8(ROADUInt32 aLength, ROADBool &aOk) = 0;
+
+            public: virtual IDataReadDriver &computeAndCheckCRC16(ROADUInt32 aLength, ROADBool &aOk) = 0;
+
+            public: virtual IDataReadDriver &computeAndCheckCRC32(ROADUInt32 aLength, ROADBool &aOk) = 0;
+
             public: virtual ~IDataReadDriver(){}
 		};
 

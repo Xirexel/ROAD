@@ -68,7 +68,7 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 scaleOfFrequency,
 
             lFractalDecdingOptions->setFrequencyScale(lsamplesPerRang);
 
-            unsigned int lencriptionCode = lFractalDecdingOptions->getEncriptionFormat();
+            unsigned int lencriptionCode = lFractalDecdingOptions->getEncryptionFormat();
 
             switch(lFractalDecdingOptions->getROADFormatMode())
             {

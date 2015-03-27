@@ -52,7 +52,7 @@ namespace ROADdecoder
 
             public: ROADUInt32 getOriginalBitsPerSample();
 
-            public: ROADUInt32 getEncriptionFormat();
+            public: ROADUInt32 getEncryptionFormat();
 		};
 	}
 }

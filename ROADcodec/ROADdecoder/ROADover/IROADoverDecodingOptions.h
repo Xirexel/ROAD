@@ -21,7 +21,7 @@ namespace ROADdecoder
 
             public: virtual void setFrequencyScale(ROADUInt32 aValue) = 0;
 
-            public: virtual ROADUInt32 getEncriptionFormat() = 0;
+            public: virtual ROADUInt32 getEncryptionFormat() = 0;
 
 
 		};
