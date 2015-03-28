@@ -46,7 +46,7 @@ namespace ROADdecoder
             private: ROADUInt32 _originalFrequency;
             private: ROADUInt64 _amountOfSamples;
 
-            public: ROADoverDecodingOptionsFirstVersion(std::list<ROADRawMetaDataContainer> aListROADRawMetaDataContainer);
+            public: ROADoverDecodingOptionsFirstVersion(std::list<ROADRawMetaDataContainer> &aListROADRawMetaDataContainer);
 
             public: virtual ~ROADoverDecodingOptionsFirstVersion();
 

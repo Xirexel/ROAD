@@ -1,10 +1,10 @@
 #include "DataReadDriver.h"
 #include "crc.h"
 
-ROADdecoder::Driver::DataReadDriver::DataReadDriver(std::unique_ptr<ROADByte> &aData,
+ROADdecoder::Driver::DataReadDriver::DataReadDriver(std::shared_ptr<ROADByte> &aData,
                                                     ROADUInt32 aLength,
                                                     std::unique_ptr<Endian::IEndianConvertor> &aConvertor)
-    : _data(aData.release()),
+    : _data(aData),
      _length(aLength),
      _position(0),
      _convertor(aConvertor.release())

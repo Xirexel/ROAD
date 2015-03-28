@@ -4,7 +4,7 @@
 
 using namespace PlatformDependencies;
 
-ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::ROADoverDecodingOptionsFirstVersion(std::list<ROADRawMetaDataContainer> aListROADRawMetaDataContainer)
+ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::ROADoverDecodingOptionsFirstVersion(std::list<ROADRawMetaDataContainer> &aListROADRawMetaDataContainer)
 {
     auto lIter = aListROADRawMetaDataContainer.begin();
 
@@ -23,9 +23,10 @@ ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::ROADoverDecodingOpti
         if((lBlockHead & 128) == 0)
             lEndianType = Endian::EndianType::BIG;
 
-        std::unique_ptr<ROADByte> lformatData(lData);
-
-        auto lptrIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(lformatData, lBlockLength, lEndianType);
+        auto lptrIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(
+                    lData,
+                    lBlockLength + sizeof(lBlockLength) + sizeof(lBlockHead),
+                    lEndianType);
 
         ROADByte lBlockType = lBlockHead & 127;
 
@@ -63,7 +64,7 @@ ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getFrameS
 
 ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getMaxSuperFrameLength()
 {
-    return this->_maxSuperFrameLength + 1;
+    return (ROADUInt32)this->_maxSuperFrameLength + 1;
 }
 
 ROADUInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getRangSampleLengthPowerOfTwoScale()
@@ -93,7 +94,7 @@ ROADByte ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getDomainSh
 
 ROADByte ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getMixingChannelsMode()
 {
-    this->_mixingChannelsMode;
+    return this->_mixingChannelsMode;
 }
 
 ROADUInt16 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getAmountOfChannels()

@@ -19,7 +19,7 @@ ROADdecoder::ROADover::IROADoverDecodingOptions *ROADdecoder::ROADover::ROADover
     return result;
 }
 
-ROADdecoder::ROADover::IROADoverDecodingOptions *ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(std::list<ROADRawMetaDataContainer> aListROADRawMetaDataContainer)
+ROADdecoder::ROADover::IROADoverDecodingOptions *ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(std::list<ROADRawMetaDataContainer> &aListROADRawMetaDataContainer)
 {
     ROADdecoder::ROADover::IROADoverDecodingOptions* result = nullptr;
 

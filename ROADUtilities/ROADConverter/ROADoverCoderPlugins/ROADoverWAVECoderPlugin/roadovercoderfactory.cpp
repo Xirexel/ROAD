@@ -53,7 +53,7 @@ IROADoverCoder* ROADoverCoderFactory::createIROADoverCoder(IROADoverRawReader* p
 
     aIROADoverCoderOptions->setOriginalFrequency(aOriginalAudioStreamOptions->getFrequency());
 
-    aIROADoverCoderOptions->setOriginalFrequency(0);
+    aIROADoverCoderOptions->setSelectedPreListeningChannel(0);
 
     lresult = new ROADoverWAVECoder(outputFile, ptrReader, aOriginalAudioStreamOptions, aIROADoverCoderOptions);
 

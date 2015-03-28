@@ -3,7 +3,7 @@
 #include "EndianConvertorFactory.h"
 
 
-std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> ROADdecoder::Driver::DataDriver::getIDataReadDriver(std::unique_ptr<ROADByte> &aData,
+std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> ROADdecoder::Driver::DataDriver::getIDataReadDriver(std::shared_ptr<ROADByte> &aData,
                                                                                                           ROADUInt32 aLength,
                                                                                                           Endian::EndianType aEndianType)
 {
