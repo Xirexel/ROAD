@@ -6,7 +6,7 @@
 
 
 #include "ChannelsMixingMode.h"
-#include "IROADoverDecodingOptions.h"
+#include "IROADoverDecodingOptionsMainVersion.h"
 #include "ROADRawDataFormat.h"
 #include "ROADRawMetaDataContainer.h"
 
@@ -27,7 +27,7 @@ namespace ROADdecoder
 {
     namespace ROADover
     {
-        class ROADOVERSHARED_EXPORT ROADoverDecodingOptionsFirstVersion: public ROADdecoder::ROADover::IROADoverDecodingOptions
+        class ROADOVERSHARED_EXPORT ROADoverDecodingOptionsFirstOrderVersion: public ROADdecoder::ROADover::IROADoverDecodingOptionsMainVersion
         {
             private: ROADUInt8 _maxSuperFrameLength;
             private: ROADUInt8 _rangSampleLengthPowerOfTwoScale;
@@ -46,19 +46,23 @@ namespace ROADdecoder
             private: ROADUInt32 _originalFrequency;
             private: ROADUInt64 _amountOfSamples;
 
-            public: ROADoverDecodingOptionsFirstVersion(std::list<ROADRawMetaDataContainer> &aListROADRawMetaDataContainer);
+            public: ROADoverDecodingOptionsFirstOrderVersion(std::list<ROADRawMetaDataContainer> &aListROADRawMetaDataContainer);
 
-            public: virtual ~ROADoverDecodingOptionsFirstVersion();
+            public: virtual ~ROADoverDecodingOptionsFirstOrderVersion();
 
             public: virtual ROADUInt32 getROADFormatMode();
 
-            public: ROADUInt32 getFrameSampleLength();
+            public: virtual ROADUInt32 getOrder();
 
-            public: ROADUInt32 getMaxSuperFrameLength();
+            public: virtual ROADUInt32 getFrameSampleLength();
+
+            public: virtual ROADUInt32 getMaxSuperFrameLength();
 
             public: ROADUInt8 getRangSampleLengthPowerOfTwoScale();
 
             public: ROADUInt32 getOriginalSamplesPerRang();
+
+            public: virtual ROADUInt32 getSamplesPerRang();
 
             public: ROADUInt32 getInitRangSampleLength();
 

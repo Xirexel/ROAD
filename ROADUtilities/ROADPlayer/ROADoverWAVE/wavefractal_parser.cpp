@@ -240,12 +240,12 @@ void WaveFractal_parser::parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR &aF
                 ROADRawMetaDataContainer lConatiner(lformatData, lblockLength, lHead);
 
                 lListOfROADRawMetaDataContainers.push_back(lConatiner);
-
-                if(lMetaDataType == 127)
-                    break;
             }
 
             aPos += (decltype(aPos))lblockLength + 9;
+
+            if(lMetaDataType == 127)
+                break;
 
         }
 

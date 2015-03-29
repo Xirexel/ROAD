@@ -30,7 +30,7 @@ namespace ROADdecoder
 
             public: virtual ~ROADoverDecodingOptionsExperemental();
 
-            public: ROADUInt32 getAmountOfChannels();
+            public: virtual ROADUInt16 getAmountOfChannels();
 
             public: ROADUInt32 getSuperframeLength();
 

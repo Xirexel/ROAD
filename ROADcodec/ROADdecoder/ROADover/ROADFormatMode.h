@@ -8,7 +8,7 @@ namespace ROADdecoder
 	{
 		enum ROADFormatMode
 		{
-            EXPEREMENTAL = 0, UNKNOWN = -1
+            EXPEREMENTAL = 0, MAIN = 1, UNKNOWN = -1
 		};
 	}
 }

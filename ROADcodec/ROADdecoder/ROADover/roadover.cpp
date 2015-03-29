@@ -2,6 +2,7 @@
 #include "IROADoverDecodingOptions.h"
 #include "ROADoverDecodingOptionsExperemental.h"
 #include "ROADoverManagerExperemental.h"
+#include "IROADoverDecodingOptionsMainVersion.h"
 
 
 ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions)
@@ -22,6 +23,31 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
 
             _manager = new ROADoverManagerExperemental(this, lexperementalOptions);
 
+        }
+        break;
+
+        case MAIN:
+        {
+            auto lmainOptions = dynamic_cast<IROADoverDecodingOptionsMainVersion*>(aOptions);
+
+            if(lmainOptions == nullptr)
+                break;
+
+            this->_amountOfChannels = lmainOptions->getAmountOfChannels();
+
+            this->_superframeLength = lmainOptions->getMaxSuperFrameLength();
+
+            this->_frameRangLength = lmainOptions->getFrameSampleLength();
+
+            this->_samplesPerRang = lmainOptions->getSamplesPerRang();
+
+
+            switch(lmainOptions->getOrder())
+            {
+                case 1:
+
+                break;
+            }
         }
         break;
 

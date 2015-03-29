@@ -36,8 +36,8 @@ ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::~ROADoverDecodingOpt
 
 }
 
-PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getAmountOfChannels() {
-    return this->_amountOfChannels;
+PlatformDependencies::ROADUInt16 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getAmountOfChannels() {
+    return (ROADUInt16)this->_amountOfChannels;
 }
 
 PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getSuperframeLength() {

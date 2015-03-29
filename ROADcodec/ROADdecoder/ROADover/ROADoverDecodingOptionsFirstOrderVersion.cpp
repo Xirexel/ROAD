@@ -1,10 +1,10 @@
-#include "ROADoverDecodingOptionsFirstVersion.h"
+#include "ROADoverDecodingOptionsFirstOrderVersion.h"
 #include "DataDriver.h"
 
 
 using namespace PlatformDependencies;
 
-ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::ROADoverDecodingOptionsFirstVersion(std::list<ROADRawMetaDataContainer> &aListROADRawMetaDataContainer)
+ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::ROADoverDecodingOptionsFirstOrderVersion(std::list<ROADRawMetaDataContainer> &aListROADRawMetaDataContainer)
 {
     auto lIter = aListROADRawMetaDataContainer.begin();
 
@@ -46,98 +46,107 @@ ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::ROADoverDecodingOpti
     }
 }
 
-ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::~ROADoverDecodingOptionsFirstVersion()
+ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::~ROADoverDecodingOptionsFirstOrderVersion()
 {
 
 }
 
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getROADFormatMode()
+{
+    return MAIN;
+}
 
-ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getROADFormatMode()
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getOrder()
 {
     return 1;
 }
 
-ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getFrameSampleLength()
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getFrameSampleLength()
 {
     return 2048;
 }
 
-ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getMaxSuperFrameLength()
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getMaxSuperFrameLength()
 {
     return (ROADUInt32)this->_maxSuperFrameLength + 1;
 }
 
-ROADUInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getRangSampleLengthPowerOfTwoScale()
+ROADUInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getRangSampleLengthPowerOfTwoScale()
 {
     return this->_rangSampleLengthPowerOfTwoScale;
 }
 
-ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getOriginalSamplesPerRang()
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getSamplesPerRang()
+{
+    return getOriginalSamplesPerRang();
+}
+
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getOriginalSamplesPerRang()
 {
     return getInitRangSampleLength() << getRangSampleLengthPowerOfTwoScale();
 }
 
-ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getInitRangSampleLength()
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getInitRangSampleLength()
 {
     return 4;
 }
 
-ROADUInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getAmountRangLevels()
+ROADUInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getAmountRangLevels()
 {
     return this->_amountRangLevels;
 }
 
-ROADByte ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getDomainShift()
+ROADByte ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getDomainShift()
 {
     return this->_domainShift;
 }
 
-ROADByte ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getMixingChannelsMode()
+ROADByte ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getMixingChannelsMode()
 {
     return this->_mixingChannelsMode;
 }
 
-ROADUInt16 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getAmountOfChannels()
+ROADUInt16 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getAmountOfChannels()
 {
     return this->_amountOfChannels;
 }
 
-ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getEncryptionFormat()
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getEncryptionFormat()
 {
     return this->_encryptionFormat;
 }
 
-ROADdecoder::ROADover::ROADRawDataFormat ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getBitsPerSampleCode()
+ROADdecoder::ROADover::ROADRawDataFormat ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getBitsPerSampleCode()
 {
     return this->_bitsPerSampleCode;
 }
 
-ROADUInt16 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getSelectedPreListeningChannel()
+ROADUInt16 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getSelectedPreListeningChannel()
 {
     return this->_selectedPreListeningChannel;
 }
 
-ROADUInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getEndianType()
+ROADUInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getEndianType()
 {
     return this->_endianType;
 }
 
-ROADInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getConstantScale()
+ROADInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getConstantScale()
 {
     return this->_constantScale;
 }
 
-ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::getOriginalFrequency()
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getOriginalFrequency()
 {
     return this->_originalFrequency;
 }
 
-void ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::setFrequencyScale(ROADUInt32 aValue)
+void ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::setFrequencyScale(ROADUInt32 aValue)
 {
 
 }
 
-void ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::readROADINFO(ROADdecoder::Driver::IDataReadDriver* aIDataReadDriver)
+void ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::readROADINFO(ROADdecoder::Driver::IDataReadDriver* aIDataReadDriver)
 {
     class CRCCheckingROADINFOException: public std::exception
     {
@@ -209,7 +218,7 @@ void ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::readROADINFO(RO
 
 }
 
-void ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::checkBitsPerSampleCode()
+void ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::checkBitsPerSampleCode()
 {
     switch(this->_bitsPerSampleCodeValue)
     {
@@ -286,7 +295,7 @@ void ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::checkBitsPerSam
 
 }
 
-void ROADdecoder::ROADover::ROADoverDecodingOptionsFirstVersion::readDATAINFO(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver)
+void ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::readDATAINFO(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver)
 {
     class CRCCheckingDATAINFOException: public std::exception
     {

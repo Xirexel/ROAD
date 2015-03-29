@@ -104,6 +104,37 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 scaleOfFrequency,
                 }
                 break;
 
+            case ROADdecoder::ROADover::MAIN:
+            {
+            //    auto lexperementalOptions = dynamic_cast<ROADoverDecodingOptionsExperemental*>(lFractalDecdingOptions);
+
+                _bitsPerSample = bitsPerSample;
+
+                _blockAlign = (bitsPerSample >> 3)
+                        * (lFractalDecdingOptions->getAmountOfChannels());
+
+                _byteRate = lWAVEFORMAT.sampleRate
+                        * (bitsPerSample >> 3)
+                        * lFractalDecdingOptions->getAmountOfChannels()
+                        * lsamplesPerRang;
+
+                _channels = lFractalDecdingOptions->getAmountOfChannels();
+
+           //     lexperementalOptions->setOriginalBitsPerSample(lWAVEFORMAT.bitsPerSample);
+
+
+                qint64 l = lWAVEDESCRDATA.chunkHead.size * lFractalDecdingOptions->getAmountOfChannels();
+
+                l *= lsamplesPerRang;
+
+                qint64 g = bitsPerSample / lWAVEFORMAT.bitsPerSample;
+
+                qint64 k = l * g;
+
+                _sizeOfData = k;
+
+            }
+                break;
 
             case ROADdecoder::ROADover::UNKNOWN:
             default:
