@@ -21,7 +21,7 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
 
             this->_samplesPerRang = lexperementalOptions->getSamplesPerRang();
 
-            _manager = new ROADoverManagerExperemental(this, lexperementalOptions);
+            _manager.reset(new ROADoverManagerExperemental(this, lexperementalOptions));
 
         }
         break;
@@ -46,6 +46,8 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
             {
                 case 1:
 
+            //    _manager.reset(new ROADoverManagerExperemental(this, lexperementalOptions));
+
                 break;
             }
         }
@@ -68,7 +70,6 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADover::decode() {
 
 ROADdecoder::ROADover::ROADover::~ROADover()
 {
-    delete this->_manager;
 }
 
 PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADover::getAmountOfChannels()
