@@ -71,6 +71,11 @@ ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getM
     return (ROADUInt32)this->_maxSuperFrameLength + 1;
 }
 
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getMaxFrameRangLength()
+{
+    return getFrameSampleLength() / getOriginalSamplesPerRang();
+}
+
 ROADUInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getRangSampleLengthPowerOfTwoScale()
 {
     return this->_rangSampleLengthPowerOfTwoScale;

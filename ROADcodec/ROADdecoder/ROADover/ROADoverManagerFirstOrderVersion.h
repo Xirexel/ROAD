@@ -37,11 +37,11 @@ namespace ROADdecoder
 
             private: std::unique_ptr<ROADReal> _preListeningDoubleData;
 
-            public: ROADoverManagerFirstOrderVersion(ROADdecoder::ROADover::ROADover* aRoadOver, ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* aOptions);
+            public: ROADoverManagerFirstOrderVersion(ROADdecoder::ROADover::ROADover* aRoadOver, ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* aOptions);
 
             public: ROADdecoder::ROADover::Result decode();
 
-            public: virtual ~ROADoverManagerFirstOrder();
+            public: virtual ~ROADoverManagerFirstOrderVersion();
         };
     }
 }

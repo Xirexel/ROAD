@@ -58,6 +58,8 @@ namespace ROADdecoder
 
             public: virtual ROADUInt32 getMaxSuperFrameLength();
 
+            public: ROADUInt32 getMaxFrameRangLength();
+
             public: ROADUInt8 getRangSampleLengthPowerOfTwoScale();
 
             public: ROADUInt32 getOriginalSamplesPerRang();

@@ -1,24 +1,34 @@
 #include "ROADoverManagerFirstOrderVersion.h"
+#include "ROADover.h"
+#include "ROADoverDecodingOptionsFirstOrderVersion.h"
+#include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
+#include "../ROAD/ROADFractalOrderFactory.h"
+#include "FractalFirstOrderItem.h"
+#include "FractalAverItem.h"
+#include "FractalFirstOrderItemContainer.h"
+#include "FractalFirstOrderItemSuperFrameContainer.h"
+#include "IDoubleDataContainer.h"
+#include "MIDChannelsMixing.h"
+#include "SIDEChannelsMixing.h"
 
 ROADdecoder::ROADover::ROADoverManagerFirstOrderVersion::ROADoverManagerFirstOrderVersion(ROADdecoder::ROADover::ROADover* aRoadOver,
                                                                                           ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* aOptions)
     :ROADoverManager(aRoadOver,
                      aOptions->getAmountOfChannels(),
-                     4,
-                     aOptions->getSuperframeLength(),
-                     aOptions->getFrameRangLength(),
-                     aOptions->getSamplesPerRang() *
-                     aOptions->getFrameRangLength() *
-                     aOptions->getSuperframeLength()),
+                     ROADConvertor::getByteLength(aOptions->getBitsPerSampleCode()),
+                     aOptions->getMaxSuperFrameLength(),
+                     aOptions->getFrameSampleLength(),
+                     aOptions->getFrameSampleLength() *
+                     aOptions->getMaxSuperFrameLength()),
       _options(aOptions),
       _preListeningData(new ROADByte[4 * aOptions->getSamplesPerRang() *
-                        aOptions->getFrameRangLength() *
-                        aOptions->getSuperframeLength()]),
+                        aOptions->getFrameSampleLength() *
+                        aOptions->getMaxSuperFrameLength()]),
       _preListeningDoubleData(new ROADReal[aOptions->getSamplesPerRang() *
-                                        aOptions->getFrameRangLength() *
-                                        aOptions->getSuperframeLength()])
+                                        aOptions->getFrameSampleLength() *
+                                        aOptions->getMaxSuperFrameLength()])
 {
-    switch(this->_options->getChannelsMixingMode())
+    switch(this->_options->getMixingChannelsMode())
     {
     case MID:
         this->_channelsMixing.reset(new MIDChannelsMixing);
@@ -56,7 +66,7 @@ ROADdecoder::ROADover::ROADoverManagerFirstOrderVersion::ROADoverManagerFirstOrd
         index < aOptions->getAmountOfChannels();
         ++index)
     {
-        _fractalItemSuperFrameContainer.push_back(new FractalFirstOrderItemSuperFrameContainer(aOptions->getSuperframeLength(), aOptions->getFrameRangLength()));
+        _fractalItemSuperFrameContainer.push_back(new FractalFirstOrderItemSuperFrameContainer(aOptions->getMaxSuperFrameLength(), aOptions->getMaxFrameRangLength()));
     }
 }
 
@@ -80,7 +90,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
         result = Result::DONE;
 
         {
-            ROADUInt32 lFrameLengthLength = _options->getFrameRangLength() * _options->getSamplesPerRang();
+            ROADUInt32 lFrameLengthLength = _options->getMaxFrameRangLength() * _options->getSamplesPerRang();
 
             do
             {
@@ -102,8 +112,8 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                     FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                    for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                         lframeIndex < _options->getSuperframeLength();
+                    for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+                         lframeIndex < _options->getMaxSuperFrameLength();
                          ++lframeIndex)
                     {
 
@@ -162,8 +172,8 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                 FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
 
-                for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                     lframeIndex < _options->getSuperframeLength();
+                for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+                     lframeIndex < _options->getMaxSuperFrameLength();
                      ++lframeIndex)
                 {
 
@@ -207,8 +217,8 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
                 {
                     FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                    for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                         lframeIndex < _options->getSuperframeLength();
+                    for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+                         lframeIndex < _options->getMaxSuperFrameLength();
                          ++lframeIndex)
                     {
 
@@ -216,7 +226,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                         auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getIFractalAverItemCount();
 
-                        ROADUInt32 lLengthByteArray = lFractalAverItemCount * (_options->getOriginalBitsPerSample() >> 3);
+                        ROADUInt32 lLengthByteArray = lFractalAverItemCount * ROADConvertor::getByteLength(_options->getBitsPerSampleCode());
 
                         std::unique_ptr<double> lptrAver(new ROADReal[lFractalAverItemCount]);
 
@@ -247,8 +257,8 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
                 {
                     auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                    for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                         lframeIndex < _options->getSuperframeLength();
+                    for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+                         lframeIndex < _options->getMaxSuperFrameLength();
                          ++lframeIndex)
                     {
 
@@ -325,8 +335,8 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
                 {
                     FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                    for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                         lframeIndex < _options->getSuperframeLength();
+                    for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+                         lframeIndex < _options->getMaxSuperFrameLength();
                          ++lframeIndex)
                     {
                         auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex);
@@ -367,8 +377,8 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                     ROADReal* lptrDoubleData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();
 
-                    for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
-                         lframeIndex < _options->getSuperframeLength();
+                    for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+                         lframeIndex < _options->getMaxSuperFrameLength();
                          ++lframeIndex)
                     {
                         _fractalBuilder->build(lptrDoubleData + (lframeIndex * lFrameLengthLength),
