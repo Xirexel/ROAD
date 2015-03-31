@@ -2,6 +2,7 @@
 #include "IROADoverDecodingOptions.h"
 #include "ROADoverDecodingOptionsExperemental.h"
 #include "ROADoverManagerExperemental.h"
+#include "ROADoverManagerFirstOrderVersion.h"
 #include "IROADoverDecodingOptionsMainVersion.h"
 
 
@@ -45,8 +46,15 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
             switch(lmainOptions->getOrder())
             {
                 case 1:
+                {
 
-            //    _manager.reset(new ROADoverManagerExperemental(this, lexperementalOptions));
+                    auto lROADoverDecodingOptions = (ROADoverDecodingOptionsFirstOrderVersion*)(lmainOptions);
+
+                    if(lROADoverDecodingOptions == nullptr)
+                        throw std::exception();
+
+                    _manager.reset(new ROADoverManagerFirstOrderVersion(this, lROADoverDecodingOptions));
+                }
 
                 break;
             }

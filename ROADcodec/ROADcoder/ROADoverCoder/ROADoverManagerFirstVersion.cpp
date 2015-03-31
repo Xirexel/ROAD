@@ -309,7 +309,8 @@ std::tuple<PlatformDependencies::PtrROADByte, PlatformDependencies::ROADUInt32> 
     return result;
 }
 
-ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersion(ROADcoder::ROADoverCoder::ROADover* aRoadOver, ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion* aOptions)
+ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersion(ROADcoder::ROADoverCoder::ROADover* aRoadOver,
+                                                                                   ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion* aOptions)
     : ROADoverManager(aRoadOver, aOptions->getAmountOfChannels(), aOptions->getMaxSuperFrameLength(), 0, aOptions->getFrameSampleLength() * aOptions->getMaxSuperFrameLength()),
       _options(aOptions)
 {
@@ -330,7 +331,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
         break;
     }
 
-    ROADUInt32 lMaxFrameRangLength = _options->getFrameSampleLength();
+    ROADUInt32 lMaxFrameRangLength = _options->getFrameSampleLength() / _options->getRangSampleLength();
 
     auto lcountOfChannels = _options->getAmountOfChannels();
 
@@ -344,7 +345,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     }
 
     std::unique_ptr<FractalEncodingOptions> loptions(new FractalEncodingOptions(_options->getFrameSampleLength(),
-                                                                                4 << _options->getRangSampleLength(),
+                                                                                _options->getRangSampleLength() << _options->getAmountRangLevels(),
                                                                                 _options->getAmountRangLevels(),
                                                                                 _options->getDomainShift(),
                                                                                 _options->getSilenceThreshold(),

@@ -2,7 +2,11 @@
 #include "ROADover.h"
 #include "RawDataBuffer.h"
 
-ROADcoder::ROADoverCoder::ROADoverManager::ROADoverManager(ROADcoder::ROADoverCoder::ROADover* aRoadOver, ROADUInt32 aAmountOfChannels, ROADUInt32 aSuperFrameLength, ROADUInt32 aFrameRangLength, ROADUInt32 aSuperFrameSamplesLength)
+ROADcoder::ROADoverCoder::ROADoverManager::ROADoverManager(ROADcoder::ROADoverCoder::ROADover* aRoadOver,
+                                                           ROADUInt32 aAmountOfChannels,
+                                                           ROADUInt32 aSuperFrameLength,
+                                                           ROADUInt32 aFrameRangLength,
+                                                           ROADUInt32 aSuperFrameSamplesLength)
     : _roadOver(aRoadOver),
       _channelsDataBuffer(RawDataBuffer(aAmountOfChannels, aSuperFrameSamplesLength)),
       _superFrameSamplesLength(aSuperFrameSamplesLength),
