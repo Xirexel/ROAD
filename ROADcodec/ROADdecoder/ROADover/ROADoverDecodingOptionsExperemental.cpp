@@ -64,7 +64,7 @@ PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsE
     return this->_scaleDomainShift;
 }
 
-PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalSamplesPerRang() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalMinSamplesPerRang() {
     return this->_scaleDomainShift;
 }
 

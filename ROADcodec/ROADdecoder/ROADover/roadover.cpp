@@ -38,9 +38,9 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
 
             this->_superframeLength = lmainOptions->getMaxSuperFrameLength();
 
-            this->_frameRangLength = lmainOptions->getFrameSampleLength();
+            this->_frameRangLength = lmainOptions->getMaxFrameRangLength();
 
-            this->_samplesPerRang = lmainOptions->getSamplesPerRang();
+            this->_samplesPerRang = lmainOptions->getMinSamplesPerRang();
 
 
             switch(lmainOptions->getOrder())

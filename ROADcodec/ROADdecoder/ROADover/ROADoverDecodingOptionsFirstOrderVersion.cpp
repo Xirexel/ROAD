@@ -73,7 +73,7 @@ ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getM
 
 ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getMaxFrameRangLength()
 {
-    return getFrameSampleLength() / getOriginalSamplesPerRang();
+    return getFrameSampleLength() / getOriginalMinSamplesPerRang();
 }
 
 ROADUInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getRangSampleLengthPowerOfTwoScale()
@@ -81,12 +81,12 @@ ROADUInt8 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getRa
     return this->_rangSampleLengthPowerOfTwoScale;
 }
 
-ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getSamplesPerRang()
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getMinSamplesPerRang()
 {
-    return getOriginalSamplesPerRang();
+    return getOriginalMinSamplesPerRang();
 }
 
-ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getOriginalSamplesPerRang()
+ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::getOriginalMinSamplesPerRang()
 {
     return getInitRangSampleLength() << getRangSampleLengthPowerOfTwoScale();
 }

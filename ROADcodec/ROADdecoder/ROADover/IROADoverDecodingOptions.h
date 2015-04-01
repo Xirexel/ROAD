@@ -17,7 +17,7 @@ namespace ROADdecoder
 
             public: virtual ~IROADoverDecodingOptions(){}
 
-            public: virtual ROADUInt32 getOriginalSamplesPerRang() = 0;
+            public: virtual ROADUInt32 getOriginalMinSamplesPerRang() = 0;
 
             public: virtual ROADUInt16 getAmountOfChannels() = 0;
 

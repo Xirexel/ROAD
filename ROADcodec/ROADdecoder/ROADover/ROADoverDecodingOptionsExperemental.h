@@ -44,7 +44,7 @@ namespace ROADdecoder
 
             public: ROADUInt32 getScaleDomainShift();
 
-            public: ROADUInt32 getOriginalSamplesPerRang();
+            public: ROADUInt32 getOriginalMinSamplesPerRang();
 
             public: void setFrequencyScale(ROADUInt32 aValue);
 

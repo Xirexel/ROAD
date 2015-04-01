@@ -21,12 +21,14 @@ ROADdecoder::ROADover::ROADoverManagerFirstOrderVersion::ROADoverManagerFirstOrd
                      aOptions->getFrameSampleLength() *
                      aOptions->getMaxSuperFrameLength()),
       _options(aOptions),
-      _preListeningData(new ROADByte[4 * aOptions->getSamplesPerRang() *
-                        aOptions->getFrameSampleLength() *
+      _preListeningData(new ROADByte[
+                        ROADConvertor::getByteLength(aOptions->getBitsPerSampleCode()) *
+                        aOptions->getMaxFrameRangLength() *
                         aOptions->getMaxSuperFrameLength()]),
-      _preListeningDoubleData(new ROADReal[aOptions->getSamplesPerRang() *
-                                        aOptions->getFrameSampleLength() *
-                                        aOptions->getMaxSuperFrameLength()])
+      _preListeningDoubleData(new ROADReal[
+                              aOptions->getMinSamplesPerRang() *
+                              aOptions->getMaxFrameRangLength() *
+                              aOptions->getMaxSuperFrameLength()])
 {
     switch(this->_options->getMixingChannelsMode())
     {
@@ -60,7 +62,7 @@ ROADdecoder::ROADover::ROADoverManagerFirstOrderVersion::ROADoverManagerFirstOrd
 
     _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(0, _superFrameSamplesLength));
 
-    this->_frequencyScale = _options->getSamplesPerRang() / _options->getOriginalSamplesPerRang();
+    this->_frequencyScale = _options->getMinSamplesPerRang() / _options->getOriginalMinSamplesPerRang();
 
     for(decltype(aOptions->getAmountOfChannels()) index = 0;
         index < aOptions->getAmountOfChannels();
@@ -90,7 +92,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
         result = Result::DONE;
 
         {
-            ROADUInt32 lFrameLengthLength = _options->getMaxFrameRangLength() * _options->getSamplesPerRang();
+            ROADUInt32 lFrameLengthLength = _options->getMaxFrameRangLength() * _options->getMinSamplesPerRang();
 
             do
             {
@@ -141,11 +143,11 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                             if((luctemp & 128) == 128)
                             {
-                                lrangeLength = (1 << (luctemp & 127)) * _options->getSamplesPerRang();
+                                lrangeLength = (1 << (luctemp & 127)) * _options->getMinSamplesPerRang();
                             }
                             else
                             {
-                                lrangeLength = (1 << (luctemp >> 5)) * _options->getSamplesPerRang();
+                                lrangeLength = (1 << (luctemp >> 5)) * _options->getMinSamplesPerRang();
                             }
 
                             lptrFractalAverItem->setLength(lrangeLength);
@@ -197,7 +199,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                         lptrFractalAverItem->setAver(lptrAver);
 
-                        lrabgeLength /= _options->getSamplesPerRang();
+                        lrabgeLength /= _options->getMinSamplesPerRang();
 
                         lptrPreListeningDoubleData += lrabgeLength;
 

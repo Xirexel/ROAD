@@ -46,7 +46,7 @@ audioplayer::optional<FractalInfo> AudioPlayer::getFractalInfo(QString filePath)
 
     auto lFractalDecdingOptions = lFractDescr._format;
 
-    int ltempFrequency = lFractalDecdingOptions->getOriginalSamplesPerRang() * lWAVEFORMAT.sampleRate;
+    int ltempFrequency = lFractalDecdingOptions->getOriginalMinSamplesPerRang() * lWAVEFORMAT.sampleRate;
 
     int ltempDecFrequency = ltempFrequency / 10;
 

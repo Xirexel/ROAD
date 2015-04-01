@@ -16,7 +16,9 @@ namespace ROADdecoder
 
             public: virtual ROADUInt32 getFrameSampleLength() = 0;
 
-            public: virtual ROADUInt32 getSamplesPerRang() = 0;
+            public: virtual ROADUInt32 getMaxFrameRangLength() = 0;
+
+            public: virtual ROADUInt32 getMinSamplesPerRang() = 0;
 
             public: virtual ~IROADoverDecodingOptionsMainVersion(){}
         };

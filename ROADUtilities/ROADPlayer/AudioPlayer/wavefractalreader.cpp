@@ -54,7 +54,7 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 scaleOfFrequency,
 
             auto lFractalDecdingOptions = lFractDescr._format;
 
-            quint32 lsamplesPerRang = lFractalDecdingOptions->getOriginalSamplesPerRang() * scaleOfFrequency;
+            quint32 lsamplesPerRang = lFractalDecdingOptions->getOriginalMinSamplesPerRang() * scaleOfFrequency;
 
             int ltempFrequency = lsamplesPerRang * lWAVEFORMAT.sampleRate;
 
