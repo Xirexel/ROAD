@@ -10,6 +10,7 @@
 #include "SIDEChannelsMixing.h"
 #include "NoneChannelsMixing.h"
 #include "FractalEncodingOptions.h"
+#include "DataDriver.h"
 
 
 ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::encode() {
@@ -63,9 +64,13 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         // Pointer on Common buffer.
 
-        PtrROADByte lptrbufferROADdata = this->_bufferROADdata.get();
+//        PtrROADByte lptrbufferROADdata = this->_bufferROADdata.get();
 
-        ROADUInt32 lbufferROADdataLength = 0;
+        auto lIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(this->_bufferROADdata,
+                                                          llength,
+                                                          Endian::EndianType(lEndingCode));
+
+//        ROADUInt32 lbufferROADdataLength = 0;
 
 
         // Buffer of Domains data.
@@ -74,7 +79,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         PtrROADByte lpackDomainsBufferData = lpackDomainsBuffer.get();
 
-        ROADUInt32 lpackDomainsBufferLength = 0;
+        ROADUInt64 lpackDomainsBufferLength = 0;
 
 
         // Buffer of Scales data.
@@ -83,7 +88,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         PtrROADByte lpackScalesBufferData = lpackScalesBuffer.get();
 
-        ROADUInt32 lpackScalesBufferLength = 0;
+        ROADUInt64 lpackScalesBufferLength = 0;
 
         // Обработка буфера ROADdata для записи индексов.
 
@@ -91,7 +96,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         PtrROADByte lpackIndekcesBufferData = lpackIndekcesBuffer.get();
 
-        ROADUInt32 lpackIndekcesBufferLength = 0;
+        ROADUInt64 lpackIndekcesBufferLength = 0;
 
 
 
@@ -285,47 +290,66 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         // Writing indekces buffer
 
-        *lptrbufferROADdata = (ROADUInt8)(lEndingCode + 1);
+        lIDataWriteDriver->operator
+                << ((ROADUInt8)(lEndingCode + 2)) // Add the Head of Indekces stream - code '0x02'.
+                << lpackIndekcesBufferLength
+                << std::make_tuple(lpackIndekcesBuffer.get(), lpackIndekcesBufferLength);
 
-        ++lptrbufferROADdata;
+//        *lptrbufferROADdata =
 
-
-        memcpy(lptrbufferROADdata, lpackIndekcesBuffer.get(), lpackIndekcesBufferLength);
-
-        lptrbufferROADdata += lpackIndekcesBufferLength;
-
-        lbufferROADdataLength += lpackIndekcesBufferLength;
+//        ++lptrbufferROADdata;
 
 
-        ROADUInt32 lConvertLength = this->_roadOver->convertDoubleArrayIntoByteArray(ldoubleBuffer.get(), ldoubleBufferLength, lptrbufferROADdata);
+//        memcpy(lptrbufferROADdata, lpackIndekcesBuffer.get(), lpackIndekcesBufferLength);
 
-        lptrbufferROADdata += lConvertLength;
+//        lptrbufferROADdata += lpackIndekcesBufferLength;
 
-        lbufferROADdataLength += lConvertLength;
+//        lbufferROADdataLength += lpackIndekcesBufferLength;
 
+        std::unique_ptr<ROADByte> ldata(new ROADByte[ldoubleBufferLength * 8]);
 
+        ROADUInt32 lConvertLength = this->_roadOver->convertDoubleArrayIntoByteArray(ldoubleBuffer.get(), ldoubleBufferLength, ldata.get());
 
-        memcpy(lptrbufferROADdata, lpackDomainsBuffer.get(), lbufferROADdataLength);
+//        lptrbufferROADdata += lConvertLength;
 
-        lptrbufferROADdata += lpackDomainsBufferLength;
+//        lbufferROADdataLength += lConvertLength;
 
-        lbufferROADdataLength += lpackDomainsBufferLength;
-
-
-
-
-
-        memcpy(lptrbufferROADdata, lpackScalesBuffer.get(), lbufferROADdataLength);
-
-        lptrbufferROADdata += lpackScalesBufferLength;
-
-        lbufferROADdataLength += lpackScalesBufferLength;
+        lIDataWriteDriver->operator
+                << ((ROADUInt8)(lEndingCode + 3)) // Add the Head of Average Audio stream - code '0x03'.
+                << lConvertLength
+                << std::make_tuple(ldata.get(), lConvertLength);
 
 
+        lIDataWriteDriver->operator
+                << ((ROADUInt8)(lEndingCode + 4)) // Add the Head of Domain low byte stream - code '0x04'.
+                << lpackDomainsBufferLength
+                << std::make_tuple(lpackDomainsBuffer.get(), lpackDomainsBufferLength);
+
+//        memcpy(lptrbufferROADdata, lpackDomainsBuffer.get(), lbufferROADdataLength);
+
+//        lptrbufferROADdata += lpackDomainsBufferLength;
+
+//        lbufferROADdataLength += lpackDomainsBufferLength;
 
 
 
-        this->_roadOver->writeROADdata(this->_bufferROADdata.get(), lbufferROADdataLength);
+
+        lIDataWriteDriver->operator
+                << ((ROADUInt8)(lEndingCode + 5)) // Add the Head of First Order Scale stream - code '0x05'.
+                << lpackScalesBufferLength
+                << std::make_tuple(lpackScalesBuffer.get(), lpackScalesBufferLength);
+
+//        memcpy(lptrbufferROADdata, lpackScalesBuffer.get(), lbufferROADdataLength);
+
+//        lptrbufferROADdata += lpackScalesBufferLength;
+
+//        lbufferROADdataLength += lpackScalesBufferLength;
+
+
+
+
+
+        this->_roadOver->writeROADdata(this->_bufferROADdata.get(), lIDataWriteDriver->getPosition());
 
 
     }while(false);

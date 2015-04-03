@@ -1,6 +1,8 @@
 #ifndef __ROADcoder__Driver__IDataWriteDriver_h__
 #define __ROADcoder__Driver__IDataWriteDriver_h__
 
+#include <memory>
+
 #include "platformdependencies.h"
 
 
@@ -13,9 +15,9 @@ namespace ROADcoder
 		class IDataWriteDriver
         {
 
-            public: virtual ROADUInt32 getLength() = 0;
+            public: virtual ROADUInt64 getLength() = 0;
 
-            public: virtual ROADUInt32 getPosition() = 0;
+            public: virtual ROADUInt64 getPosition() = 0;
 
             public: virtual IDataWriteDriver &operator <<(ROADUInt64 aValue) = 0;
 
@@ -32,6 +34,8 @@ namespace ROADcoder
             public: virtual IDataWriteDriver &operator <<(ROADByte aValue) = 0;
 
             public: virtual IDataWriteDriver &operator <<(ROADChar aValue) = 0;
+
+            public: virtual IDataWriteDriver &operator <<(std::tuple<PtrROADUInt8, ROADUInt64> aData) = 0;
 
             public: virtual IDataWriteDriver &computeAndAppendCRC8(ROADUInt32 aValue) = 0;
 

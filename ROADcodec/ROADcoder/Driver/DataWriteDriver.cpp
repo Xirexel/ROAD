@@ -13,12 +13,12 @@ ROADcoder::Driver::DataWriteDriver::DataWriteDriver(std::shared_ptr<ROADByte> &a
 {
 }
 
-PlatformDependencies::ROADUInt32 ROADcoder::Driver::DataWriteDriver::getLength()
+PlatformDependencies::ROADUInt64 ROADcoder::Driver::DataWriteDriver::getLength()
 {
     return this->_length;
 }
 
-PlatformDependencies::ROADUInt32 ROADcoder::Driver::DataWriteDriver::getPosition()
+PlatformDependencies::ROADUInt64 ROADcoder::Driver::DataWriteDriver::getPosition()
 {
     return this->_position;
 }
@@ -79,6 +79,22 @@ ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operato
 ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(ROADChar aValue)
 {
     writeData(aValue);
+
+    return *this;
+}
+
+ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(std::tuple<PtrROADUInt8, ROADUInt64> aData)
+{
+    using namespace std;
+
+    if(_length >= (_position + get<1>(aData)))
+    {
+        memcpy(_data.get() + _position, get<0>(aData), get<1>(aData));
+
+        _position += get<1>(aData);
+    }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
 
     return *this;
 }
