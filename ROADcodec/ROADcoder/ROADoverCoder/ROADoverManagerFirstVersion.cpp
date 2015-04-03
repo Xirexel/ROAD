@@ -59,7 +59,16 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         auto llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
 
+        ROADUInt8 lEndingCode = this->_options->getEndianType();
 
+        // Pointer on Common buffer.
+
+        PtrROADByte lptrbufferROADdata = this->_bufferROADdata.get();
+
+        ROADUInt32 lbufferROADdataLength = 0;
+
+
+        // Buffer of Domains data.
 
         std::unique_ptr<ROADByte> lpackDomainsBuffer(new ROADByte[llength]);
 
@@ -68,6 +77,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
         ROADUInt32 lpackDomainsBufferLength = 0;
 
 
+        // Buffer of Scales data.
 
         std::unique_ptr<ROADByte> lpackScalesBuffer(new ROADByte[llength]);
 
@@ -77,11 +87,17 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         // Обработка буфера ROADdata для записи индексов.
 
+        std::unique_ptr<ROADByte> lpackIndekcesBuffer(new ROADByte[llength]);
 
-        PtrROADByte lptrbufferROADdata = this->_bufferROADdata.get();
+        PtrROADByte lpackIndekcesBufferData = lpackIndekcesBuffer.get();
 
-        ROADUInt32 lbufferROADdataLength = 0;
+        ROADUInt32 lpackIndekcesBufferLength = 0;
 
+
+
+//        *lptrbufferROADdata = (ROADUInt8)(lEndingCode + 2);
+
+//        ++lptrbufferROADdata;
 
         for(decltype(_options->getAmountOfChannels()) lChannel = 0;
             lChannel < _options->getAmountOfChannels();
@@ -163,11 +179,11 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                         ++lpackScalesBufferLength;
                     }
 
-                    *lptrbufferROADdata = lindekcestemp;
+                    *lpackIndekcesBufferData = lindekcestemp;
 
-                    ++lptrbufferROADdata;
+                    ++lpackIndekcesBufferData;
 
-                    ++lbufferROADdataLength;
+                    ++lpackIndekcesBufferLength;
 
                     ++lCountFractalItems;
 
@@ -176,6 +192,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
         }
 
 
+        // Fill prelistening buffer.
         std::unique_ptr<ROADReal> ldoubleBuffer(new ROADReal[_options->getMaxSuperFrameLength() * _options->getFrameSampleLength() * _options->getAmountOfChannels()]);
 
         ROADUInt32 ldoubleBufferLength = 0;
@@ -227,6 +244,8 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         lptrDoubleData = ldoubleBuffer.get();
 
+        // Reading Average Audio stream.
+
         for(decltype(_options->getAmountOfChannels()) lChannel = 1;
             lChannel < _options->getAmountOfChannels();
             ++lChannel)
@@ -260,6 +279,22 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
             }
 
         }
+
+        //Writing the locals buffers into the common ROAD data buffer.
+
+
+        // Writing indekces buffer
+
+        *lptrbufferROADdata = (ROADUInt8)(lEndingCode + 1);
+
+        ++lptrbufferROADdata;
+
+
+        memcpy(lptrbufferROADdata, lpackIndekcesBuffer.get(), lpackIndekcesBufferLength);
+
+        lptrbufferROADdata += lpackIndekcesBufferLength;
+
+        lbufferROADdataLength += lpackIndekcesBufferLength;
 
 
         ROADUInt32 lConvertLength = this->_roadOver->convertDoubleArrayIntoByteArray(ldoubleBuffer.get(), ldoubleBufferLength, lptrbufferROADdata);
