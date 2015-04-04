@@ -292,8 +292,10 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         lIDataWriteDriver->operator
                 << ((ROADUInt8)(lEndingCode + 2)) // Add the Head of Indekces stream - code '0x02'.
-                << lpackIndekcesBufferLength
+                << (lpackIndekcesBufferLength + 4)
                 << std::make_tuple(lpackIndekcesBuffer.get(), lpackIndekcesBufferLength);
+
+        lIDataWriteDriver->computeAndAppendCRC32(lpackIndekcesBufferLength + 9);
 
 //        *lptrbufferROADdata =
 
@@ -316,14 +318,18 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         lIDataWriteDriver->operator
                 << ((ROADUInt8)(lEndingCode + 3)) // Add the Head of Average Audio stream - code '0x03'.
-                << lConvertLength
+                << (lConvertLength + 4)
                 << std::make_tuple(ldata.get(), lConvertLength);
+
+        lIDataWriteDriver->computeAndAppendCRC32(lConvertLength + 9);
 
 
         lIDataWriteDriver->operator
                 << ((ROADUInt8)(lEndingCode + 4)) // Add the Head of Domain low byte stream - code '0x04'.
-                << lpackDomainsBufferLength
+                << (lpackDomainsBufferLength + 4)
                 << std::make_tuple(lpackDomainsBuffer.get(), lpackDomainsBufferLength);
+
+        lIDataWriteDriver->computeAndAppendCRC32(lpackDomainsBufferLength + 9);
 
 //        memcpy(lptrbufferROADdata, lpackDomainsBuffer.get(), lbufferROADdataLength);
 
@@ -336,8 +342,10 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         lIDataWriteDriver->operator
                 << ((ROADUInt8)(lEndingCode + 5)) // Add the Head of First Order Scale stream - code '0x05'.
-                << lpackScalesBufferLength
+                << (lpackScalesBufferLength + 4)
                 << std::make_tuple(lpackScalesBuffer.get(), lpackScalesBufferLength);
+
+        lIDataWriteDriver->computeAndAppendCRC32(lpackScalesBufferLength + 9);
 
 //        memcpy(lptrbufferROADdata, lpackScalesBuffer.get(), lbufferROADdataLength);
 
