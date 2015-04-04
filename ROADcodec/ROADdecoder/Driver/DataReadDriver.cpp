@@ -44,6 +44,23 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
     return *this;
 }
 
+ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(std::tuple<PtrROADUInt8, ROADUInt64> aData)
+{
+    using namespace std;
+
+    if(_length >= (_position + get<1>(aData)))
+    {
+        memcpy(get<0>(aData), _data.get() + _position, get<1>(aData));
+
+        _position += get<1>(aData);
+    }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
+
+    return *this;
+
+}
+
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADUInt32 &aValue)
 {
     if(_length >= (_position + 4))

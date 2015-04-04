@@ -122,13 +122,15 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                 ROADBool lOk = false;
 
-                lIDataReadDriver->computeAndCheckCRC32(28, lOk);
-
                 lIDataReadDriver->operator >>(lHead);
 
-                ROADUInt32 lLength;
+                ROADUInt64 lLength;
 
                 lIDataReadDriver->operator >>(lLength);
+
+                lIDataReadDriver->seek(-9);
+
+                lIDataReadDriver->computeAndCheckCRC32(lLength + 9, lOk);
 
 
                 if(lIDataReadDriver)
@@ -157,9 +159,12 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                         while(lLength > 0)
                         {
-                            luctemp = *lptrData;
 
-                            ++lptrData;
+                            lIDataReadDriver->operator >>(luctemp);
+
+//                            luctemp = *lptrData;
+
+//                            ++lptrData;
 
                             --lreadROADdataLength;
 
@@ -258,11 +263,15 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                         std::unique_ptr<double> lptrAver(new ROADReal[lFractalAverItemCount]);
 
+                        std::unique_ptr<ROADByte> lptrDataTemp(new ROADByte[lLengthByteArray]);
 
 
-                        this->_roadOver->convertByteArrayIntoDoubleArray(lptrData, lLengthByteArray, lptrAver.get());
+                        lIDataReadDriver->operator >>(std::make_tuple(lptrDataTemp.get(), lLengthByteArray));
 
-                        lptrData+=lLengthByteArray;
+
+                        this->_roadOver->convertByteArrayIntoDoubleArray(lptrDataTemp.get(), lLengthByteArray, lptrAver.get());
+
+//                        lptrData+=lLengthByteArray;
 
                         for(decltype(lFractalAverItemCount) lItemIndex = 0;
                             lItemIndex < lFractalAverItemCount;
@@ -311,9 +320,11 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
                             if((itemIndex & 128) == 0)
                             {
 
-                                ldomainIndex = *lptrData;
+                                lIDataReadDriver->operator >>(ldomainIndex);
 
-                                ++lptrData;
+//                                ldomainIndex = *lptrData;
+
+//                                ++lptrData;
 
 
                                  ROADUInt32 lDomainOffset = (itemIndex & 7) << 8;
@@ -377,9 +388,14 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
                         {
                             auto lptrFractalFirstOrderItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItem(itemCount);
 
-                            ROADUInt8 ldecimScale = *lptrData;
 
-                            ++lptrData;
+                            ROADUInt8 ldecimScale;
+
+                            lIDataReadDriver->operator >>(ldecimScale);
+
+//                            ROADUInt8 ldecimScale = *lptrData;
+
+//                            ++lptrData;
 
                             ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 255.0;
 

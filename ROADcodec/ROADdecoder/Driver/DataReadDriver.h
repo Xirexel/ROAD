@@ -42,6 +42,8 @@ namespace ROADdecoder
 
             public: virtual IDataReadDriver &operator >>(ROADUInt64 &aValue);
 
+            public: virtual IDataReadDriver &operator >>(std::tuple<PtrROADUInt8, ROADUInt64> aData);
+
             public: virtual IDataReadDriver &computeAndCheckCRC8(ROADUInt32 aLength, ROADBool &aOk);
 
             public: virtual IDataReadDriver &computeAndCheckCRC16(ROADUInt32 aLength, ROADBool &aOk);

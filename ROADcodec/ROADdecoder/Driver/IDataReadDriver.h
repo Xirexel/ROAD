@@ -1,6 +1,9 @@
 #ifndef __ROADdecoder__Driver__IDataReadDriver_h__
 #define __ROADdecoder__Driver__IDataReadDriver_h__
 
+#include <memory>
+
+
 #include "platformdependencies.h"
 
 
@@ -12,9 +15,9 @@ namespace ROADdecoder
 
 		class IDataReadDriver
         {
-            public: virtual ROADUInt32 getLength() = 0;
+            public: virtual ROADUInt64 getLength() = 0;
 
-            public: virtual ROADUInt32 getPosition() = 0;
+            public: virtual ROADUInt64 getPosition() = 0;
 
             public: virtual ROADBool seek(ROADInt64 aShift) = 0;
 
@@ -33,6 +36,8 @@ namespace ROADdecoder
             public: virtual IDataReadDriver &operator >>(ROADInt64 &aValue) = 0;
 
             public: virtual IDataReadDriver &operator >>(ROADUInt64 &aValue) = 0;
+
+            public: virtual IDataReadDriver &operator >>(std::tuple<PtrROADUInt8, ROADUInt64> aData) = 0;
 
             public: virtual IDataReadDriver &computeAndCheckCRC8(ROADUInt32 aLength, ROADBool &aOk) = 0;
 
