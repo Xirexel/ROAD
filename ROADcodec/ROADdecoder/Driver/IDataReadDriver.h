@@ -16,6 +16,8 @@ namespace ROADdecoder
 
             public: virtual ROADUInt32 getPosition() = 0;
 
+            public: virtual ROADBool seek(ROADInt64 aShift) = 0;
+
             public: virtual IDataReadDriver &operator >>(ROADInt8 &aValue) = 0;
 
             public: virtual IDataReadDriver &operator >>(ROADUInt8 &aValue) = 0;

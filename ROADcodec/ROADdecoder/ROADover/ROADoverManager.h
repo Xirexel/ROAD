@@ -33,7 +33,7 @@ namespace ROADdecoder
             protected: std::unique_ptr<ROADdecoder::ROADover::IChannelsMixing> _channelsMixing;
 			protected: ROADdecoder::ROADover::ROADover* _roadOver;
             protected: ROADdecoder::ROADover::RawDataBuffer _channelsDataBuffer;
-            protected: std::unique_ptr<ROADByte> _bufferROADdata;
+            protected: std::shared_ptr<ROADByte> _bufferROADdata;
             protected: ROADUInt32 _frequencyScale;
             protected: ROADUInt32 _superFrameSamplesLength;
             protected: ROADUInt32 _superFrameLength;

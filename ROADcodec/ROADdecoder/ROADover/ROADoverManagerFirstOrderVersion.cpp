@@ -10,6 +10,7 @@
 #include "IDoubleDataContainer.h"
 #include "MIDChannelsMixing.h"
 #include "SIDEChannelsMixing.h"
+#include "DataDriver.h"
 
 ROADdecoder::ROADover::ROADoverManagerFirstOrderVersion::ROADoverManagerFirstOrderVersion(ROADdecoder::ROADover::ROADover* aRoadOver,
                                                                                           ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* aOptions)
@@ -104,8 +105,33 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 // Обработка буфера ROADdata для выделения длинн рангов.
 
 
-                auto lptrData = this->_bufferROADdata.get();
+//                auto lptrData = this->_bufferROADdata.get();
 
+
+                ROADUInt8 lEndingCode = this->_options->getEndianType();
+
+                // Pointer on Common buffer.
+
+        //        PtrROADByte lptrbufferROADdata = this->_bufferROADdata.get();
+
+                auto lIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(this->_bufferROADdata,
+                                                                  lreadROADdataLength,
+                                                                  Endian::EndianType(lEndingCode));
+
+                ROADUInt8 lHead = 0;
+
+                ROADBool lOk = false;
+
+                lIDataReadDriver->computeAndCheckCRC32(28, lOk);
+
+                lIDataReadDriver->operator >>(lHead);
+
+                ROADUInt32 lLength;
+
+                lIDataReadDriver->operator >>(lLength);
+
+
+                if(lIDataReadDriver)
 
                 for(decltype(_options->getAmountOfChannels()) lChannel = 0;
                     lChannel < _options->getAmountOfChannels();

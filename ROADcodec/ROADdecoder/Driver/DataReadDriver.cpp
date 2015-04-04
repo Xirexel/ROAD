@@ -129,16 +129,29 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 }
 
 
-PlatformDependencies::ROADUInt32 ROADdecoder::Driver::DataReadDriver::getLength()
+PlatformDependencies::ROADUInt64 ROADdecoder::Driver::DataReadDriver::getLength()
 {
     return this->_length;
 }
 
-PlatformDependencies::ROADUInt32 ROADdecoder::Driver::DataReadDriver::getPosition()
+PlatformDependencies::ROADUInt64 ROADdecoder::Driver::DataReadDriver::getPosition()
 {
     return this->_position;
 }
 
+PlatformDependencies::ROADBool ROADdecoder::Driver::DataReadDriver::seek(ROADInt64 aShift)
+{
+    ROADBool lresult = false;
+
+    if(this->_position + aShift <= this->_length && this->_position + aShift >=0)
+    {
+        this->_position += aShift;
+    }
+    else
+        throw std::range_error("Position of pointer is out of range!!!");
+
+    return lresult;
+}
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::computeAndCheckCRC8(ROADUInt32 aLength, ROADBool &aOk)
 {

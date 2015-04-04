@@ -14,15 +14,17 @@ namespace ROADdecoder
 		class DataReadDriver: public ROADdecoder::Driver::IDataReadDriver
 		{
             private: std::shared_ptr<ROADByte> _data;
-            private: ROADUInt32 _length;
-            private: ROADUInt32 _position;
+            private: ROADUInt64 _length;
+            private: ROADUInt64 _position;
             private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
 
             public: DataReadDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
 
-            public: virtual ROADUInt32 getLength();
+            public: virtual ROADUInt64 getLength();
 
-            public: virtual ROADUInt32 getPosition();
+            public: virtual ROADUInt64 getPosition();
+
+            public: virtual ROADBool seek(ROADInt64 aShift);
 
             public: virtual IDataReadDriver &operator >>(ROADInt8 &aValue);
 
