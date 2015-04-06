@@ -310,7 +310,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         std::unique_ptr<ROADByte> ldata(new ROADByte[ldoubleBufferLength * 8]);
 
-        ROADUInt32 lConvertLength = this->_roadOver->convertDoubleArrayIntoByteArray(ldoubleBuffer.get(), ldoubleBufferLength, ldata.get());
+        ROADUInt64 lConvertLength = this->_roadOver->convertDoubleArrayIntoByteArray(ldoubleBuffer.get(), ldoubleBufferLength, ldata.get());
 
 //        lptrbufferROADdata += lConvertLength;
 

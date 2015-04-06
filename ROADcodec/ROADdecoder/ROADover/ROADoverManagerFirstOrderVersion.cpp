@@ -130,7 +130,9 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                 lIDataReadDriver->seek(-9);
 
-                lIDataReadDriver->computeAndCheckCRC32(lLength + 9, lOk);
+                lIDataReadDriver->computeAndCheckCRC32(lLength - 4 + 9, lOk);
+
+                lIDataReadDriver->seek(9);
 
 
                 if(lIDataReadDriver)
@@ -244,6 +246,22 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
 // Обработка буфера ROADdata для выделения усреднённой составляющей.
 
+                lHead = 0;
+
+                lOk = false;
+
+                lIDataReadDriver->seek(4);
+
+                lIDataReadDriver->operator >>(lHead);
+
+                lIDataReadDriver->operator >>(lLength);
+
+                lIDataReadDriver->seek(-9);
+
+                lIDataReadDriver->computeAndCheckCRC32(lLength - 4 + 9, lOk);
+
+                lIDataReadDriver->seek(9);
+
                 for(decltype(_options->getAmountOfChannels()) lChannel = 1;
                     lChannel < _options->getAmountOfChannels();
                     ++lChannel)
@@ -287,6 +305,21 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
                 }
 // Обработка буфера ROADdata для выделения номеров доменнов.
 
+                lHead = 0;
+
+                lOk = false;
+
+                lIDataReadDriver->seek(4);
+
+                lIDataReadDriver->operator >>(lHead);
+
+                lIDataReadDriver->operator >>(lLength);
+
+                lIDataReadDriver->seek(-9);
+
+                lIDataReadDriver->computeAndCheckCRC32(lLength - 4 + 9, lOk);
+
+                lIDataReadDriver->seek(9);
 
                 for(decltype(_options->getAmountOfChannels()) lChannel = 0;
                     lChannel < _options->getAmountOfChannels();
@@ -365,6 +398,21 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                 }
 
+                lHead = 0;
+
+                lOk = false;
+
+                lIDataReadDriver->seek(4);
+
+                lIDataReadDriver->operator >>(lHead);
+
+                lIDataReadDriver->operator >>(lLength);
+
+                lIDataReadDriver->seek(-9);
+
+                lIDataReadDriver->computeAndCheckCRC32(lLength - 4 + 9, lOk);
+
+                lIDataReadDriver->seek(9);
 
 //  Обработка буфера ROADdata для выделения коэфициентов масштабирования.
 
