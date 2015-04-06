@@ -19,6 +19,11 @@ namespace ROADdecoder
         class ROADoverDecodingOptionsFirstOrderVersion;
         class FractalFirstOrderItemSuperFrameContainer;
     }
+
+    namespace Driver
+    {
+        class IDataReadDriver;
+    }
 }
 
 namespace ROADdecoder
@@ -42,6 +47,8 @@ namespace ROADdecoder
             public: ROADdecoder::ROADover::Result decode();
 
             public: virtual ~ROADoverManagerFirstOrderVersion();
+
+            private: ROADBool readIndekcesPack(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver);
         };
     }
 }

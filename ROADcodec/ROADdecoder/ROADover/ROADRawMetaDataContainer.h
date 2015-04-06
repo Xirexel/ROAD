@@ -21,12 +21,17 @@ namespace ROADdecoder
 
             private: PlatformDependencies::ROADByte _head;
 
-            public: ROADRawMetaDataContainer(std::shared_ptr<PlatformDependencies::ROADByte> &aData,
+            public: ROADRawMetaDataContainer(std::shared_ptr<PlatformDependencies::ROADByte> aData,
                                              PlatformDependencies::ROADUInt64 aDataLength,
                                              PlatformDependencies::ROADByte aHead)
                     :_data(aData),
                      _dataLength(aDataLength),
                      _head(aHead){}
+
+            public: ~ROADRawMetaDataContainer()
+                {
+
+                }
 
             public: std::shared_ptr<PlatformDependencies::ROADByte> getData()
                 {

@@ -24,7 +24,9 @@ namespace ROADdecoder
 
             public: virtual ROADUInt64 getPosition();
 
-            public: virtual ROADBool seek(ROADInt64 aShift);
+            public: virtual ROADBool seek(ROADInt64 aOffset);
+
+            public: virtual ROADBool eod();
 
             public: virtual IDataReadDriver &operator >>(ROADInt8 &aValue);
 
@@ -44,11 +46,11 @@ namespace ROADdecoder
 
             public: virtual IDataReadDriver &operator >>(std::tuple<PtrROADUInt8, ROADUInt64> aData);
 
-            public: virtual IDataReadDriver &computeAndCheckCRC8(ROADUInt32 aLength, ROADBool &aOk);
+            public: virtual IDataReadDriver &computeAndCheckCRC8(ROADInt64 aLength, ROADBool &aOk);
 
-            public: virtual IDataReadDriver &computeAndCheckCRC16(ROADUInt32 aLength, ROADBool &aOk);
+            public: virtual IDataReadDriver &computeAndCheckCRC16(ROADInt64 aLength, ROADBool &aOk);
 
-            public: virtual IDataReadDriver &computeAndCheckCRC32(ROADUInt32 aLength, ROADBool &aOk);
+            public: virtual IDataReadDriver &computeAndCheckCRC32(ROADInt64 aLength, ROADBool &aOk);
 
             public: virtual ~DataReadDriver();
 		};

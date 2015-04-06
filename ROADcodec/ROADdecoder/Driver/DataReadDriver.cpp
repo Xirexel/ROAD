@@ -156,21 +156,33 @@ PlatformDependencies::ROADUInt64 ROADdecoder::Driver::DataReadDriver::getPositio
     return this->_position;
 }
 
-PlatformDependencies::ROADBool ROADdecoder::Driver::DataReadDriver::seek(ROADInt64 aShift)
+PlatformDependencies::ROADBool ROADdecoder::Driver::DataReadDriver::seek(ROADInt64 aOffset)
 {
     ROADBool lresult = false;
 
-    if(this->_position + aShift <= this->_length && this->_position + aShift >=0)
+    if(this->_position + aOffset <= this->_length && this->_position + aOffset >=0)
     {
-        this->_position += aShift;
+        this->_position += aOffset;
+
+        lresult = true;
     }
-    else
-        throw std::range_error("Position of pointer is out of range!!!");
 
     return lresult;
 }
 
-ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::computeAndCheckCRC8(ROADUInt32 aLength, ROADBool &aOk)
+PlatformDependencies::ROADBool ROADdecoder::Driver::DataReadDriver::eod()
+{
+    ROADBool lresult = false;
+
+    if(this->_position >= (this->_length - 1))
+    {
+        lresult = true;
+    }
+
+    return lresult;
+}
+
+ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::computeAndCheckCRC8(ROADInt64 aLength, ROADBool &aOk)
 {
     if(this->_position + aLength + 1 <= this->_length)
     {
@@ -186,7 +198,7 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
     return *this;
 }
 
-ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::computeAndCheckCRC16(ROADUInt32 aLength, ROADBool &aOk)
+ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::computeAndCheckCRC16(ROADInt64 aLength, ROADBool &aOk)
 {
     if(this->_position + aLength + 2 <= this->_length)
     {
@@ -202,7 +214,7 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
     return *this;
 }
 
-ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::computeAndCheckCRC32(ROADUInt32 aLength, ROADBool &aOk)
+ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::computeAndCheckCRC32(ROADInt64 aLength, ROADBool &aOk)
 {
     if(this->_position + aLength + 4 <= this->_length)
     {

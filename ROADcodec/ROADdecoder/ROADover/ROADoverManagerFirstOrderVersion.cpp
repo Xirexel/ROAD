@@ -502,3 +502,12 @@ ROADdecoder::ROADover::ROADoverManagerFirstOrderVersion::~ROADoverManagerFirstOr
 
     delete _options;
 }
+
+PlatformDependencies::ROADBool readIndekcesPack(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver)
+{
+    using namespace PlatformDependencies;
+
+    ROADBool lresult = false;
+
+    return lresult;
+}
