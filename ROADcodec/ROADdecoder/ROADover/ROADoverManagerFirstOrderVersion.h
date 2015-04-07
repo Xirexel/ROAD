@@ -48,7 +48,13 @@ namespace ROADdecoder
 
             public: virtual ~ROADoverManagerFirstOrderVersion();
 
-            private: ROADBool readIndekcesPack(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver);
+            protected: ROADInt32 readIndekcesDataStream(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, ROADUInt32 aFrameLengthLength);
+
+            protected: ROADInt32 readPrelisteningDataStream(ROADReal *aPtrPreListeningDoubleData);
+
+            protected: ROADInt32 readAverageAudioDataStream(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, ROADUInt32 aFrameLengthLength);
+
+            protected: ROADInt32 readDomainsAndScalesDataStream(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, ROADUInt32 aFrameLengthLength);
         };
     }
 }

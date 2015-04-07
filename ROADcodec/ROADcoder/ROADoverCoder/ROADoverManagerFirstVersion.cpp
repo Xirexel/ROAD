@@ -325,27 +325,22 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
 
         lIDataWriteDriver->operator
-                << ((ROADUInt8)(lEndingCode + 4)) // Add the Head of Domain low byte stream - code '0x04'.
-                << (lpackDomainsBufferLength + 4)
-                << std::make_tuple(lpackDomainsBuffer.get(), lpackDomainsBufferLength);
-
-        lIDataWriteDriver->computeAndAppendCRC32(lpackDomainsBufferLength + 9);
-
-//        memcpy(lptrbufferROADdata, lpackDomainsBuffer.get(), lbufferROADdataLength);
-
-//        lptrbufferROADdata += lpackDomainsBufferLength;
-
-//        lbufferROADdataLength += lpackDomainsBufferLength;
-
-
-
-
-        lIDataWriteDriver->operator
-                << ((ROADUInt8)(lEndingCode + 5)) // Add the Head of First Order Scale stream - code '0x05'.
-                << (lpackScalesBufferLength + 4)
+                << ((ROADUInt8)(lEndingCode + 4)) // Add the Head of Domain low byte and First Order Scale stream - code '0x04'.
+                << (lpackDomainsBufferLength + lpackScalesBufferLength + 4)
+                << std::make_tuple(lpackDomainsBuffer.get(), lpackDomainsBufferLength)
                 << std::make_tuple(lpackScalesBuffer.get(), lpackScalesBufferLength);
 
-        lIDataWriteDriver->computeAndAppendCRC32(lpackScalesBufferLength + 9);
+        lIDataWriteDriver->computeAndAppendCRC32(lpackDomainsBufferLength + lpackScalesBufferLength + 9);
+
+//        lIDataWriteDriver->computeAndAppendCRC32(lpackDomainsBufferLength + 9);
+
+
+//        lIDataWriteDriver->operator
+//                << ((ROADUInt8)(lEndingCode + 5)) // Add the Head of First Order Scale stream - code '0x05'.
+//                << (lpackScalesBufferLength + 4)
+//                << std::make_tuple(lpackScalesBuffer.get(), lpackScalesBufferLength);
+
+//        lIDataWriteDriver->computeAndAppendCRC32(lpackScalesBufferLength + 9);
 
 //        memcpy(lptrbufferROADdata, lpackScalesBuffer.get(), lbufferROADdataLength);
 
