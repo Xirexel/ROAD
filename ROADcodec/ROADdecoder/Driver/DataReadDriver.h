@@ -13,16 +13,20 @@ namespace ROADdecoder
 	{
 		class DataReadDriver: public ROADdecoder::Driver::IDataReadDriver
 		{
-            private: std::unique_ptr<ROADByte> _data;
-            private: ROADUInt32 _length;
-            private: ROADUInt32 _position;
+            private: std::shared_ptr<ROADByte> _data;
+            private: ROADUInt64 _length;
+            private: ROADUInt64 _position;
             private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
 
-            public: DataReadDriver(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
+            public: DataReadDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
 
-            public: virtual ROADUInt32 getLength();
+            public: virtual ROADUInt64 getLength();
 
-            public: virtual ROADUInt32 getPosition();
+            public: virtual ROADUInt64 getPosition();
+
+            public: virtual ROADBool seek(ROADInt64 aOffset);
+
+            public: virtual ROADBool eod();
 
             public: virtual IDataReadDriver &operator >>(ROADInt8 &aValue);
 
@@ -35,6 +39,18 @@ namespace ROADdecoder
             public: virtual IDataReadDriver &operator >>(ROADInt32 &aValue);
 
             public: virtual IDataReadDriver &operator >>(ROADUInt32 &aValue);
+
+            public: virtual IDataReadDriver &operator >>(ROADInt64 &aValue);
+
+            public: virtual IDataReadDriver &operator >>(ROADUInt64 &aValue);
+
+            public: virtual IDataReadDriver &operator >>(std::tuple<PtrROADUInt8, ROADUInt64> aData);
+
+            public: virtual IDataReadDriver &computeAndCheckCRC8(ROADInt64 aLength, ROADBool &aOk);
+
+            public: virtual IDataReadDriver &computeAndCheckCRC16(ROADInt64 aLength, ROADBool &aOk);
+
+            public: virtual IDataReadDriver &computeAndCheckCRC32(ROADInt64 aLength, ROADBool &aOk);
 
             public: virtual ~DataReadDriver();
 		};

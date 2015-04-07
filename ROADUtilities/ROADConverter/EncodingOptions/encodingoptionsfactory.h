@@ -25,6 +25,10 @@ public:
 
     static void persistIROADoverEncodingOptions(std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aOptions);
 
+    static void setAsDefaultIROADoverEncodingOptions(unsigned int aROADFormat);
+
+    static unsigned int getAsDefaultIROADoverEncodingOptions();
+
     EncodingOptionsFactory() = delete;
 };
 

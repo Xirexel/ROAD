@@ -1,6 +1,7 @@
 #include "wavefractal_parser.h"
 #include "ROADoverDecodingOptionsFactory.h"
 #include "DataDriver.h"
+#include "EndianConvertorFactory.h"
 
 #include <QDebug>
 
@@ -31,15 +32,15 @@ proxy::optional<WaveFractalFormatData> WaveFractal_parser::parse(FILE * pFile)
 
         int ldataPos = 12;
 
-        int lfractalMapPos = -1;
-
-        int lfractDescrIndecesPos = -1;
-
         __FRACDESCR lfractDescr;
 
         __FRACMAP lfractMap;
 
         __FRACDESCRINDECES lfractDescrIndeces;
+
+        int lfractalMapPos = -1;
+
+        int lfractDescrIndecesPos = -1;
 
         while(!feof(pFile))
         {
@@ -103,34 +104,22 @@ proxy::optional<WaveFractalFormatData> WaveFractal_parser::parse(FILE * pFile)
 
         fread(lfractDescr._chunkHead.id, 1, sizeof(lfractDescr._chunkHead.id),pFile);
 
-        if(!lfractDescr.check())
+        switch(lfractDescr.check())
         {
+            case __FRACDESCR::MAIN:
+                parsMainFormat(pFile, lpos, lfractDescr);
             break;
+            case __FRACDESCR::EXPEREMENTAL:
+                parsExperementalFormat(pFile, lpos, lfractDescr);
+            break;
+            case __FRACDESCR::ERROR:
+            default:
+            break;
+
         }
 
-        lpos += 4;
-
-        fseek(pFile, lpos, SEEK_SET);
-
-        fread(&lfractDescr._chunkHead.size, 1, sizeof(lfractDescr._chunkHead.size),pFile);
-
-        lpos += 4;
-
-        fseek(pFile, lpos, SEEK_SET);
-
-        std::unique_ptr<unsigned char> lformatData(new unsigned char[lfractDescr._chunkHead.size]);
-
-        fread(lformatData.get(), lfractDescr._chunkHead.size, 1, pFile);
-
-        lpos += lfractDescr._chunkHead.size;
-
-        fseek(pFile, lpos, SEEK_SET);
-
-        auto lptrIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(lformatData, lfractDescr._chunkHead.size, Endian::LITTLE);
-
-        auto lIROADoverDecodingOptions = ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(lptrIDataReadDriver);
-
-        lfractDescr._format = lIROADoverDecodingOptions;
+        if(lfractDescr._format == nullptr)
+            break;
 
         if(feof(pFile))
             break;
@@ -189,6 +178,121 @@ proxy::optional<WaveFractalFormatData> WaveFractal_parser::parse(FILE * pFile)
     while(false);
 
     return result;
+}
+
+void WaveFractal_parser::parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR &aFractDescr)
+{
+    using namespace ROADdecoder::ROADover;
+
+    IROADoverDecodingOptions *result;
+
+    do
+    {
+        using namespace PlatformDependencies;
+
+        ROADByte lHead;
+
+        std::unique_ptr<ROADByte> lRawDataLength(new ROADByte[8]);
+
+        std::list<ROADRawMetaDataContainer> lListOfROADRawMetaDataContainers;
+
+
+
+        aPos += 4;
+
+        while(true)
+        {
+            fseek(pFile, aPos, SEEK_SET);
+
+            fread(&lHead, 1,1, pFile);
+
+            if(feof(pFile))
+                break;
+
+            fread(lRawDataLength.get(), 1, 8, pFile);
+
+            if(feof(pFile))
+                break;
+
+            Endian::EndianType lEndianType = Endian::EndianType::LITTLE;
+
+            if((lHead & 128) == 0)
+                lEndianType = Endian::EndianType::BIG;
+
+            auto lconvertor = Endian::EndianConvertorFactory::getInstance().getIEndianConvertor(lEndianType);
+
+            ROADUInt64 lblockLength = lconvertor->convertToUINT64(lRawDataLength.get());
+
+            ROADByte lMetaDataType = lHead & 127;
+
+            if(     lMetaDataType == 0 ||//ROADINFO
+                    lMetaDataType == 127)//DATAINFO
+            {
+                std::shared_ptr<ROADByte> lformatData(new ROADByte[lblockLength]);
+
+                fseek(pFile, aPos, SEEK_SET);
+
+                fread(lformatData.get(), 1, lblockLength + 9, pFile);
+
+                if(feof(pFile))
+                    break;
+
+                ROADRawMetaDataContainer lConatiner(lformatData, lblockLength, lHead);
+
+                lListOfROADRawMetaDataContainers.push_back(lConatiner);
+            }
+
+            aPos += (decltype(aPos))lblockLength + 9;
+
+            if(lMetaDataType == 127)
+                break;
+
+        }
+
+        if(lListOfROADRawMetaDataContainers.size() < 2)
+            break;
+
+        result = ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(lListOfROADRawMetaDataContainers);
+
+    }
+    while(false);
+
+    aFractDescr._format = result;
+}
+
+void WaveFractal_parser::parsExperementalFormat(FILE * pFile, int &aPos, __FRACDESCR &aFractDescr)
+{
+    ROADdecoder::ROADover::IROADoverDecodingOptions * result;
+
+    do
+    {
+
+        aPos += 4;
+
+        fseek(pFile, aPos, SEEK_SET);
+
+        fread(&aFractDescr._chunkHead.size, 1, sizeof(aFractDescr._chunkHead.size),pFile);
+
+        aPos += 4;
+
+        fseek(pFile, aPos, SEEK_SET);
+
+        std::shared_ptr<unsigned char> lformatData(new unsigned char[aFractDescr._chunkHead.size]);
+
+        fread(lformatData.get(), aFractDescr._chunkHead.size, 1, pFile);
+
+        aPos += aFractDescr._chunkHead.size;
+
+        fseek(pFile, aPos, SEEK_SET);
+
+        auto lptrIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(lformatData, aFractDescr._chunkHead.size, Endian::LITTLE);
+
+        result = ROADdecoder::ROADover::ROADoverDecodingOptionsFactory::getIROADoverDecodingOptions(lptrIDataReadDriver);
+
+    }
+    while(false);
+
+    aFractDescr._format = result;
 }
 
 WaveFractal_parser &WaveFractal_parser::getInstance()

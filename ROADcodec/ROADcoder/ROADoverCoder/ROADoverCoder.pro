@@ -49,7 +49,8 @@ HEADERS += \
     FractalEncodingOptions.h \
     ROADRawDataFormat.h \
     ROADoverEncodingOptionsFirstVersion.h \
-    ROADoverManagerFirstVersion.h
+    ROADoverManagerFirstVersion.h \
+    ROADSeekPoint.h
 
 SOURCES += \
     DoubleDataContainer.cpp \

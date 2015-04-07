@@ -72,9 +72,9 @@ public:
 
         _offsetFractalIndeces = _waveFractalFormatData.getFractalDescrIndecesPos();
 
-        this->_superFrameStep = getSuperframeLength() * getFrameRangLength() * getSamplesPerRang();
+        this->_superFrameSampleLength = getSuperframeLength() * getFrameRangLength() * getSamplesPerRang();
 
-        _superFrameLength = getSuperframeLength() * getFrameRangLength();
+        _superFrameRangLength = getSuperframeLength() * getFrameRangLength();
 
         _superFramePreListeningBytesLength = getSuperframeLength() * getFrameRangLength() * (_waveFormat.bitsPerSample >> 3);
 
@@ -141,7 +141,7 @@ protected:
     {
         int result = 0;
 
-        int64 lNumSuperFrame = this->_nextPos / this->_superFrameStep;
+        int64 lNumSuperFrame = this->_nextPos / this->_superFrameSampleLength;
 
         if(lNumSuperFrame >= _amountSuperFrames)
             return -1;
@@ -166,15 +166,15 @@ protected:
 
     virtual int readPreListening(unsigned char* aData)
     {
-        long lNumSuperFrame = this->_nextPos / this->_superFrameStep;
+        long lNumSuperFrame = this->_nextPos / this->_superFrameSampleLength;
 
-        long lPreListeningPosition = _offsetWaveData + lNumSuperFrame * _superFrameLength * sizeof(typeInSample);
+        long lPreListeningPosition = _offsetWaveData + lNumSuperFrame * _superFrameRangLength * sizeof(typeInSample);
 
         _File->seek(lPreListeningPosition);
 
         _File->read((char *)aData, _superFramePreListeningBytesLength);
 
-        this->_nextPos = lNumSuperFrame * this->_superFrameStep;
+        this->_nextPos = lNumSuperFrame * this->_superFrameSampleLength;
 
         return _superFramePreListeningBytesLength;
     }
@@ -248,9 +248,9 @@ protected:
             }
         }
 
-        long lNumSuperFrame = this->_nextPos / this->_superFrameStep;
+        long lNumSuperFrame = this->_nextPos / this->_superFrameSampleLength;
 
-        this->_nextPos = ++lNumSuperFrame * this->_superFrameStep;
+        this->_nextPos = ++lNumSuperFrame * this->_superFrameSampleLength;
     }
 
     virtual bool lockResource()
@@ -297,9 +297,9 @@ private:
 
     int _offsetFractalIndeces;
 
-    int _superFrameStep;
+    int _superFrameSampleLength;
 
-    int _superFrameLength;
+    int _superFrameRangLength;
 
     int _superFramePreListeningBytesLength;
 

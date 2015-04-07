@@ -2,6 +2,8 @@
 #include "IROADoverDecodingOptions.h"
 #include "ROADoverDecodingOptionsExperemental.h"
 #include "ROADoverManagerExperemental.h"
+#include "ROADoverManagerFirstOrderVersion.h"
+#include "IROADoverDecodingOptionsMainVersion.h"
 
 
 ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions)
@@ -20,8 +22,42 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
 
             this->_samplesPerRang = lexperementalOptions->getSamplesPerRang();
 
-            _manager = new ROADoverManagerExperemental(this, lexperementalOptions);
+            _manager.reset(new ROADoverManagerExperemental(this, lexperementalOptions));
 
+        }
+        break;
+
+        case MAIN:
+        {
+            auto lmainOptions = dynamic_cast<IROADoverDecodingOptionsMainVersion*>(aOptions);
+
+            if(lmainOptions == nullptr)
+                break;
+
+            this->_amountOfChannels = lmainOptions->getAmountOfChannels();
+
+            this->_superframeLength = lmainOptions->getMaxSuperFrameLength();
+
+            this->_frameRangLength = lmainOptions->getMaxFrameRangLength();
+
+            this->_samplesPerRang = lmainOptions->getMinSamplesPerRang();
+
+
+            switch(lmainOptions->getOrder())
+            {
+                case 1:
+                {
+
+                    auto lROADoverDecodingOptions = (ROADoverDecodingOptionsFirstOrderVersion*)(lmainOptions);
+
+                    if(lROADoverDecodingOptions == nullptr)
+                        throw std::exception();
+
+                    _manager.reset(new ROADoverManagerFirstOrderVersion(this, lROADoverDecodingOptions));
+                }
+
+                break;
+            }
         }
         break;
 
@@ -42,7 +78,6 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADover::decode() {
 
 ROADdecoder::ROADover::ROADover::~ROADover()
 {
-    delete this->_manager;
 }
 
 PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADover::getAmountOfChannels()

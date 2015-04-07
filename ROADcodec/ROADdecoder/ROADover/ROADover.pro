@@ -29,7 +29,9 @@ SOURCES += \
     ROADover.cpp \
     FractalFirstOrderItem.cpp \
     FractalFirstOrderItemContainer.cpp \
-    FractalFirstOrderItemSuperFrameContainer.cpp
+    FractalFirstOrderItemSuperFrameContainer.cpp \
+    ROADoverDecodingOptionsFirstOrderVersion.cpp \
+    ROADoverManagerFirstOrderVersion.cpp
 
 HEADERS +=\
         roadover_global.h \
@@ -54,7 +56,12 @@ HEADERS +=\
     ROADover.h \
     FractalFirstOrderItem.h \
     FractalFirstOrderItemContainer.h \
-    FractalFirstOrderItemSuperFrameContainer.h
+    FractalFirstOrderItemSuperFrameContainer.h \
+    ROADRawMetaDataContainer.h \
+    ROADRawDataFormat.h \
+    ROADoverDecodingOptionsFirstOrderVersion.h \
+    IROADoverDecodingOptionsMainVersion.h \
+    ROADoverManagerFirstOrderVersion.h
 
 
 
@@ -90,3 +97,29 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../P
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../PlatformDependencies/release/PlatformDependencies.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../PlatformDependencies/debug/PlatformDependencies.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../PlatformDependencies/libPlatformDependencies.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../Endian/release/ -lEndian
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../Endian/debug/ -lEndian
+else:unix: LIBS += -L$$OUT_PWD/../../Endian/ -lEndian
+
+INCLUDEPATH += $$PWD/../../Endian
+DEPENDPATH += $$PWD/../../Endian
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../Endian/release/libEndian.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../Endian/debug/libEndian.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../Endian/release/Endian.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../Endian/debug/Endian.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../Endian/libEndian.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../CRC/release/ -lCRC
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../CRC/debug/ -lCRC
+else:unix: LIBS += -L$$OUT_PWD/../../CRC/ -lCRC
+
+INCLUDEPATH += $$PWD/../../CRC
+DEPENDPATH += $$PWD/../../CRC
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../CRC/release/libCRC.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../CRC/debug/libCRC.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../CRC/release/CRC.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../CRC/debug/CRC.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../CRC/libCRC.a

@@ -88,9 +88,9 @@ void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setEncryptio
     this->_encryptionFormat = aEncryptionFormat;
 }
 
-void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setBitsPerSampleCode(ROADUInt8 aBitsPerSample)
+void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::setBitsPerSampleCode(ROADRawDataFormat aBitsPerSample)
 {
-    this->_bitsPerSample = aBitsPerSample;
+    this->_bitsPerSample = (ROADUInt8)ROADConvertor::getBitLength(aBitsPerSample);
 }
 
 PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getBitsPerSample()
@@ -113,7 +113,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
 {
     ROADUInt32 lLength = 40;
 
-    std::unique_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
+    std::shared_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
 
     PtrROADByte lptrFractalFormat = lFractalFormat.get();
 

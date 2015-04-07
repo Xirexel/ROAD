@@ -59,3 +59,16 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../P
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../PlatformDependencies/release/PlatformDependencies.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../PlatformDependencies/debug/PlatformDependencies.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../PlatformDependencies/libPlatformDependencies.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../CRC/release/ -lCRC
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../CRC/debug/ -lCRC
+else:unix: LIBS += -L$$OUT_PWD/../../CRC/ -lCRC
+
+INCLUDEPATH += $$PWD/../../CRC
+DEPENDPATH += $$PWD/../../CRC
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../CRC/release/libCRC.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../CRC/debug/libCRC.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../CRC/release/CRC.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../CRC/debug/CRC.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../CRC/libCRC.a

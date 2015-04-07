@@ -12,7 +12,11 @@ namespace Endian
 namespace Endian
 {
 	class LittleEndianConvertor: public Endian::IEndianConvertor
-	{
+    {
+
+        public: ROADUInt64 convertToUINT64(PtrROADByte aData);
+
+        public: ROADInt64 convertToINT64(PtrROADByte aData);
 
         public: ROADUInt32 convertToUINT32(PtrROADByte aData);
 
@@ -25,6 +29,10 @@ namespace Endian
         public: ROADUInt8 convertToUINT8(PtrROADByte Data);
 
         public: ROADInt8 convertToINT8(PtrROADByte Data);
+
+        public: ROADInt32 convertToBytes(ROADUInt64 aValue,PtrROADByte aData);
+
+        public: ROADInt32 convertToBytes(ROADInt64 aValue,PtrROADByte aData);
 
         public: ROADInt32 convertToBytes(ROADUInt32 aValue,PtrROADByte aData);
 

@@ -61,7 +61,7 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(
 
     _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(0, _superFrameSamplesLength));
 
-    this->_frequencyScale = _options->getSamplesPerRang() / _options->getOriginalSamplesPerRang();
+    this->_frequencyScale = _options->getSamplesPerRang() / _options->getOriginalMinSamplesPerRang();
 
     for(decltype(aOptions->getAmountOfChannels()) index = 0;
         index < aOptions->getAmountOfChannels();

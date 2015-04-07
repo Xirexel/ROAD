@@ -66,7 +66,17 @@ void ListItemsModel::addAudioFile(QString filePath)
 
     beginInsertRows(QModelIndex(), row, row);
 
-    ListItem* item = new ListItem(lTypeROADoverCoder, this->_vPtrIROADoverCoderPluginCollection, filePath, _modelOptions.getROADoverCoderOptions() );
+    QVarLengthArray<IROADoverCoderFactory *> lvPtrIROADoverCoderFactory;
+
+    for(auto litem: this->_vPtrIROADoverCoderPluginCollection)
+    {
+        auto ltemp = litem->createIROADoverCoderFactory();
+
+        if(ltemp != nullptr)
+            lvPtrIROADoverCoderFactory.append(ltemp);
+    }
+
+    ListItem* item = new ListItem(lTypeROADoverCoder, lvPtrIROADoverCoderFactory, filePath, _modelOptions.getROADoverCoderOptions() );
 
     _list.append(item);
 

@@ -31,6 +31,12 @@ OptionsWidget::OptionsWidget(QWidget *parent) :
 
     ui->selectTypeOfROADencodingComboBox->addItems(m_dicROADFormats.keys());
 
+    QString ldefaultKey = m_dicROADFormats.key(_ModelOptions.getROADoverCoderOptions());
+
+    ui->selectTypeOfROADencodingComboBox->setCurrentText(ldefaultKey);
+
+    connect(ui->setROADTypeAsDefaultCheckBox, SIGNAL(clicked(bool)), SLOT(setAsDefault(bool)));
+
 }
 
 OptionsWidget::~OptionsWidget()
@@ -56,11 +62,29 @@ ModelOptions OptionsWidget::getModelOptions()
 
 void OptionsWidget::updateEncodingOptionsWidget(QString aIndex)
 {
-    auto loptionsWidget = EncodingOptions::EncodingOptionsWidgetFactory::getEncodingOptionsWidget(m_dicROADFormats[aIndex]);
+    auto lselectedROADFormat = m_dicROADFormats[aIndex];
+
+    auto loptionsWidget = EncodingOptions::EncodingOptionsWidgetFactory::getEncodingOptionsWidget(lselectedROADFormat);
 
     connect(loptionsWidget.get(), SIGNAL(updatedState(bool)), SLOT(updateState(bool)));
 
     ui->encodingOptionsScrollArea->setWidget(loptionsWidget.release());
+
+
+    auto lcurrentROADFormat = _ModelOptions.getROADoverCoderOptions();
+
+    if(lselectedROADFormat != lcurrentROADFormat)
+    {
+        ui->setROADTypeAsDefaultCheckBox->setChecked(false);
+
+        ui->setROADTypeAsDefaultCheckBox->setEnabled(true);
+    }
+    else
+    {
+        ui->setROADTypeAsDefaultCheckBox->setChecked(true);
+
+        ui->setROADTypeAsDefaultCheckBox->setEnabled(false);
+    }
 
 }
 
@@ -74,6 +98,20 @@ void OptionsWidget::rejectState()
     ui->confirmPanel->setEnabled(false);
 
     updateEncodingOptionsWidget(ui->selectTypeOfROADencodingComboBox->currentText());
+}
+
+void OptionsWidget::setAsDefault(bool aState)
+{
+    if(!aState)
+        return;
+
+    auto lcurrROADFormat = ui->selectTypeOfROADencodingComboBox->currentText();
+
+    _ModelOptions.setROADoverCoderOptions(m_dicROADFormats.value(lcurrROADFormat));
+
+    ui->setROADTypeAsDefaultCheckBox->setChecked(aState);
+
+    ui->setROADTypeAsDefaultCheckBox->setEnabled(!aState);
 }
 
 void OptionsWidget::persist()

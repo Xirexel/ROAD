@@ -31,6 +31,8 @@ private:
     Ui::EncodingOptionsFirstVersionWidget *ui;
 
     std::unique_ptr<ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion> m_options;
+
+
 };
 
 #endif // ENCODINGOPTIONSFIRSTVERSIONWIDGET_H

@@ -1,6 +1,8 @@
 #ifndef __ROADdecoder__ROADover__ROADover_h__
 #define __ROADdecoder__ROADover__ROADover_h__
 
+#include <memory>
+
 #include "Result.h"
 #include "roadover_global.h"
 #include "platformdependencies.h"
@@ -23,7 +25,7 @@ namespace ROADdecoder
     using namespace PlatformDependencies;
         class ROADOVERSHARED_EXPORT ROADover
         {
-			private: ROADdecoder::ROADover::IROADoverManager* _manager;
+            private: std::unique_ptr<ROADdecoder::ROADover::IROADoverManager> _manager;
             private: ROADUInt32 _amountOfChannels;
             private: ROADUInt32 _superframeLength;
             private: ROADUInt32 _frameRangLength;

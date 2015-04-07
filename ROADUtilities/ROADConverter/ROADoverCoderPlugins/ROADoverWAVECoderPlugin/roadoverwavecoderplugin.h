@@ -15,16 +15,11 @@ class ROADoverWAVECoderPlugin : public QObject,
 public:
     explicit ROADoverWAVECoderPlugin(QObject *parent = 0);
 
-    virtual IROADoverCoder* createIROADoverCoder(IROADoverRawReader* ptrReader,
-                                                 std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aIROADoverCoderOptions,
-                                                 IOriginalAudioStreamOptions *aOriginalAudioStreamOptions,
-                                                 QString outputFile);
+    virtual IROADoverCoderFactory* createIROADoverCoderFactory();
 
     virtual bool checkPlugin() const;
 
     virtual QString name() const;
-
-    virtual QWidget *getOptionsWidget();
 
 signals:
 

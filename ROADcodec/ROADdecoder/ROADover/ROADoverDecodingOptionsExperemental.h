@@ -30,7 +30,7 @@ namespace ROADdecoder
 
             public: virtual ~ROADoverDecodingOptionsExperemental();
 
-            public: ROADUInt32 getAmountOfChannels();
+            public: virtual ROADUInt16 getAmountOfChannels();
 
             public: ROADUInt32 getSuperframeLength();
 
@@ -44,15 +44,15 @@ namespace ROADdecoder
 
             public: ROADUInt32 getScaleDomainShift();
 
-            public: ROADUInt32 getOriginalSamplesPerRang();
+            public: ROADUInt32 getOriginalMinSamplesPerRang();
 
-            public: void setSamplesPerRang(ROADUInt32 aValue);
+            public: void setFrequencyScale(ROADUInt32 aValue);
 
             public: void setOriginalBitsPerSample(ROADUInt32 aValue);
 
             public: ROADUInt32 getOriginalBitsPerSample();
 
-            public: ROADUInt32 getEncriptionCode();
+            public: ROADUInt32 getEncryptionFormat();
 		};
 	}
 }

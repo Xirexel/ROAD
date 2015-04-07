@@ -14,18 +14,22 @@ namespace ROADcoder
 	{
 		class DataWriteDriver: public ROADcoder::Driver::IDataWriteDriver
 		{
-            private: std::unique_ptr<ROADByte> _data;
-            private: ROADUInt32 _length;
-            private: ROADUInt32 _position;
+            private: std::shared_ptr<ROADByte> _data;
+            private: ROADUInt64 _length;
+            private: ROADUInt64 _position;
             private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
 
-            public: virtual ROADUInt32 getLength();
+            public: virtual ROADUInt64 getLength();
 
-            public: virtual ROADUInt32 getPosition();
+            public: virtual ROADUInt64 getPosition();
 
             public: virtual ~DataWriteDriver();
 
-            public: DataWriteDriver(std::unique_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
+            public: DataWriteDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
+
+            public: virtual IDataWriteDriver &operator <<(ROADUInt64 aValue);
+
+            public: virtual IDataWriteDriver &operator <<(ROADInt64 aValue);
 
             public: virtual IDataWriteDriver &operator <<(ROADUInt32 aValue);
 
@@ -38,6 +42,14 @@ namespace ROADcoder
             public: virtual IDataWriteDriver &operator <<(ROADByte aValue);
 
             public: virtual IDataWriteDriver &operator <<(ROADChar aValue);
+
+            public: virtual IDataWriteDriver &operator <<(std::tuple<PtrROADUInt8, ROADUInt64> aData);
+
+            public: virtual IDataWriteDriver &computeAndAppendCRC8(ROADUInt32 aValue);
+
+            public: virtual IDataWriteDriver &computeAndAppendCRC16(ROADUInt32 aValue);
+
+            public: virtual IDataWriteDriver &computeAndAppendCRC32(ROADUInt32 aValue);
 
             private: template<typename T> void writeData(T aValue)
                 {

@@ -24,6 +24,8 @@ namespace Endian
 
         public: ~EndianConvertorFactory();
 
+        public: Endian::EndianType getLocalEndianType();
+
         public: std::unique_ptr<Endian::IEndianConvertor> getIEndianConvertor(Endian::EndianType aType);
 	};
 

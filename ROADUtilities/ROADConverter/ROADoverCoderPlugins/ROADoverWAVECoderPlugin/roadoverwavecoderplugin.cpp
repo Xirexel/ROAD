@@ -1,5 +1,7 @@
 #include "roadoverwavecoderplugin.h"
 #include "roadoverwavecoder.h"
+#include "ROADRawDataFormat.h"
+#include "roadovercoderfactory.h"
 
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
@@ -10,35 +12,9 @@ ROADoverWAVECoderPlugin::ROADoverWAVECoderPlugin(QObject *parent) :
 }
 
 
-IROADoverCoder* ROADoverWAVECoderPlugin::createIROADoverCoder(IROADoverRawReader* ptrReader,
-                                                              std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aIROADoverCoderOptions,
-                                                              IOriginalAudioStreamOptions *aOriginalAudioStreamOptions,
-                                                              QString outputFile)
+IROADoverCoderFactory* ROADoverWAVECoderPlugin::createIROADoverCoderFactory()
 {
-    aIROADoverCoderOptions->setAmountOfChannels(aOriginalAudioStreamOptions->getAmountOfChannels());
-
-    aIROADoverCoderOptions->setEncryptionFormat(0);
-
-    auto lTypeBitePerSample = aOriginalAudioStreamOptions->getTypeBitePerSample();
-
-    switch (lTypeBitePerSample) {
-    case IOriginalAudioStreamOptions::U8 :
-
-        break;
-    case IOriginalAudioStreamOptions::S16 :
-
-        break;
-    case IOriginalAudioStreamOptions::S32 :
-
-        break;
-    default:
-        break;
-    }
-
-    aIROADoverCoderOptions->setBitsPerSampleCode(aOriginalAudioStreamOptions->getBPS());
-
-    return new ROADoverWAVECoder(outputFile, ptrReader, aOriginalAudioStreamOptions, aIROADoverCoderOptions);
-
+    return new ROADoverCoderFactory();
 }
 
 bool ROADoverWAVECoderPlugin::ROADoverWAVECoderPlugin::checkPlugin() const
@@ -49,9 +25,4 @@ bool ROADoverWAVECoderPlugin::ROADoverWAVECoderPlugin::checkPlugin() const
 QString ROADoverWAVECoderPlugin::name() const
 {
     return QString("ROADoverWAVE");
-}
-
-QWidget *ROADoverWAVECoderPlugin::getOptionsWidget()
-{
-    return nullptr;
 }

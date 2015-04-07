@@ -3,6 +3,18 @@
 
 #include "LocalEndianConvertor.h"
 
+PlatformDependencies::ROADUInt64 Endian::LocalEndianConvertor::convertToUINT64(PtrROADByte aData) {
+    ROADUInt64 lresult = *(PtrROADUInt64)(aData);
+
+    return lresult;
+}
+
+PlatformDependencies::ROADInt64 Endian::LocalEndianConvertor::convertToINT64(PtrROADByte aData) {
+    ROADInt64 lresult = *(PtrROADInt64)(aData);
+
+    return lresult;
+}
+
 PlatformDependencies::ROADUInt32 Endian::LocalEndianConvertor::convertToUINT32(PtrROADByte aData) {
     ROADUInt32 lresult = *(ROADUInt32*)(aData);
 
@@ -37,6 +49,20 @@ PlatformDependencies::ROADInt8 Endian::LocalEndianConvertor::convertToINT8(PtrRO
     ROADInt8 lresult = *(PtrROADInt8)(aData);
 
     return lresult;
+}
+
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADUInt64 aValue, PtrROADByte aData) {
+
+    memcpy(aData, &aValue, sizeof(aValue));
+
+    return sizeof(aValue);
+}
+
+PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADInt64 aValue,PtrROADByte aData) {
+
+    memcpy(aData, &aValue, sizeof(aValue));
+
+    return sizeof(aValue);
 }
 
 PlatformDependencies::ROADInt32 Endian::LocalEndianConvertor::convertToBytes(ROADUInt32 aValue, PtrROADByte aData) {

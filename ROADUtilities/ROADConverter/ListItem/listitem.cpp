@@ -21,7 +21,7 @@
 
 
 ListItem::ListItem(TypeSource aTypeSource,
-                   QVarLengthArray<IROADoverCoderPlugin *> vPtrIROADoverCoderPlugin,
+                   QVarLengthArray<IROADoverCoderFactory *> vPtrIROADoverCoderFactory,
                    QString filePath,
                    unsigned int aROADoverCoderOptions,
                    QWidget *parent)
@@ -29,7 +29,7 @@ ListItem::ListItem(TypeSource aTypeSource,
       ui(new Ui::ListItem),
       _filePath(filePath),
       _typeROADoverCoder(aTypeSource),
-      _ptrIROADoverCoderPluginCollection(vPtrIROADoverCoderPlugin),
+      _vPtrIROADoverCoderFactoryCollection(vPtrIROADoverCoderFactory),
       _optionsROADoverCoder(EncodingOptionsFactory::getIROADoverEncodingOptions(aROADoverCoderOptions).release())
 {
     ui->setupUi(this);
@@ -64,7 +64,7 @@ ListItem::ListItem(TypeSource aTypeSource,
         _smartPTRIReader.reset(std::get<1>(result));
     }
 
-    for(IROADoverCoderPlugin * item: vPtrIROADoverCoderPlugin)
+    for(IROADoverCoderFactory * item: vPtrIROADoverCoderFactory)
         ui->comboBoxROADoverCoder->addItem(item->name());
 
 
@@ -78,6 +78,11 @@ ListItem::ListItem(TypeSource aTypeSource,
 
 ListItem::~ListItem()
 {
+    for(auto litem: _vPtrIROADoverCoderFactoryCollection)
+        delete litem;
+
+    _vPtrIROADoverCoderFactoryCollection.clear();
+
     delete ui;
 }
 
@@ -89,7 +94,7 @@ void ListItem::startEncoding()
     }
 
 
-    IROADoverCoderPlugin * lptrIROADoverCoderPlugin = _ptrIROADoverCoderPluginCollection.at(ui->comboBoxROADoverCoder->currentIndex());
+    auto lptrIROADoverCoderPlugin = _vPtrIROADoverCoderFactoryCollection.at(ui->comboBoxROADoverCoder->currentIndex());
 
     IROADoverCoder* lptrIROADoverCoder = lptrIROADoverCoderPlugin->createIROADoverCoder(
                 _smartPTRIReader.get()->getIROADoverRawReader(),

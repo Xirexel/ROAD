@@ -49,6 +49,8 @@ private slots:
 
     void persist();
 
+    void setAsDefault(bool aState);
+
 };
 
 #endif // OPTIONSWIDGET_H

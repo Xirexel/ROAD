@@ -36,8 +36,8 @@ ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::~ROADoverDecodingOpt
 
 }
 
-PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getAmountOfChannels() {
-    return this->_amountOfChannels;
+PlatformDependencies::ROADUInt16 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getAmountOfChannels() {
+    return (ROADUInt16)this->_amountOfChannels;
 }
 
 PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getSuperframeLength() {
@@ -64,11 +64,11 @@ PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsE
     return this->_scaleDomainShift;
 }
 
-PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalSamplesPerRang() {
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getOriginalMinSamplesPerRang() {
     return this->_scaleDomainShift;
 }
 
-void ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::setSamplesPerRang(ROADUInt32 aValue) {
+void ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::setFrequencyScale(ROADUInt32 aValue) {
     this->_samplesPerRang = aValue;
 }
 
@@ -82,7 +82,7 @@ PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsE
     return this->_originalBitsPerSample;
 }
 
-PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getEncriptionCode()
+PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental::getEncryptionFormat()
 {
     return this->_encriptionCode;
 }
