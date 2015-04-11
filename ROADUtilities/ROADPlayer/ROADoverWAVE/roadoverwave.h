@@ -14,6 +14,7 @@
 #include "wavefractal_parser.h"
 #include "IRawDataBuffer.h"
 #include "IDoubleDataContainer.h"
+#include "crc.h"
 
 typedef long long int64;
 
@@ -164,7 +165,7 @@ protected:
         return result;
     }
 
-    virtual int readPreListening(unsigned char* aData)
+    virtual int readPreListening(unsigned char* aData, ROADUInt32 aCRC32)
     {
         long lNumSuperFrame = this->_nextPos / this->_superFrameSampleLength;
 
@@ -174,9 +175,11 @@ protected:
 
         _File->read((char *)aData, _superFramePreListeningBytesLength);
 
+        auto lCRC32Result = CRCSupport::CRC::CRC32((PtrROADByte)aData, (ROADUInt32)_superFramePreListeningBytesLength);
+
         this->_nextPos = lNumSuperFrame * this->_superFrameSampleLength;
 
-        return _superFramePreListeningBytesLength;
+        return aCRC32 == lCRC32Result?_superFramePreListeningBytesLength:0;
     }
 
     virtual void convertByteArrayIntoDoubleArray(PtrROADByte aByteData, ROADUInt32 aLengthByteArray, PtrROADReal aDoubleData)

@@ -40,7 +40,7 @@ public:
 
     virtual unsigned int convertDoubleArrayIntoByteArray(const PtrROADReal aDoubleData, ROADUInt32 aLengthDoubleArray, PtrROADByte aByteData);
 
-    virtual void writePreListening(double *aDoubleData, unsigned int aLength);
+    virtual ROADUInt32 writePreListening(double *aDoubleData, unsigned int aLength);
 
     virtual void writeROADdata(unsigned char* aByteData, unsigned int aLength);
 

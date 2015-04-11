@@ -11,6 +11,7 @@
 #include "NoneChannelsMixing.h"
 #include "FractalEncodingOptions.h"
 #include "DataDriver.h"
+#include "ByteConvertor.h"
 
 
 ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::encode() {
@@ -198,7 +199,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
 
         // Fill prelistening buffer.
-        std::unique_ptr<ROADReal> ldoubleBuffer(new ROADReal[_options->getMaxSuperFrameLength() * _options->getFrameSampleLength() * _options->getAmountOfChannels()]);
+        std::shared_ptr<ROADReal> ldoubleBuffer(new ROADReal[_options->getMaxSuperFrameLength() * _options->getFrameSampleLength() * _options->getAmountOfChannels()]);
 
         ROADUInt32 ldoubleBufferLength = 0;
 
@@ -243,7 +244,22 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         }
 
-        this->_roadOver->writePreListening(ldoubleBuffer.get(), ldoubleBufferLength);
+
+
+
+
+
+//        ByteConvertor::converts
+
+
+        auto lCRC32PreListening = this->_roadOver->writePreListening(ldoubleBuffer.get(), ldoubleBufferLength);
+
+        // Write Head and CRC data for prelistening.
+
+        lIDataWriteDriver->operator
+                << ((ROADUInt8)(lEndingCode + 1)) // Add the Head of prelistening stream - code '0x01'.
+                << lCRC32PreListening;
+
 
         ldoubleBufferLength = 0;
 
@@ -285,10 +301,12 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         }
 
+
+
         //Writing the locals buffers into the common ROAD data buffer.
 
 
-        // Writing indekces buffer
+        // Writing indekces buffer        
 
         lIDataWriteDriver->operator
                 << ((ROADUInt8)(lEndingCode + 2)) // Add the Head of Indekces stream - code '0x02'.

@@ -42,7 +42,7 @@ namespace ROADcoder
 
             public: virtual ROADUInt32 convertDoubleArrayIntoByteArray(const PtrROADReal aDoubleData, ROADUInt32 aLengthDoubleArray, PtrROADByte aByteData) = 0;
 
-            public: virtual void writePreListening(PtrROADReal aDoubleData, ROADUInt32 aLength) = 0;
+            public: virtual ROADUInt32 writePreListening(PtrROADReal aDoubleData, ROADUInt32 aLength) = 0;
 
             public: virtual void writeROADdata(PtrROADByte aByteData, ROADUInt32 aLength) = 0;
 

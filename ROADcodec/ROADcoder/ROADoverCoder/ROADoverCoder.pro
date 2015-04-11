@@ -50,7 +50,8 @@ HEADERS += \
     ROADRawDataFormat.h \
     ROADoverEncodingOptionsFirstVersion.h \
     ROADoverManagerFirstVersion.h \
-    ROADSeekPoint.h
+    ROADSeekPoint.h \
+    ByteConvertor.h
 
 SOURCES += \
     DoubleDataContainer.cpp \

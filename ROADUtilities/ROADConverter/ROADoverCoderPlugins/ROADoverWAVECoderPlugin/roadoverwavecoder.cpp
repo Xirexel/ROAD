@@ -110,7 +110,7 @@ unsigned int ROADoverWAVECoder::convertDoubleArrayIntoByteArray(const PtrROADRea
     return _unique_ptrAWaveFractalWriter->convertDoubleArrayToByteArray(aDoubleData, aLengthDoubleArray, aByteData);
 }
 
-void ROADoverWAVECoder::writePreListening(double* aDoubleData, unsigned int aLength)
+ROADUInt32 ROADoverWAVECoder::writePreListening(double* aDoubleData, unsigned int aLength)
 {
     _unique_ptrAWaveFractalWriter->writePrelistening(aDoubleData, aLength);
 }

@@ -10,6 +10,9 @@
 
 
 #include "awavefractalwriter.h"
+#include "DataDriver.h"
+#include "crc.h"
+
 
 template<typename T>
 class WaveFractalWriter: public AWaveFractalWriter
@@ -26,7 +29,6 @@ public:
           _byteSize(sizeof(typeSample))
 
     {
-
     }
 
     virtual ~WaveFractalWriter()
@@ -56,11 +58,21 @@ public:
         return aLength * _byteSize;
     }
 
-    virtual void writePrelistening(double* aDoubleData, unsigned int aLength)
+    virtual PlatformDependencies::ROADUInt32 writePrelistening(double* aDoubleData, unsigned int aLength)
     {
+        using namespace PlatformDependencies;
+
         typeSample ltypeValue;
 
         _averLength += aLength * sizeof(typeSample);
+
+        std::shared_ptr<ROADByte> lData(new ROADByte[aLength * sizeof(typeSample)]);
+
+        auto lIDataWriteDriver =
+                ROADcoder::Driver::DataDriver::getIDataWriteDriver(lData,
+                                                                   aLength * sizeof(typeSample),
+                                                                   Endian::LITTLE);
+
 
 //        std::cerr << "Length: " << aLength << std::endl;
 
@@ -76,10 +88,16 @@ public:
 
             ++aDoubleData;
 
+            lIDataWriteDriver->operator <<(ltypeValue);
+
             _dataStream << ltypeValue;
 
             --aLength;
         }
+
+//        _dataStream.writeBytes((char*)lData.get(), (int)lIDataWriteDriver->getLength());
+
+        return CRCSupport::CRC::CRC32(lData.get(), (ROADUInt32)lIDataWriteDriver->getLength());
 
     }
 

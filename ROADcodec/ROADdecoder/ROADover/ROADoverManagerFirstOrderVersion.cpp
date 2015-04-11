@@ -95,12 +95,10 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
         {
             ROADUInt32 lFrameLengthLength = _options->getMaxFrameRangLength() * _options->getMinSamplesPerRang();
 
+            ROADInt32 lreadResult = -1;
+
             do
             {
-                auto lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningData.get());
-
-                this->_roadOver->convertByteArrayIntoDoubleArray(_preListeningData.get(), lreadPreListeningLength, _preListeningDoubleData.get());
-
 
                 ROADUInt8 lEndingCode = this->_options->getEndianType();
 
@@ -111,59 +109,78 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                 ROADUInt8 lHead = 0;
 
-                ROADUInt64 lLength;
+                lIDataReadDriver->operator >>(lHead);
 
-                while (!lIDataReadDriver->eod())
+                if((lHead&127) !=  1)
+                    break;
+
+                ROADUInt32 lCRC32;
+
+                lIDataReadDriver->operator >>(lCRC32);
+
+
+                auto lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningData.get(), lCRC32);
+
+                if(lreadPreListeningLength == 0)
+                    break;
+
+                this->_roadOver->convertByteArrayIntoDoubleArray(_preListeningData.get(), lreadPreListeningLength, _preListeningDoubleData.get());
+
+
+                do
                 {
 
                     lIDataReadDriver->operator >>(lHead);
 
-                    switch (lHead&127) {
-                    case 2:
+                    if((lHead&127) == 2)
                     {
 
                         // Обработка буфера ROADdata для выделения длинн рангов.
 
-                        readIndekcesDataStream(lIDataReadDriver.get(), lFrameLengthLength);
+                        lreadResult = readIndekcesDataStream(lIDataReadDriver.get(), lFrameLengthLength);
 
                         // Обработка буфера предпрослушивания
 
                         ROADReal *lptrPreListeningDoubleData = _preListeningDoubleData.get();
 
-                        readPrelisteningDataStream(lptrPreListeningDoubleData);
+                        lreadResult = readPrelisteningDataStream(lptrPreListeningDoubleData);
                     }
+
+                    if(lIDataReadDriver->eod())
                         break;
-                    case 3:
+
+
+                    lIDataReadDriver->operator >>(lHead);
+
+                    if((lHead&127) == 3)
                     {
 
                         // Обработка буфера ROADdata для выделения усреднённой составляющей.
 
-                        readAverageAudioDataStream(lIDataReadDriver.get(), lFrameLengthLength);
+                        lreadResult = readAverageAudioDataStream(lIDataReadDriver.get(), lFrameLengthLength);
                     }
 
+                    if(lIDataReadDriver->eod())
                         break;
-                    case 4:
+
+
+
+                    lIDataReadDriver->operator >>(lHead);
+
+                    if((lHead&127) == 4)
                     {
 
                         // Обработка буфера ROADdata для выделения номеров доменнов.
                         // Обработка буфера ROADdata для выделения коэфициентов масштабирования.
 
-                        readDomainsAndScalesDataStream(lIDataReadDriver.get(), lFrameLengthLength);
+                        lreadResult = readDomainsAndScalesDataStream(lIDataReadDriver.get(), lFrameLengthLength);
                     }
 
+                    if(lIDataReadDriver->eod())
                         break;
-                    default:
-                    {
-
-                        lIDataReadDriver->operator >>(lLength);
-
-                        lIDataReadDriver->seek(lLength);
-                    }
-
-                        break;
-                    }
 
                 }
+                while(false);
 
             }
             while(false);
@@ -398,10 +415,7 @@ PlatformDependencies::ROADInt32 ROADdecoder::ROADover::ROADoverManagerFirstOrder
 
     ROADUInt64 lLength;
 
-    ROADUInt8 lHead;
-
     aIDataReadDriver->operator >>(lLength);
-
 
 
     for(decltype(_options->getAmountOfChannels()) lChannel = 0;
@@ -480,14 +494,6 @@ PlatformDependencies::ROADInt32 ROADdecoder::ROADover::ROADoverManagerFirstOrder
         }
 
     }
-
-//    lHead = 0;
-
-//    aIDataReadDriver->seek(4);
-
-//    aIDataReadDriver->operator >>(lHead);
-
-//    aIDataReadDriver->operator >>(lLength);
 
 //  Обработка буфера ROADdata для выделения коэфициентов масштабирования.
 

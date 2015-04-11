@@ -8,6 +8,7 @@
 
 
 #include "fractalchanks.h"
+#include "platformdependencies.h"
 
 
 class AWaveFractalWriter
@@ -26,7 +27,7 @@ public:
 
     virtual unsigned int convertDoubleArrayToByteArray(const double* aDoubleData, unsigned int aLength, unsigned char*  aByteData) = 0;
 
-    virtual void writePrelistening(double* aDoubleData, unsigned int aLength) = 0;
+    virtual PlatformDependencies::ROADUInt32 writePrelistening(double* aDoubleData, unsigned int aLength) = 0;
 
     virtual void writeROADdata(unsigned char* aData, unsigned int aLength);
 

@@ -95,7 +95,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
             do
             {
-                auto lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningData.get());
+                auto lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningData.get(), 0);
 
                 this->_roadOver->convertByteArrayIntoDoubleArray(_preListeningData.get(), lreadPreListeningLength, _preListeningDoubleData.get());
 

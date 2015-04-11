@@ -22,7 +22,7 @@ public:
 
 protected:
 
-    virtual int readROADdata(unsigned char* aData)
+    virtual int readROADdata(unsigned char* aData, ROADUInt32 aCRC32)
     {
         int result = 0;
 
