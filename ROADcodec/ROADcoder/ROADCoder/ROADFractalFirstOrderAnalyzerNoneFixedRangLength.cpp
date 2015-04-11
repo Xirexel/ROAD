@@ -150,14 +150,14 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::dom
 
         lForwardDirectionScale = lAlpha/lBeta;
 
-        if(lForwardDirectionScale > 0.996)
-            lForwardDirectionScale = 0.996;
-        else if(lForwardDirectionScale < -0.996)
-            lForwardDirectionScale = -0.996;
+        if(lForwardDirectionScale > 0.9992)
+            lForwardDirectionScale = 0.9992;
+        else if(lForwardDirectionScale < -0.9992)
+            lForwardDirectionScale = -0.9992;
 
-        ROADInt32 ldecinScale = lForwardDirectionScale * 255.0;
+        ROADInt32 ldecinScale = lForwardDirectionScale * 128.0;
 
-        lForwardDirectionScale = static_cast<double>(ldecinScale) / 255.0;
+        lForwardDirectionScale = static_cast<double>(ldecinScale) / 128.0;
 
         lForwardDirectionValueOffset = lRangAver - lForwardDirectionScale * lDomainAver;
 
@@ -191,14 +191,14 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::dom
 
         lBackDirectionScale = lAlpha/lBeta;
 
-        if(lBackDirectionScale > 0.996)
-            lBackDirectionScale = 0.996;
-        else if(lBackDirectionScale < -0.996)
-            lBackDirectionScale = -0.996;
+        if(lBackDirectionScale > 0.9992)
+            lBackDirectionScale = 0.9992;
+        else if(lBackDirectionScale < -0.9992)
+            lBackDirectionScale = -0.9992;
 
-        ldecinScale = lBackDirectionScale * 255.0;
+        ldecinScale = lBackDirectionScale * 128.0;
 
-        lBackDirectionScale = static_cast<double>(ldecinScale) / 255.0;
+        lBackDirectionScale = static_cast<double>(ldecinScale) / 128.0;
 
         lBackDirectionValueOffset = lRangAver - lBackDirectionScale * lDomainAver;
 

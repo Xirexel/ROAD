@@ -484,6 +484,8 @@ PlatformDependencies::ROADInt32 ROADdecoder::ROADover::ROADoverManagerFirstOrder
                     lptrFractalFirstOrderItem->setScale(lScale);
 
                     ++countDomainIndeces;
+
+                    --lLength;
                 }
 
                 ++itemCount;
@@ -494,6 +496,10 @@ PlatformDependencies::ROADInt32 ROADdecoder::ROADover::ROADoverManagerFirstOrder
         }
 
     }
+
+    if(lLength == 0)
+        return lresult;
+
 
 //  Обработка буфера ROADdata для выделения коэфициентов масштабирования.
 
@@ -526,7 +532,7 @@ PlatformDependencies::ROADInt32 ROADdecoder::ROADover::ROADoverManagerFirstOrder
 
 //                            ++lptrData;
 
-                ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 255.0;
+                ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 128.0;
 
                 lptrFractalFirstOrderItem->setScale(lptrFractalFirstOrderItem->getScale() * lScale);
 

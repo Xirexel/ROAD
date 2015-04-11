@@ -167,7 +167,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                             ltempScale = -ltempScale;
                         }
 
-                        ROADByte lScale = static_cast<ROADByte> (ltempScale * 255.0);
+                        ROADByte lScale = static_cast<ROADByte> (ltempScale * 128.0);
 
                         *lpackScalesBufferData = lScale;
 
