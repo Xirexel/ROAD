@@ -6,6 +6,7 @@
 #include "Result.h"
 #include "roadover_global.h"
 #include "platformdependencies.h"
+#include "EndianType.h"
 
 namespace ROADdecoder
 {
@@ -45,7 +46,7 @@ namespace ROADdecoder
 
             public: virtual ROADBool unlockResource() = 0;
 
-			public: ROADover(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions);
+            public: ROADover(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions, Endian::EndianType aLowFormatEndianType);
 
 			public: ROADdecoder::ROADover::Result decode();
 

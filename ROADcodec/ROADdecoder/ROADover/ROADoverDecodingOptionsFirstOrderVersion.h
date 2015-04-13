@@ -78,7 +78,7 @@ namespace ROADdecoder
 
             public: ROADUInt32 getEncryptionFormat();
 
-            public: ROADRawDataFormat getBitsPerSampleCode();
+            public: virtual ROADRawDataFormat getBitsPerSampleCode();
 
             public: ROADUInt16 getSelectedPreListeningChannel();
 

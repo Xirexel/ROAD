@@ -3,6 +3,9 @@
 
 
 #include "IROADoverDecodingOptions.h"
+#include "ROADRawDataFormat.h"
+
+
 
 namespace ROADdecoder
 {
@@ -19,6 +22,8 @@ namespace ROADdecoder
             public: virtual ROADUInt32 getMaxFrameRangLength() = 0;
 
             public: virtual ROADUInt32 getMinSamplesPerRang() = 0;
+
+            public: virtual ROADRawDataFormat getBitsPerSampleCode(){return ROADRawDataFormat::UNKNOWNDataFormat;}
 
             public: virtual ~IROADoverDecodingOptionsMainVersion(){}
         };

@@ -4,9 +4,12 @@
 #include "ROADoverManagerExperemental.h"
 #include "ROADoverManagerFirstOrderVersion.h"
 #include "IROADoverDecodingOptionsMainVersion.h"
+#include "ROADoverManagerFirstOrderVersionTempROADInt32.h"
+#include "ROADRawDataFormat.h"
 
 
-ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions)
+ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions,
+                                          Endian::EndianType aLowFormatEndianType)
 {
     switch(aOptions->getROADFormatMode())
     {
@@ -53,7 +56,22 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
                     if(lROADoverDecodingOptions == nullptr)
                         throw std::exception();
 
-                    _manager.reset(new ROADoverManagerFirstOrderVersion(this, lROADoverDecodingOptions));
+                    switch(ROADConvertor::getByteLength(lmainOptions->getBitsPerSampleCode()))
+                    {
+                    case 2:
+                    case 1:
+                        _manager.reset(new ROADoverManagerFirstOrderVersionTempROADInt32(this,
+                                                                                         lROADoverDecodingOptions,
+                                                                                         aLowFormatEndianType));
+                        break;
+
+                    default:
+
+                        throw std::exception();
+                    }
+
+
+//                    _manager.reset(new ROADoverManagerFirstOrderVersion(this, lROADoverDecodingOptions));
                 }
 
                 break;

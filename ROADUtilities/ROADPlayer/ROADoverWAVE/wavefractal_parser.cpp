@@ -221,7 +221,7 @@ void WaveFractal_parser::parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR &aF
 
             auto lconvertor = Endian::EndianConvertorFactory::getInstance().getIEndianConvertor(lEndianType);
 
-            ROADUInt64 lblockLength = lconvertor->convertToUINT64(lRawDataLength.get());
+            ROADUInt64 lblockLength = lconvertor->convertToType(lblockLength, lRawDataLength.get());
 
             ROADByte lMetaDataType = lHead & 127;
 

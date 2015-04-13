@@ -31,7 +31,7 @@ public:
     ROADoverWAVE(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions,
                  WaveFractalFormatData aWaveFractalFormatData,
                  std::string aFilePath)
-        :ROADover(aOptions),
+        :ROADover(aOptions, Endian::LITTLE),
           max(std::numeric_limits<typeOutSample>::max()),
           min(std::numeric_limits<typeOutSample>::min()),
           _sampleScale(1),
