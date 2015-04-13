@@ -8,21 +8,21 @@ namespace Endian
 	class BigEndianConvertor: public Endian::IEndianConvertor
     {        
 
-        public: ROADUInt64 convertToUINT64(PtrROADByte aData);
+        public: ROADUInt64 convertToType(ROADUInt64, PtrROADByte aData);
 
-        public: ROADInt64 convertToINT64(PtrROADByte aData);
+        public: ROADInt64 convertToType(ROADInt64, PtrROADByte aData);
 
-        public: ROADUInt32 convertToUINT32(PtrROADByte aData);
+        public: ROADUInt32 convertToType(ROADUInt32, PtrROADByte aData);
 
-        public: ROADInt32 convertToINT32(PtrROADByte aData);
+        public: ROADInt32 convertToType(ROADInt32, PtrROADByte aData);
 
-        public: ROADUInt16 convertToUINT16(PtrROADByte aData);
+        public: ROADUInt16 convertToType(ROADUInt16, PtrROADByte aData);
 
-        public: ROADInt16 convertToINT16(PtrROADByte aData);
+        public: ROADInt16 convertToType(ROADInt16, PtrROADByte aData);
 
-        public: ROADUInt8 convertToUINT8(PtrROADByte Data);
+        public: ROADUInt8 convertToType(ROADUInt8, PtrROADByte Data);
 
-        public: ROADInt8 convertToINT8(PtrROADByte Data);
+        public: ROADInt8 convertToType(ROADInt8, PtrROADByte Data);
 
         public: ROADInt32 convertToBytes(ROADUInt64 aValue,PtrROADByte aData);
 

@@ -18,28 +18,14 @@ ROADdecoder::Driver::DataReadDriver::~DataReadDriver()
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADInt64 &aValue)
 {
-    if(_length >= (_position + 8))
-    {
-        aValue = _convertor->convertToINT64(_data.get() + _position);
-
-        _position += 8;
-    }
-    else
-        throw std::range_error("Position of pointer is out of range!!!");
+    readData(aValue);
 
     return *this;
 }
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADUInt64 &aValue)
 {
-    if(_length >= (_position + 8))
-    {
-        aValue = _convertor->convertToUINT64(_data.get() + _position);
-
-        _position += 8;
-    }
-    else
-        throw std::range_error("Position of pointer is out of range!!!");
+    readData(aValue);
 
     return *this;
 }
@@ -48,7 +34,7 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 {
     using namespace std;
 
-    if(_length >= (_position + get<1>(aData)))
+    if(_length >= (_position + (unsigned)get<1>(aData)))
     {
         memcpy(get<0>(aData), _data.get() + _position, get<1>(aData));
 
@@ -63,84 +49,42 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADUInt32 &aValue)
 {
-    if(_length >= (_position + 4))
-    {
-        aValue = _convertor->convertToUINT32(_data.get() + _position);
-
-        _position += 4;
-    }
-    else
-        throw std::range_error("Position of pointer is out of range!!!");
+    readData(aValue);
 
     return *this;
 }
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADInt32 &aValue)
 {
-    if(_length >= (_position + 4))
-    {
-        aValue = _convertor->convertToINT32(_data.get() + _position);
-
-        _position += 4;
-    }
-    else
-        throw std::range_error("Position of pointer is out of range!!!");
+    readData(aValue);
 
     return *this;
 }
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADUInt16 &aValue)
 {
-    if(_length >= (_position + 2))
-    {
-        aValue = _convertor->convertToUINT16(_data.get() + _position);
-
-        _position += 2;
-    }
-    else
-        throw std::range_error("Position of pointer is out of range!!!");
+    readData(aValue);
 
     return *this;
 }
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADInt16 &aValue)
 {
-    if(_length >= (_position + 2))
-    {
-        aValue = _convertor->convertToINT16(_data.get() + _position);
-
-        _position += 2;
-    }
-    else
-        throw std::range_error("Position of pointer is out of range!!!");
+    readData(aValue);
 
     return *this;
 }
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADUInt8 &aValue)
 {
-    if(_length >= (_position + 1))
-    {
-        aValue = _convertor->convertToUINT8(_data.get() + _position);
-
-        _position += 1;
-    }
-    else
-        throw std::range_error("Position of pointer is out of range!!!");
+    readData(aValue);
 
     return *this;
 }
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADInt8 &aValue)
 {
-    if(_length >= (_position + 1))
-    {
-        aValue = _convertor->convertToINT8(_data.get() + _position);
-
-        _position += 1;
-    }
-    else
-        throw std::range_error("Position of pointer is out of range!!!");
+    readData(aValue);
 
     return *this;
 }
@@ -160,7 +104,7 @@ PlatformDependencies::ROADBool ROADdecoder::Driver::DataReadDriver::seek(ROADInt
 {
     ROADBool lresult = false;
 
-    if(this->_position + aOffset <= this->_length && this->_position + aOffset >=0)
+    if(((this->_position + aOffset) <= this->_length) && ((this->_position + aOffset) >=0))
     {
         this->_position += aOffset;
 
@@ -188,7 +132,7 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
     {
         auto lresult = CRCSupport::CRC::CRC8(_data.get() + this->_position, aLength);// 1 bytes - CRC8 code.
 
-        auto lvalue = _convertor->convertToUINT8(_data.get() + (this->_position + aLength));
+        auto lvalue = _convertor->convertToType(lresult, _data.get() + (this->_position + aLength));
 
         aOk = lresult == lvalue;
     }
@@ -204,7 +148,7 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
     {
         auto lresult = CRCSupport::CRC::CRC16(_data.get() + this->_position, aLength);// 2 bytes - CRC8 code.
 
-        auto lvalue = _convertor->convertToUINT16(_data.get() + (this->_position + aLength));
+        auto lvalue = _convertor->convertToType(lresult, _data.get() + (this->_position + aLength));
 
         aOk = lresult == lvalue;
     }
@@ -220,7 +164,7 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
     {
         auto lresult = CRCSupport::CRC::CRC32(_data.get() + this->_position, aLength);// 4 bytes - CRC8 code.
 
-        auto lvalue = _convertor->convertToUINT32(_data.get() + (this->_position + aLength));
+        auto lvalue = _convertor->convertToType(lresult, _data.get() + (this->_position + aLength));
 
         aOk = lresult == lvalue;
     }

@@ -31,7 +31,8 @@ SOURCES += \
     FractalFirstOrderItemContainer.cpp \
     FractalFirstOrderItemSuperFrameContainer.cpp \
     ROADoverDecodingOptionsFirstOrderVersion.cpp \
-    ROADoverManagerFirstOrderVersion.cpp
+    ROADoverManagerFirstOrderVersion.cpp \
+    ROADoverManagerFirstOrderVersionTempROADInt32.cpp
 
 HEADERS +=\
         roadover_global.h \
@@ -61,7 +62,10 @@ HEADERS +=\
     ROADRawDataFormat.h \
     ROADoverDecodingOptionsFirstOrderVersion.h \
     IROADoverDecodingOptionsMainVersion.h \
-    ROADoverManagerFirstOrderVersion.h
+    ROADoverManagerFirstOrderVersion.h \
+    ROADoverManagerFirstOrderVersionTempROADInt32.h \
+    IBytesToROADInt32.h \
+    BytesToROADInt32.h
 
 
 

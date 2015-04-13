@@ -30,7 +30,6 @@ namespace ROADdecoder
 {
     namespace ROADover
     {
-
         class ROADoverManagerFirstOrderVersion: public ROADdecoder::ROADover::ROADoverManager
         {
             private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;

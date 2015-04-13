@@ -25,7 +25,7 @@ void TestEndianTest::testCase1()
 
     unsigned int j = 1;
 
-    auto r = f.convertToUINT32((unsigned char*)&j);
+    auto r = f.convertToType((unsigned char*)&j);
 
     QVERIFY2(r == j, "Failure");
 

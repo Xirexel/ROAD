@@ -1,6 +1,6 @@
 #include "BigEndianConvertor.h"
 
-PlatformDependencies::ROADUInt64 Endian::BigEndianConvertor::convertToUINT64(PtrROADByte aData) {
+PlatformDependencies::ROADUInt64 Endian::BigEndianConvertor::convertToType(ROADUInt64, PtrROADByte aData) {
 
     ROADUInt64 lresult = 0;
 
@@ -23,7 +23,7 @@ PlatformDependencies::ROADUInt64 Endian::BigEndianConvertor::convertToUINT64(Ptr
     return lresult;
 }
 
-PlatformDependencies::ROADInt64 Endian::BigEndianConvertor::convertToINT64(PtrROADByte aData) {
+PlatformDependencies::ROADInt64 Endian::BigEndianConvertor::convertToType(ROADInt64, PtrROADByte aData) {
 
     ROADInt64 lresult = 0;
 
@@ -46,7 +46,7 @@ PlatformDependencies::ROADInt64 Endian::BigEndianConvertor::convertToINT64(PtrRO
     return lresult;
 }
 
-PlatformDependencies::ROADUInt32 Endian::BigEndianConvertor::convertToUINT32(PtrROADByte aData) {
+PlatformDependencies::ROADUInt32 Endian::BigEndianConvertor::convertToType(ROADUInt32, PtrROADByte aData) {
 
     ROADUInt32 lresult = 0;
 
@@ -61,7 +61,7 @@ PlatformDependencies::ROADUInt32 Endian::BigEndianConvertor::convertToUINT32(Ptr
     return lresult;
 }
 
-PlatformDependencies::ROADInt32 Endian::BigEndianConvertor::convertToINT32(PtrROADByte aData) {
+PlatformDependencies::ROADInt32 Endian::BigEndianConvertor::convertToType(ROADInt32, PtrROADByte aData) {
 
     ROADInt32 lresult = 0;
 
@@ -76,7 +76,7 @@ PlatformDependencies::ROADInt32 Endian::BigEndianConvertor::convertToINT32(PtrRO
     return lresult;
 }
 
-PlatformDependencies::ROADUInt16 Endian::BigEndianConvertor::convertToUINT16(PtrROADByte aData) {
+PlatformDependencies::ROADUInt16 Endian::BigEndianConvertor::convertToType(ROADUInt16, PtrROADByte aData) {
 
     ROADUInt16 lresult = 0;
 
@@ -87,7 +87,7 @@ PlatformDependencies::ROADUInt16 Endian::BigEndianConvertor::convertToUINT16(Ptr
     return lresult;
 }
 
-PlatformDependencies::ROADInt16 Endian::BigEndianConvertor::convertToINT16(PtrROADByte aData) {
+PlatformDependencies::ROADInt16 Endian::BigEndianConvertor::convertToType(ROADInt16, PtrROADByte aData) {
 
     ROADInt16 lresult = 0;
 
@@ -98,7 +98,7 @@ PlatformDependencies::ROADInt16 Endian::BigEndianConvertor::convertToINT16(PtrRO
     return lresult;
 }
 
-PlatformDependencies::ROADUInt8 Endian::BigEndianConvertor::convertToUINT8(PtrROADByte aData) {
+PlatformDependencies::ROADUInt8 Endian::BigEndianConvertor::convertToType(ROADUInt8, PtrROADByte aData) {
 
     ROADUInt8 lresult = 0;
 
@@ -107,7 +107,7 @@ PlatformDependencies::ROADUInt8 Endian::BigEndianConvertor::convertToUINT8(PtrRO
     return lresult;
 }
 
-PlatformDependencies::ROADInt8 Endian::BigEndianConvertor::convertToINT8(PtrROADByte aData) {
+PlatformDependencies::ROADInt8 Endian::BigEndianConvertor::convertToType(ROADInt8, PtrROADByte aData) {
 
     ROADInt8 lresult = 0;
 

@@ -14,8 +14,8 @@ namespace ROADdecoder
 		class DataReadDriver: public ROADdecoder::Driver::IDataReadDriver
 		{
             private: std::shared_ptr<ROADByte> _data;
-            private: ROADUInt64 _length;
-            private: ROADUInt64 _position;
+            private: ROADInt64 _length;
+            private: ROADInt64 _position;
             private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
 
             public: DataReadDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
@@ -53,6 +53,19 @@ namespace ROADdecoder
             public: virtual IDataReadDriver &computeAndCheckCRC32(ROADInt64 aLength, ROADBool &aOk);
 
             public: virtual ~DataReadDriver();
+
+
+            private: template<typename T> void readData(T &aValue)
+            {
+                if(_length >= (_position + sizeof(T)))
+                {
+                    aValue = _convertor->convertToType(aValue, _data.get() + _position);
+
+                    _position += sizeof(T);
+                }
+                else
+                    throw std::range_error("Position of pointer is out of range!!!");
+            }
 		};
 	}
 }

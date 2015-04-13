@@ -109,6 +109,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                 ROADUInt8 lHead = 0;
 
+                // check prelistening CRC32 Block
                 lIDataReadDriver->operator >>(lHead);
 
                 if((lHead&127) !=  1)
