@@ -1,6 +1,10 @@
 #ifndef IBYTESTOROADINT32_H
 #define IBYTESTOROADINT32_H
 
+
+#include <memory>
+
+
 #include "platformdependencies.h"
 
 namespace ROADdecoder
@@ -13,9 +17,11 @@ namespace ROADdecoder
         {
             public: virtual ~IBytesToROADInt32(){}
 
-            public: virtual void setAtBeginning(PtrROADByte aData) = 0;
+            public: virtual void convert(std::shared_ptr<ROADByte> aData,
+                                                ROADUInt64 aLength,
+                                                PtrROADInt32 aROADInt32Data,
+                                                ROADUInt64 aFrameSampleLength) = 0;
 
-            public: virtual ROADInt32 getROADInt32() = 0;
         };
     }
 }

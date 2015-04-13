@@ -14,12 +14,11 @@ namespace ROADdecoder
     {
         class ROADoverManagerFirstOrderVersionTempROADInt32 : public ROADoverManagerFirstOrderVersion
         {
-        private:
+            private: std::unique_ptr<IBytesToROADInt32> _convertorPrelistening;
 
-            std::unique_ptr<IBytesToROADInt32> _convertorPrelistening;
+            private: std::unique_ptr<IBytesToROADInt32> _convertorAudioStream;
 
-            std::unique_ptr<IBytesToROADInt32> _convertorAudioStream;
-
+            private: std::unique_ptr<ROADInt32> _preListeningInt32Data;
 
             public: ROADoverManagerFirstOrderVersionTempROADInt32(ROADover* aRoadOver,
                                                                   ROADoverDecodingOptionsFirstOrderVersion* aOptions,

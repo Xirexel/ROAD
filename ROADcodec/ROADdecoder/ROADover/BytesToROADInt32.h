@@ -1,8 +1,12 @@
 #ifndef BYTESTOROADINT32_H
 #define BYTESTOROADINT32_H
 
+#include <memory>
+
+
 #include "IBytesToROADInt32.h"
-#include "EndianConvertorFactory.h"
+#include "DataDriver.h"
+#include "EndianType.h"
 
 namespace ROADdecoder
 {
@@ -11,29 +15,39 @@ namespace ROADdecoder
         template<typename T>
         class BytesToROADInt32: public IBytesToROADInt32
         {
-            private: T* PtrOriginalBytesType;
+            private: T _element;
 
-            private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
+            private: std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> _IDataReadDriver;
+
+            private: Endian::EndianType _EndianType;
 
             public: BytesToROADInt32(Endian::EndianType aEndianType):
-                _convertor(Endian::EndianConvertorFactory.getInstance().getIEndianConvertor(aEndianType))
-            {
-
-            }
+                _EndianType(aEndianType){}
 
             public: virtual ~BytesToROADInt32(){}
 
-            public: virtual void setAtBeginning(PtrROADByte aData)
+            public: virtual void convert(std::shared_ptr<ROADByte> aData,
+                                                ROADUInt64 aLength,
+                                                PtrROADInt32 aROADInt32Data,
+                                                ROADUInt64 aFrameSampleLength)
             {
+                auto lIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(aData,
+                                                                  aLength,
+                                                                  _EndianType);
 
-                PtrOriginalBytesType = (T*)aData;
-            }
+                for(decltype(aFrameSampleLength) lindex = 0;
+                    lindex < aFrameSampleLength;
+                    ++lindex)
+                {
 
-            public: virtual ROADInt32 getROADInt32()
-            {
-                _convertor->convertToINT8();
+                    lIDataReadDriver->operator >>(_element);
 
-                return *PtrOriginalBytesType++;
+                    *aROADInt32Data = _element;
+
+                    ++aROADInt32Data;
+                }
+
+
             }
         };
     }

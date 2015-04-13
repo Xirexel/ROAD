@@ -25,15 +25,16 @@ ROADdecoder::ROADover::ROADoverManagerFirstOrderVersionTempROADInt32::ROADoverMa
     switch(aOptions->getBitsPerSampleCode())
     {
         case ROADRawDataFormat::U8:
-
-            _convertorPrelistening.reset(new BytesToROADInt32<ROADUInt8>());
+            _convertorPrelistening.reset(new BytesToROADInt32<ROADUInt8>(aEndianType));
 
         break;
-        case ROADRawDataFormat::U12:
-        case ROADRawDataFormat::U16:
+        case ROADRawDataFormat::S16:
+            _convertorPrelistening.reset(new BytesToROADInt32<ROADInt16>(aEndianType));
 
-            _convertorPrelistening.reset(new BytesToROADInt32<ROADUInt16>());
+        break;
 
+    default:
+        throw std::exception();
         break;
     }
 
