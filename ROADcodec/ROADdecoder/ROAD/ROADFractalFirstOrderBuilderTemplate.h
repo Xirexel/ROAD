@@ -122,15 +122,20 @@ namespace ROADdecoder
 
             private: std::unique_ptr<ROADInt32> _AveragesMassive;
 
-            FractalFirstOrderItemContainerInt32 _container;
+        private: std::unique_ptr<FractalFirstOrderItemContainerInt32> _container;
 
             public: ROADFractalFirstOrderBuilder(ROADUInt32 aSuperFrameSampleLength, ROADUInt32 aMaxRangs):
                     _ScalesMassive(new SampleType[aSuperFrameSampleLength]),
                     _AveragesMassive(new SampleType[aSuperFrameSampleLength]),
-                    _container(aMaxRangs)
+                    _container(new FractalFirstOrderItemContainerInt32(aMaxRangs))
                 {}
 
-            public: void build(PtrROADByte aData, ROADdecoder::ROAD::IFractalFirstOrderItemContainerInt32* aFractalFirstOrderItemContainer)
+        public: FractalFirstOrderItemContainerInt32* getFractalFirstOrderItemContainer()
+            {
+                return _container.get();
+            }
+
+            public: void build(PtrROADByte aData)
             {
                 ROADUInt32 lmaxCount = 0;
 
