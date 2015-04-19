@@ -19,7 +19,11 @@ ROADdecoder::ROADover::ROADoverManagerFirstOrderVersionTempROADInt32::ROADoverMa
                                                                                                                     ROADoverDecodingOptionsFirstOrderVersion *aOptions,
                                                                                                                     Endian::EndianType aEndianType)
     :ROADoverManagerFirstOrderVersion(aRoadOver,
-                                      aOptions)
+                                      aOptions),
+    _preListeningInt32Data(new ROADInt32[
+                            aOptions->getMinSamplesPerRang() *
+                            aOptions->getMaxFrameRangLength() *
+                            aOptions->getMaxSuperFrameLength()])
 {
 
     switch(aOptions->getBitsPerSampleCode())
@@ -46,113 +50,120 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
     this->_roadOver->lockResource();
 
-//    auto lreadROADdataLength = this->_roadOver->readROADdata(this->_bufferROADdata.get());
+    auto lreadROADdataLength = this->_roadOver->readROADdata(this->_bufferROADdata.get());
 
-//    switch(lreadROADdataLength)
-//    {
-//    case -1:
+    switch(lreadROADdataLength)
+    {
+    case -1:
 
-//        result = Result::FINISHFILE;
+        result = Result::FINISHFILE;
 
-//        break;
+        break;
 
-//    default:
+    default:
 
-//        result = Result::DONE;
+        result = Result::DONE;
 
-//        {
-//            ROADUInt32 lFrameLengthLength = _options->getMaxFrameRangLength() * _options->getMinSamplesPerRang();
+        {
+            ROADUInt32 lFrameLengthLength = _options->getMaxFrameRangLength() * _options->getMinSamplesPerRang();
 
-//            ROADInt32 lreadResult = -1;
+            ROADInt32 lreadResult = -1;
 
-//            do
-//            {
+            do
+            {
 
-//                ROADUInt8 lEndingCode = this->_options->getEndianType();
+                ROADUInt8 lEndingCode = this->_options->getEndianType();
 
-//                auto lIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(this->_bufferROADdata,
-//                                                                  lreadROADdataLength,
-//                                                                  Endian::EndianType(lEndingCode));
-
-
-//                ROADUInt8 lHead = 0;
-
-//                // check prelistening CRC32 Block
-//                lIDataReadDriver->operator >>(lHead);
-
-//                if((lHead&127) !=  1)
-//                    break;
-
-//                ROADUInt32 lCRC32;
-
-//                lIDataReadDriver->operator >>(lCRC32);
+                auto lIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(this->_bufferROADdata,
+                                                                  lreadROADdataLength,
+                                                                  Endian::EndianType(lEndingCode));
 
 
-//                auto lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningData.get(), lCRC32);
+                ROADUInt8 lHead = 0;
 
-//                if(lreadPreListeningLength == 0)
-//                    break;
+                // check prelistening CRC32 Block
+                lIDataReadDriver->operator >>(lHead);
+
+                if((lHead&127) !=  1)
+                    break;
+
+                ROADUInt32 lCRC32;
+
+                lIDataReadDriver->operator >>(lCRC32);
+
+
+                auto lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningData.get(), lCRC32);
+
+                if(lreadPreListeningLength == 0)
+                    break;
+
+                ROADUInt64 lSuperFrameSampleLength = lFrameLengthLength * _options->getMaxSuperFrameLength();
+
+                this->_convertorPrelistening->convert(_preListeningData,
+                                                      lreadPreListeningLength,
+                                                      this->_preListeningInt32Data.get(),
+                                                      lSuperFrameSampleLength);
 
 //                this->_roadOver->convertByteArrayIntoDoubleArray(_preListeningData.get(), lreadPreListeningLength, _preListeningDoubleData.get());
 
 
-//                do
-//                {
+                do
+                {
 
-//                    lIDataReadDriver->operator >>(lHead);
+                    lIDataReadDriver->operator >>(lHead);
 
-//                    if((lHead&127) == 2)
-//                    {
+                    if((lHead&127) == 2)
+                    {
 
-//                        // Обработка буфера ROADdata для выделения длинн рангов.
+                        // Обработка буфера ROADdata для выделения длинн рангов.
 
-//                        lreadResult = readIndekcesDataStream(lIDataReadDriver.get(), lFrameLengthLength);
+                        lreadResult = readIndekcesDataStream(lIDataReadDriver.get(), lFrameLengthLength);
 
-//                        // Обработка буфера предпрослушивания
+                        // Обработка буфера предпрослушивания
 
-//                        ROADReal *lptrPreListeningDoubleData = _preListeningDoubleData.get();
+                        PtrROADInt32 lptrPreListeningDoubleData = _preListeningInt32Data.get();
 
-//                        lreadResult = readPrelisteningDataStream(lptrPreListeningDoubleData);
-//                    }
+                        lreadResult = readPrelisteningDataStream(lptrPreListeningDoubleData);
+                    }
 
-//                    if(lIDataReadDriver->eod())
-//                        break;
-
-
-//                    lIDataReadDriver->operator >>(lHead);
-
-//                    if((lHead&127) == 3)
-//                    {
-
-//                        // Обработка буфера ROADdata для выделения усреднённой составляющей.
-
-//                        lreadResult = readAverageAudioDataStream(lIDataReadDriver.get(), lFrameLengthLength);
-//                    }
-
-//                    if(lIDataReadDriver->eod())
-//                        break;
+                    if(lIDataReadDriver->eod())
+                        break;
 
 
+                    lIDataReadDriver->operator >>(lHead);
 
-//                    lIDataReadDriver->operator >>(lHead);
+                    if((lHead&127) == 3)
+                    {
 
-//                    if((lHead&127) == 4)
-//                    {
+                        // Обработка буфера ROADdata для выделения усреднённой составляющей.
 
-//                        // Обработка буфера ROADdata для выделения номеров доменнов.
-//                        // Обработка буфера ROADdata для выделения коэфициентов масштабирования.
+                        lreadResult = readAverageAudioDataStream(lIDataReadDriver.get(), lFrameLengthLength);
+                    }
 
-//                        lreadResult = readDomainsAndScalesDataStream(lIDataReadDriver.get(), lFrameLengthLength);
-//                    }
+                    if(lIDataReadDriver->eod())
+                        break;
 
-//                    if(lIDataReadDriver->eod())
-//                        break;
 
-//                }
-//                while(false);
 
-//            }
-//            while(false);
+                    lIDataReadDriver->operator >>(lHead);
+
+                    if((lHead&127) == 4)
+                    {
+
+                        // Обработка буфера ROADdata для выделения номеров доменнов.
+                        // Обработка буфера ROADdata для выделения коэфициентов масштабирования.
+
+                        lreadResult = readDomainsAndScalesDataStream(lIDataReadDriver.get(), lFrameLengthLength);
+                    }
+
+                    if(lIDataReadDriver->eod())
+                        break;
+
+                }
+                while(false);
+
+            }
+            while(false);
 
 //// Выполнение постороения фракталов для декодирования
 //            {
@@ -179,13 +190,58 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 //                this->_roadOver->writeRawData(&_channelsDataBuffer);
 
 //            }
-//        }
+        }
 
-//        break;
-//    }
+        break;
+    }
 
     this->_roadOver->unlockResource();
 
     return result;
 }
 
+PlatformDependencies::ROADInt32 ROADdecoder::ROADover::ROADoverManagerFirstOrderVersionTempROADInt32::readPrelisteningDataStream(PtrROADInt32 aPtrPreListeningDoubleData)
+{
+    using namespace PlatformDependencies;
+
+    ROADInt32 lresult = -1;
+
+    FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
+
+    for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+         lframeIndex < _options->getMaxSuperFrameLength();
+         ++lframeIndex)
+    {
+
+
+        FractalFirstOrderItemContainer *lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex);
+
+        auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getIFractalAverItemCount();
+
+
+        ROADUInt32 count = 0;
+
+        ROADUInt32 lrabgeLength = 0;
+
+        while(count < lFractalAverItemCount)
+        {
+            ROADReal lptrAver = *aPtrPreListeningDoubleData;
+
+            FractalAverItem *lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalAverItem(count);
+
+            lrabgeLength = lptrFractalAverItem->getLength();
+
+            lptrFractalAverItem->setAver(lptrAver);
+
+            lrabgeLength /= _options->getMinSamplesPerRang();
+
+            aPtrPreListeningDoubleData += lrabgeLength;
+
+            ++count;
+        }
+
+    }
+
+
+    return lresult;
+}

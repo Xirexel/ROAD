@@ -25,6 +25,8 @@ namespace ROADdecoder
                                                                   Endian::EndianType aEndianType);
 
             public: ROADdecoder::ROADover::Result decode();
+
+            protected: PlatformDependencies::ROADInt32 readPrelisteningDataStream(PtrROADInt32 aPtrPreListeningDoubleData);
         };
     }
 }

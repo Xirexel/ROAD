@@ -33,11 +33,11 @@ namespace ROADdecoder
         class ROADoverManagerFirstOrderVersion: public ROADdecoder::ROADover::ROADoverManager
         {
             private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
-            private: std::vector<ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
+            protected: std::vector<ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
 
             protected: ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* _options;
 
-            private: std::unique_ptr<ROADByte> _preListeningData;
+            protected: std::shared_ptr<ROADByte> _preListeningData;
 
             private: std::unique_ptr<ROADReal> _preListeningDoubleData;
 
