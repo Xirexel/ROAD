@@ -5,6 +5,8 @@
 namespace PlatformDependencies
 {
 
+typedef void* PtrROADVoid;
+
 typedef bool ROADBool;
 
 typedef char ROADChar;

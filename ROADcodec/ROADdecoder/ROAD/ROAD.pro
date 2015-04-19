@@ -22,7 +22,6 @@ SOURCES += \
     ROADFractalOrderFactory.cpp
 
 HEADERS +=\
-    IFractalAverItem.h \
     ROADFractalFirstOrderBuilderFactory.h \
     ROADFractalFirstOrderBuilderNoneFixedRangLength.h \
     IROADFractalFirstOrderBuilder.h \
@@ -31,7 +30,8 @@ HEADERS +=\
     DomainProcessorFirstOrderNoneFixedLength.h \
     IROADFractalBuilderFactory.h \
     ROADFractalOrderFactory.h \
-    ROADFractalFirstOrderBuilderTemplate.h
+    ROADFractalFirstOrderBuilderTemplate.h \
+    ROADFractalFirstOrderBuilder.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../PlatformDependencies/release/ -lPlatformDependencies
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../PlatformDependencies/debug/ -lPlatformDependencies

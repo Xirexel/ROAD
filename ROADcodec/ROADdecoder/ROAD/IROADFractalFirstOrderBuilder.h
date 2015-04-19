@@ -1,15 +1,10 @@
 #ifndef __ROADdecoder__ROAD__IROADFractalBuilder_h__
 #define __ROADdecoder__ROAD__IROADFractalBuilder_h__
 
-#include "platformdependencies.h"
+#include <memory>
 
-namespace ROADdecoder
-{
-	namespace ROAD
-	{
-        class IFractalFirstOrderItemContainer;
-	}
-}
+#include "platformdependencies.h"
+#include "IFractalFirstOrderItemContainer.h"
 
 namespace ROADdecoder
 {
@@ -19,8 +14,9 @@ namespace ROADdecoder
     using namespace PlatformDependencies;
         class IROADFractalFirstOrderBuilder
 		{
+            public: virtual void build(PtrROADVoid aData) = 0;
 
-            public: virtual void build(PtrROADReal aData, ROADdecoder::ROAD::IFractalFirstOrderItemContainer* aFractalItemContainer) = 0;
+            public: virtual std::shared_ptr<ROADdecoder::ROAD::IFractalFirstOrderItemContainer> getContainer() = 0;
 
             public: virtual ~IROADFractalFirstOrderBuilder(){}
 		};
