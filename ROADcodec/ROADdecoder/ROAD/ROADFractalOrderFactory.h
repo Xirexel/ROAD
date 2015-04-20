@@ -20,7 +20,6 @@ namespace ROADdecoder
     using namespace PlatformDependencies;
 		class ROADFractalOrderFactory
 		{
-
             public: static ROADdecoder::ROAD::IROADFractalBuilderFactory* getIROADFractalBuilderFactory(ROADUInt32 aOrder);
 		};
 	}

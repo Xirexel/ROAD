@@ -20,6 +20,7 @@ namespace ROADdecoder
 
         class IFractalFirstOrderItemContainer
 		{
+            public: virtual void resetIFractalFirstOrderItemCount() = 0;
 
             public: virtual ROADdecoder::ROAD::IFractalFirstOrderItem* getIFractalFirstOrderItem(ROADUInt32 aIndex) = 0;
 

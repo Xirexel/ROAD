@@ -16,22 +16,18 @@ else:unix:DESTDIR = ../../../Bin/ROADdecoder
 DEFINES += ROAD_LIBRARY
 
 SOURCES += \
-    ROADFractalBuilderNoneFixedRangLength.cpp \
     ROADFractalFirstOrderBuilderFactory.cpp \
-    DomainProcessorFirstOrderNoneFixedLength.cpp \
     ROADFractalOrderFactory.cpp
 
 HEADERS +=\
     ROADFractalFirstOrderBuilderFactory.h \
-    ROADFractalFirstOrderBuilderNoneFixedRangLength.h \
     IROADFractalFirstOrderBuilder.h \
     IFractalFirstOrderItemContainer.h \
     IFractalFirstOrderItem.h \
-    DomainProcessorFirstOrderNoneFixedLength.h \
     IROADFractalBuilderFactory.h \
     ROADFractalOrderFactory.h \
-    ROADFractalFirstOrderBuilderTemplate.h \
-    ROADFractalFirstOrderBuilder.h
+    ROADFractalFirstOrderBuilder.h \
+    ROADRawDataFormat.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../PlatformDependencies/release/ -lPlatformDependencies
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../PlatformDependencies/debug/ -lPlatformDependencies

@@ -1,12 +1,29 @@
 #include "ROADFractalFirstOrderBuilderFactory.h"
-#include "ROADFractalFirstOrderBuilderNoneFixedRangLength.h"
+#include "ROADFractalFirstOrderBuilder.h"
+#include "ROADRawDataFormat.h"
 
-ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* ROADdecoder::ROAD::ROADFractalFirstOrderBuilderFactory::getIROADFractalFirstOrderBuilder(ROADUInt32 index, ROADUInt32 aMaxRangeLength)
+
+ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* ROADdecoder::ROAD::ROADFractalFirstOrderBuilderFactory::getIROADFractalFirstOrderBuilder(ROADUInt8 aROADRawDataFormat,
+                                                                                                                                           ROADUInt32 aMaxSuperFrameSampleLength,
+                                                                                                                                           ROADUInt32 aMaxRangeLength,
+                                                                                                                                           ROADUInt32 aMaxRangSampleLength)
 {
     ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* result = nullptr;
 
-    if(index == 0)
-        result = new ROADFractalFirstOrderBuilderNoneFixedRangLength(aMaxRangeLength);
+    switch (aROADRawDataFormat)
+    {
+    case ROADRawDataFormat::S32:
+        result = new ROADFractalFirstOrderBuilder<ROADInt32>(aMaxSuperFrameSampleLength,
+                                                             aMaxRangeLength,
+                                                             aMaxRangSampleLength);
+        break;
+
+    default:
+        break;
+    }
+
+//    if(index == 0)
+//        result = new ROADFractalFirstOrderBuilderNoneFixedRangLength(aMaxRangeLength);
 
     return result;
 }
