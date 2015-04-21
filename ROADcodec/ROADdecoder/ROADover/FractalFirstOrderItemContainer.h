@@ -2,7 +2,6 @@
 #define __ROADdecoder__ROADover__FractalItemContainer_h__
 
  #include "../ROAD/IFractalFirstOrderItem.h"
- #include "../ROAD/IFractalAverItem.h"
  #include "../ROAD/IFractalFirstOrderItemContainer.h"
 // #include "ROADdecoder/ROADover/FractalItem.h"
 // #include "ROADdecoder/ROADover/FractalAverItem.h"
@@ -12,13 +11,11 @@ namespace ROADdecoder
 	namespace ROAD
 	{
         class IFractalFirstOrderItem;
-		class IFractalAverItem;
         class IFractalFirstOrderItemContainer;
 	}
 	namespace ROADover
 	{
         class FractalFirstOrderItem;
-		class FractalAverItem;
         class FractalFirstOrderItemContainer;
 	}
 }
@@ -32,7 +29,6 @@ namespace ROADdecoder
         class FractalFirstOrderItemContainer: public ROADdecoder::ROAD::IFractalFirstOrderItemContainer
 		{
             private: ROADdecoder::ROADover::FractalFirstOrderItem* _fractalItems;
-			private: ROADdecoder::ROADover::FractalAverItem* _fractalAverItems;
             private: ROADUInt32 _fractalAverItemCount;
             private: ROADUInt32 _fractalItemCount;
 

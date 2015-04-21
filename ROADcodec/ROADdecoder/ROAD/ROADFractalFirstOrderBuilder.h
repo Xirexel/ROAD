@@ -132,23 +132,23 @@ namespace ROADdecoder
             template<typename SampleTypeItem>
             class FractalFirstOrderItemContainer: public IFractalFirstOrderItemContainer
             {
-            private: typedef SampleTypeItem* PtrSampleTypeItem;
-            private: ROADUInt32 _count;
+                private: typedef SampleTypeItem* PtrSampleTypeItem;
 
                 private: std::unique_ptr<FractalFirstOrderItem<SampleTypeItem>> _rangsMassive;
+
+                private: ROADUInt32 _count;
 
                 public: FractalFirstOrderItemContainer(ROADUInt32 aMaxFrameRangLength,
                                                        PtrSampleTypeItem aPtrScalesMassive,
                                                        PtrSampleTypeItem aPtrAveragesMassive):
-                    _rangsMassive(new FractalFirstOrderItem<SampleTypeItem>[aMaxFrameRangLength])
+                    _rangsMassive(new FractalFirstOrderItem<SampleTypeItem>[aMaxFrameRangLength]),
+                    _count(0)
                 {
                     for(decltype(aMaxFrameRangLength) lindex = 0;
                         lindex < aMaxFrameRangLength;
                         ++lindex)
                         _rangsMassive.get()[lindex].setScalesAndAveragerMassives(aPtrScalesMassive,
                                                                                  aPtrAveragesMassive);
-
-                    resetIFractalFirstOrderItemCount();
                 }
 
                 public: virtual void resetIFractalFirstOrderItemCount()

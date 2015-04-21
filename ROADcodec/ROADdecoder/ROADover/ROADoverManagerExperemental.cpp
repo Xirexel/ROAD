@@ -4,7 +4,6 @@
 #include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
 #include "../ROAD/ROADFractalOrderFactory.h"
 #include "FractalFirstOrderItem.h"
-#include "FractalAverItem.h"
 #include "FractalFirstOrderItemContainer.h"
 #include "FractalFirstOrderItemSuperFrameContainer.h"
 #include "IDoubleDataContainer.h"

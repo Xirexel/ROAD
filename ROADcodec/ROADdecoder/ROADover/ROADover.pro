@@ -38,7 +38,6 @@ HEADERS +=\
         roadover_global.h \
     ChannelsMixingMode.h \
     DoubleDataContainer.h \
-    FractalAverItem.h \
     IChannelsMixing.h \
     IDoubleDataContainer.h \
     IRawDataBuffer.h \
