@@ -27,8 +27,6 @@ SOURCES += \
     ROADoverManagerExperemental.cpp \
     SIDEChannelsMixing.cpp \
     ROADover.cpp \
-    FractalFirstOrderItem.cpp \
-    FractalFirstOrderItemContainer.cpp \
     FractalFirstOrderItemSuperFrameContainer.cpp \
     ROADoverDecodingOptionsFirstOrderVersion.cpp \
     ROADoverManagerFirstOrderVersion.cpp \
@@ -54,8 +52,6 @@ HEADERS +=\
     ROADoverManagerExperemental.h \
     SIDEChannelsMixing.h \
     ROADover.h \
-    FractalFirstOrderItem.h \
-    FractalFirstOrderItemContainer.h \
     FractalFirstOrderItemSuperFrameContainer.h \
     ROADRawMetaDataContainer.h \
     ROADRawDataFormat.h \

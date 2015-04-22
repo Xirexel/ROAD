@@ -22,11 +22,20 @@ namespace ROADdecoder
 
 namespace ROADdecoder
 {
+    namespace ROAD
+    {
+        class IROADFractalFirstOrderBuilder;
+    }
+}
+
+namespace ROADdecoder
+{
 	namespace ROADover
 	{
 		class ROADoverManagerExperemental: public ROADdecoder::ROADover::ROADoverManager
 		{
-            private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
+            private: std::vector<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder*> _fractalBuilders;
+         //   private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
             private: std::vector<ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
 
             protected: ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* _options;

@@ -27,7 +27,8 @@ HEADERS +=\
     IROADFractalBuilderFactory.h \
     ROADFractalOrderFactory.h \
     ROADFractalFirstOrderBuilder.h \
-    ROADRawDataFormat.h
+    ROADRawDataFormat.h \
+    ROADFrameDataContainer.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../PlatformDependencies/release/ -lPlatformDependencies
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../PlatformDependencies/debug/ -lPlatformDependencies

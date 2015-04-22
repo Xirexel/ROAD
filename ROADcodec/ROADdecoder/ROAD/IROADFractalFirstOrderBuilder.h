@@ -5,6 +5,7 @@
 
 #include "platformdependencies.h"
 #include "IFractalFirstOrderItemContainer.h"
+#include "ROADFrameDataContainer.h"
 
 namespace ROADdecoder
 {
@@ -14,9 +15,7 @@ namespace ROADdecoder
     using namespace PlatformDependencies;
         class IROADFractalFirstOrderBuilder
 		{
-            public: virtual void build(PtrROADVoid aData) = 0;
-
-            public: virtual std::shared_ptr<ROADdecoder::ROAD::IFractalFirstOrderItemContainer> getContainer() = 0;
+            public: virtual void build(PtrROADVoid aData, IROADFrameDataContainer* aPtrIROADFrameDataContainer) = 0;
 
             public: virtual ~IROADFractalFirstOrderBuilder(){}
 		};

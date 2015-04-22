@@ -12,13 +12,13 @@ namespace ROADdecoder
 
         class IFractalFirstOrderItem
         {
-            public: virtual void setAverage(ROADUInt32 aPosition,
-                                             ROADUInt32 aLength,
-                                             PtrROADVoid aPtrDataSample) = 0;
+            public: virtual ROADUInt32 getLength() = 0;
 
-            public: virtual void setRangTransform(ROADBool aIsInversDirection,
-                                                  ROADUInt32 aDomainOffset,
-                                                  ROADInt8 aScale) = 0;
+            public: virtual ROADBool isInversDirection() = 0;
+
+            public: virtual ROADUInt32 getDomainOffset() = 0;
+
+            public: virtual ROADUInt32 getPosition() = 0;
 
             public: virtual ~IFractalFirstOrderItem(){}
 		};

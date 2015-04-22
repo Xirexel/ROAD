@@ -3,12 +3,11 @@
 #include "ROADoverDecodingOptionsExperemental.h"
 #include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
 #include "../ROAD/ROADFractalOrderFactory.h"
-#include "FractalFirstOrderItem.h"
-#include "FractalFirstOrderItemContainer.h"
 #include "FractalFirstOrderItemSuperFrameContainer.h"
 #include "IDoubleDataContainer.h"
 #include "MIDChannelsMixing.h"
 #include "SIDEChannelsMixing.h"
+#include "ROADRawDataFormat.h"
 
 ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(ROADdecoder::ROADover::ROADover* aRoadOver,
                                                                                 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* aOptions)
@@ -58,7 +57,7 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(
         throw "Format Experemental is not supported!!!";
     }
 
-    _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(0, _superFrameSamplesLength));
+
 
     this->_frequencyScale = _options->getSamplesPerRang() / _options->getOriginalMinSamplesPerRang();
 
@@ -66,6 +65,15 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(
         index < aOptions->getAmountOfChannels();
         ++index)
     {
+        auto lbuilder = lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(ROADRawDataFormat::D64,
+                                                                                  _superFrameSamplesLength,
+                                                                                  _options->getFrameRangLength(),
+                                                                                  _options->getSamplesPerRang());
+
+        _fractalBuilders.push_back(lbuilder);
+
+        std::shared_ptr<ROADdecoder::ROAD::IFractalFirstOrderItemContainer> lcontainer = lbuilder->getContainer();
+
         _fractalItemSuperFrameContainer.push_back(new FractalFirstOrderItemSuperFrameContainer(aOptions->getSuperframeLength(), aOptions->getFrameRangLength()));
     }
 }
@@ -407,6 +415,12 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::~ROADoverManagerExperemental
         delete item;
 
     _fractalItemSuperFrameContainer.clear();
+
+
+    for(auto item : _fractalBuilders)
+        delete item;
+
+    _fractalBuilders.clear();
 
     delete _options;
 }

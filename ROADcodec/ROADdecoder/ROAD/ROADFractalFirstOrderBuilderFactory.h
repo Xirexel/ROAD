@@ -18,7 +18,7 @@ namespace ROADdecoder
 	{
 		class ROADFractalFirstOrderBuilderFactory: public ROADdecoder::ROAD::IROADFractalBuilderFactory
 		{
-            public: ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* getIROADFractalFirstOrderBuilder(ROADUInt8 aROADRawDataFormat, ROADUInt32 aMaxSuperFrameSampleLength, ROADUInt32 aMaxRangeLength, ROADUInt32 aMaxRangSampleLength);
+            public: ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* getIROADFractalFirstOrderBuilder(ROADUInt8 aROADRawDataFormat, ROADUInt32 aMaxRangSampleLength);
 
             public: ROADUInt32 getOrder();
 		};
