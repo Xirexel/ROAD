@@ -6,9 +6,6 @@
 #include "ROADoverDecodingOptionsFirstOrderVersion.h"
 #include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
 #include "../ROAD/ROADFractalOrderFactory.h"
-#include "FractalFirstOrderItem.h"
-#include "FractalAverItem.h"
-#include "FractalFirstOrderItemContainer.h"
 #include "FractalFirstOrderItemSuperFrameContainer.h"
 #include "IDoubleDataContainer.h"
 #include "MIDChannelsMixing.h"
@@ -206,41 +203,41 @@ PlatformDependencies::ROADInt32 ROADdecoder::ROADover::ROADoverManagerFirstOrder
 
     ROADInt32 lresult = -1;
 
-    FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
+//    FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
 
-    for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
-         lframeIndex < _options->getMaxSuperFrameLength();
-         ++lframeIndex)
-    {
-
-
-        FractalFirstOrderItemContainer *lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex);
-
-        auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getIFractalAverItemCount();
+//    for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+//         lframeIndex < _options->getMaxSuperFrameLength();
+//         ++lframeIndex)
+//    {
 
 
-        ROADUInt32 count = 0;
+//        FractalFirstOrderItemContainer *lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex);
 
-        ROADUInt32 lrabgeLength = 0;
+//        auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getIFractalAverItemCount();
 
-        while(count < lFractalAverItemCount)
-        {
-            ROADReal lptrAver = *aPtrPreListeningDoubleData;
 
-            FractalAverItem *lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalAverItem(count);
+//        ROADUInt32 count = 0;
 
-            lrabgeLength = lptrFractalAverItem->getLength();
+//        ROADUInt32 lrabgeLength = 0;
 
-            lptrFractalAverItem->setAver(lptrAver);
+//        while(count < lFractalAverItemCount)
+//        {
+//            ROADReal lptrAver = *aPtrPreListeningDoubleData;
 
-            lrabgeLength /= _options->getMinSamplesPerRang();
+//            FractalAverItem *lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalAverItem(count);
 
-            aPtrPreListeningDoubleData += lrabgeLength;
+//            lrabgeLength = lptrFractalAverItem->getLength();
 
-            ++count;
-        }
+//            lptrFractalAverItem->setAver(lptrAver);
 
-    }
+//            lrabgeLength /= _options->getMinSamplesPerRang();
+
+//            aPtrPreListeningDoubleData += lrabgeLength;
+
+//            ++count;
+//        }
+
+//    }
 
 
     return lresult;

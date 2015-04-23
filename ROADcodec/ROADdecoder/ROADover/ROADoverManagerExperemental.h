@@ -7,6 +7,7 @@
 // #include "ROADdecoder/ROADover/ROADover.h"
 // #include "ROADdecoder/ROADover/ROADoverDecodingOptionsExperemental.h"
 #include "../ROAD/IROADFractalFirstOrderBuilder.h"
+#include "ROADFractalFirstOrderItemsSuperFrameDataContainer.h"
 #include "Result.h"
 #include "ROADoverManager.h"
 
@@ -34,9 +35,10 @@ namespace ROADdecoder
 	{
 		class ROADoverManagerExperemental: public ROADdecoder::ROADover::ROADoverManager
 		{
-            private: std::vector<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder*> _fractalBuilders;
-         //   private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
-            private: std::vector<ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
+         //   private: std::vector<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder*> _fractalBuilders;
+            private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
+
+            private: std::vector<ROADFractalFirstOrderItemsSuperFrameDataContainer<ROADReal>*> _fractalItemSuperFrameContainer;
 
             protected: ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* _options;
 

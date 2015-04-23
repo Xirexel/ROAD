@@ -1,6 +1,6 @@
 #include "ROADFractalFirstOrderBuilderFactory.h"
 #include "ROADFractalFirstOrderBuilder.h"
-#include "ROADRawDataFormat.h"
+#include "ROADDataFormat.h"
 #include "ROADFrameDataContainer.h"
 
 
@@ -12,7 +12,7 @@ ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* ROADdecoder::ROAD::ROADFractal
     switch (aROADRawDataFormat)
     {
 
-    case ROADRawDataFormat::D64:
+    case ROADDataFormat::Double:
         result = new ROADFractalFirstOrderBuilder<ROADReal>(aMaxRangSampleLength);
         break;
 

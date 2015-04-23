@@ -6,7 +6,7 @@
 
 
 #include "platformdependencies.h"
-#include "ROADRawDataFormat.h"
+#include "ROADDataFormat.h"
 #include "IFractalFirstOrderItem.h"
 #include "IFractalFirstOrderItemContainer.h"
 
@@ -24,7 +24,7 @@ namespace ROADdecoder
             public: virtual ROADUInt8 getBaseDecodingSampleTypeFormat() = 0;
         };
 
-        class FractalFirstOrderItemTransform: public IFractalFirstOrderItem
+        class FractalFirstOrderItemTransform//: public IFractalFirstOrderItem
         {
 
             protected: ROADUInt32 _Position;
@@ -34,6 +34,8 @@ namespace ROADdecoder
             protected: ROADBool _IsInversDirection;
 
             protected: ROADUInt32 _DomainOffset;
+
+            protected: ROADUInt8 _FractalItemIndex;
 
             public: FractalFirstOrderItemTransform(){}
 
@@ -57,7 +59,12 @@ namespace ROADdecoder
                 return this->_Position;
             }
 
-            public: virtual ~FractalFirstOrderItemTransform(){}
+            public: ROADUInt8 getFractalItemIndex()
+            {
+                return this->_FractalItemIndex;
+            }
+
+            public: ~FractalFirstOrderItemTransform(){}
         };
 
         template<typename SampleTypeItem>
@@ -66,6 +73,8 @@ namespace ROADdecoder
             private: typedef SampleTypeItem* PtrSampleTypeItem;
 
             private: SampleTypeItem _sampleTypeItem;
+
+            private: SampleTypeItem _scale;
 
             private: PtrSampleTypeItem _PtrScalesMassive;
 
@@ -81,40 +90,23 @@ namespace ROADdecoder
                 _PtrAveragesMassive = aPtrAveragesMassive;
             }
 
-            public: virtual void setAverage(ROADUInt32 aPosition,
-                                             ROADUInt32 aLength,
-                                             PtrROADVoid aPtrDataSample)
+            public: void setIndexInfo(ROADUInt32 aPosition,
+                                      ROADUInt32 aLength,
+                                      ROADUInt8 aFractalItemIndex)
             {
                 this->_Position = aPosition;
 
                 this->_Length = aLength;
 
-                _sampleTypeItem = *(reinterpret_cast<PtrSampleTypeItem>(aPtrDataSample));
-
-                PtrSampleTypeItem lpositionPtrSampleType = _PtrAveragesMassive + aPosition;
-
-                for(decltype(aLength) lindex = 0;
-                    lindex < aLength;
-                    ++lindex)
-                {
-                    *lpositionPtrSampleType = _sampleTypeItem;
-
-                    ++lpositionPtrSampleType;
-                }
-
+                this->_FractalItemIndex = aFractalItemIndex;
             }
 
-            public: virtual void setRangTransform(ROADBool aIsInversDirection,
-                                                  ROADUInt32 aDomainOffset,
-                                                  ROADInt8 aScale)
+
+            public: void setAverage(PtrROADVoid aPtrDataSample)
             {
-                this->_IsInversDirection = aIsInversDirection;
+                _sampleTypeItem = *(reinterpret_cast<PtrSampleTypeItem>(aPtrDataSample));
 
-                this->_DomainOffset = aDomainOffset;
-
-                _sampleTypeItem = aScale;
-
-                PtrSampleTypeItem lpositionPtrSampleType = _PtrScalesMassive + this->_Position;
+                PtrSampleTypeItem lpositionPtrSampleType = _PtrAveragesMassive + this->_Position;
 
                 for(decltype(this->_Length) lindex = 0;
                     lindex < this->_Length;
@@ -124,9 +116,52 @@ namespace ROADdecoder
 
                     ++lpositionPtrSampleType;
                 }
+
             }
 
-            public: virtual ~FractalFirstOrderItem(){}
+            public: void setRangTransform(ROADBool aIsInversDirection,
+                                                  ROADUInt32 aDomainOffset,
+                                                  SampleTypeItem aScale)
+            {
+                this->_IsInversDirection = aIsInversDirection;
+
+                this->_DomainOffset = aDomainOffset;
+
+                _scale = aScale;
+
+                PtrSampleTypeItem lpositionPtrSampleType = _PtrScalesMassive + this->_Position;
+
+                for(decltype(this->_Length) lindex = 0;
+                    lindex < this->_Length;
+                    ++lindex)
+                {
+                    *lpositionPtrSampleType = _scale;
+
+                    ++lpositionPtrSampleType;
+                }
+            }
+
+            public: SampleTypeItem getScale()
+            {
+                return this->_scale;
+            }
+
+            public: void setScale(SampleTypeItem aScale)
+            {
+
+                PtrSampleTypeItem lpositionPtrSampleType = _PtrScalesMassive + this->_Position;
+
+                for(decltype(this->_Length) lindex = 0;
+                    lindex < this->_Length;
+                    ++lindex)
+                {
+                    *lpositionPtrSampleType = aScale;
+
+                    ++lpositionPtrSampleType;
+                }
+            }
+
+            public: ~FractalFirstOrderItem(){}
         };
 
         template<typename BaseDecodingSampleType>
@@ -134,8 +169,7 @@ namespace ROADdecoder
 
         template<>
         class ROADFractalFirstOrderItemsFrameDataContainer<ROADReal>:
-                public IROADFrameDataContainer,
-                public IFractalFirstOrderItemContainer
+                public IROADFrameDataContainer//, public IFractalFirstOrderItemContainer
         {
             public: typedef ROADReal DecodingSampleType;
 
@@ -148,6 +182,8 @@ namespace ROADdecoder
             private: std::unique_ptr<FractalFirstOrderItem<DecodingSampleType>> _rangsMassive;
 
             private: ROADUInt32 _count;
+
+            public: ROADFractalFirstOrderItemsFrameDataContainer(){}
 
             public: ROADFractalFirstOrderItemsFrameDataContainer(ROADUInt32 aMaxFrameRangLength,
                                                                  ROADUInt32 aMaxRangSampleLength):
@@ -163,19 +199,36 @@ namespace ROADdecoder
                                                                              _averagesMassive.get());
             }
 
-            public: virtual ROADUInt8 getBaseDecodingSampleTypeFormat()
+        public: void Init(ROADUInt32 aMaxFrameRangLength,
+                          ROADUInt32 aMaxRangSampleLength)
             {
-                return ROADRawDataFormat(DecodingSampleType());
+                _scalesMassive.reset(new DecodingSampleType[aMaxFrameRangLength * aMaxRangSampleLength]);
+
+                _averagesMassive.reset(new DecodingSampleType[aMaxFrameRangLength * aMaxRangSampleLength]);
+
+                _rangsMassive.reset(new FractalFirstOrderItem<DecodingSampleType>[aMaxFrameRangLength]);
+
+                _count = 0;
             }
 
-            public: virtual void resetIFractalFirstOrderItemCount()
+            public: virtual ROADUInt8 getBaseDecodingSampleTypeFormat()
+            {
+                return ROADDataFormat(DecodingSampleType());
+            }
+
+            public: void resetFractalFirstOrderItemCount()
             {
                 this->_count = 0;
             }
 
-            public: virtual ROADdecoder::ROAD::IFractalFirstOrderItem* getIFractalFirstOrderItem(ROADUInt32 aIndex)
+            public: void incrementFractalFirstOrderItemCount()
             {
-                return &this->_rangsMassive.get()[aIndex];
+                ++this->_count;
+            }
+
+            public: void setFractalFirstOrderItemCount(ROADUInt32 aCount)
+            {
+                this->_count = aCount;
             }
 
             public: FractalFirstOrderItem<DecodingSampleType>* getFractalFirstOrderItemTransform(ROADUInt32 aIndex)
@@ -183,7 +236,7 @@ namespace ROADdecoder
                 return &this->_rangsMassive.get()[aIndex];
             }
 
-            public: virtual ROADUInt32 getIFractalFirstOrderItemCount()
+            public: ROADUInt32 getFractalFirstOrderItemCount()
             {
                 return this->_count;
             }

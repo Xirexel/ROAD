@@ -9,6 +9,7 @@
 #include "SIDEChannelsMixing.h"
 #include "ROADRawDataFormat.h"
 
+
 ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(ROADdecoder::ROADover::ROADover* aRoadOver,
                                                                                 ROADdecoder::ROADover::ROADoverDecodingOptionsExperemental* aOptions)
     :ROADoverManager(aRoadOver,
@@ -61,20 +62,18 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(
 
     this->_frequencyScale = _options->getSamplesPerRang() / _options->getOriginalMinSamplesPerRang();
 
+    _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(ROADRawDataFormat::D64,
+                                                                                                    _options->getSamplesPerRang()));
+
     for(decltype(aOptions->getAmountOfChannels()) index = 0;
         index < aOptions->getAmountOfChannels();
         ++index)
     {
-        auto lbuilder = lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(ROADRawDataFormat::D64,
-                                                                                  _superFrameSamplesLength,
-                                                                                  _options->getFrameRangLength(),
-                                                                                  _options->getSamplesPerRang());
+        auto lContainer = new ROADFractalFirstOrderItemsSuperFrameDataContainer<ROADReal>(aOptions->getSuperframeLength(),
+                                                                                          aOptions->getFrameRangLength(),
+                                                                                          aOptions->getSamplesPerRang());
 
-        _fractalBuilders.push_back(lbuilder);
-
-        std::shared_ptr<ROADdecoder::ROAD::IFractalFirstOrderItemContainer> lcontainer = lbuilder->getContainer();
-
-        _fractalItemSuperFrameContainer.push_back(new FractalFirstOrderItemSuperFrameContainer(aOptions->getSuperframeLength(), aOptions->getFrameRangLength()));
+        _fractalItemSuperFrameContainer.push_back(lContainer);
     }
 }
 
@@ -118,7 +117,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                     ++lChannel)
                 {
 
-                    FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
+                    auto lptrFractalFirstOrderItemSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
                     for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
                          lframeIndex < _options->getSuperframeLength();
@@ -127,7 +126,10 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                          ROADUInt32 lFractalAverItemCount = 0;
 
-                        auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex);
+                        auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemSuperFrameContainer->getFrameDataContainer(lframeIndex);
+
+                        lptrFractalFirstOrderItemContainer->resetFractalFirstOrderItemCount();
+
 
                         auto lLength = lFrameLengthLength;
 
@@ -145,7 +147,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                              ROADUInt32 lrangeLength;
 
-                            auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalAverItem(lFractalAverItemCount);
+                            auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemTransform(lFractalAverItemCount);
 
                             if((luctemp & 128) == 128)
                             {
@@ -156,11 +158,15 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                                 lrangeLength = (1 << (luctemp >> 5)) * _options->getSamplesPerRang();
                             }
 
-                            lptrFractalAverItem->setLength(lrangeLength);
+//                            lptrFractalAverItem->setLength(lrangeLength);
 
-                            lptrFractalAverItem->setFractalItemIndex(luctemp);
+//                            lptrFractalAverItem->setFractalItemIndex(luctemp);
 
-                            lptrFractalAverItem->setPosition(lcurrentPosition);
+//                            lptrFractalAverItem->setPosition(lcurrentPosition);
+
+                            lptrFractalAverItem->setIndexInfo(lcurrentPosition,
+                                                              lrangeLength,
+                                                              luctemp);
 
                             lLength -= lrangeLength;
 
@@ -169,7 +175,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                             ++lFractalAverItemCount;
                         }
 
-                        lptrFractalFirstOrderItemContainer->setFractalAverItemCount(lFractalAverItemCount);
+                        lptrFractalFirstOrderItemContainer->setFractalFirstOrderItemCount(lFractalAverItemCount);
 
                     }
                 }
@@ -178,7 +184,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                 ROADReal *lptrPreListeningDoubleData = _preListeningDoubleData.get();
 
-                FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
+                auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(0);
 
                 for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
                      lframeIndex < _options->getSuperframeLength();
@@ -186,9 +192,9 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                 {
 
 
-                    FractalFirstOrderItemContainer *lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex);
+                    auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex);
 
-                    auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getIFractalAverItemCount();
+                    auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemCount();
 
 
                     ROADUInt32 count = 0;
@@ -199,11 +205,11 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                     {
                         ROADReal lptrAver = *lptrPreListeningDoubleData;
 
-                        FractalAverItem *lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalAverItem(count);
+                        auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemTransform(count);
 
                         lrabgeLength = lptrFractalAverItem->getLength();
 
-                        lptrFractalAverItem->setAver(lptrAver);
+                        lptrFractalAverItem->setAverage(&lptrAver);
 
                         lrabgeLength /= _options->getSamplesPerRang();
 
@@ -223,16 +229,16 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                     lChannel < _options->getAmountOfChannels();
                     ++lChannel)
                 {
-                    FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
+                    auto lptrFractalFirstOrderItemSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
                     for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
                          lframeIndex < _options->getSuperframeLength();
                          ++lframeIndex)
                     {
 
-                        auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex);
+                        auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemSuperFrameContainer->getFrameDataContainer(lframeIndex);
 
-                        auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getIFractalAverItemCount();
+                        auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemCount();
 
                         ROADUInt32 lLengthByteArray = lFractalAverItemCount * (_options->getOriginalBitsPerSample() >> 3);
 
@@ -249,9 +255,9 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                             ++lItemIndex)
                         {
 
-                            auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalAverItem(lItemIndex);
+                            auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemTransform(lItemIndex);
 
-                            lptrFractalAverItem->setAver(lptrAver.get()[lItemIndex]);
+                            lptrFractalAverItem->setAverage(lptrAver.get()+ lItemIndex);
 
                         }
                     }
@@ -270,9 +276,9 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                          ++lframeIndex)
                     {
 
-                        auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex);
+                        auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex);
 
-                        auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getIFractalAverItemCount();
+                        auto lFractalAverItemCount = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemCount();
 
 
                         ROADUInt8 ldomainIndex;
@@ -283,7 +289,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                         while(itemCount < lFractalAverItemCount)
                         {
-                            auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalAverItem(itemCount);
+                            auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemTransform(itemCount);
 
                             ROADUInt8 itemIndex = lptrFractalAverItem->getFractalItemIndex();
 
@@ -303,32 +309,37 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                                 lDomainOffset = lDomainOffset * this->_frequencyScale;
 
 
-                                auto lptrFractalFirstOrderItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItem(countDomainIndeces);
+//                                auto lptrFractalFirstOrderItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItem(countDomainIndeces);
 
-                                lptrFractalFirstOrderItem->setAver(lptrFractalAverItem->getAver());
+//                                lptrFractalFirstOrderItem->setAver(lptrFractalAverItem->getAver());
 
-                                lptrFractalFirstOrderItem->setDomainOffset(lDomainOffset);
+//                                lptrFractalFirstOrderItem->setDomainOffset(lDomainOffset);
 
-                                lptrFractalFirstOrderItem->setInversDirection((itemIndex & 16) == 16);
+//                                lptrFractalFirstOrderItem->setInversDirection((itemIndex & 16) == 16);
 
-                                lptrFractalFirstOrderItem->setLength(lptrFractalAverItem->getLength());
+//                                lptrFractalFirstOrderItem->setLength(lptrFractalAverItem->getLength());
 
-                                lptrFractalFirstOrderItem->setPosition(lptrFractalAverItem->getPosition());
+//                                lptrFractalFirstOrderItem->setPosition(lptrFractalAverItem->getPosition());
 
                                 ROADReal lScale = 1.0;
 
                                 if((itemIndex & 8) == 8)
                                     lScale = -lScale;
 
-                                lptrFractalFirstOrderItem->setScale(lScale);
+//                                lptrFractalFirstOrderItem->setScale(lScale);
+
+                                lptrFractalAverItem->setRangTransform((itemIndex & 16) == 16, lDomainOffset, lScale);
 
                                 ++countDomainIndeces;
                             }
+                            else
+                                lptrFractalAverItem->setRangTransform(false, 0, 0.0);
+
 
                             ++itemCount;
                         }
 
-                        lptrFractalFirstOrderItemContainer->setFractalFirstOrderItemCount(countDomainIndeces);
+                    //    lptrFractalFirstOrderItemContainer->setFractalFirstOrderItemCount(countDomainIndeces);
 
                     }
 
@@ -341,31 +352,38 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                     lChannel < _options->getAmountOfChannels();
                     ++lChannel)
                 {
-                    FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
+                    auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
                     for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
                          lframeIndex < _options->getSuperframeLength();
                          ++lframeIndex)
                     {
-                        auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex);
+                        auto lptrFractalFirstOrderItemContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex);
 
-                        auto lFractalItemCount = lptrFractalFirstOrderItemContainer->getIFractalFirstOrderItemCount();
+                        auto lFractalItemCount = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemCount();
 
                         decltype(lFractalItemCount) itemCount = 0;
 
                         while(itemCount < lFractalItemCount)
                         {
-                            auto lptrFractalFirstOrderItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItem(itemCount);
+                            auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemTransform(itemCount);
+
+                            ROADUInt8 itemIndex = lptrFractalAverItem->getFractalItemIndex();
+
+
+                            if((itemIndex & 128) == 0)
+                            {
 
                             ROADUInt8 ldecimScale = *lptrData;
 
                             ++lptrData;
 
-                            ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 255.0;
+                            ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 128.0;
 
-                            lptrFractalFirstOrderItem->setScale(lptrFractalFirstOrderItem->getScale() * lScale);
+                            lptrFractalAverItem->setScale(lptrFractalAverItem->getScale() * lScale);
 
                             ++itemCount;
+                            }
                         }
                     }
 
@@ -381,7 +399,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                     ++lChannel)
                 {
 
-                    FractalFirstOrderItemSuperFrameContainer* lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
+                    auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
                     ROADReal* lptrDoubleData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();
 
@@ -390,7 +408,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                          ++lframeIndex)
                     {
                         _fractalBuilder->build(lptrDoubleData + (lframeIndex * lFrameLengthLength),
-                                                       lptrFractalFirstOrderItemsSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex));
+                                                       lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
                     }
                 }
 
@@ -415,12 +433,6 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::~ROADoverManagerExperemental
         delete item;
 
     _fractalItemSuperFrameContainer.clear();
-
-
-    for(auto item : _fractalBuilders)
-        delete item;
-
-    _fractalBuilders.clear();
 
     delete _options;
 }

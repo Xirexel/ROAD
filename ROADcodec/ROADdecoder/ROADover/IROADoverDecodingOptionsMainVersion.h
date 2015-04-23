@@ -23,7 +23,7 @@ namespace ROADdecoder
 
             public: virtual ROADUInt32 getMinSamplesPerRang() = 0;
 
-            public: virtual ROADRawDataFormat getBitsPerSampleCode(){return ROADRawDataFormat::UNKNOWNDataFormat;}
+            public: virtual ROADRawDataFormat getBitsPerSampleCode(){return UNKNOWNDataFormat;}
 
             public: virtual ~IROADoverDecodingOptionsMainVersion(){}
         };

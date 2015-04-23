@@ -137,7 +137,7 @@ namespace ROADdecoder
 
                 ROADUInt32 countFractalItems = 0;
 
-                ROADUInt32 lmaxCount = lPtrFrameDataContainer->getIFractalFirstOrderItemCount();
+                ROADUInt32 lmaxCount = lPtrFrameDataContainer->getFractalFirstOrderItemCount();
 
                 //                while(countFractalItems < lmaxCount)
                 //                {

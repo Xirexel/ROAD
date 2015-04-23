@@ -17,7 +17,6 @@ DEFINES += ROADOVER_LIBRARY
 
 SOURCES += \
     DoubleDataContainer.cpp \
-    FractalAverItem.cpp \
     MIDChannelsMixing.cpp \
     NoneChannelsMixing.cpp \
     RawDataBuffer.cpp \
@@ -27,7 +26,6 @@ SOURCES += \
     ROADoverManagerExperemental.cpp \
     SIDEChannelsMixing.cpp \
     ROADover.cpp \
-    FractalFirstOrderItemSuperFrameContainer.cpp \
     ROADoverDecodingOptionsFirstOrderVersion.cpp \
     ROADoverManagerFirstOrderVersion.cpp \
     ROADoverManagerFirstOrderVersionTempROADInt32.cpp
@@ -52,7 +50,6 @@ HEADERS +=\
     ROADoverManagerExperemental.h \
     SIDEChannelsMixing.h \
     ROADover.h \
-    FractalFirstOrderItemSuperFrameContainer.h \
     ROADRawMetaDataContainer.h \
     ROADRawDataFormat.h \
     ROADoverDecodingOptionsFirstOrderVersion.h \
@@ -60,7 +57,8 @@ HEADERS +=\
     ROADoverManagerFirstOrderVersion.h \
     ROADoverManagerFirstOrderVersionTempROADInt32.h \
     IBytesToROADInt32.h \
-    BytesToROADInt32.h
+    BytesToROADInt32.h \
+    ROADFractalFirstOrderItemsSuperFrameDataContainer.h
 
 
 
