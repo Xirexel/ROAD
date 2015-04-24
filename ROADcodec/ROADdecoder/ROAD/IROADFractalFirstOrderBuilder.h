@@ -4,7 +4,6 @@
 #include <memory>
 
 #include "platformdependencies.h"
-#include "IFractalFirstOrderItemContainer.h"
 #include "ROADFrameDataContainer.h"
 
 namespace ROADdecoder

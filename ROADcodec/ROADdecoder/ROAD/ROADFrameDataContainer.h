@@ -7,8 +7,6 @@
 
 #include "platformdependencies.h"
 #include "ROADDataFormat.h"
-#include "IFractalFirstOrderItem.h"
-#include "IFractalFirstOrderItemContainer.h"
 
 
 namespace ROADdecoder

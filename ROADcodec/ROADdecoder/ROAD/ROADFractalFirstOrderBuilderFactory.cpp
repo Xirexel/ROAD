@@ -5,7 +5,8 @@
 
 
 ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* ROADdecoder::ROAD::ROADFractalFirstOrderBuilderFactory::getIROADFractalFirstOrderBuilder(ROADUInt8 aROADRawDataFormat,
-                                                                                                                                           ROADUInt32 aMaxRangSampleLength)
+                                                                                                                                           ROADUInt32 aMaxRangSampleLength,
+                                                                                                                                           ROADUInt8 aBinTreeDepth)
 {
     ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* result = nullptr;
 
@@ -13,13 +14,21 @@ ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* ROADdecoder::ROAD::ROADFractal
     {
 
     case ROADDataFormat::Double:
-        result = new ROADFractalFirstOrderBuilder<ROADReal>(aMaxRangSampleLength);
+        {
+            switch (aBinTreeDepth)
+            {
+            default:
+                {
+                    result = new ROADFractalFirstOrderBuilder<ROADReal, false, 2048>(aMaxRangSampleLength);
+                }
+                break;
+            }
+        }
         break;
 
     default:
         break;
     }
-
 
     return result;
 }

@@ -22,13 +22,12 @@ SOURCES += \
 HEADERS +=\
     ROADFractalFirstOrderBuilderFactory.h \
     IROADFractalFirstOrderBuilder.h \
-    IFractalFirstOrderItemContainer.h \
-    IFractalFirstOrderItem.h \
     IROADFractalBuilderFactory.h \
     ROADFractalOrderFactory.h \
     ROADFractalFirstOrderBuilder.h \
     ROADFrameDataContainer.h \
-    ROADDataFormat.h
+    ROADDataFormat.h \
+    ROADCommon.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../PlatformDependencies/release/ -lPlatformDependencies
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../PlatformDependencies/debug/ -lPlatformDependencies

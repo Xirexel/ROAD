@@ -2,7 +2,7 @@
 #define ROADFRACTALFIRSTORDERBUILDER_H
 
 #include "IROADFractalFirstOrderBuilder.h"
-#include "IFractalFirstOrderItem.h"
+#include "ROADCommon.h"
 
 
 #include <iostream>
@@ -20,91 +20,90 @@ namespace ROADdecoder
     namespace ROAD
     {
 
-    template<typename SampleType>
-    class DomainProcessorFirstOrder
-    {
-        private: typedef SampleType* PtrSampleTypeItem;
 
-        private: PtrSampleTypeItem _data;
-
-        public: ~DomainProcessorFirstOrder()
+        template<ROADUInt32 SamplePerRangLength>
+        class ROADFractalFirstOrderBuilder<ROADReal, false, SamplePerRangLength>: public ROADdecoder::ROAD::IROADFractalFirstOrderBuilder
         {
-            delete []_data;
-        }
-
-        public: DomainProcessorFirstOrder(ROADUInt32 aMaxLength):
-            _data(new SampleType[aMaxLength])
-        {
-
-        }
-
-        public: PtrSampleTypeItem process(PtrSampleTypeItem aData, ROADUInt32 aLength, ROADBool aInversDirection, ROADUInt32 aDomainOffset)
-        {
-            ROADReal lAver = 0.0;
-
-            ROADReal lTmepValue = 0;
-
-            ROADUInt32 lOffset = 0;
-
-            for(ROADUInt32 index = 0;
-                index < aLength;
-                ++index)
-            {
-                lOffset = aDomainOffset + (index << 1);
-
-                lTmepValue = (aData[lOffset] + aData[lOffset + 1]) * 0.5;
-
-                lAver += lTmepValue;
-
-                this->_data[index] = lTmepValue;
-            }
-
-            lAver /= aLength;
-
-            for(ROADUInt32 index = 0;
-                index < aLength;
-                ++index)
-            {
-                this->_data[index] = this->_data[index] - lAver;
-            }
-
-            if(aInversDirection)
-            {
-                backFlip(aLength);
-            }
-
-            return this->_data;
-        }
-
-        private: void backFlip(ROADUInt32 aLength)
-        {
-
-           ROADReal lTempValue;
-
-           ROADUInt32 lHalfLength = aLength >> 1;
-
-           for(ROADUInt32 index = 0;
-               index < lHalfLength;
-               ++index)
-           {
-               lTempValue = this->_data[index];
-
-               this->_data[index] = this->_data[aLength - 1 - index];
-
-               this->_data[aLength - 1 - index] = lTempValue;
-           }
-       }
-    };
-
-
-        template<typename DecodingSampleType>
-        class ROADFractalFirstOrderBuilder;
-
-        template<>
-        class ROADFractalFirstOrderBuilder<ROADReal>: public ROADdecoder::ROAD::IROADFractalFirstOrderBuilder
-        {
-
         private: typedef ROADFractalFirstOrderItemsFrameDataContainer<ROADReal>::DecodingSampleType SampleType;
+
+
+        private: template<typename SampleType>
+            class DomainProcessorFirstOrder
+            {
+                private: typedef SampleType* PtrSampleTypeItem;
+
+                private: PtrSampleTypeItem _data;
+
+                public: ~DomainProcessorFirstOrder()
+                {
+                    delete []_data;
+                }
+
+                public: DomainProcessorFirstOrder(ROADUInt32 aMaxLength):
+                    _data(new SampleType[aMaxLength])
+                {
+
+                }
+
+                public: PtrSampleTypeItem process(PtrSampleTypeItem aData, ROADUInt32 aLength, ROADBool aInversDirection, ROADUInt32 aDomainOffset)
+                {
+                    ROADReal lAver = 0.0;
+
+                    ROADReal lTmepValue = 0;
+
+                    ROADUInt32 lOffset = 0;
+
+                    for(ROADUInt32 index = 0;
+                        index < aLength;
+                        ++index)
+                    {
+                        lOffset = aDomainOffset + (index << 1);
+
+                        lTmepValue = aData[lOffset];// (aData[lOffset] + aData[lOffset + 1]) * 0.5;
+
+                        lAver += lTmepValue;
+
+                        this->_data[index] = lTmepValue;
+                    }
+
+                    lAver /= aLength;
+
+                    for(ROADUInt32 index = 0;
+                        index < aLength;
+                        ++index)
+                    {
+                        this->_data[index] = this->_data[index] - lAver;
+                    }
+
+                    if(aInversDirection)
+                    {
+                        backFlip(aLength);
+                    }
+
+                    return this->_data;
+                }
+
+                private: void backFlip(ROADUInt32 aLength)
+                {
+
+                   ROADReal lTempValue;
+
+                   ROADUInt32 lHalfLength = aLength >> 1;
+
+                   for(ROADUInt32 index = 0;
+                       index < lHalfLength;
+                       ++index)
+                   {
+                       lTempValue = this->_data[index];
+
+                       this->_data[index] = this->_data[aLength - 1 - index];
+
+                       this->_data[aLength - 1 - index] = lTempValue;
+                   }
+               }
+            };
+
+
 
         private: typedef SampleType* PtrSampleType;
 

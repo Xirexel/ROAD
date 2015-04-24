@@ -57,7 +57,7 @@ ROADdecoder::ROADover::ROADoverManagerFirstOrderVersion::ROADoverManagerFirstOrd
         throw "Format Experemental is not supported!!!";
     }
 
-    _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(0, _superFrameSamplesLength));
+    _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(0, _superFrameSamplesLength, 4));
 
     this->_frequencyScale = _options->getMinSamplesPerRang() / _options->getOriginalMinSamplesPerRang();
 

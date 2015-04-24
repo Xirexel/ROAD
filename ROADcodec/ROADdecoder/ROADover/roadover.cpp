@@ -6,11 +6,30 @@
 #include "IROADoverDecodingOptionsMainVersion.h"
 #include "ROADoverManagerFirstOrderVersionTempROADInt32.h"
 #include "ROADRawDataFormat.h"
+#include "ROADoverManagerFirstOrder.h"
 
 
 ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodingOptions* aOptions,
                                           Endian::EndianType aLowFormatEndianType)
 {
+    class ROADoverException : public std::exception
+    {
+    private: std::string _message;
+
+    public:
+      ROADoverException(const char* aMessage) _GLIBCXX_USE_NOEXCEPT:_message(aMessage) { }
+
+      // This declaration is not useless:
+      // http://gcc.gnu.org/onlinedocs/gcc-3.0.2/gcc_6.html#SEC118
+      virtual ~ROADoverException() _GLIBCXX_USE_NOEXCEPT{}
+
+      // See comment in eh_exception.cc.
+      virtual const char* what() const _GLIBCXX_USE_NOEXCEPT
+      {
+          return _message.c_str();
+      }
+    };
+
     switch(aOptions->getROADFormatMode())
     {
         case ROADdecoder::ROADover::EXPEREMENTAL:
@@ -54,25 +73,36 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
                     auto lROADoverDecodingOptions = (ROADoverDecodingOptionsFirstOrderVersion*)(lmainOptions);
 
                     if(lROADoverDecodingOptions == nullptr)
-                        throw std::exception();
+                        throw ROADoverException("Format is not First Order.");
 
                     switch(ROADConvertor::getByteLength(lmainOptions->getBitsPerSampleCode()))
                     {
-                    case 2:
                     case 1:
-                        _manager.reset(new ROADoverManagerFirstOrderVersionTempROADInt32(this,
-                                                                                         lROADoverDecodingOptions,
-                                                                                         aLowFormatEndianType));
+                    case 2:
+                    case 3:
+                        switch (lmainOptions->getBitsPerSampleCode())
+                        {
+                        case ROADRawDataFormat::S16:
+                            _manager.reset(new ROADoverManagerFirstOrder<ROADRawDataFormat::S16, ROADInt32>(this,
+                                                                                                            lROADoverDecodingOptions,
+                                                                                                            aLowFormatEndianType));
+
+                            break;
+                        default:
+                            throw ROADoverException("Bits per sample is not supported in First Order.");
+                            break;
+                        }
                         break;
 
                     default:
-
-                        throw std::exception();
+                        throw ROADoverException("Decoding of such ROADRawDataFormat is not supported by First Order.");
                     }
 
-
-//                    _manager.reset(new ROADoverManagerFirstOrderVersion(this, lROADoverDecodingOptions));
                 }
+
+            default:
+
+                throw ROADoverException("Format is not recognized.");
 
                 break;
             }

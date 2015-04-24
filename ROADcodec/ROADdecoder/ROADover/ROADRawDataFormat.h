@@ -116,6 +116,10 @@ namespace ROADdecoder
                 case ROADRawDataFormat::S20:
                 case ROADRawDataFormat::U24:
                 case ROADRawDataFormat::S24:
+
+                    lresult = 3;
+
+                    break;
                 case ROADRawDataFormat::U32:
                 case ROADRawDataFormat::S32:
                 case ROADRawDataFormat::F32:
