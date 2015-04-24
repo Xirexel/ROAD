@@ -104,7 +104,7 @@ namespace ROADdecoder
 
             public: void setAverage(PtrROADVoid aPtrDataSample)
             {
-                _sampleTypeItem = *(reinterpret_cast<PtrSampleTypeItem>(aPtrDataSample));
+                _sampleTypeItem = *((PtrSampleTypeItem)aPtrDataSample);
 
                 PtrSampleTypeItem lpositionPtrSampleType = _PtrAveragesMassive + this->_Position;
 
@@ -112,9 +112,7 @@ namespace ROADdecoder
                     lindex < this->_Length;
                     ++lindex)
                 {
-                    *lpositionPtrSampleType = _sampleTypeItem;
-
-                    ++lpositionPtrSampleType;
+                    *lpositionPtrSampleType++ = _sampleTypeItem;
                 }
 
             }
@@ -207,6 +205,13 @@ namespace ROADdecoder
                 _averagesMassive.reset(new DecodingSampleType[aMaxFrameRangLength * aMaxRangSampleLength]);
 
                 _rangsMassive.reset(new FractalFirstOrderItem<DecodingSampleType>[aMaxFrameRangLength]);
+
+
+                for(decltype(aMaxFrameRangLength) lindex = 0;
+                    lindex < aMaxFrameRangLength;
+                    ++lindex)
+                    _rangsMassive.get()[lindex].setScalesAndAveragerMassives(_scalesMassive.get(),
+                                                                             _averagesMassive.get());
 
                 _count = 0;
             }

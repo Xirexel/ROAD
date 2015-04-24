@@ -5,6 +5,8 @@
 #include "IFractalFirstOrderItem.h"
 
 
+#include <iostream>
+
 namespace ROADdecoder
 {
     namespace ROAD
@@ -132,45 +134,33 @@ namespace ROADdecoder
 
                 PtrSampleType lPtrAveragesMassive = lPtrFrameDataContainer->getPtrAveragesMassive();
 
+                ROADInt32 lrangLength;
 
-                PtrSampleType lPtrFramePos = reinterpret_cast<PtrSampleType>(aPtrData);
+                ROADUInt32 lrangPosition;
+
+                ROADBool lInversDirection;
+
+                ROADUInt32 lDomainOffset;
+
+
+                PtrSampleType lPtrFramePos = (PtrSampleType)(aPtrData);
+
+                if(lPtrFramePos == nullptr)
+                    return;
 
                 ROADUInt32 countFractalItems = 0;
 
+                ROADUInt32 lFractalIteration = 0;
+
                 ROADUInt32 lmaxCount = lPtrFrameDataContainer->getFractalFirstOrderItemCount();
 
-                //                while(countFractalItems < lmaxCount)
-                //                {
-                //                    IFractalAverItem * item = aFractalFirstOrderItemContainer->getIFractalAverItem(countFractalItems);
-
-                //                    ROADUInt32 lrangeLength = item->getLength();
-
-                //                    ROADUInt32 lrangPosition = item->getPosition();
-
-                //                    ROADReal lAver = item->getAver();
-
-                //                    lFramePos = aData + lrangPosition;
-
-                //                    for(ROADUInt32 index = 0;
-                //                            index < lrangeLength;
-                //                            ++index)
-                //                    {
-                //                        *lFramePos = lAver;
-
-                //                        lFramePos++;
-                //                    }
-
-                //                    ++countFractalItems;
-                //                }
-
-                //                lmaxCount = aFractalFirstOrderItemContainer->getIFractalFirstOrderItemCount();
 
                 if(lmaxCount == 0)
                     return;
 
-                for(ROADUInt32 index = 0;
-                    index < 4;
-                    ++index)
+                for(lFractalIteration = 0;
+                    lFractalIteration < 4;
+                    ++lFractalIteration)
                 {
 
                     countFractalItems = 0;
@@ -179,19 +169,17 @@ namespace ROADdecoder
                     {
                         auto item = lPtrFrameDataContainer->getFractalFirstOrderItemTransform(countFractalItems);
 
-                        ROADUInt32 lrangLength = item->getLength();
+                        lrangLength = item->getLength();
 
-                        ROADUInt32 lrangPosition = item->getPosition();
+                        lrangPosition = item->getPosition();
 
-                //                        ROADReal lAver = item->getAver();
+                        lInversDirection = item->isInversDirection();
 
-                        ROADBool lInversDirection = item->isInversDirection();
+                        lDomainOffset = item->getDomainOffset();
 
-                        ROADUInt32 lDomainOffset = item->getDomainOffset();
-
-                //                        ROADReal lScale = item->getScale();
 
                         auto lptrDomain = _domainProcessor.process(lPtrFramePos, lrangLength, lInversDirection, lDomainOffset);
+
 
                         lPtrRangPos = lPtrFramePos + lrangPosition;
 
@@ -199,16 +187,10 @@ namespace ROADdecoder
 
                         lPtrAveragePos = lPtrAveragesMassive + lrangPosition;
 
-                        for(ROADUInt32 index = 0;
-                            index < lrangLength;
-                            ++index)
-                            {
-                                SampleType ltempValue = (*lptrDomain++) * (*lPtrScalePos++) + (*lPtrAveragePos++);
-
-                                *lPtrRangPos = ltempValue;
-
-                                lPtrRangPos++;;
-                            }
+                        while(--lrangLength >= 0)
+                        {
+                                *lPtrRangPos++ = (*lptrDomain++) * (*lPtrScalePos++) + (*lPtrAveragePos++);
+                        }
 
                         ++countFractalItems;
                     }

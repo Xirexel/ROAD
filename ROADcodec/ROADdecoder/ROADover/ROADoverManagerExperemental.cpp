@@ -3,7 +3,6 @@
 #include "ROADoverDecodingOptionsExperemental.h"
 #include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
 #include "../ROAD/ROADFractalOrderFactory.h"
-#include "FractalFirstOrderItemSuperFrameContainer.h"
 #include "IDoubleDataContainer.h"
 #include "MIDChannelsMixing.h"
 #include "SIDEChannelsMixing.h"
@@ -63,7 +62,7 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(
     this->_frequencyScale = _options->getSamplesPerRang() / _options->getOriginalMinSamplesPerRang();
 
     _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(ROADRawDataFormat::D64,
-                                                                                                    _options->getSamplesPerRang()));
+                                                                                                    _options->getSamplesPerRang() * _options->getFrameRangLength()));
 
     for(decltype(aOptions->getAmountOfChannels()) index = 0;
         index < aOptions->getAmountOfChannels();
@@ -378,12 +377,14 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                             ++lptrData;
 
-                            ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 128.0;
+                            ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 255.0;
 
                             lptrFractalAverItem->setScale(lptrFractalAverItem->getScale() * lScale);
 
-                            ++itemCount;
                             }
+
+
+                            ++itemCount;
                         }
                     }
 
@@ -398,7 +399,6 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                     lChannel < _options->getAmountOfChannels();
                     ++lChannel)
                 {
-
                     auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
                     ROADReal* lptrDoubleData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();

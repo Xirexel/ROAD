@@ -179,7 +179,7 @@ protected:
 
         this->_nextPos = lNumSuperFrame * this->_superFrameSampleLength;
 
-        return aCRC32 == lCRC32Result?_superFramePreListeningBytesLength:0;
+        return aCRC32 == lCRC32Result?_superFramePreListeningBytesLength: aCRC32==0?_superFramePreListeningBytesLength:0;
     }
 
     virtual void convertByteArrayIntoDoubleArray(PtrROADByte aByteData, ROADUInt32 aLengthByteArray, PtrROADReal aDoubleData)

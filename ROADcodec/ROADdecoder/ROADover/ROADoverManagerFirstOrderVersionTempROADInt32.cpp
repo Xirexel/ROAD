@@ -6,7 +6,6 @@
 #include "ROADoverDecodingOptionsFirstOrderVersion.h"
 #include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
 #include "../ROAD/ROADFractalOrderFactory.h"
-#include "FractalFirstOrderItemSuperFrameContainer.h"
 #include "IDoubleDataContainer.h"
 #include "MIDChannelsMixing.h"
 #include "SIDEChannelsMixing.h"
