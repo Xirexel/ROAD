@@ -158,7 +158,7 @@ namespace ROADdecoder
                 if(lmaxCount == 0)
                     return;
 
-                for(lFractalIteration = 0;
+                for(;
                     lFractalIteration < 4;
                     ++lFractalIteration)
                 {
