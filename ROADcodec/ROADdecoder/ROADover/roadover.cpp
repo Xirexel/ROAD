@@ -83,9 +83,9 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
                         switch (lmainOptions->getBitsPerSampleCode())
                         {
                         case ROADRawDataFormat::S16:
-                            _manager.reset(new ROADoverManagerFirstOrder<ROADRawDataFormat::S16, ROADInt32>(this,
-                                                                                                            lROADoverDecodingOptions,
-                                                                                                            aLowFormatEndianType));
+                            _manager.reset(new ROADoverManagerFirstOrder<ROADInt16, ROADInt32>(this,
+                                                                                               lROADoverDecodingOptions,
+                                                                                               aLowFormatEndianType));
 
                             break;
                         default:

@@ -11,7 +11,7 @@ namespace ROADdecoder
     {
         using namespace PlatformDependencies;
 
-        template<ROADInt32 ROADRawDataFormatCode, typename ROADDecodingSampleType>
+        template<typename ROADRawDataSampleType, typename ROADDecodingSampleType>
         class ROADoverManagerFirstOrder;
     }
 }

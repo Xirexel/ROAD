@@ -4,10 +4,14 @@
 #include <vector>
 #include <memory>
 #include "../ROAD/IROADFractalFirstOrderBuilder.h"
+#include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
+#include "../ROAD/ROADFractalOrderFactory.h"
 #include "Result.h"
 #include "ROADoverManager.h"
 #include "ROADoverCommon.h"
 #include "ROADoverDecodingOptionsFirstOrderVersion.h"
+#include "MIDChannelsMixing.h"
+#include "SIDEChannelsMixing.h"
 
 //namespace ROADdecoder
 //{
@@ -28,7 +32,7 @@ namespace ROADdecoder
 {
     namespace ROADover
     {
-        template<ROADInt32 ROADRawDataFormatCode, typename ROADDecodingSampleType>
+        template<typename ROADRawDataSampleType, typename ROADDecodingSampleType>
         class ROADoverManagerFirstOrder: public ROADdecoder::ROADover::ROADoverManager
         {
             private: typedef ROADDecodingSampleType DecodingSampleType;
@@ -63,7 +67,36 @@ namespace ROADdecoder
                                           aOptions->getMaxFrameRangLength() *
                                           aOptions->getMaxSuperFrameLength()])
             {
+                switch(this->_options->getMixingChannelsMode())
+                {
+                case MID:
+                    this->_channelsMixing.reset(new MIDChannelsMixing);
+                break;
+                case SIDE:
+                    this->_channelsMixing.reset(new SIDEChannelsMixing);
+                break;
+                case NONE:
+                default:
+                break;
+                }
 
+                using namespace ROADdecoder::ROAD;
+
+
+
+                std::unique_ptr<IROADFractalBuilderFactory> lptrIROADFractalBuilderFactory(ROADdecoder::ROAD::ROADFractalOrderFactory::getIROADFractalBuilderFactory(1));
+
+                if(!lptrIROADFractalBuilderFactory || lptrIROADFractalBuilderFactory->getOrder() != 1)
+                {
+                    throw "Format Experemental is not supported!!!";
+                }
+
+                std::unique_ptr<ROADFractalFirstOrderBuilderFactory> lptrROADFractalFirstOrderBuilderFactory(dynamic_cast<ROADFractalFirstOrderBuilderFactory*>(lptrIROADFractalBuilderFactory.release()));
+
+                if(!lptrROADFractalFirstOrderBuilderFactory)
+                {
+                    throw "Format Experemental is not supported!!!";
+                }
             }
 
             public: ROADdecoder::ROADover::Result decode()
