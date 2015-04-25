@@ -100,6 +100,7 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
 
                 }
 
+                break;
             default:
 
                 throw ROADoverException("Format is not recognized.");

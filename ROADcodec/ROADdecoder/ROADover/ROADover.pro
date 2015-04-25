@@ -56,8 +56,6 @@ HEADERS +=\
     IROADoverDecodingOptionsMainVersion.h \
     ROADoverManagerFirstOrderVersion.h \
     ROADoverManagerFirstOrderVersionTempROADInt32.h \
-    IBytesToROADInt32.h \
-    BytesToROADInt32.h \
     ROADFractalFirstOrderItemsSuperFrameDataContainer.h \
     ROADoverManagerFirstOrder.h \
     ROADoverCommon.h

@@ -1,5 +1,4 @@
 #include "ROADoverManagerFirstOrderVersionTempROADInt32.h"
-#include "BytesToROADInt32.h"
 #include "ROADoverDecodingOptionsFirstOrderVersion.h"
 #include "ROADoverManagerFirstOrderVersion.h"
 #include "ROADover.h"
@@ -22,21 +21,6 @@ ROADdecoder::ROADover::ROADoverManagerFirstOrderVersionTempROADInt32::ROADoverMa
                             aOptions->getMaxSuperFrameLength()])
 {
 
-    switch(aOptions->getBitsPerSampleCode())
-    {
-        case ROADRawDataFormat::U8:
-            _convertorPrelistening.reset(new BytesToROADInt32<ROADUInt8>(aEndianType));
-
-        break;
-        case ROADRawDataFormat::S16:
-            _convertorPrelistening.reset(new BytesToROADInt32<ROADInt16>(aEndianType));
-
-        break;
-
-    default:
-        throw std::exception();
-        break;
-    }
 
 }
 
@@ -95,10 +79,10 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerFirstOrderVe
 
                 ROADUInt64 lSuperFrameSampleLength = lFrameLengthLength * _options->getMaxSuperFrameLength();
 
-                this->_convertorPrelistening->convert(_preListeningData,
-                                                      lreadPreListeningLength,
-                                                      this->_preListeningInt32Data.get(),
-                                                      lSuperFrameSampleLength);
+//                this->_convertorPrelistening->convert(_preListeningData,
+//                                                      lreadPreListeningLength,
+//                                                      this->_preListeningInt32Data.get(),
+//                                                      lSuperFrameSampleLength);
 
 //                this->_roadOver->convertByteArrayIntoDoubleArray(_preListeningData.get(), lreadPreListeningLength, _preListeningDoubleData.get());
 

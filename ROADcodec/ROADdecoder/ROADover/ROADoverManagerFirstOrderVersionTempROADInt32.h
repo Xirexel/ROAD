@@ -5,7 +5,6 @@
 
 
 #include "ROADoverManagerFirstOrderVersion.h"
-#include "IBytesToROADInt32.h"
 #include "EndianType.h"
 
 namespace ROADdecoder
@@ -14,9 +13,6 @@ namespace ROADdecoder
     {
         class ROADoverManagerFirstOrderVersionTempROADInt32 : public ROADoverManagerFirstOrderVersion
         {
-            private: std::unique_ptr<IBytesToROADInt32> _convertorPrelistening;
-
-            private: std::unique_ptr<IBytesToROADInt32> _convertorAudioStream;
 
             private: std::unique_ptr<ROADInt32> _preListeningInt32Data;
 

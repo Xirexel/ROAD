@@ -160,14 +160,14 @@ namespace ROADdecoder
             public: ~FractalFirstOrderItem(){}
         };
 
-        template<typename BaseDecodingSampleType>
-        class ROADFractalFirstOrderItemsFrameDataContainer;
+//        template<typename BaseDecodingSampleType>
+//        class ROADFractalFirstOrderItemsFrameDataContainer;
 
-        template<>
-        class ROADFractalFirstOrderItemsFrameDataContainer<ROADReal>:
-                public IROADFrameDataContainer//, public IFractalFirstOrderItemContainer
+        template<typename BaseDecodingSampleType>
+        class ROADFractalFirstOrderItemsFrameDataContainer:
+                public IROADFrameDataContainer
         {
-            public: typedef ROADReal DecodingSampleType;
+            public: typedef BaseDecodingSampleType DecodingSampleType;
 
             private: typedef DecodingSampleType* PtrDecodingSampleType;
 
