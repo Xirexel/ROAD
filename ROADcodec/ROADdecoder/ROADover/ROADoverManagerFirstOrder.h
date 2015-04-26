@@ -22,32 +22,32 @@ namespace ROADdecoder
 {
     namespace ROADover
     {
-        template<typename ROADRawDataSampleType, typename ROADDecodingSampleType>
-        class ROADoverManagerFirstOrder: public ROADdecoder::ROADover::ROADoverManager
+        template<typename ROADRawDataSampleType, typename ROADDecodedSampleType>
+        class ROADoverManagerFirstOrder: public ROADdecoder::ROADover::ROADoverManager<ROADDecodedSampleType>
         {
-            private: typedef ROADDecodingSampleType DecodingSampleType;
-            private: typedef DecodingSampleType* PtrDecodingSampleType;
+            private: typedef ROADDecodedSampleType DecodedSampleType;
+            private: typedef DecodedSampleType* PtrDecodedSampleType;
             private: typedef ROADRawDataSampleType RawDataSampleType;
 
             private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
-            protected: std::vector<ROADFractalFirstOrderItemsSuperFrameDataContainer<DecodingSampleType>*> _fractalItemSuperFrameContainer;
+            protected: std::vector<ROADFractalFirstOrderItemsSuperFrameDataContainer<DecodedSampleType>*> _fractalItemSuperFrameContainer;
 
             protected: ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* _options;
 
             protected: std::shared_ptr<ROADByte> _preListeningRawData;
 
-            private: std::unique_ptr<DecodingSampleType> _preListeningDecodingSampleTypeData;
+            private: std::unique_ptr<DecodedSampleType> _preListeningDecodingSampleTypeData;
 
             private: Endian::EndianType _lowFormatEndianType;
 
             private: RawDataSampleType _rawDataSample;
 
-            private: DecodingSampleType _decodingSample;
+            private: DecodedSampleType _decodingSample;
 
             public: ROADoverManagerFirstOrder(ROADdecoder::ROADover::ROADover* aRoadOver,
                                               ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* aOptions,
                                               Endian::EndianType aLowFormatEndianType)
-                :ROADoverManager(aRoadOver,
+                :ROADoverManager<ROADDecodedSampleType>(aRoadOver,
                                  aOptions->getAmountOfChannels(),
                                  ROADConvertor::getByteLength(aOptions->getBitsPerSampleCode()),
                                  aOptions->getMaxSuperFrameLength(),
@@ -59,7 +59,7 @@ namespace ROADdecoder
                                     ROADConvertor::getByteLength(aOptions->getBitsPerSampleCode()) *
                                     aOptions->getMaxFrameRangLength() *
                                     aOptions->getMaxSuperFrameLength()]),
-                  _preListeningDecodingSampleTypeData(new DecodingSampleType[
+                  _preListeningDecodingSampleTypeData(new DecodedSampleType[
                                           aOptions->getMinSamplesPerRang() *
                                           aOptions->getMaxFrameRangLength() *
                                           aOptions->getMaxSuperFrameLength()]),
@@ -85,10 +85,10 @@ namespace ROADdecoder
                 switch(this->_options->getMixingChannelsMode())
                 {
                 case MID:
-                    this->_channelsMixing.reset(new MIDChannelsMixing);
+                    this->_channelsMixing.reset(new MIDChannelsMixing<DecodedSampleType>);
                 break;
                 case SIDE:
-                    this->_channelsMixing.reset(new SIDEChannelsMixing);
+                    this->_channelsMixing.reset(new SIDEChannelsMixing<DecodedSampleType>);
                 break;
                 case NONE:
                 default:
@@ -116,7 +116,7 @@ namespace ROADdecoder
 
                 this->_frequencyScale = _options->getMinSamplesPerRang() / _options->getOriginalMinSamplesPerRang();
 
-                _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(ROADRawDataFormat(DecodingSampleType()),
+                _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(ROADRawDataFormat(DecodedSampleType()),
                                                                                                                 _options->getFrameSampleLength(),
                                                                                                                 _options->getAmountRangLevels()));
 
@@ -124,7 +124,7 @@ namespace ROADdecoder
                     index < aOptions->getAmountOfChannels();
                     ++index)
                 {
-                    auto lContainer = new ROADFractalFirstOrderItemsSuperFrameDataContainer<DecodingSampleType>(aOptions->getMaxSuperFrameLength(),
+                    auto lContainer = new ROADFractalFirstOrderItemsSuperFrameDataContainer<DecodedSampleType>(aOptions->getMaxSuperFrameLength(),
                                                                                                                 aOptions->getMaxFrameRangLength(),
                                                                                                                 aOptions->getMinSamplesPerRang());
 
@@ -279,7 +279,7 @@ namespace ROADdecoder
 
 //                        this->_channelsMixing->compute(&_channelsDataBuffer);
 
-                        this->_roadOver->writeRawData(&_channelsDataBuffer);
+//                        this->_roadOver->writeRawData(&_channelsDataBuffer);
 
                     }
 
@@ -373,7 +373,7 @@ namespace ROADdecoder
                 return lresult;
             }
 
-            protected: ROADInt32 readPrelisteningDataStream(PtrDecodingSampleType aPtrDecodingSampleMassive)
+            protected: ROADInt32 readPrelisteningDataStream(PtrDecodedSampleType aPtrDecodingSampleMassive)
             {
                 using namespace PlatformDependencies;
 

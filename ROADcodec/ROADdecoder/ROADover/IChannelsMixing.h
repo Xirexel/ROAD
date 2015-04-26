@@ -3,22 +3,24 @@
 
 // #include "ROADdecoder/ROADover/IRawDataBuffer.h"
 
-namespace ROADdecoder
-{
-	namespace ROADover
-	{
-        class IRawDataBuffer;
-	}
-}
+#include "RawDataBuffer.h"
+
+//namespace ROADdecoder
+//{
+//	namespace ROADover
+//	{
+//        class IRawDataBuffer;
+//	}
+//}
 
 namespace ROADdecoder
 {
 	namespace ROADover
 	{
+        template<typename ROADDecodedSampleType>
 		class IChannelsMixing
 		{
-
-			public: virtual void compute(ROADdecoder::ROADover::IRawDataBuffer* aBuffer) = 0;
+            public: virtual void compute(ROADdecoder::ROADover::RawDataBuffer<ROADDecodedSampleType>* aBuffer) = 0;
 
             public: virtual ~IChannelsMixing(){}
 		};

@@ -2,14 +2,8 @@
 #define __ROADdecoder__ROADover__IRawDataBuffer_h__
 
 #include "platformdependencies.h"
+#include "ROADRawDataFormat.h"
 
-namespace ROADdecoder
-{
-	namespace ROADover
-	{
-        class IDoubleDataContainer;
-	}
-}
 
 namespace ROADdecoder
 {
@@ -19,7 +13,7 @@ namespace ROADdecoder
 		class IRawDataBuffer
 		{
 
-            public: virtual ROADdecoder::ROADover::IDoubleDataContainer* getIDoubleDataContainer(ROADUInt32 aIndex) = 0;
+            public: virtual ROADdecoder::ROADover::ROADRawDataFormat getDecodedSampleTypeCode() = 0;
 
             public: virtual ROADUInt32 getCount() = 0;
 

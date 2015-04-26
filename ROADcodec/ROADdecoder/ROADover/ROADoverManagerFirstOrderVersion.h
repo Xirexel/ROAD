@@ -30,31 +30,31 @@ namespace ROADdecoder
 {
     namespace ROADover
     {
-        class ROADoverManagerFirstOrderVersion: public ROADdecoder::ROADover::ROADoverManager
-        {
-            private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
-            protected: std::vector<ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
+//        class ROADoverManagerFirstOrderVersion: public ROADdecoder::ROADover::ROADoverManager
+//        {
+//            private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
+//            protected: std::vector<ROADdecoder::ROADover::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
 
-            protected: ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* _options;
+//            protected: ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* _options;
 
-            protected: std::shared_ptr<ROADByte> _preListeningData;
+//            protected: std::shared_ptr<ROADByte> _preListeningData;
 
-            private: std::unique_ptr<ROADReal> _preListeningDoubleData;
+//            private: std::unique_ptr<ROADReal> _preListeningDoubleData;
 
-            public: ROADoverManagerFirstOrderVersion(ROADdecoder::ROADover::ROADover* aRoadOver, ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* aOptions);
+//            public: ROADoverManagerFirstOrderVersion(ROADdecoder::ROADover::ROADover* aRoadOver, ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* aOptions);
 
-            public: ROADdecoder::ROADover::Result decode();
+//            public: ROADdecoder::ROADover::Result decode();
 
-            public: virtual ~ROADoverManagerFirstOrderVersion();
+//            public: virtual ~ROADoverManagerFirstOrderVersion();
 
-            protected: ROADInt32 readIndekcesDataStream(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, ROADUInt32 aFrameLengthLength);
+//            protected: ROADInt32 readIndekcesDataStream(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, ROADUInt32 aFrameLengthLength);
 
-            protected: ROADInt32 readPrelisteningDataStream(ROADReal *aPtrPreListeningDoubleData);
+//            protected: ROADInt32 readPrelisteningDataStream(ROADReal *aPtrPreListeningDoubleData);
 
-            protected: ROADInt32 readAverageAudioDataStream(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, ROADUInt32 aFrameLengthLength);
+//            protected: ROADInt32 readAverageAudioDataStream(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, ROADUInt32 aFrameLengthLength);
 
-            protected: ROADInt32 readDomainsAndScalesDataStream(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, ROADUInt32 aFrameLengthLength);
-        };
+//            protected: ROADInt32 readDomainsAndScalesDataStream(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, ROADUInt32 aFrameLengthLength);
+//        };
     }
 }
 

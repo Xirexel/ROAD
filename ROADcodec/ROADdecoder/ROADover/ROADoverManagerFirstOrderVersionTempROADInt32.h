@@ -11,19 +11,19 @@ namespace ROADdecoder
 {
     namespace ROADover
     {
-        class ROADoverManagerFirstOrderVersionTempROADInt32 : public ROADoverManagerFirstOrderVersion
-        {
+//        class ROADoverManagerFirstOrderVersionTempROADInt32 : public ROADoverManagerFirstOrderVersion
+//        {
 
-            private: std::unique_ptr<ROADInt32> _preListeningInt32Data;
+//            private: std::unique_ptr<ROADInt32> _preListeningInt32Data;
 
-            public: ROADoverManagerFirstOrderVersionTempROADInt32(ROADover* aRoadOver,
-                                                                  ROADoverDecodingOptionsFirstOrderVersion* aOptions,
-                                                                  Endian::EndianType aEndianType);
+//            public: ROADoverManagerFirstOrderVersionTempROADInt32(ROADover* aRoadOver,
+//                                                                  ROADoverDecodingOptionsFirstOrderVersion* aOptions,
+//                                                                  Endian::EndianType aEndianType);
 
-            public: ROADdecoder::ROADover::Result decode();
+//            public: ROADdecoder::ROADover::Result decode();
 
-            protected: PlatformDependencies::ROADInt32 readPrelisteningDataStream(PtrROADInt32 aPtrPreListeningDoubleData);
-        };
+//            protected: PlatformDependencies::ROADInt32 readPrelisteningDataStream(PtrROADInt32 aPtrPreListeningDoubleData);
+//        };
     }
 }
 

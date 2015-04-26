@@ -60,8 +60,6 @@ namespace ROADdecoder
 
             protected: ROADUInt32 getSamplesPerRang();
 
-
-
 		};
 	}
 }

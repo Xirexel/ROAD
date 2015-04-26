@@ -22,7 +22,6 @@ SOURCES += \
     RawDataBuffer.cpp \
     ROADoverDecodingOptionsExperemental.cpp \
     ROADoverDecodingOptionsFactory.cpp \
-    ROADoverManager.cpp \
     ROADoverManagerExperemental.cpp \
     SIDEChannelsMixing.cpp \
     ROADover.cpp \
@@ -58,7 +57,8 @@ HEADERS +=\
     ROADoverManagerFirstOrderVersionTempROADInt32.h \
     ROADFractalFirstOrderItemsSuperFrameDataContainer.h \
     ROADoverManagerFirstOrder.h \
-    ROADoverCommon.h
+    ROADoverCommon.h \
+    DecodedDataContainer.h
 
 
 

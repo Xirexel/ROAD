@@ -2,8 +2,10 @@
 #define __ROADdecoder__ROADover__ROADoverManager_h__
 
 #include <memory>
+#include <cstring>
 
 #include "RawDataBuffer.h"
+#include "NoneChannelsMixing.h"
 #include "IROADoverManager.h"
 
 
@@ -15,11 +17,11 @@ namespace ROADdecoder
 	}
 	namespace ROADover
 	{
-    class IChannelsMixing;
+//    class IChannelsMixing;
 		class ROADover;
-        class RawDataBuffer;
+//        class RawDataBuffer;
 		class IROADoverManager;
-		class ROADoverManager;
+//		class ROADoverManager;
         class IROADoverDecodingOptions;
 	}
 }
@@ -28,11 +30,13 @@ namespace ROADdecoder
 {
 	namespace ROADover
 	{
+        template<typename ROADDecodedSampleType>
 		class ROADoverManager: public ROADdecoder::ROADover::IROADoverManager
 		{
-            protected: std::unique_ptr<ROADdecoder::ROADover::IChannelsMixing> _channelsMixing;
-			protected: ROADdecoder::ROADover::ROADover* _roadOver;
-            protected: ROADdecoder::ROADover::RawDataBuffer _channelsDataBuffer;
+            private: typedef ROADDecodedSampleType DecodedSampleType;
+            protected: std::unique_ptr<ROADdecoder::ROADover::IChannelsMixing<DecodedSampleType>> _channelsMixing;
+            protected: ROADover* _roadOver;
+            protected: RawDataBuffer<DecodedSampleType> _channelsDataBuffer;
             protected: std::shared_ptr<ROADByte> _bufferROADdata;
             protected: ROADUInt32 _frequencyScale;
             protected: ROADUInt32 _superFrameSamplesLength;
@@ -44,9 +48,22 @@ namespace ROADdecoder
                                     ROADUInt32 aSampleLength,
                                     ROADUInt32 aSuperFrameLength,
                                     ROADUInt32 aFrameRangLength,
-                                    ROADUInt32 aSuperFrameSamplesLength);
+                                    ROADUInt32 aSuperFrameSamplesLength)
+                : _channelsMixing(new NoneChannelsMixing<DecodedSampleType>()),
+                  _roadOver(aRoadOver),
+                  _channelsDataBuffer(RawDataBuffer<DecodedSampleType>(aAmountOfChannels, aSuperFrameSamplesLength)),
+                  _bufferROADdata(new ROADByte[aAmountOfChannels * aSampleLength * aSuperFrameSamplesLength]),
+                  _frequencyScale(1),
+                  _superFrameSamplesLength(aSuperFrameSamplesLength),
+                  _superFrameLength(aSuperFrameLength),
+                  _frameRangLength(aFrameRangLength)
 
-            public: virtual ~ROADoverManager();
+            {
+                memset(_bufferROADdata.get(), 0, aAmountOfChannels * aSampleLength * aSuperFrameSamplesLength);
+            }
+
+
+            public: virtual ~ROADoverManager(){}
 		};
 	}
 }

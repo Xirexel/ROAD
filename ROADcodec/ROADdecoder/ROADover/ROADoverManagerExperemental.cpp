@@ -30,10 +30,10 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(
     switch(this->_options->getChannelsMixingMode())
     {
     case MID:
-        this->_channelsMixing.reset(new MIDChannelsMixing);
+        this->_channelsMixing.reset(new MIDChannelsMixing<ROADReal>());
     break;
     case SIDE:
-        this->_channelsMixing.reset(new SIDEChannelsMixing);
+        this->_channelsMixing.reset(new SIDEChannelsMixing<ROADReal>());
     break;
     case NONE:
     default:
@@ -401,7 +401,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                 {
                     auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                    ROADReal* lptrDoubleData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();
+                    ROADReal* lptrDoubleData = _channelsDataBuffer.getPtrDecodedDataContainer(lChannel)->getData();
 
                     for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
                          lframeIndex < _options->getSuperframeLength();

@@ -33,7 +33,7 @@ namespace ROADdecoder
 {
 	namespace ROADover
 	{
-		class ROADoverManagerExperemental: public ROADdecoder::ROADover::ROADoverManager
+        class ROADoverManagerExperemental: public ROADdecoder::ROADover::ROADoverManager<ROADReal>
 		{
          //   private: std::vector<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder*> _fractalBuilders;
             private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
