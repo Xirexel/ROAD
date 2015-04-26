@@ -13,6 +13,7 @@
 #include "../AudioPlayer/IReader.h"
 #include "wavefractal_parser.h"
 #include "IRawDataBuffer.h"
+#include "RawDataBuffer.h"
 #include "IDoubleDataContainer.h"
 #include "crc.h"
 
@@ -205,6 +206,75 @@ protected:
 
     virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer)
     {
+        switch (aRawDataBuffer->getDecodedSampleTypeCode()) {
+        case ROADdecoder::ROADover::ROADRawDataFormat::D64:
+        {
+            auto lPtrRawDataBuffer = (ROADdecoder::ROADover::RawDataBuffer<double>*)(aRawDataBuffer);
+
+            writeRawData(lPtrRawDataBuffer);
+        }
+
+            break;
+        default:
+            break;
+        }
+
+
+
+//        unsigned int lchannels = aRawDataBuffer->getCount();
+
+//        unsigned int lLength = aRawDataBuffer->getLength();
+
+//        typeOutSample lvalue;
+
+//        double lDoubleValue;
+
+//        const int valueLength = sizeof(typeOutSample);
+
+//        char *lData = _pData;
+
+//        for(unsigned int lPosition = 0;
+//            lPosition < lLength;
+//            ++lPosition)
+//        {
+
+//            for(unsigned int lIndex = 0;
+//                lIndex < lchannels;
+//                ++lIndex)
+//            {
+
+//                auto lptrIDoubleDataBuffer = aRawDataBuffer->getIDoubleDataContainer(lIndex);
+
+//                double * lptrData = lptrIDoubleDataBuffer->getData();
+
+//                lDoubleValue = lptrData[lPosition];
+
+//                if(lDoubleValue > max)
+//                {
+//                    lDoubleValue = max;
+//                }
+//                else if(lDoubleValue < min)
+//                {
+//                    lDoubleValue = min;
+//                }
+
+//                lvalue = lDoubleValue;
+
+//                memcpy(lData, &lvalue, valueLength);
+
+//                lData+=valueLength;
+
+//            }
+//        }
+
+        long lNumSuperFrame = this->_nextPos / this->_superFrameSampleLength;
+
+        this->_nextPos = ++lNumSuperFrame * this->_superFrameSampleLength;
+    }
+
+    template<typename ROADDecodedSampleType>
+    void writeRawData(ROADdecoder::ROADover::RawDataBuffer<ROADDecodedSampleType>* aRawDataBuffer)
+    {
         unsigned int lchannels = aRawDataBuffer->getCount();
 
         unsigned int lLength = aRawDataBuffer->getLength();
@@ -227,7 +297,7 @@ protected:
                 ++lIndex)
             {
 
-                auto lptrIDoubleDataBuffer = aRawDataBuffer->getIDoubleDataContainer(lIndex);
+                auto lptrIDoubleDataBuffer = aRawDataBuffer->getPtrDecodedDataContainer(lIndex);
 
                 double * lptrData = lptrIDoubleDataBuffer->getData();
 
@@ -251,9 +321,6 @@ protected:
             }
         }
 
-        long lNumSuperFrame = this->_nextPos / this->_superFrameSampleLength;
-
-        this->_nextPos = ++lNumSuperFrame * this->_superFrameSampleLength;
     }
 
     virtual bool lockResource()

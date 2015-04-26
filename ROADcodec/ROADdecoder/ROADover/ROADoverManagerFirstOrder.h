@@ -16,6 +16,7 @@
 #include "ROADover.h"
 #include "DataDriver.h"
 
+
 #include <iostream>
 
 namespace ROADdecoder
@@ -279,7 +280,7 @@ namespace ROADdecoder
 
 //                        this->_channelsMixing->compute(&_channelsDataBuffer);
 
-//                        this->_roadOver->writeRawData(&_channelsDataBuffer);
+                        this->_roadOver->writeRawData(& (this->_channelsDataBuffer));
 
                     }
 

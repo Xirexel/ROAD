@@ -10,6 +10,10 @@ namespace ROADdecoder
 	namespace ROADover
 	{
     using namespace PlatformDependencies;
+
+        template<typename ROADDecodedSampleType>
+        class RawDataBuffer;
+
 		class IRawDataBuffer
 		{
 
