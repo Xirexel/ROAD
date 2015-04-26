@@ -115,9 +115,11 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
 
         break;
     }
+
 }
 
-ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADover::decode() {
+ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADover::decode()
+{
     Result result = Result::ERROR;
 
     result = _manager->decode();
@@ -147,4 +149,9 @@ PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADover::getFrameRangLe
 PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADover::getSamplesPerRang()
 {
     return this->_samplesPerRang;
+}
+
+ROADdecoder::ROADover::ROADRawDataFormat ROADdecoder::ROADover::ROADover::getDecodedSampleTypeCode()
+{
+    return this->_manager->getDecodedSampleTypeCode();
 }

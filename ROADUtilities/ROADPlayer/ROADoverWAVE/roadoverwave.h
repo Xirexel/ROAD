@@ -23,9 +23,108 @@ typedef long long int64;
 
 using namespace PlatformDependencies;
 
+template<ROADUInt8 DecodedSampleTypeCode>
+struct DecodedSampleTypeCodeToDecodedSampleType;
+
+template<>
+struct DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>
+{
+    public: typedef double DecodedSampleType;
+};
+
+template<>
+struct DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>
+{
+    public: typedef int DecodedSampleType;
+};
+
 template<typename T, typename O>
 class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
 {
+    private:
+
+
+    private:
+
+
+
+    private:
+    class IDecodedSampleTypeToOutputTypeSample
+    {
+        public: virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer, char *aData) = 0;
+        public: ~IDecodedSampleTypeToOutputTypeSample(){}
+    };
+
+    private:
+    template<typename ROADDecodedSampleType>
+    class DecodedSampleTypeToOutputTypeSample: public IDecodedSampleTypeToOutputTypeSample
+    {
+        private: typedef ROADDecodedSampleType DecodedSampleType;
+
+        private: typedef O typeOutSample;
+
+        private:
+
+        DecodedSampleType max;
+
+        DecodedSampleType min;
+
+        typeOutSample lvalue;
+
+        DecodedSampleType lDoubleValue;
+
+        public: DecodedSampleTypeToOutputTypeSample(DecodedSampleType aMax,
+                                                    DecodedSampleType aMin)
+            :max(aMax), min(aMin){}
+
+        public: virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer, char *aData)
+        {
+            auto lPtrRawDataBuffer = (ROADdecoder::ROADover::RawDataBuffer<DecodedSampleType>*)(aRawDataBuffer);
+
+            unsigned int lchannels = lPtrRawDataBuffer->getCount();
+
+            unsigned int lLength = lPtrRawDataBuffer->getLength();
+
+            const int valueLength = sizeof(typeOutSample);
+
+            for(unsigned int lPosition = 0;
+                lPosition < lLength;
+                ++lPosition)
+            {
+
+                for(unsigned int lIndex = 0;
+                    lIndex < lchannels;
+                    ++lIndex)
+                {
+
+                    auto lptrIDoubleDataBuffer = lPtrRawDataBuffer->getPtrDecodedDataContainer(lIndex);
+
+                    DecodedSampleType * lptrData = lptrIDoubleDataBuffer->getData();
+
+                    lDoubleValue = lptrData[lPosition];
+
+                    if(lDoubleValue > max)
+                    {
+                        lDoubleValue = max;
+                    }
+                    else if(lDoubleValue < min)
+                    {
+                        lDoubleValue = min;
+                    }
+
+                    lvalue = lDoubleValue;
+
+                    memcpy(aData, &lvalue, valueLength);
+
+                    aData+=valueLength;
+
+                }
+            }
+
+        }
+    };
+
+    private: std::unique_ptr<IDecodedSampleTypeToOutputTypeSample> _IDecodedSampleTypeToOutputTypeSample;
 
 public:
 
@@ -85,6 +184,29 @@ public:
         _blockAlign = getAmountOfChannels() * sizeof(typeOutSample);
 
         _readSize = _superFrameByteSize;
+
+
+        switch (this->getDecodedSampleTypeCode())
+        {
+        case ROADdecoder::ROADover::ROADRawDataFormat::D64:
+        {
+            _IDecodedSampleTypeToOutputTypeSample.reset(
+                        new DecodedSampleTypeToOutputTypeSample<DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType>(
+                            (DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->max,
+                            (DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->min));
+        }
+
+            break;
+        case ROADdecoder::ROADover::ROADRawDataFormat::S32:
+        {
+            _IDecodedSampleTypeToOutputTypeSample.reset(
+                        new DecodedSampleTypeToOutputTypeSample<DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>::DecodedSampleType>(
+                            (DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->max,
+                            (DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->min));
+        }
+        default:
+            break;
+        }
 
     }
 
@@ -206,18 +328,27 @@ protected:
 
     virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer)
     {
-        switch (aRawDataBuffer->getDecodedSampleTypeCode()) {
-        case ROADdecoder::ROADover::ROADRawDataFormat::D64:
-        {
-            auto lPtrRawDataBuffer = (ROADdecoder::ROADover::RawDataBuffer<double>*)(aRawDataBuffer);
 
-            writeRawData(lPtrRawDataBuffer);
-        }
+        _IDecodedSampleTypeToOutputTypeSample->writeRawData(aRawDataBuffer, _pData);
 
-            break;
-        default:
-            break;
-        }
+//        switch (aRawDataBuffer->getDecodedSampleTypeCode()) {
+//        case ROADdecoder::ROADover::ROADRawDataFormat::D64:
+//        {
+//            auto lPtrRawDataBuffer = (ROADdecoder::ROADover::RawDataBuffer<double>*)(aRawDataBuffer);
+
+//            writeRawData(lPtrRawDataBuffer);
+//        }
+
+//            break;
+//        case ROADdecoder::ROADover::ROADRawDataFormat::S32:
+//        {
+//            auto lPtrRawDataBuffer = (ROADdecoder::ROADover::RawDataBuffer<ROADInt32>*)(aRawDataBuffer);
+
+//            writeRawData(lPtrRawDataBuffer);
+//        }
+//        default:
+//            break;
+//        }
 
 
 

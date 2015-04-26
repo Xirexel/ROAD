@@ -7,6 +7,7 @@
 #include "roadover_global.h"
 #include "platformdependencies.h"
 #include "EndianType.h"
+#include "ROADRawDataFormat.h"
 
 namespace ROADdecoder
 {
@@ -31,6 +32,7 @@ namespace ROADdecoder
             private: ROADUInt32 _superframeLength;
             private: ROADUInt32 _frameRangLength;
             private: ROADUInt32 _samplesPerRang;
+
 
 
 
@@ -59,6 +61,8 @@ namespace ROADdecoder
             protected: ROADUInt32 getFrameRangLength();
 
             protected: ROADUInt32 getSamplesPerRang();
+
+            protected: ROADRawDataFormat getDecodedSampleTypeCode();
 
 		};
 	}

@@ -42,6 +42,7 @@ namespace ROADdecoder
             protected: ROADUInt32 _superFrameSamplesLength;
             protected: ROADUInt32 _superFrameLength;
             protected: ROADUInt32 _frameRangLength;
+            private: ROADRawDataFormat _decodedSampleTypeCode;
 
             public: ROADoverManager(ROADdecoder::ROADover::ROADover* aRoadOver,
                                     ROADUInt32 aAmountOfChannels,
@@ -62,6 +63,10 @@ namespace ROADdecoder
                 memset(_bufferROADdata.get(), 0, aAmountOfChannels * aSampleLength * aSuperFrameSamplesLength);
             }
 
+            public: virtual ROADRawDataFormat getDecodedSampleTypeCode()
+            {
+                return DecodedSampleTypeToROADRawDataFormat<DecodedSampleType>::_code;
+            }
 
             public: virtual ~ROADoverManager(){}
 		};
