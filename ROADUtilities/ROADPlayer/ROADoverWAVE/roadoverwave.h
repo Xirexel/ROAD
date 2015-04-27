@@ -15,6 +15,7 @@
 #include "IRawDataBuffer.h"
 #include "RawDataBuffer.h"
 #include "IDoubleDataContainer.h"
+#include "ROADoverCommon.h"
 #include "crc.h"
 
 typedef long long int64;
@@ -23,31 +24,10 @@ typedef long long int64;
 
 using namespace PlatformDependencies;
 
-template<ROADUInt8 DecodedSampleTypeCode>
-struct DecodedSampleTypeCodeToDecodedSampleType;
-
-template<>
-struct DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>
-{
-    public: typedef double DecodedSampleType;
-};
-
-template<>
-struct DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>
-{
-    public: typedef int DecodedSampleType;
-};
 
 template<typename T, typename O>
 class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
 {
-    private:
-
-
-    private:
-
-
-
     private:
     class IDecodedSampleTypeToOutputTypeSample
     {
@@ -207,18 +187,18 @@ public:
         case ROADdecoder::ROADover::ROADRawDataFormat::D64:
         {
             _IDecodedSampleTypeToOutputTypeSample.reset(
-                        new DecodedSampleTypeToOutputTypeSample<DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType>(
-                            (DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->max,
-                            (DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->min));
+                        new DecodedSampleTypeToOutputTypeSample<ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType>(
+                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->max,
+                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->min));
         }
 
             break;
         case ROADdecoder::ROADover::ROADRawDataFormat::S32:
         {
             _IDecodedSampleTypeToOutputTypeSample.reset(
-                        new DecodedSampleTypeToOutputTypeSample<DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>::DecodedSampleType>(
-                            (DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->max,
-                            (DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->min));
+                        new DecodedSampleTypeToOutputTypeSample<ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>::DecodedSampleType>(
+                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->max,
+                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->min));
         }
             break;
         default:

@@ -3,6 +3,7 @@
 #include "ROADDataFormat.h"
 #include "ROADFrameDataContainer.h"
 
+#include "iostream"
 
 ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* ROADdecoder::ROAD::ROADFractalFirstOrderBuilderFactory::getIROADFractalFirstOrderBuilder(ROADUInt8 aROADRawDataFormat,
                                                                                                                                            ROADUInt32 aMaxRangSampleLength,
@@ -20,6 +21,19 @@ ROADdecoder::ROAD::IROADFractalFirstOrderBuilder* ROADdecoder::ROAD::ROADFractal
             default:
                 {
                     result = new ROADFractalFirstOrderBuilder<ROADReal, false, 2048>(aMaxRangSampleLength);
+                }
+                break;
+            }
+        }
+        break;
+
+    case ROADDataFormat::Int32:
+        {
+            switch (aBinTreeDepth)
+            {
+            default:
+                {
+                    result = new ROADFractalFirstOrderBuilder<ROADInt32, false, 2048>(aMaxRangSampleLength);
                 }
                 break;
             }

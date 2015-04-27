@@ -15,6 +15,7 @@
 #include "SIDEChannelsMixing.h"
 #include "ROADover.h"
 #include "DataDriver.h"
+#include "ROADoverCommon.h"
 
 
 #include <iostream>
@@ -117,7 +118,7 @@ namespace ROADdecoder
 
                 this->_frequencyScale = _options->getMinSamplesPerRang() / _options->getOriginalMinSamplesPerRang();
 
-                _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(ROADRawDataFormat(DecodedSampleType()),
+                _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(DecodedSampleTypeToROADRawDataFormat<DecodedSampleType>::_code,
                                                                                                                 _options->getFrameSampleLength(),
                                                                                                                 _options->getAmountRangLevels()));
                 if(!_fractalBuilder)
@@ -264,25 +265,25 @@ namespace ROADdecoder
 
         // Выполнение постороения фракталов для декодирования
                     {
-//                        for(decltype(_options->getAmountOfChannels()) lChannel = 0;
-//                            lChannel < _options->getAmountOfChannels();
-//                            ++lChannel)
-//                        {
+                        for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+                            lChannel < _options->getAmountOfChannels();
+                            ++lChannel)
+                        {
 
-//                            auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
+                            auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-//                            PtrDecodingSampleType lptrDoubleData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();
+                            PtrDecodedSampleType lptrDoubleData = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
 
-//                            for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
-//                                 lframeIndex < _options->getMaxSuperFrameLength();
-//                                 ++lframeIndex)
-//                            {
-//                                _fractalBuilder->build(lptrDoubleData + (lframeIndex * lFrameLengthLength),
-//                                                               lptrFractalFirstOrderItemsSuperFrameContainer->getFractalFirstOrderItemContainer(lframeIndex));
-//                            }
-//                        }
+                            for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+                                 lframeIndex < _options->getMaxSuperFrameLength();
+                                 ++lframeIndex)
+                            {
+                                _fractalBuilder->build(lptrDoubleData + (lframeIndex * lFrameLengthLength),
+                                                               lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
+                            }
+                        }
 
-//                        this->_channelsMixing->compute(&_channelsDataBuffer);
+                        this->_channelsMixing->compute(& (this->_channelsDataBuffer));
 
                         this->_roadOver->writeRawData(& (this->_channelsDataBuffer));
 

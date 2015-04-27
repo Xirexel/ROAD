@@ -13,6 +13,22 @@ namespace ROADdecoder
 
         template<typename ROADRawDataSampleType, typename ROADDecodingSampleType>
         class ROADoverManagerFirstOrder;
+
+
+        template<ROADUInt8 DecodedSampleTypeCode>
+        struct DecodedSampleTypeCodeToDecodedSampleType;
+
+        template<>
+        struct DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>
+        {
+            public: typedef double DecodedSampleType;
+        };
+
+        template<>
+        struct DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>
+        {
+            public: typedef int DecodedSampleType;
+        };
     }
 }
 
