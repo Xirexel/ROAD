@@ -74,17 +74,11 @@ public:
                                                                    Endian::LITTLE);
 
 
-//        std::cerr << "Length: " << aLength << std::endl;
 
         while(aLength > 0)
         {
             ltypeValue = *aDoubleData;
 
-     //       if(lItemIndex >= lptrFractalItemContainer->getFractalAverItemCount() - 3)
-//            {
-//                std::cerr << ltypeValue << std::endl;
-
-//            }
 
             ++aDoubleData;
 

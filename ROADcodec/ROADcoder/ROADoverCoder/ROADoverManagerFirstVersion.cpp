@@ -221,11 +221,6 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
                 double laver = lptrFractalAverItem->getAver();
 
-//                if(lframeIndex == (_options->getSuperFrameLength() - 1) && lItemIndex >= lptrFractalItemContainer->getFractalAverItemCount() - 3)
-//                {
-//                    std::cerr << laver << std::endl;
-
-//                }
 
                 ROADUInt32 lLength = lptrFractalAverItem->getLength();
 

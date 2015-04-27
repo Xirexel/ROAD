@@ -51,7 +51,7 @@ class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
 
         typeOutSample lvalue;
 
-        DecodedSampleType lDoubleValue;
+        DecodedSampleType _DecodedSample;
 
         public: DecodedSampleTypeToOutputTypeSample(DecodedSampleType aMax,
                                                     DecodedSampleType aMin)
@@ -81,18 +81,18 @@ class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
 
                     DecodedSampleType * lptrData = lptrIDoubleDataBuffer->getData();
 
-                    lDoubleValue = lptrData[lPosition];
+                    _DecodedSample = lptrData[lPosition];
 
-                    if(lDoubleValue > max)
+                    if(_DecodedSample > max)
                     {
-                        lDoubleValue = max;
+                        _DecodedSample = max;
                     }
-                    else if(lDoubleValue < min)
+                    else if(_DecodedSample < min)
                     {
-                        lDoubleValue = min;
+                        _DecodedSample = min;
                     }
 
-                    lvalue = lDoubleValue;
+                    lvalue = _DecodedSample;
 
                     memcpy(aData, &lvalue, valueLength);
 
@@ -197,8 +197,8 @@ public:
         {
             _IDecodedSampleTypeToOutputTypeSample.reset(
                         new DecodedSampleTypeToOutputTypeSample<ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>::DecodedSampleType>(
-                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->max,
-                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->min));
+                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>::DecodedSampleType)this->max,
+                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>::DecodedSampleType)this->min));
         }
             break;
         default:

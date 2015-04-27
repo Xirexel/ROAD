@@ -283,9 +283,9 @@ namespace ROADdecoder
                             }
                         }
 
-                        this->_channelsMixing->compute(& (this->_channelsDataBuffer));
+                    //    this->_channelsMixing->compute(&(this->_channelsDataBuffer));
 
-                        this->_roadOver->writeRawData(& (this->_channelsDataBuffer));
+                        this->_roadOver->writeRawData(&(this->_channelsDataBuffer));
 
                     }
 
@@ -404,13 +404,13 @@ namespace ROADdecoder
 
                     while(count < lFractalFirstOrderItemCount)
                     {
-                        _rawDataSample = *aPtrDecodingSampleMassive;
+                        _decodingSample = *aPtrDecodingSampleMassive;
 
                         auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemTransform(count);
 
                         lrabgeLength = lptrFractalAverItem->getLength();
 
-                        lptrFractalAverItem->setAverage(&_rawDataSample);
+                        lptrFractalAverItem->setAverage(&_decodingSample);
 
                         lrabgeLength /= _options->getMinSamplesPerRang();
 
@@ -596,9 +596,11 @@ namespace ROADdecoder
 
                                 aIDataReadDriver->operator >>(ldecimScale);
 
-                                ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 128.0;
+                                ROADReal lScale = 0.0;// static_cast<ROADReal> (ldecimScale) / 128.0;
 
-                                lptrFractalFirstOrderItem->setScale(lptrFractalFirstOrderItem->getScale() * lScale);
+                                _decodingSample = 0;
+
+                                lptrFractalFirstOrderItem->setScale(_decodingSample);
                              //   lptrFractalAverItem->setScale(lptrFractalAverItem->getScale() * lScale);
                             }
 
