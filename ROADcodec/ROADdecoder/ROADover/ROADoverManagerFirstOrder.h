@@ -232,7 +232,6 @@ namespace ROADdecoder
 
                             if((lHead&127) == 3)
                             {
-
                                 // Обработка буфера ROADdata для выделения усреднённой составляющей.
 
                                 lreadResult = readAverageAudioDataStream(lIDataReadDriver.get(), lFrameLengthLength);
@@ -247,6 +246,7 @@ namespace ROADdecoder
 
                             if((lHead&127) == 4)
                             {
+//                                std::cerr << "readDomainsAndScalesDataStream "<< std::endl;
 
                                 // Обработка буфера ROADdata для выделения номеров доменнов.
                                 // Обработка буфера ROADdata для выделения коэфициентов масштабирования.
@@ -283,7 +283,7 @@ namespace ROADdecoder
                             }
                         }
 
-                    //    this->_channelsMixing->compute(&(this->_channelsDataBuffer));
+                        this->_channelsMixing->compute(&(this->_channelsDataBuffer));
 
                         this->_roadOver->writeRawData(&(this->_channelsDataBuffer));
 
@@ -450,11 +450,25 @@ namespace ROADdecoder
 
                         auto lFractalFirstOrderItemCount = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemCount();
 
+
+
+                        ROADUInt32 lLengthByteArray = lFractalFirstOrderItemCount * ROADConvertor::getByteLength(_options->getBitsPerSampleCode());
+
+                        std::unique_ptr<DecodedSampleType> lptrAver(new DecodedSampleType[lFractalFirstOrderItemCount]);
+
+                        std::unique_ptr<ROADByte> lptrDataTemp(new ROADByte[lLengthByteArray]);
+
+                        aIDataReadDriver->operator >>(std::make_tuple(lptrDataTemp.get(), lLengthByteArray));
+
+                        PtrROADByte ldata = lptrDataTemp.get();
+
                         for(decltype(lFractalFirstOrderItemCount) lItemIndex = 0;
                             lItemIndex < lFractalFirstOrderItemCount;
                             ++lItemIndex)
                         {
-                            aIDataReadDriver->operator >>(_rawDataSample);
+                            _rawDataSample = *((RawDataSampleType*)ldata);
+
+                            ldata+=sizeof(RawDataSampleType);
 
                             _decodingSample = _rawDataSample;
 
@@ -462,6 +476,24 @@ namespace ROADdecoder
 
                             lptrFractalFirstOrderItemTransform->setAverage(&_decodingSample);
                         }
+
+
+//                        for(decltype(lFractalFirstOrderItemCount) lItemIndex = 0;
+//                            lItemIndex < lFractalFirstOrderItemCount;
+//                            ++lItemIndex)
+//                        {
+//                            aIDataReadDriver->operator >>(_rawDataSample);
+
+//                            _decodingSample = _rawDataSample;
+
+//                            std::cerr << "_rawDataSample: " << _rawDataSample << std::endl;
+
+//                            std::cerr << "_decodingSample: " << _decodingSample << std::endl;
+
+//                            auto lptrFractalFirstOrderItemTransform = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemTransform(lItemIndex);
+
+//                            lptrFractalFirstOrderItemTransform->setAverage(&_decodingSample);
+//                        }
                     }
                 }
 
