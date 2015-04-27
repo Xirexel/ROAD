@@ -362,7 +362,7 @@ namespace ROADdecoder
 
                         while(--lrangLength >= 0)
                         {
-                                *lPtrRangPos++ = (*lptrDomain++) * (*lPtrScalePos++) + (*lPtrAveragePos++);
+                                *lPtrRangPos++ = (((*lptrDomain++) * (*lPtrScalePos++)) >> 7) + (*lPtrAveragePos++);
                         }
 
                         ++countFractalItems;

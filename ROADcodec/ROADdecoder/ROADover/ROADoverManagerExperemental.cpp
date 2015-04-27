@@ -377,7 +377,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                             ++lptrData;
 
-                            ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 255.0;
+                            ROADReal lScale = static_cast<ROADReal> (ldecimScale);// / 255.0;
 
                             lptrFractalAverItem->setScale(lptrFractalAverItem->getScale() * lScale);
 

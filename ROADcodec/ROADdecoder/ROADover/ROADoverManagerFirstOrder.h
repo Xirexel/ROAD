@@ -624,9 +624,9 @@ namespace ROADdecoder
 
                                 aIDataReadDriver->operator >>(ldecimScale);
 
-                                ROADReal lScale = 0.0;// static_cast<ROADReal> (ldecimScale) / 128.0;
+//                                ROADReal lScale = 0.0;// static_cast<ROADReal> (ldecimScale) / 128.0;
 
-                                _decodingSample = 0;
+                                _decodingSample = (DecodedSampleType)(ldecimScale * lptrFractalFirstOrderItem->getScale());
 
                                 lptrFractalFirstOrderItem->setScale(_decodingSample);
                              //   lptrFractalAverItem->setScale(lptrFractalAverItem->getScale() * lScale);
