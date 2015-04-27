@@ -51,7 +51,10 @@ HEADERS += \
     ROADoverEncodingOptionsFirstVersion.h \
     ROADoverManagerFirstVersion.h \
     ROADSeekPoint.h \
-    ByteConvertor.h
+    ByteConvertor.h \
+    IDecodedSampleTypeToRawDataSampleType.h \
+    DecodedSampleTypeToRawDataSampleType.h \
+    ROADoverCoderCommon.h
 
 SOURCES += \
     DoubleDataContainer.cpp \

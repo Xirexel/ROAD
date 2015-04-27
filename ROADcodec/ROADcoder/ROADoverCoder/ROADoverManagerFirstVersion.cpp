@@ -12,6 +12,8 @@
 #include "FractalEncodingOptions.h"
 #include "DataDriver.h"
 #include "ByteConvertor.h"
+#include "DecodedSampleTypeToRawDataSampleType.h"
+#include "ROADoverCoderCommon.h"
 
 
 ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::encode() {
@@ -323,16 +325,18 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         std::unique_ptr<ROADByte> ldata(new ROADByte[ldoubleBufferLength * 8]);
 
-        ROADUInt64 lConvertLength = this->_roadOver->convertDoubleArrayIntoByteArray(ldoubleBuffer.get(), ldoubleBufferLength, ldata.get());
+//        ROADUInt64 lConvertLength = this->_roadOver->convertDoubleArrayIntoByteArray(ldoubleBuffer.get(), ldoubleBufferLength, ldata.get());
 
-//        lptrbufferROADdata += lConvertLength;
-
-//        lbufferROADdataLength += lConvertLength;
+        ROADUInt64 lConvertLength = ldoubleBufferLength * ROADConvertor::getByteLength(_options->getBitsPerSampleCode());
 
         lIDataWriteDriver->operator
                 << ((ROADUInt8)(lEndingCode + 3)) // Add the Head of Average Audio stream - code '0x03'.
-                << (lConvertLength + 4)
-                << std::make_tuple(ldata.get(), lConvertLength);
+                << (lConvertLength + 4);
+
+        _convertor->writeRawData(lIDataWriteDriver.get(), ldoubleBuffer.get(), ldoubleBufferLength);
+
+
+         //       << std::make_tuple(ldata.get(), lConvertLength);
 
         lIDataWriteDriver->computeAndAppendCRC32(lConvertLength + 9);
 
@@ -389,6 +393,20 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     : ROADoverManager(aRoadOver, aOptions->getAmountOfChannels(), aOptions->getMaxSuperFrameLength(), 0, aOptions->getFrameSampleLength() * aOptions->getMaxSuperFrameLength()),
       _options(aOptions)
 {
+    switch (aOptions->getBitsPerSampleCode())
+    {
+    case ROADRawDataFormat::S16:
+
+        _convertor.reset(new DecodedSampleTypeToRawDataSampleType<SampleTypeCodeToSampleType<ROADcoder::ROADoverCoder::ROADRawDataFormat::S16>::DecodedSampleType>());
+
+        break;
+    default:
+
+        throw std::exception();
+
+        break;
+    }
+
     this->_bitsPerSample = ROADConvertor::getBitLength(aOptions->getBitsPerSampleCode());
 
     this->_rangSampleLength = aOptions->getRangSampleLength();
@@ -450,7 +468,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     _analyzer.reset(ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerFactory::getIROADFractalFirstOrderAnalyzer(loptions.get() , 0));
 
     if(!_analyzer)
-        throw new CreateAnalyzerException;
+        throw CreateAnalyzerException();
 
     ROADUInt32 llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
 
