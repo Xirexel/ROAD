@@ -185,6 +185,22 @@ public:
 
         _readSize = _superFrameByteSize;
 
+        class Excepion: public std::exception
+        {
+        private:
+            std::string _message;
+
+        public:
+          Excepion(const char* aMessage) _GLIBCXX_USE_NOEXCEPT:_message(aMessage) { }
+
+          virtual ~Excepion() _GLIBCXX_USE_NOEXCEPT{}
+
+          virtual const char* what() const _GLIBCXX_USE_NOEXCEPT
+          {
+              return _message.c_str();
+          }
+
+        };
 
         switch (this->getDecodedSampleTypeCode())
         {
@@ -204,7 +220,9 @@ public:
                             (DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->max,
                             (DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->min));
         }
+            break;
         default:
+            throw Excepion("DecodedSampleType is not supported");
             break;
         }
 

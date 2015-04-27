@@ -120,6 +120,10 @@ namespace ROADdecoder
                 _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(ROADRawDataFormat(DecodedSampleType()),
                                                                                                                 _options->getFrameSampleLength(),
                                                                                                                 _options->getAmountRangLevels()));
+                if(!_fractalBuilder)
+                {
+                    throw Excepion("DecodedSampleType is not supported!!!");
+                }
 
                 for(decltype(aOptions->getAmountOfChannels()) index = 0;
                     index < aOptions->getAmountOfChannels();
