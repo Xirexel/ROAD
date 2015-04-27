@@ -4,8 +4,11 @@
 
 #include <QFile>
 #include <QFileDialog>
+
+
 #include <memory>
 
+#include <iostream>
 
 #include "wavefractalreader.h"
 
@@ -13,6 +16,7 @@
 void convert(QString source, QString destination, quint32 samplesPerRange, quint32 bitsPerSample)
 {
     WaveFractalReader lreader(source, samplesPerRange, bitsPerSample);
+
 
     if(!lreader.isOpen())
         return;
@@ -118,10 +122,13 @@ void convert(QString source, QString destination, quint32 samplesPerRange, quint
 
     while(readLength < lsizeData)
     {
+        std::cerr << "1" << std::endl;
         qint64 len = lreader.readData(lbuffer.get(), lwriteLength);
 
+        std::cerr << "2" << std::endl;
         loutFile.write(lbuffer.get(), len);
 
+        std::cerr << "3" << std::endl;
         readLength += len;
     }
 
