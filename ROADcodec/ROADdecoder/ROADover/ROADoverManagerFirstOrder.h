@@ -174,7 +174,6 @@ namespace ROADdecoder
 
                         ROADUInt8 lHead = 0;
 
-                        // check prelistening CRC32 Block
                         lIDataReadDriver->operator >>(lHead);
 
                         if((lHead&127) !=  1)
@@ -185,6 +184,7 @@ namespace ROADdecoder
                         lIDataReadDriver->operator >>(lCRC32);
 
 
+                        // read prelistening data and check prelistening CRC32 Block
                         auto lreadPreListeningLength = this->_roadOver->readPreListening(_preListeningRawData.get(), lCRC32);
 
                         if(lreadPreListeningLength == 0)
@@ -480,6 +480,7 @@ namespace ROADdecoder
 
                 aIDataReadDriver->operator >>(lLength);
 
+                // Обработка буфера ROADdata для выделения номеров доменнов.
 
                 for(decltype(_options->getAmountOfChannels()) lChannel = 0;
                     lChannel < _options->getAmountOfChannels();
@@ -519,10 +520,10 @@ namespace ROADdecoder
 
                                 lDomainOffset = lDomainOffset * this->_frequencyScale;
 
-                                ROADReal lScale = 1.0;
+//                                ROADReal lScale = 1.0;
 
-                                if((itemIndex & 8) == 8)
-                                    lScale = -lScale;
+//                                if((itemIndex & 8) == 8)
+//                                    lScale = -lScale;
 
                                 lptrFractalFirstOrderItemTransform->setRangTransform((itemIndex & 16) == 16, lDomainOffset, lScale);
 
@@ -568,11 +569,11 @@ namespace ROADdecoder
 
                             if((itemIndex & 128) == 0)
                             {
-                                ROADUInt8 ldecimScale;
+                                ROADInt8 ldecimScale;
 
                                 aIDataReadDriver->operator >>(ldecimScale);
 
-                                _decodingSample = (DecodedSampleType)(ldecimScale * lptrFractalFirstOrderItem->getScale());
+                                _decodingSample = (DecodedSampleType)ldecimScale;
 
                                 lptrFractalFirstOrderItem->setScale(_decodingSample);
                             }

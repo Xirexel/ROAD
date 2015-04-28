@@ -14,7 +14,6 @@
 #include "wavefractal_parser.h"
 #include "IRawDataBuffer.h"
 #include "RawDataBuffer.h"
-#include "IDoubleDataContainer.h"
 #include "ROADoverCommon.h"
 #include "crc.h"
 
