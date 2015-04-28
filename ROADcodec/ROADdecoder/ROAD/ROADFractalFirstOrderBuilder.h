@@ -208,6 +208,14 @@ namespace ROADdecoder
 
                 private: PtrSampleTypeItem _data;
 
+                private: SampleType _tempValue;
+
+                private: SampleType _aver;
+
+                private: ROADUInt32 _offset;
+
+                private: ROADUInt32 _tempLength;
+
                 public: ~DomainProcessorFirstOrder()
                 {
                     delete []_data;
@@ -221,32 +229,41 @@ namespace ROADdecoder
 
                 public: PtrSampleTypeItem process(PtrSampleTypeItem aData, ROADUInt32 aLength, ROADBool aInversDirection, ROADUInt32 aDomainOffset)
                 {
-                    ROADReal lAver = 0.0;
+                    _aver = 0;
 
-                    ROADReal lTmepValue = 0;
+//                    _tempValue = 0;
 
-                    ROADUInt32 lOffset = 0;
+//                    _offset = 0;
 
                     for(ROADUInt32 index = 0;
                         index < aLength;
                         ++index)
                     {
-                        lOffset = aDomainOffset + (index << 1);
+                        _offset = aDomainOffset + (index << 1);
 
-                        lTmepValue = aData[lOffset];// (aData[lOffset] + aData[lOffset + 1]) * 0.5;
+                        _tempValue = aData[_offset];// (aData[lOffset] + aData[lOffset + 1]) * 0.5;
 
-                        lAver += lTmepValue;
+                        _aver += _tempValue;
 
-                        this->_data[index] = lTmepValue;
+                        this->_data[index] = _tempValue;
                     }
 
-                    lAver /= aLength;
+                    _tempLength = aLength;
+
+                    while (_tempLength&1 == 0)
+                    {
+                        _aver >>= 1;
+
+                        _tempLength >>=1;
+                    }
+
+//                    _aver /= aLength;
 
                     for(ROADUInt32 index = 0;
                         index < aLength;
                         ++index)
                     {
-                        this->_data[index] = this->_data[index] - lAver;
+                        this->_data[index] = this->_data[index] - _aver;
                     }
 
                     if(aInversDirection)
@@ -260,19 +277,34 @@ namespace ROADdecoder
                 private: void backFlip(ROADUInt32 aLength)
                 {
 
-                   ROADReal lTempValue;
+//                   ROADUInt32 lHalfLength = aLength >> 1;
 
-                   ROADUInt32 lHalfLength = aLength >> 1;
+//                   ROADUInt32 lLastPos = aLength - 1;
 
-                   for(ROADUInt32 index = 0;
-                       index < lHalfLength;
-                       ++index)
+//                   ROADUInt32 lTempPos = 0;
+
+                   auto lptrLeft = this->_data;
+
+                   auto lptrRight = this->_data + (aLength - 1);
+
+//                   for(ROADUInt32 index = 0;
+//                       index < lHalfLength;
+//                       ++index)
+                   while(lptrLeft != lptrRight)
                    {
-                       lTempValue = this->_data[index];
+                       this->_tempValue = *lptrLeft;
 
-                       this->_data[index] = this->_data[aLength - 1 - index];
+                       *lptrLeft++ = *lptrRight;
 
-                       this->_data[aLength - 1 - index] = lTempValue;
+                       *lptrRight-- = this->_tempValue;
+
+//                       lTempPos = lLastPos - index;
+
+//                       _tempValue = this->_data[index];
+
+//                       this->_data[index] = this->_data[lTempPos];
+
+//                       this->_data[lTempPos] = _tempValue;
                    }
                }
             };
