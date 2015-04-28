@@ -33,6 +33,20 @@ namespace ROADcoder
         };
 
 
+        template<typename ROADDecodedSampleType>
+        class DecodedSampleTypeToROADRawDataFormat;
+
+        template<>
+        class DecodedSampleTypeToROADRawDataFormat<double>
+        {
+            public: static const ROADRawDataFormat _code = ROADRawDataFormat::D64;
+        };
+
+        template<>
+        class DecodedSampleTypeToROADRawDataFormat<ROADInt32>
+        {
+        public: static const ROADRawDataFormat _code = ROADRawDataFormat::S32;
+        };
     }
 }
 

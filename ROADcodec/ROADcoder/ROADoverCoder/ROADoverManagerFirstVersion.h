@@ -11,6 +11,7 @@
 #include "IDecodedSampleTypeToRawDataSampleType.h"
 #include "Result.h"
 #include "ROADoverManager.h"
+#include "../ROAD/IROADFractalFirstOrderBuilder.h"
 
 namespace ROADcoder
 {
@@ -40,6 +41,7 @@ namespace ROADcoder
             private: std::unique_ptr<ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion> _options;
             private: std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> _fractalFormatRawDataContainer;
             public: std::unique_ptr<ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer> _analyzer;
+            private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
 			public: std::vector<ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
             private: std::unique_ptr<IDecodedSampleTypeToRawDataSampleType> _convertor;
 
