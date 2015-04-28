@@ -2,9 +2,7 @@
 #include "IROADoverDecodingOptions.h"
 #include "ROADoverDecodingOptionsExperemental.h"
 #include "ROADoverManagerExperemental.h"
-#include "ROADoverManagerFirstOrderVersion.h"
 #include "IROADoverDecodingOptionsMainVersion.h"
-#include "ROADoverManagerFirstOrderVersionTempROADInt32.h"
 #include "ROADRawDataFormat.h"
 #include "ROADoverManagerFirstOrder.h"
 
@@ -19,11 +17,8 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
     public:
       ROADoverException(const char* aMessage) _GLIBCXX_USE_NOEXCEPT:_message(aMessage) { }
 
-      // This declaration is not useless:
-      // http://gcc.gnu.org/onlinedocs/gcc-3.0.2/gcc_6.html#SEC118
       virtual ~ROADoverException() _GLIBCXX_USE_NOEXCEPT{}
 
-      // See comment in eh_exception.cc.
       virtual const char* what() const _GLIBCXX_USE_NOEXCEPT
       {
           return _message.c_str();

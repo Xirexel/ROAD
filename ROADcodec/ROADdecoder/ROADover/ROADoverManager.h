@@ -16,12 +16,9 @@ namespace ROADdecoder
         class IROADFractalFirstOrderBuilder;
 	}
 	namespace ROADover
-	{
-//    class IChannelsMixing;
-		class ROADover;
-//        class RawDataBuffer;
-		class IROADoverManager;
-//		class ROADoverManager;
+    {
+        class ROADover;
+        class IROADoverManager;
         class IROADoverDecodingOptions;
 	}
 }

@@ -3,8 +3,6 @@
 
 #include <memory>
 
-#include "IDoubleDataContainer.h"
-
 #include "platformdependencies.h"
 
 namespace ROADdecoder

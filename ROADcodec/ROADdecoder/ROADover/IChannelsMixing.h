@@ -1,17 +1,7 @@
 #ifndef __ROADdecoder__ROADover__IChannelsMixing_h__
 #define __ROADdecoder__ROADover__IChannelsMixing_h__
 
-// #include "ROADdecoder/ROADover/IRawDataBuffer.h"
-
 #include "RawDataBuffer.h"
-
-//namespace ROADdecoder
-//{
-//	namespace ROADover
-//	{
-//        class IRawDataBuffer;
-//	}
-//}
 
 namespace ROADdecoder
 {

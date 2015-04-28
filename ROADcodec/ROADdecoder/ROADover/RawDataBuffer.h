@@ -9,37 +9,10 @@
 #include "DecodedDataContainer.h"
 
 
-//namespace ROADdecoder
-//{
-//	namespace ROADover
-//	{
-//		class DoubleDataContainer;
-//		class IDoubleDataContainer;
-//		class IRawDataBuffer;
-//		class RawDataBuffer;
-//	}
-//}
-
 namespace ROADdecoder
 {
 	namespace ROADover
 	{
-//		class RawDataBuffer: public ROADdecoder::ROADover::IRawDataBuffer
-//		{
-//            private: ROADUInt32 _count;
-//            private: ROADUInt32 _length;
-//			private: std::vector<ROADdecoder::ROADover::DoubleDataContainer*> _dataCollection;
-
-//            public: ROADdecoder::ROADover::IDoubleDataContainer* getIDoubleDataContainer(ROADUInt32 aIndex);
-
-//            public: ROADUInt32 getCount();
-
-//            public: ROADUInt32 getLength();
-
-//            public: ~RawDataBuffer();
-
-//            public: RawDataBuffer(ROADUInt32 aCount, ROADUInt32 aSuperFrameLength);
-//		};
 
         template<typename ROADDecodedSampleType>
         class RawDataBuffer: public IRawDataBuffer
@@ -50,11 +23,6 @@ namespace ROADdecoder
             private: ROADUInt32 _count;
             private: ROADUInt32 _length;
             private: std::vector<PtrDecodedDataContainerType> _dataCollection;
-        private:
-
-
-
-
 
             public: RawDataBuffer(ROADUInt32 aCount, ROADUInt32 aSuperFrameLength)
                 : _count(aCount),

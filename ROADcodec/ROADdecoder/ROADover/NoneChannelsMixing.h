@@ -3,13 +3,6 @@
 
 #include "IChannelsMixing.h"
 
-//namespace ROADdecoder
-//{
-//	namespace ROADover
-//	{
-//        class IRawDataBuffer;
-//	}
-//}
 
 namespace ROADdecoder
 {
