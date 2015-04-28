@@ -153,13 +153,6 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
                         ltempScale = lptrFractalFirstOrderItem->getScale();
 
-//                        if(ltempScale < 0.0)
-//                        {
-//                            lindekcestemp |= 8;
-
-//                            ltempScale = -ltempScale;
-//                        }
-
                         ROADInt8 lScale = (ROADInt8)(ltempScale * 128.0);
 
                         *lpackScalesBufferData = lScale;

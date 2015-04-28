@@ -171,7 +171,6 @@ namespace ROADdecoder
                                                                           lreadROADdataLength,
                                                                           Endian::EndianType(lEndingCode));
 
-
                         ROADUInt8 lHead = 0;
 
                         lIDataReadDriver->operator >>(lHead);
@@ -520,12 +519,7 @@ namespace ROADdecoder
 
                                 lDomainOffset = lDomainOffset * this->_frequencyScale;
 
-//                                ROADReal lScale = 1.0;
-
-//                                if((itemIndex & 8) == 8)
-//                                    lScale = -lScale;
-
-                                lptrFractalFirstOrderItemTransform->setRangTransform((itemIndex & 16) == 16, lDomainOffset, lScale);
+                                lptrFractalFirstOrderItemTransform->setRangTransform((itemIndex & 16) == 16, lDomainOffset, 0.0);
 
                             }
                             else

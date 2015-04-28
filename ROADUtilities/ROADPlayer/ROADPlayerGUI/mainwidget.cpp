@@ -122,13 +122,22 @@ void convert(QString source, QString destination, quint32 samplesPerRange, quint
 
     while(readLength < lsizeData)
     {
-        std::cerr << "1" << std::endl;
+    //    std::cerr << "1" << std::endl;
         qint64 len = lreader.readData(lbuffer.get(), lwriteLength);
 
-        std::cerr << "2" << std::endl;
-        loutFile.write(lbuffer.get(), len);
+    //    std::cerr << "2" << std::endl;
 
-        std::cerr << "3" << std::endl;
+        auto lptrBuffer = lbuffer.get();
+
+        qint64 diff = len;
+
+        while(diff > 0)
+        {
+
+            diff = diff - loutFile.write(lptrBuffer, diff);
+        }
+
+     //   std::cerr << "3" << std::endl;
         readLength += len;
     }
 
