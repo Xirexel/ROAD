@@ -12,6 +12,8 @@
 #include "Result.h"
 #include "ROADoverManager.h"
 #include "../ROAD/IROADFractalFirstOrderBuilder.h"
+#include "../ROAD/ROADFrameDataContainer.h"
+
 
 namespace ROADcoder
 {
@@ -38,8 +40,38 @@ namespace ROADcoder
     using namespace PlatformDependencies;
 		class ROADoverManagerFirstVersion: public ROADcoder::ROADoverCoder::ROADoverManager
 		{
+            template<typename BaseDecodingSampleType>
+            class ROADFractalFirstOrderItemsSuperFrameDataContainer
+            {
+                public: typedef BaseDecodingSampleType DecodingSampleType;
+
+            private: typedef ROADdecoder::ROAD::ROADFractalFirstOrderItemsFrameDataContainer<DecodingSampleType> FrameContainerType;
+
+            private: std::unique_ptr<FrameContainerType> _FrameMassive;
+
+            public: ROADFractalFirstOrderItemsSuperFrameDataContainer(ROADUInt32 aMaxSuperFrameLength,
+                                                                      ROADUInt32 aMaxFrameRangLength,
+                                                                      ROADUInt32 aMaxRangSampleLength):
+                    _FrameMassive(new FrameContainerType[aMaxSuperFrameLength])
+                {
+                    for(decltype(aMaxSuperFrameLength) lindex = 0;
+                        lindex < aMaxSuperFrameLength;
+                        ++lindex)
+                    {
+                        getFrameDataContainer(lindex)->Init(aMaxFrameRangLength,aMaxRangSampleLength);
+                    }
+                }
+
+            public: FrameContainerType* getFrameDataContainer(ROADUInt32 aIndex)
+                {
+                    return _FrameMassive.get() + aIndex;
+                }
+
+            };
+
             private: std::unique_ptr<ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion> _options;
             private: std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> _fractalFormatRawDataContainer;
+//            private: std::vector<ROADFractalFirstOrderItemsSuperFrameDataContainer<DecodedSampleType>*> _fractalItemSuperFrameContainer;
             public: std::unique_ptr<ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer> _analyzer;
             private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
 			public: std::vector<ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;

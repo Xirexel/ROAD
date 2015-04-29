@@ -28,6 +28,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
     do
     {
+
         lresult = this->_roadOver->readRawData(_channelsDataBuffer);
 
         if(lresult != ROADcoder::ROADoverCoder::DONE)
@@ -40,10 +41,19 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
         auto lframeSampleLength = this->_options->getFrameSampleLength();
 
 
+        std::vector<ROADFractalFirstOrderItemsSuperFrameDataContainer<ROADInt32>*> lfractalItemSuperFrameContainer;
+
+
+
         for(decltype(lchannelCount) lindexChannel = 0;
             lindexChannel < lchannelCount;
             ++lindexChannel)
         {
+
+            lfractalItemSuperFrameContainer.push_back(new ROADFractalFirstOrderItemsSuperFrameDataContainer<ROADInt32>(this->_options->getMaxSuperFrameLength(),
+                                                                                                                       this->_options->getFrameSampleLength()/
+                                                                                                                       this->_options->getInitRangSampleLength(),
+                                                                                                                       this->_options->getInitRangSampleLength()));
 
             PtrROADReal lptrData = _channelsDataBuffer.getIDoubleDataContainer(lindexChannel)->getData();
 
@@ -320,6 +330,38 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         this->_roadOver->writeROADdata(this->_bufferROADdata.get(), lIDataWriteDriver->getPosition());
 
+// Выполнение постороения фракталов для декодирования
+
+
+        PtrROADInt32 ldecodedSampleMassive = new ROADInt32[this->_options->getMaxSuperFrameLength() *
+                this->_options->getFrameSampleLength()];
+
+        {
+            for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+                lChannel < _options->getAmountOfChannels();
+                ++lChannel)
+            {
+
+                auto lptrFractalFirstOrderItemsSuperFrameContainer = lfractalItemSuperFrameContainer.at(lChannel);
+
+                for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+                     lframeIndex < _options->getMaxSuperFrameLength();
+                     ++lframeIndex)
+                {
+                    _fractalBuilder->build(ldecodedSampleMassive + (lframeIndex * _options->getFrameSampleLength()),
+                                                   lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
+                }
+            }
+
+
+        }
+
+
+        for(auto item: lfractalItemSuperFrameContainer)
+            delete item;
+
+        delete []ldecodedSampleMassive;
+
 
     }while(false);
 
@@ -343,6 +385,23 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
       _options(aOptions)
 {
 
+    class Excepion: public std::exception
+    {
+    private:
+        std::string _message;
+
+    public:
+      Excepion(const char* aMessage) _GLIBCXX_USE_NOEXCEPT:_message(aMessage) { }
+
+      virtual ~Excepion() _GLIBCXX_USE_NOEXCEPT{}
+
+      virtual const char* what() const _GLIBCXX_USE_NOEXCEPT
+      {
+          return _message.c_str();
+      }
+
+    };
+
 
     switch (aOptions->getBitsPerSampleCode())
     {
@@ -363,27 +422,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     {
     case ROADRawDataFormat::S16:
     {
-
-        class Excepion: public std::exception
-        {
-        private:
-            std::string _message;
-
-        public:
-          Excepion(const char* aMessage) _GLIBCXX_USE_NOEXCEPT:_message(aMessage) { }
-
-          virtual ~Excepion() _GLIBCXX_USE_NOEXCEPT{}
-
-          virtual const char* what() const _GLIBCXX_USE_NOEXCEPT
-          {
-              return _message.c_str();
-          }
-
-        };
-
         using namespace ROADdecoder::ROAD;
-
-
 
         std::unique_ptr<IROADFractalBuilderFactory> lptrIROADFractalBuilderFactory(ROADdecoder::ROAD::ROADFractalOrderFactory::getIROADFractalBuilderFactory(1));
 
