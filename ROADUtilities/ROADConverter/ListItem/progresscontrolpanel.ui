@@ -43,6 +43,19 @@
      <property name="value">
       <number>0</number>
      </property>
+     <property name="textVisible">
+      <bool>true</bool>
+     </property>
+     <property name="textDirection">
+      <enum>QProgressBar::TopToBottom</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="mEstimatedTimeLabel">
+     <property name="text">
+      <string>Esimated time: </string>
+     </property>
     </widget>
    </item>
    <item>
