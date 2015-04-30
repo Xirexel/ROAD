@@ -13,7 +13,8 @@
 #include "../AudioPlayer/IReader.h"
 #include "wavefractal_parser.h"
 #include "IRawDataBuffer.h"
-#include "IDoubleDataContainer.h"
+#include "RawDataBuffer.h"
+#include "ROADoverCommon.h"
 #include "crc.h"
 
 typedef long long int64;
@@ -22,9 +23,87 @@ typedef long long int64;
 
 using namespace PlatformDependencies;
 
+
 template<typename T, typename O>
 class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
 {
+    private:
+    class IDecodedSampleTypeToOutputTypeSample
+    {
+        public: virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer, char *aData) = 0;
+        public: ~IDecodedSampleTypeToOutputTypeSample(){}
+    };
+
+    private:
+    template<typename ROADDecodedSampleType>
+    class DecodedSampleTypeToOutputTypeSample: public IDecodedSampleTypeToOutputTypeSample
+    {
+        private: typedef ROADDecodedSampleType DecodedSampleType;
+
+        private: typedef O typeOutSample;
+
+        private:
+
+        DecodedSampleType max;
+
+        DecodedSampleType min;
+
+        typeOutSample lvalue;
+
+        DecodedSampleType _DecodedSample;
+
+        public: DecodedSampleTypeToOutputTypeSample(DecodedSampleType aMax,
+                                                    DecodedSampleType aMin)
+            :max(aMax), min(aMin){}
+
+        public: virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer, char *aData)
+        {
+            auto lPtrRawDataBuffer = (ROADdecoder::ROADover::RawDataBuffer<DecodedSampleType>*)(aRawDataBuffer);
+
+            unsigned int lchannels = lPtrRawDataBuffer->getCount();
+
+            unsigned int lLength = lPtrRawDataBuffer->getLength();
+
+            const int valueLength = sizeof(typeOutSample);
+
+            for(unsigned int lPosition = 0;
+                lPosition < lLength;
+                ++lPosition)
+            {
+
+                for(unsigned int lIndex = 0;
+                    lIndex < lchannels;
+                    ++lIndex)
+                {
+
+                    auto lptrIDoubleDataBuffer = lPtrRawDataBuffer->getPtrDecodedDataContainer(lIndex);
+
+                    DecodedSampleType * lptrData = lptrIDoubleDataBuffer->getData();
+
+                    _DecodedSample = lptrData[lPosition];
+
+                    if(_DecodedSample > max)
+                    {
+                        _DecodedSample = max;
+                    }
+                    else if(_DecodedSample < min)
+                    {
+                        _DecodedSample = min;
+                    }
+
+                    lvalue = _DecodedSample;
+
+                    memcpy(aData, &lvalue, valueLength);
+
+                    aData+=valueLength;
+
+                }
+            }
+
+        }
+    };
+
+    private: std::unique_ptr<IDecodedSampleTypeToOutputTypeSample> _IDecodedSampleTypeToOutputTypeSample;
 
 public:
 
@@ -84,6 +163,47 @@ public:
         _blockAlign = getAmountOfChannels() * sizeof(typeOutSample);
 
         _readSize = _superFrameByteSize;
+
+        class Excepion: public std::exception
+        {
+        private:
+            std::string _message;
+
+        public:
+          Excepion(const char* aMessage) _GLIBCXX_USE_NOEXCEPT:_message(aMessage) { }
+
+          virtual ~Excepion() _GLIBCXX_USE_NOEXCEPT{}
+
+          virtual const char* what() const _GLIBCXX_USE_NOEXCEPT
+          {
+              return _message.c_str();
+          }
+
+        };
+
+        switch (this->getDecodedSampleTypeCode())
+        {
+        case ROADdecoder::ROADover::ROADRawDataFormat::D64:
+        {
+            _IDecodedSampleTypeToOutputTypeSample.reset(
+                        new DecodedSampleTypeToOutputTypeSample<ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType>(
+                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->max,
+                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::D64>::DecodedSampleType)this->min));
+        }
+
+            break;
+        case ROADdecoder::ROADover::ROADRawDataFormat::S32:
+        {
+            _IDecodedSampleTypeToOutputTypeSample.reset(
+                        new DecodedSampleTypeToOutputTypeSample<ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>::DecodedSampleType>(
+                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>::DecodedSampleType)this->max,
+                            (ROADdecoder::ROADover::DecodedSampleTypeCodeToDecodedSampleType<ROADdecoder::ROADover::ROADRawDataFormat::S32>::DecodedSampleType)this->min));
+        }
+            break;
+        default:
+            throw Excepion("DecodedSampleType is not supported");
+            break;
+        }
 
     }
 
@@ -205,6 +325,84 @@ protected:
 
     virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer)
     {
+
+        _IDecodedSampleTypeToOutputTypeSample->writeRawData(aRawDataBuffer, _pData);
+
+//        switch (aRawDataBuffer->getDecodedSampleTypeCode()) {
+//        case ROADdecoder::ROADover::ROADRawDataFormat::D64:
+//        {
+//            auto lPtrRawDataBuffer = (ROADdecoder::ROADover::RawDataBuffer<double>*)(aRawDataBuffer);
+
+//            writeRawData(lPtrRawDataBuffer);
+//        }
+
+//            break;
+//        case ROADdecoder::ROADover::ROADRawDataFormat::S32:
+//        {
+//            auto lPtrRawDataBuffer = (ROADdecoder::ROADover::RawDataBuffer<ROADInt32>*)(aRawDataBuffer);
+
+//            writeRawData(lPtrRawDataBuffer);
+//        }
+//        default:
+//            break;
+//        }
+
+
+
+//        unsigned int lchannels = aRawDataBuffer->getCount();
+
+//        unsigned int lLength = aRawDataBuffer->getLength();
+
+//        typeOutSample lvalue;
+
+//        double lDoubleValue;
+
+//        const int valueLength = sizeof(typeOutSample);
+
+//        char *lData = _pData;
+
+//        for(unsigned int lPosition = 0;
+//            lPosition < lLength;
+//            ++lPosition)
+//        {
+
+//            for(unsigned int lIndex = 0;
+//                lIndex < lchannels;
+//                ++lIndex)
+//            {
+
+//                auto lptrIDoubleDataBuffer = aRawDataBuffer->getIDoubleDataContainer(lIndex);
+
+//                double * lptrData = lptrIDoubleDataBuffer->getData();
+
+//                lDoubleValue = lptrData[lPosition];
+
+//                if(lDoubleValue > max)
+//                {
+//                    lDoubleValue = max;
+//                }
+//                else if(lDoubleValue < min)
+//                {
+//                    lDoubleValue = min;
+//                }
+
+//                lvalue = lDoubleValue;
+
+//                memcpy(lData, &lvalue, valueLength);
+
+//                lData+=valueLength;
+
+//            }
+//        }
+
+        long lNumSuperFrame = this->_nextPos / this->_superFrameSampleLength;
+
+        this->_nextPos = ++lNumSuperFrame * this->_superFrameSampleLength;
+    }
+
+    template<typename ROADDecodedSampleType>
+    void writeRawData(ROADdecoder::ROADover::RawDataBuffer<ROADDecodedSampleType>* aRawDataBuffer)
+    {
         unsigned int lchannels = aRawDataBuffer->getCount();
 
         unsigned int lLength = aRawDataBuffer->getLength();
@@ -227,7 +425,7 @@ protected:
                 ++lIndex)
             {
 
-                auto lptrIDoubleDataBuffer = aRawDataBuffer->getIDoubleDataContainer(lIndex);
+                auto lptrIDoubleDataBuffer = aRawDataBuffer->getPtrDecodedDataContainer(lIndex);
 
                 double * lptrData = lptrIDoubleDataBuffer->getData();
 
@@ -251,9 +449,6 @@ protected:
             }
         }
 
-        long lNumSuperFrame = this->_nextPos / this->_superFrameSampleLength;
-
-        this->_nextPos = ++lNumSuperFrame * this->_superFrameSampleLength;
     }
 
     virtual bool lockResource()

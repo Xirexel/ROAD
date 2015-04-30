@@ -3,21 +3,20 @@
 
 #include "IChannelsMixing.h"
 
-namespace ROADdecoder
-{
-	namespace ROADover
-	{
-        class IRawDataBuffer;
-	}
-}
 
 namespace ROADdecoder
 {
 	namespace ROADover
 	{
-		class NoneChannelsMixing: public ROADdecoder::ROADover::IChannelsMixing
-		{
-            public: void compute(ROADdecoder::ROADover::IRawDataBuffer*);
+        template<typename ROADDecodedSampleType>
+        class NoneChannelsMixing: public ROADdecoder::ROADover::IChannelsMixing<ROADDecodedSampleType>
+        {
+            private: typedef ROADDecodedSampleType DecodedSampleType;
+
+            private: DecodedSampleType tempValueL, tempValueR;
+
+            public: void compute(ROADdecoder::ROADover::RawDataBuffer<DecodedSampleType>*)
+            {}
 		};
 	}
 }

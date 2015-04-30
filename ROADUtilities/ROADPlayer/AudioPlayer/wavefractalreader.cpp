@@ -5,6 +5,7 @@
 
 
 #include <fstream>
+#include <iostream>
 
 
 #define UNUSED(x) (void)x;
@@ -142,6 +143,8 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 scaleOfFrequency,
             }
 
 
+            try
+            {
             switch(lWAVEFORMAT.bitsPerSample)
             {
 
@@ -186,6 +189,13 @@ WaveFractalReader::WaveFractalReader(QString filePath, quint32 scaleOfFrequency,
                 break;
             }
 
+            }
+            catch(std::exception aException)
+            {
+                std::cerr << aException.what() << std::endl;
+
+                return;
+            }
         }
 
         if(_IReader != nullptr)

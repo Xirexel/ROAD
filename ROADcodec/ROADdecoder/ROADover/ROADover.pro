@@ -16,26 +16,16 @@ else:unix:DESTDIR = ../../../Bin/ROADdecoder
 DEFINES += ROADOVER_LIBRARY
 
 SOURCES += \
-    DoubleDataContainer.cpp \
-    MIDChannelsMixing.cpp \
-    NoneChannelsMixing.cpp \
-    RawDataBuffer.cpp \
     ROADoverDecodingOptionsExperemental.cpp \
     ROADoverDecodingOptionsFactory.cpp \
-    ROADoverManager.cpp \
     ROADoverManagerExperemental.cpp \
-    SIDEChannelsMixing.cpp \
     ROADover.cpp \
-    ROADoverDecodingOptionsFirstOrderVersion.cpp \
-    ROADoverManagerFirstOrderVersion.cpp \
-    ROADoverManagerFirstOrderVersionTempROADInt32.cpp
+    ROADoverDecodingOptionsFirstOrderVersion.cpp
 
 HEADERS +=\
         roadover_global.h \
     ChannelsMixingMode.h \
-    DoubleDataContainer.h \
     IChannelsMixing.h \
-    IDoubleDataContainer.h \
     IRawDataBuffer.h \
     IROADoverDecodingOptions.h \
     IROADoverManager.h \
@@ -54,13 +44,10 @@ HEADERS +=\
     ROADRawDataFormat.h \
     ROADoverDecodingOptionsFirstOrderVersion.h \
     IROADoverDecodingOptionsMainVersion.h \
-    ROADoverManagerFirstOrderVersion.h \
-    ROADoverManagerFirstOrderVersionTempROADInt32.h \
-    IBytesToROADInt32.h \
-    BytesToROADInt32.h \
     ROADFractalFirstOrderItemsSuperFrameDataContainer.h \
     ROADoverManagerFirstOrder.h \
-    ROADoverCommon.h
+    ROADoverCommon.h \
+    DecodedDataContainer.h
 
 
 

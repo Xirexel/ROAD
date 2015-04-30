@@ -6,37 +6,64 @@
 #include "IRawDataBuffer.h"
 
 
-namespace ROADdecoder
-{
-	namespace ROADover
-	{
-		class DoubleDataContainer;
-		class IDoubleDataContainer;
-		class IRawDataBuffer;
-		class RawDataBuffer;
-	}
-}
+#include "DecodedDataContainer.h"
+
 
 namespace ROADdecoder
 {
 	namespace ROADover
 	{
-		class RawDataBuffer: public ROADdecoder::ROADover::IRawDataBuffer
-		{
+
+        template<typename ROADDecodedSampleType>
+        class RawDataBuffer: public IRawDataBuffer
+        {
+            private: typedef ROADDecodedSampleType DecodedSampleType;
+            private: typedef DecodedDataContainer<DecodedSampleType> DecodedDataContainerType;
+            private: typedef DecodedDataContainer<DecodedSampleType>* PtrDecodedDataContainerType;
             private: ROADUInt32 _count;
             private: ROADUInt32 _length;
-			private: std::vector<ROADdecoder::ROADover::DoubleDataContainer*> _dataCollection;
+            private: std::vector<PtrDecodedDataContainerType> _dataCollection;
 
-            public: ROADdecoder::ROADover::IDoubleDataContainer* getIDoubleDataContainer(ROADUInt32 aIndex);
+            public: RawDataBuffer(ROADUInt32 aCount, ROADUInt32 aSuperFrameLength)
+                : _count(aCount),
+                  _length(aSuperFrameLength)
+            {
+                for(decltype(aCount) index = 0;
+                    index < aCount;
+                    ++index)
+                    _dataCollection.push_back(new DecodedDataContainerType(aSuperFrameLength));
+            }
 
-            public: ROADUInt32 getCount();
+            public: virtual ~RawDataBuffer()
+            {
 
-            public: ROADUInt32 getLength();
+                for(auto item: _dataCollection)
+                    delete item;
 
-            public: ~RawDataBuffer();
+                _dataCollection.clear();
+            }
 
-            public: RawDataBuffer(ROADUInt32 aCount, ROADUInt32 aSuperFrameLength);
-		};
+            public: PtrDecodedDataContainerType getPtrDecodedDataContainer(ROADUInt32 aIndex)
+            {
+                return this->_dataCollection.at(aIndex);
+            }
+
+            public: ROADUInt32 getCount()
+            {
+                return this->_count;
+            }
+
+            public: ROADUInt32 getLength()
+            {
+                return this->_length;
+            }
+
+            public: virtual ROADdecoder::ROADover::ROADRawDataFormat getDecodedSampleTypeCode()
+            {
+                return DecodedSampleTypeToROADRawDataFormat<DecodedSampleType>::_code;
+            }
+
+        };
 	}
 }
 

@@ -151,7 +151,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
                             ltempScale = -ltempScale;
                         }
 
-                        ROADByte lScale = static_cast<ROADByte> (ltempScale * 255.0);
+                        ROADByte lScale = static_cast<ROADByte> (ltempScale * 128.0);
 
                         *lpackScalesBufferData = lScale;
 
@@ -203,12 +203,6 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerExpere
                 auto lptrFractalAverItem = lptrFractalItemContainer->getFractalAverItem(lItemIndex);
 
                 ROADReal laver = lptrFractalAverItem->getAver();
-
-//                if(lframeIndex == (_options->getSuperFrameLength() - 1) && lItemIndex >= lptrFractalItemContainer->getFractalAverItemCount() - 3)
-//                {
-//                    std::cerr << laver << std::endl;
-
-//                }
 
                 ROADUInt32 lLength = lptrFractalAverItem->getLength();
 

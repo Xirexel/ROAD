@@ -3,7 +3,6 @@
 #include "ROADoverDecodingOptionsExperemental.h"
 #include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
 #include "../ROAD/ROADFractalOrderFactory.h"
-#include "IDoubleDataContainer.h"
 #include "MIDChannelsMixing.h"
 #include "SIDEChannelsMixing.h"
 #include "ROADRawDataFormat.h"
@@ -30,10 +29,10 @@ ROADdecoder::ROADover::ROADoverManagerExperemental::ROADoverManagerExperemental(
     switch(this->_options->getChannelsMixingMode())
     {
     case MID:
-        this->_channelsMixing.reset(new MIDChannelsMixing);
+        this->_channelsMixing.reset(new MIDChannelsMixing<ROADReal>());
     break;
     case SIDE:
-        this->_channelsMixing.reset(new SIDEChannelsMixing);
+        this->_channelsMixing.reset(new SIDEChannelsMixing<ROADReal>());
     break;
     case NONE:
     default:
@@ -156,12 +155,6 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                             {
                                 lrangeLength = (1 << (luctemp >> 5)) * _options->getSamplesPerRang();
                             }
-
-//                            lptrFractalAverItem->setLength(lrangeLength);
-
-//                            lptrFractalAverItem->setFractalItemIndex(luctemp);
-
-//                            lptrFractalAverItem->setPosition(lcurrentPosition);
 
                             lptrFractalAverItem->setIndexInfo(lcurrentPosition,
                                                               lrangeLength,
@@ -308,24 +301,10 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                                 lDomainOffset = lDomainOffset * this->_frequencyScale;
 
 
-//                                auto lptrFractalFirstOrderItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItem(countDomainIndeces);
-
-//                                lptrFractalFirstOrderItem->setAver(lptrFractalAverItem->getAver());
-
-//                                lptrFractalFirstOrderItem->setDomainOffset(lDomainOffset);
-
-//                                lptrFractalFirstOrderItem->setInversDirection((itemIndex & 16) == 16);
-
-//                                lptrFractalFirstOrderItem->setLength(lptrFractalAverItem->getLength());
-
-//                                lptrFractalFirstOrderItem->setPosition(lptrFractalAverItem->getPosition());
-
                                 ROADReal lScale = 1.0;
 
                                 if((itemIndex & 8) == 8)
                                     lScale = -lScale;
-
-//                                lptrFractalFirstOrderItem->setScale(lScale);
 
                                 lptrFractalAverItem->setRangTransform((itemIndex & 16) == 16, lDomainOffset, lScale);
 
@@ -337,8 +316,6 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                             ++itemCount;
                         }
-
-                    //    lptrFractalFirstOrderItemContainer->setFractalFirstOrderItemCount(countDomainIndeces);
 
                     }
 
@@ -377,7 +354,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
 
                             ++lptrData;
 
-                            ROADReal lScale = static_cast<ROADReal> (ldecimScale) / 255.0;
+                            ROADReal lScale = static_cast<ROADReal> (ldecimScale);// / 255.0;
 
                             lptrFractalAverItem->setScale(lptrFractalAverItem->getScale() * lScale);
 
@@ -401,7 +378,7 @@ ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADoverManagerExperemental
                 {
                     auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                    ROADReal* lptrDoubleData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();
+                    ROADReal* lptrDoubleData = _channelsDataBuffer.getPtrDecodedDataContainer(lChannel)->getData();
 
                     for( decltype(_options->getSuperframeLength()) lframeIndex = 0;
                          lframeIndex < _options->getSuperframeLength();

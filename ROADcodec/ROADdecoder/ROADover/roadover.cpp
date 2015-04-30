@@ -2,9 +2,7 @@
 #include "IROADoverDecodingOptions.h"
 #include "ROADoverDecodingOptionsExperemental.h"
 #include "ROADoverManagerExperemental.h"
-#include "ROADoverManagerFirstOrderVersion.h"
 #include "IROADoverDecodingOptionsMainVersion.h"
-#include "ROADoverManagerFirstOrderVersionTempROADInt32.h"
 #include "ROADRawDataFormat.h"
 #include "ROADoverManagerFirstOrder.h"
 
@@ -19,11 +17,8 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
     public:
       ROADoverException(const char* aMessage) _GLIBCXX_USE_NOEXCEPT:_message(aMessage) { }
 
-      // This declaration is not useless:
-      // http://gcc.gnu.org/onlinedocs/gcc-3.0.2/gcc_6.html#SEC118
       virtual ~ROADoverException() _GLIBCXX_USE_NOEXCEPT{}
 
-      // See comment in eh_exception.cc.
       virtual const char* what() const _GLIBCXX_USE_NOEXCEPT
       {
           return _message.c_str();
@@ -83,9 +78,9 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
                         switch (lmainOptions->getBitsPerSampleCode())
                         {
                         case ROADRawDataFormat::S16:
-                            _manager.reset(new ROADoverManagerFirstOrder<ROADRawDataFormat::S16, ROADInt32>(this,
-                                                                                                            lROADoverDecodingOptions,
-                                                                                                            aLowFormatEndianType));
+                            _manager.reset(new ROADoverManagerFirstOrder<ROADInt16, ROADInt32>(this,
+                                                                                               lROADoverDecodingOptions,
+                                                                                               aLowFormatEndianType));
 
                             break;
                         default:
@@ -100,6 +95,7 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
 
                 }
 
+                break;
             default:
 
                 throw ROADoverException("Format is not recognized.");
@@ -114,9 +110,11 @@ ROADdecoder::ROADover::ROADover::ROADover(ROADdecoder::ROADover::IROADoverDecodi
 
         break;
     }
+
 }
 
-ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADover::decode() {
+ROADdecoder::ROADover::Result ROADdecoder::ROADover::ROADover::decode()
+{
     Result result = Result::ERROR;
 
     result = _manager->decode();
@@ -146,4 +144,9 @@ PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADover::getFrameRangLe
 PlatformDependencies::ROADUInt32 ROADdecoder::ROADover::ROADover::getSamplesPerRang()
 {
     return this->_samplesPerRang;
+}
+
+ROADdecoder::ROADover::ROADRawDataFormat ROADdecoder::ROADover::ROADover::getDecodedSampleTypeCode()
+{
+    return this->_manager->getDecodedSampleTypeCode();
 }
