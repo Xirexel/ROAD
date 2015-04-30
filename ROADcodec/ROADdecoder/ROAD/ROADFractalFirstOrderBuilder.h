@@ -277,34 +277,23 @@ namespace ROADdecoder
                 private: void backFlip(ROADUInt32 aLength)
                 {
 
-//                   ROADUInt32 lHalfLength = aLength >> 1;
+                   ROADUInt32 lHalfLength = aLength >> 1;
 
-//                   ROADUInt32 lLastPos = aLength - 1;
+                   ROADUInt32 lLastPos = aLength - 1;
 
-//                   ROADUInt32 lTempPos = 0;
+                   ROADUInt32 lTempPos = 0;
 
-                   auto lptrLeft = this->_data;
-
-                   auto lptrRight = this->_data + (aLength - 1);
-
-//                   for(ROADUInt32 index = 0;
-//                       index < lHalfLength;
-//                       ++index)
-                   while(lptrLeft != lptrRight)
+                   for(ROADUInt32 index = 0;
+                       index < lHalfLength;
+                       ++index)
                    {
-                       this->_tempValue = *lptrLeft;
+                       lTempPos = lLastPos - index;
 
-                       *lptrLeft++ = *lptrRight;
+                       _tempValue = this->_data[index];
 
-                       *lptrRight-- = this->_tempValue;
+                       this->_data[index] = this->_data[lTempPos];
 
-//                       lTempPos = lLastPos - index;
-
-//                       _tempValue = this->_data[index];
-
-//                       this->_data[index] = this->_data[lTempPos];
-
-//                       this->_data[lTempPos] = _tempValue;
+                       this->_data[lTempPos] = _tempValue;
                    }
                }
             };
@@ -324,6 +313,7 @@ namespace ROADdecoder
 
             public: virtual void build(PtrROADVoid aPtrData, IROADFrameDataContainer* aPtrIROADFrameDataContainer)
             {
+
                 auto lPtrFrameDataContainer = dynamic_cast<PtrFrameDataContainerType>(aPtrIROADFrameDataContainer);
 
                 if(lPtrFrameDataContainer == nullptr)

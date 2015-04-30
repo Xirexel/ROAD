@@ -54,6 +54,7 @@ namespace ROADcoder
                                                                       ROADUInt32 aMaxRangSampleLength):
                     _FrameMassive(new FrameContainerType[aMaxSuperFrameLength])
                 {
+
                     for(decltype(aMaxSuperFrameLength) lindex = 0;
                         lindex < aMaxSuperFrameLength;
                         ++lindex)
