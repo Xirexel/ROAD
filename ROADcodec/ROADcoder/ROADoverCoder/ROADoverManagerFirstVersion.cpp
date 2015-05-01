@@ -77,7 +77,13 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
 
 
-        auto llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
+//        auto llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
+
+        ROADUInt32 llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
+
+        llength += (this->_superFrameSamplesLength  + 4 + 8 + 1) * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
+
+
 
         ROADUInt8 lEndingCode = this->_options->getEndianType();
 
@@ -391,9 +397,6 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
 
         lIDataWriteDriver->computeAndAppendCRC32(lpackDomainsBufferLength + lpackScalesBufferLength + 9);
 
-
-        this->_roadOver->writeROADdata(this->_bufferROADdata.get(), lIDataWriteDriver->getPosition());
-
 // Выполнение постороения фракталов для декодирования
 
 
@@ -404,6 +407,14 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
         std::unique_ptr<ROADReal> lerrorSampleMassive(new ROADReal[lSuperFrameSampleLength]);
 
         {
+            ROADUInt64 lerrorLength = lSuperFrameSampleLength * _options->getAmountOfChannels();
+
+            lIDataWriteDriver->operator
+                    << ((ROADUInt8)(lEndingCode + 5)) // Add the Head of Average Audio stream - code '0x03'.
+                    << (lerrorLength + 4);
+
+
+
             for(decltype(_options->getAmountOfChannels()) lChannel = 0;
                 lChannel < _options->getAmountOfChannels();
                 ++lChannel)
@@ -436,15 +447,19 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                 }
 
 
+                _convertor->writeRawData(lIDataWriteDriver.get(), lerrorSampleMassive.get(), lSuperFrameSampleLength);
 
             }
 
+         //   lIDataWriteDriver->computeAndAppendCRC32(lerrorLength + 9);
 
         }
 
 
         for(auto item: lfractalItemSuperFrameContainer)
             delete item;
+
+        this->_roadOver->writeROADdata(this->_bufferROADdata.get(), lIDataWriteDriver->getPosition());
 
 
     }while(false);
@@ -608,7 +623,13 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     if(!_analyzer)
         throw CreateAnalyzerException();
 
+
+
     ROADUInt32 llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
+
+    llength += (this->_superFrameSamplesLength  + 4 + 8 + 1) * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
+
+    std::cerr << "llength: " << llength << std::endl;
 
     _bufferROADdata.reset(new ROADByte[llength]);
 }

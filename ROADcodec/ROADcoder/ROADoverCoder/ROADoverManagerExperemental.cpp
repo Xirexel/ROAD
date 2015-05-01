@@ -372,6 +372,8 @@ ROADcoder::ROADoverCoder::ROADoverManagerExperemental::ROADoverManagerExperement
 
     ROADUInt32 llength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSample() >> 3);
 
+    llength += (this->_superFrameSamplesLength  + 4 + 8 + 1) * this->_options->getAmountOfChannels() * (this->_options->getBitsPerSample() >> 3);
+
     _bufferROADdata.reset(new ROADByte[llength]);
 }
 
