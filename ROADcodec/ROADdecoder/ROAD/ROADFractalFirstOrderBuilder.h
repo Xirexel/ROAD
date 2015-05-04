@@ -278,19 +278,37 @@ namespace ROADdecoder
                 private: void backFlip(ROADUInt32 aLength)
                 {
 
+//<<<<<<< HEAD
                    ROADReal lTempValue;
 
                    ROADUInt32 lHalfLength = aLength >> 1;
+//=======
+//                   ROADUInt32 lHalfLength = aLength >> 1;
+
+//                   ROADUInt32 lLastPos = aLength - 1;
+
+//                   ROADUInt32 lTempPos = 0;
+//>>>>>>> origin/FirstVersionROADoverCoderBranch
 
                    for(ROADUInt32 index = 0;
                        index < lHalfLength;
                        ++index)
                    {
+//<<<<<<< HEAD
                        lTempValue = this->_data[index];
 
                        this->_data[index] = this->_data[aLength - 1 - index];
 
                        this->_data[aLength - 1 - index] = lTempValue;
+//=======
+//                       lTempPos = lLastPos - index;
+
+//                       _tempValue = this->_data[index];
+
+//                       this->_data[index] = this->_data[lTempPos];
+
+//                       this->_data[lTempPos] = _tempValue;
+//>>>>>>> origin/FirstVersionROADoverCoderBranch
                    }
                }
             };
@@ -310,6 +328,7 @@ namespace ROADdecoder
 
             public: virtual void build(PtrROADVoid aPtrData, IROADFrameDataContainer* aPtrIROADFrameDataContainer)
             {
+
                 auto lPtrFrameDataContainer = dynamic_cast<PtrFrameDataContainerType>(aPtrIROADFrameDataContainer);
 
                 if(lPtrFrameDataContainer == nullptr)

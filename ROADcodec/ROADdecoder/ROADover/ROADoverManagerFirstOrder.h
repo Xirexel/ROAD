@@ -269,13 +269,13 @@ namespace ROADdecoder
 
                             auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
-                            PtrDecodedSampleType lptrDoubleData = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
+                            PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
 
                             for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
                                  lframeIndex < _options->getMaxSuperFrameLength();
                                  ++lframeIndex)
                             {
-                                _fractalBuilder->build(lptrDoubleData + (lframeIndex * lFrameLengthLength),
+                                _fractalBuilder->build(lptrPtrDecodedSampleMassive + (lframeIndex * lFrameLengthLength),
                                                                lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
                             }
                         }

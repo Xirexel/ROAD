@@ -94,6 +94,7 @@ namespace ROADdecoder
                                       ROADUInt32 aLength,
                                       ROADUInt8 aFractalItemIndex)
             {
+
                 this->_Position = aPosition;
 
                 this->_Length = aLength;
@@ -194,6 +195,8 @@ namespace ROADdecoder
                                       ROADUInt32 aLength,
                                       ROADUInt8 aFractalItemIndex)
             {
+
+
                 this->_Position = aPosition;
 
                 this->_Length = aLength;
