@@ -2,6 +2,7 @@
 #define PROGRESSCONTROLPANEL_H
 
 #include <QWidget>
+#include <QTime>
 
 namespace Ui {
 class ProgressControlPanel;
@@ -17,6 +18,8 @@ public:
 
 private:
     Ui::ProgressControlPanel *ui;
+
+    QTime mTime;
 
 signals:
 

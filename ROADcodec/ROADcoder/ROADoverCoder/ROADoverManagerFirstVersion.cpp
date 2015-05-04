@@ -16,6 +16,12 @@
 #include "ROADoverCoderCommon.h"
 
 
+
+#include "../ROAD/IROADFractalFirstOrderBuilder.h"
+#include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
+#include "../ROAD/ROADFractalOrderFactory.h"
+
+
 ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::encode() {
 
     ROADcoder::ROADoverCoder::Result lresult = ROADcoder::ROADoverCoder::ERROR;
@@ -336,6 +342,8 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     : ROADoverManager(aRoadOver, aOptions->getAmountOfChannels(), aOptions->getMaxSuperFrameLength(), 0, aOptions->getFrameSampleLength() * aOptions->getMaxSuperFrameLength()),
       _options(aOptions)
 {
+
+
     switch (aOptions->getBitsPerSampleCode())
     {
     case ROADRawDataFormat::S16:
@@ -350,11 +358,75 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
         break;
     }
 
+
+    switch (aOptions->getBitsPerSampleCode())
+    {
+    case ROADRawDataFormat::S16:
+    {
+
+        class Excepion: public std::exception
+        {
+        private:
+            std::string _message;
+
+        public:
+          Excepion(const char* aMessage) _GLIBCXX_USE_NOEXCEPT:_message(aMessage) { }
+
+          virtual ~Excepion() _GLIBCXX_USE_NOEXCEPT{}
+
+          virtual const char* what() const _GLIBCXX_USE_NOEXCEPT
+          {
+              return _message.c_str();
+          }
+
+        };
+
+        using namespace ROADdecoder::ROAD;
+
+
+
+        std::unique_ptr<IROADFractalBuilderFactory> lptrIROADFractalBuilderFactory(ROADdecoder::ROAD::ROADFractalOrderFactory::getIROADFractalBuilderFactory(1));
+
+        if(!lptrIROADFractalBuilderFactory || lptrIROADFractalBuilderFactory->getOrder() != 1)
+        {
+            throw Excepion("Format Experemental is not supported!!!");
+        }
+
+        std::unique_ptr<ROADFractalFirstOrderBuilderFactory> lptrROADFractalFirstOrderBuilderFactory(dynamic_cast<ROADFractalFirstOrderBuilderFactory*>(lptrIROADFractalBuilderFactory.release()));
+
+        if(!lptrROADFractalFirstOrderBuilderFactory)
+        {
+            throw Excepion("Format Experemental is not supported!!!");
+        }
+
+
+        _fractalBuilder.reset(lptrROADFractalFirstOrderBuilderFactory->getIROADFractalFirstOrderBuilder(DecodedSampleTypeToROADRawDataFormat<ROADInt32>::_code,
+                                                                                                        _options->getFrameSampleLength(),
+                                                                                                        _options->getAmountRangLevels()));
+        if(!_fractalBuilder)
+        {
+            throw Excepion("DecodedSampleType is not supported!!!");
+        }
+
+    }
+
+        break;
+    default:
+
+        throw std::exception();
+
+        break;
+    }
+
+
+
+
     this->_bitsPerSample = ROADConvertor::getBitLength(aOptions->getBitsPerSampleCode());
 
     this->_rangSampleLength = aOptions->getRangSampleLength();
 
-    switch (_options->getMixingChannelsMode()) {
+    switch (_options->getMixingChannelsMode())
+    {
     case MID:
         _channelsMixing.reset(new MIDChannelsMixing());
         break;

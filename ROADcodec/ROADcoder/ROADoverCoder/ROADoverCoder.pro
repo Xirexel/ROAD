@@ -16,10 +16,6 @@ else:unix:DESTDIR = ../../../Bin/ROADcoder
 DEFINES += ROADOVERCODER_LIBRARY
 
 
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
 
 HEADERS += \
     ChannelsMixingMode.h \
@@ -141,3 +137,10 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../C
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../CRC/release/CRC.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../CRC/debug/CRC.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../CRC/libCRC.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../ROADdecoder/ROAD/release/ -lROAD
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../ROADdecoder/ROAD/debug/ -lROAD
+else:unix: LIBS += -L$$OUT_PWD/../../ROADdecoder/ROAD/ -lROAD
+
+INCLUDEPATH += $$PWD/../../ROADdecoder/ROAD
+DEPENDPATH += $$PWD/../../ROADdecoder/ROAD

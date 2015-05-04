@@ -13,6 +13,9 @@ CONFIG += c++11
 win32:DLLDESTDIR = ../../../Bin/ROADdecoder ../../../Bin/ROADPlayer
 else:unix:DESTDIR = ../../../Bin/ROADdecoder
 
+win32:DLLDESTDIR = ../../../Bin/ROADcoder ../../../Bin/ROADConverter
+else:unix:DESTDIR = ../../../Bin/ROADcoder
+
 DEFINES += ROAD_LIBRARY
 
 SOURCES += \
