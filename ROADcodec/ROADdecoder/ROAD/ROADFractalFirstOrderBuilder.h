@@ -206,15 +206,11 @@ namespace ROADdecoder
             {
                 private: typedef SampleType* PtrSampleTypeItem;
 
+                private: typedef SampleType DomainProcessorSampleType;
+
                 private: PtrSampleTypeItem _data;
 
-                private: SampleType _tempValue;
-
-                private: SampleType _aver;
-
-                private: ROADUInt32 _offset;
-
-                private: ROADUInt32 _tempLength;
+                private: static constexpr SampleType _signBitMask = 1 << ((sizeof(SampleType) << 3) - 1);
 
                 public: ~DomainProcessorFirstOrder()
                 {
@@ -229,41 +225,46 @@ namespace ROADdecoder
 
                 public: PtrSampleTypeItem process(PtrSampleTypeItem aData, ROADUInt32 aLength, ROADBool aInversDirection, ROADUInt32 aDomainOffset)
                 {
-                    _aver = 0;
+                    DomainProcessorSampleType lAver = 0.0;
 
-//                    _tempValue = 0;
+                    DomainProcessorSampleType lTmepValue = 0;
 
-//                    _offset = 0;
+                    ROADUInt32 lOffset = 0;
 
                     for(ROADUInt32 index = 0;
                         index < aLength;
                         ++index)
                     {
-                        _offset = aDomainOffset + (index << 1);
+                        lOffset = aDomainOffset + (index << 1);
 
-                        _tempValue = aData[_offset];// (aData[lOffset] + aData[lOffset + 1]) * 0.5;
+                        lTmepValue = aData[lOffset];// (aData[lOffset] + aData[lOffset + 1]) * 0.5;
 
-                        _aver += _tempValue;
+                        lAver += lTmepValue;
 
-                        this->_data[index] = _tempValue;
+                        this->_data[index] = lTmepValue;
                     }
 
-                    _tempLength = aLength;
+//                    lAver /= (DomainProcessorSampleType)aLength;
 
-                    while (_tempLength&1 == 0)
+                    auto _tempLength = aLength;
+
+                    auto lsignBit = lAver &  _signBitMask;
+
+                    while ((_tempLength & 1) == 0)
                     {
-                        _aver >>= 1;
+                        lAver >>= 1;
+
+                        lAver = lAver | lsignBit;
 
                         _tempLength >>=1;
                     }
 
-//                    _aver /= aLength;
 
                     for(ROADUInt32 index = 0;
                         index < aLength;
                         ++index)
                     {
-                        this->_data[index] = this->_data[index] - _aver;
+                        this->_data[index] = this->_data[index] - lAver;
                     }
 
                     if(aInversDirection)
@@ -277,23 +278,37 @@ namespace ROADdecoder
                 private: void backFlip(ROADUInt32 aLength)
                 {
 
+//<<<<<<< HEAD
+                   ROADReal lTempValue;
+
                    ROADUInt32 lHalfLength = aLength >> 1;
+//=======
+//                   ROADUInt32 lHalfLength = aLength >> 1;
 
-                   ROADUInt32 lLastPos = aLength - 1;
+//                   ROADUInt32 lLastPos = aLength - 1;
 
-                   ROADUInt32 lTempPos = 0;
+//                   ROADUInt32 lTempPos = 0;
+//>>>>>>> origin/FirstVersionROADoverCoderBranch
 
                    for(ROADUInt32 index = 0;
                        index < lHalfLength;
                        ++index)
                    {
-                       lTempPos = lLastPos - index;
+//<<<<<<< HEAD
+                       lTempValue = this->_data[index];
 
-                       _tempValue = this->_data[index];
+                       this->_data[index] = this->_data[aLength - 1 - index];
 
-                       this->_data[index] = this->_data[lTempPos];
+                       this->_data[aLength - 1 - index] = lTempValue;
+//=======
+//                       lTempPos = lLastPos - index;
 
-                       this->_data[lTempPos] = _tempValue;
+//                       _tempValue = this->_data[index];
+
+//                       this->_data[index] = this->_data[lTempPos];
+
+//                       this->_data[lTempPos] = _tempValue;
+//>>>>>>> origin/FirstVersionROADoverCoderBranch
                    }
                }
             };
