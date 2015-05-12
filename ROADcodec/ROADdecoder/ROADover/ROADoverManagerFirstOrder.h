@@ -169,14 +169,14 @@ namespace ROADdecoder
 
                     ROADInt32 lreadResult = -1;
 
+                    ROADUInt8 lEndingCode = this->_options->getEndianType();
+
+                    auto lIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(this->_bufferROADdata,
+                                                                      lreadROADdataLength,
+                                                                      Endian::EndianType(lEndingCode));
+
                     do
                     {
-
-                        ROADUInt8 lEndingCode = this->_options->getEndianType();
-
-                        auto lIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(this->_bufferROADdata,
-                                                                          lreadROADdataLength,
-                                                                          Endian::EndianType(lEndingCode));
 
                         ROADUInt8 lHead = 0;
 
@@ -269,6 +269,8 @@ namespace ROADdecoder
 
         // Выполнение постороения фракталов для декодирования
                     {
+
+
                         for(decltype(_options->getAmountOfChannels()) lChannel = 0;
                             lChannel < _options->getAmountOfChannels();
                             ++lChannel)
@@ -346,21 +348,61 @@ namespace ROADdecoder
                                                                lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
                             }
 
-                            file << "lChannel: " << lChannel << std::endl;
+//                            file << "lChannel: " << lChannel << std::endl;
 
-                            file << "lSuperFrameSampleLength: " << this->_superFrameSamplesLength << std::endl;
+//                            file << "lSuperFrameSampleLength: " << this->_superFrameSamplesLength << std::endl;
 
-                            for(decltype(this->_superFrameSamplesLength) lindex = 0;
-                                lindex < this->_superFrameSamplesLength;
-                                ++lindex)
-                            {
-                                auto lvalue = lptrPtrDecodedSampleMassive[lindex];
+//                            for(decltype(this->_superFrameSamplesLength) lindex = 0;
+//                                lindex < this->_superFrameSamplesLength;
+//                                ++lindex)
+//                            {
+//                                auto lvalue = lptrPtrDecodedSampleMassive[lindex];
 
-                                file << "lvalue: " << lvalue << std::endl;
-                            }
+//                                file << "lvalue: " << lvalue << std::endl;
+//                            }
                         }
 
-                        this->_channelsMixing->compute(&(this->_channelsDataBuffer));
+                        ROADUInt64 lLength;
+
+                        ROADInt8 lHead;
+
+                        lIDataReadDriver->operator >>(lHead);
+
+                        lIDataReadDriver->operator >>(lLength);
+
+                        for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+                            lChannel < 1;
+                            ++lChannel)
+                        {
+                            PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
+
+                            readAndAddError(lIDataReadDriver.get(), lptrPtrDecodedSampleMassive);
+                        }
+
+
+//                        for(decltype(_options->getAmountOfChannels()) lChannel = 1;
+//                            lChannel < 2;
+//                            ++lChannel)
+//                        {
+//                            PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
+
+
+
+//                            for( decltype(this->_superFrameSamplesLength) lsampleIndex = 0;
+//                                 lsampleIndex < this->_superFrameSamplesLength;
+//                                 ++lsampleIndex)
+//                            {
+//                                lIDataReadDriver->operator >>(_rawDataSample);
+
+//                                _decodingSample = _rawDataSample;
+
+//                                auto lv = lptrPtrDecodedSampleMassive[lsampleIndex];
+
+//                                lptrPtrDecodedSampleMassive[lsampleIndex] = lv + _decodingSample;
+//                            }
+//                        }
+
+//                        this->_channelsMixing->compute(&(this->_channelsDataBuffer));
 
                         this->_roadOver->writeRawData(&(this->_channelsDataBuffer));
 
@@ -662,6 +704,28 @@ namespace ROADdecoder
 
                 return lresult;
             }
+
+            protected: ROADInt32 readAndAddError(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, PtrDecodedSampleType aPtrDecodedSampleMassive)
+            {
+                using namespace PlatformDependencies;
+
+                ROADInt32 lresult = -1;
+
+                for( decltype(this->_superFrameSamplesLength) lsampleIndex = 0;
+                     lsampleIndex < this->_superFrameSamplesLength;
+                     ++lsampleIndex)
+                {
+                    aIDataReadDriver->operator >>(_rawDataSample);
+
+                    _decodingSample = _rawDataSample;
+
+                    aPtrDecodedSampleMassive[lsampleIndex] += _decodingSample;
+                }
+
+                return lresult;
+
+            }
+
         };
     }
 }

@@ -36,6 +36,8 @@ namespace ROADcoder
             protected: ROADUInt32 _rangSampleLength;
             protected: ROADUInt32 _bitsPerSample;
             protected: std::shared_ptr<ROADByte> _bufferROADdata;
+            protected: ROADUInt32 _bufferROADdataLength;
+
 
             public: ROADoverManager(ROADcoder::ROADoverCoder::ROADover* aRoadOver, ROADUInt32 aAmountOfChannels, ROADUInt32 aSuperFrameLength, ROADUInt32 aFrameRangLength, ROADUInt32 aSuperFrameSamplesLength);
 
