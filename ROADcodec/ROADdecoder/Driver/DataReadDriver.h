@@ -20,6 +20,8 @@ namespace ROADdecoder
 
             public: DataReadDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
 
+            public: DataReadDriver(ROADByte *aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
+
             public: virtual ROADUInt64 getLength();
 
             public: virtual ROADUInt64 getPosition();

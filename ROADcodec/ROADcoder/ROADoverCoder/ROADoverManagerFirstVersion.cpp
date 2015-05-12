@@ -417,6 +417,54 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                 auto lptrDecodedSampleMassive = ldecodedSampleMassive.get();
 
 
+//                file << "lChannel: " << lChannel << std::endl;
+
+//                for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+//                     lframeIndex < _options->getMaxSuperFrameLength();
+//                     ++lframeIndex)
+//                {
+//                    int g = (int)lframeIndex;
+
+//                    file << "   " << "lframeIndex: " << g << std::endl;
+
+//                    auto lFrameDataContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex);
+
+//                    auto FractalFirstOrderItemCount = lFrameDataContainer->getFractalFirstOrderItemCount();
+
+//                    for(decltype(FractalFirstOrderItemCount) lindex = 0;
+//                        lindex < FractalFirstOrderItemCount;
+//                        ++lindex)
+//                    {
+
+//                        file << "       " << "FractaltransformIndex: " << lindex << std::endl;
+
+//                        auto lFractalFirstOrderItemTransform = lFrameDataContainer->getFractalFirstOrderItemTransform(lindex);
+
+//                        auto lAverage = lFractalFirstOrderItemTransform->getAverage();
+
+//                        file  << "       " << "lAverage: " << lAverage << std::endl;
+
+//                        auto lScale = lFractalFirstOrderItemTransform->getScale();
+
+//                        file  << "       " << "lScale: " << lScale << std::endl;
+
+//                        auto lLength = lFractalFirstOrderItemTransform->getLength();
+
+//                        file  << "       " << "lLength: " << lLength << std::endl;
+
+//                        auto lInversDirection = lFractalFirstOrderItemTransform->isInversDirection();
+
+//                        file  << "       " << "lInversDirection: " << lInversDirection << std::endl;
+
+//                        auto lDomainOffset = lFractalFirstOrderItemTransform->getDomainOffset();
+
+//                        file  << "       " << "lDomainOffset: " << lDomainOffset << std::endl;
+
+//                        auto lPosition = lFractalFirstOrderItemTransform->getPosition();
+
+//                        file  << "       " << "lPosition: " << lPosition << std::endl;
+//                    }
+//                }
 
                 for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
                      lframeIndex < _options->getMaxSuperFrameLength();
@@ -425,6 +473,8 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                     _fractalBuilder->build(lptrDecodedSampleMassive + (lframeIndex * lframeSampleLength),
                                                    lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
                 }
+
+
 
                 file << "lChannel: " << lChannel << std::endl;
 

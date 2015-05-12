@@ -19,6 +19,8 @@ namespace ROADdecoder
 
         private: virtual ~DataDriver() = delete;
 
+        public: static std::unique_ptr<Driver::IDataReadDriver> getIDataReadDriver(ROADByte *aData, ROADUInt32 aLength, Endian::EndianType aEndianType);
+
         public: static std::unique_ptr<Driver::IDataReadDriver> getIDataReadDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, Endian::EndianType aEndianType);
 		};
 	}

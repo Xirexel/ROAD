@@ -76,6 +76,8 @@ namespace ROADdecoder
 
             private: SampleTypeItem _scale;
 
+            private: SampleTypeItem _average;
+
             private: PtrSampleTypeItem _PtrScalesMassive;
 
             private: PtrSampleTypeItem _PtrAveragesMassive;
@@ -103,9 +105,16 @@ namespace ROADdecoder
             }
 
 
+            public: SampleTypeItem getAverage()
+            {
+                return _average;
+            }
+
             public: void setAverage(PtrROADVoid aPtrDataSample)
             {
                 _sampleTypeItem = *((PtrSampleTypeItem)aPtrDataSample);
+
+                _average = _sampleTypeItem;
 
                 PtrSampleTypeItem lpositionPtrSampleType = _PtrAveragesMassive + this->_Position;
 
@@ -147,6 +156,8 @@ namespace ROADdecoder
 
             public: void setScale(SampleTypeItem aScale)
             {
+
+                _scale = aScale;
 
                 PtrSampleTypeItem lpositionPtrSampleType = _PtrScalesMassive + this->_Position;
 

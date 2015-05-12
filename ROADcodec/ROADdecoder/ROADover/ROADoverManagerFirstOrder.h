@@ -274,7 +274,67 @@ namespace ROADdecoder
                             ++lChannel)
                         {
 
+
+
                             auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
+
+
+
+//                            file << "lChannel: " << lChannel << std::endl;
+
+//                            for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
+//                                 lframeIndex < _options->getMaxSuperFrameLength();
+//                                 ++lframeIndex)
+//                            {
+
+//                                file << "   " << "lframeIndex: " << lframeIndex << std::endl;
+
+//                                auto lFrameDataContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex);
+
+//                                auto FractalFirstOrderItemCount = lFrameDataContainer->getFractalFirstOrderItemCount();
+
+//                                for(decltype(FractalFirstOrderItemCount) lindex = 0;
+//                                    lindex < FractalFirstOrderItemCount;
+//                                    ++lindex)
+//                                {
+
+//                                    file << "       " << "FractaltransformIndex: " << lindex << std::endl;
+
+//                                    auto lFractalFirstOrderItemTransform = lFrameDataContainer->getFractalFirstOrderItemTransform(lindex);
+
+//                                    auto lAverage = lFractalFirstOrderItemTransform->getAverage();
+
+//                                    file  << "       " << "lAverage: " << lAverage << std::endl;
+
+//                                    auto lScale = lFractalFirstOrderItemTransform->getScale();
+
+//                                    file  << "       " << "lScale: " << lScale << std::endl;
+
+//                                    auto lLength = lFractalFirstOrderItemTransform->getLength();
+
+//                                    file  << "       " << "lLength: " << lLength << std::endl;
+
+//                                    auto lInversDirection = lFractalFirstOrderItemTransform->isInversDirection();
+
+//                                    file  << "       " << "lInversDirection: " << lInversDirection << std::endl;
+
+//                                    auto lDomainOffset = lFractalFirstOrderItemTransform->getDomainOffset();
+
+//                                    file  << "       " << "lDomainOffset: " << lDomainOffset << std::endl;
+
+//                                    auto lPosition = lFractalFirstOrderItemTransform->getPosition();
+
+//                                    file  << "       " << "lPosition: " << lPosition << std::endl;
+//                                }
+//                            }
+
+
+
+
+
+
+
+
 
                             PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
 
@@ -286,18 +346,18 @@ namespace ROADdecoder
                                                                lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
                             }
 
-//                            file << "lChannel: " << lChannel << std::endl;
+                            file << "lChannel: " << lChannel << std::endl;
 
-//                            file << "lSuperFrameSampleLength: " << this->_superFrameSamplesLength << std::endl;
+                            file << "lSuperFrameSampleLength: " << this->_superFrameSamplesLength << std::endl;
 
-//                            for(decltype(this->_superFrameSamplesLength) lindex = 0;
-//                                lindex < this->_superFrameSamplesLength;
-//                                ++lindex)
-//                            {
-//                                auto lvalue = 0;// lptrPtrDecodedSampleMassive[lindex];
+                            for(decltype(this->_superFrameSamplesLength) lindex = 0;
+                                lindex < this->_superFrameSamplesLength;
+                                ++lindex)
+                            {
+                                auto lvalue = lptrPtrDecodedSampleMassive[lindex];
 
-//                                file << "lvalue: " << lvalue << std::endl;
-//                            }
+                                file << "lvalue: " << lvalue << std::endl;
+                            }
                         }
 
                         this->_channelsMixing->compute(&(this->_channelsDataBuffer));

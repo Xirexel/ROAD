@@ -244,12 +244,13 @@ qint64 WaveFractalReader::readData(char *data, qint64 maxlen)
 {
 
 
+
     std::cerr << "maxlen: " << maxlen << std::endl;
 
     qint64 result = 0;
 
     if(_IReader != nullptr)
-        result = _IReader->readData(data, maxlen);
+        result = _IReader->readData(data, (maxlen >> 1) << 1);
 
 
     if( result < 0)

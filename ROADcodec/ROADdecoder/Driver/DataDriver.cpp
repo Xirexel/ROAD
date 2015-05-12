@@ -14,3 +14,15 @@ std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> ROADdecoder::Driver::DataD
 
     return result;
 }
+
+std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> ROADdecoder::Driver::DataDriver::getIDataReadDriver(ROADByte *aData,
+                                                                                                          ROADUInt32 aLength,
+                                                                                                          Endian::EndianType aEndianType)
+{
+
+    auto lconvertor = Endian::EndianConvertorFactory::getInstance().getIEndianConvertor(aEndianType);
+
+    std::unique_ptr<IDataReadDriver> result(new DataReadDriver(aData, aLength, lconvertor));
+
+    return result;
+}

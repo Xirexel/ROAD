@@ -11,6 +11,16 @@ ROADdecoder::Driver::DataReadDriver::DataReadDriver(std::shared_ptr<ROADByte> &a
 {
 }
 
+ROADdecoder::Driver::DataReadDriver::DataReadDriver(ROADByte *aData,
+                                                    ROADUInt32 aLength,
+                                                    std::unique_ptr<Endian::IEndianConvertor> &aConvertor)
+    : _data(aData),
+     _length(aLength),
+     _position(0),
+     _convertor(aConvertor.release())
+{
+}
+
 ROADdecoder::Driver::DataReadDriver::~DataReadDriver()
 {
 
