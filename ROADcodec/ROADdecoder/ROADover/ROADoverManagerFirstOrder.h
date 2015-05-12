@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <memory>
+#include <fstream>
+
 #include "../ROAD/IROADFractalFirstOrderBuilder.h"
 #include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
 #include "../ROAD/ROADFractalOrderFactory.h"
@@ -46,6 +48,8 @@ namespace ROADdecoder
 
             private: DecodedSampleType _decodingSample;
 
+            std::fstream file;
+
             public: ROADoverManagerFirstOrder(ROADdecoder::ROADover::ROADover* aRoadOver,
                                               ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* aOptions,
                                               Endian::EndianType aLowFormatEndianType)
@@ -67,6 +71,9 @@ namespace ROADdecoder
                                           aOptions->getMaxSuperFrameLength()]),
                   _lowFormatEndianType(aLowFormatEndianType)
             {
+
+                file.open("C:\\Users\\Evgney\\Documents\\dumpDecoder.txt");
+
                 class Excepion: public std::exception
                 {
                 private:
@@ -278,6 +285,19 @@ namespace ROADdecoder
                                 _fractalBuilder->build(lptrPtrDecodedSampleMassive + (lframeIndex * lFrameLengthLength),
                                                                lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
                             }
+
+//                            file << "lChannel: " << lChannel << std::endl;
+
+//                            file << "lSuperFrameSampleLength: " << this->_superFrameSamplesLength << std::endl;
+
+//                            for(decltype(this->_superFrameSamplesLength) lindex = 0;
+//                                lindex < this->_superFrameSamplesLength;
+//                                ++lindex)
+//                            {
+//                                auto lvalue = 0;// lptrPtrDecodedSampleMassive[lindex];
+
+//                                file << "lvalue: " << lvalue << std::endl;
+//                            }
                         }
 
                         this->_channelsMixing->compute(&(this->_channelsDataBuffer));

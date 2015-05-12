@@ -2,10 +2,12 @@
 #define ROADOVERWAVE_H
 
 #include <fstream>
+#include <iostream>
 #include <limits>
 
 
 #include <QFile>
+#include <QThread>
 #include <QDebug>
 
 
@@ -58,7 +60,7 @@ class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
 
         public: virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer, char *aData)
         {
-            auto lPtrRawDataBuffer = (ROADdecoder::ROADover::RawDataBuffer<DecodedSampleType>*)(aRawDataBuffer);
+            auto lPtrRawDataBuffer = dynamic_cast<ROADdecoder::ROADover::RawDataBuffer<DecodedSampleType>*>(aRawDataBuffer);
 
             unsigned int lchannels = lPtrRawDataBuffer->getCount();
 
@@ -216,15 +218,32 @@ public:
 
     virtual int readData(char *data, int maxlen)
     {
-        if(_lastLength == 0)
+        if(_lastLength <= 0)
         {
             ROADdecoder::ROADover::Result result = ROADover::decode();
 
             if(result != ROADdecoder::ROADover::DONE)
                 return -1;
             else
+            {
+
+                std::cerr << "_superFrameByteSize: " << _superFrameByteSize << std::endl;
+
                 _lastLength = _superFrameByteSize;
+            }
         }
+
+//        int k = 0;
+
+//        for(int i = 0;
+//            i < 100000;
+//            ++i)
+//        {
+//            ++k;
+//        }
+
+
+     //   QThread::currentThread()->sleep(1);
 
         int lReadLength = maxlen;
 
@@ -242,6 +261,10 @@ public:
 
             _lastLength = 0;
         }
+
+//        std::cerr << "maxlen: " << maxlen << std::endl;
+
+        std::cerr << "lReadLength: " << lReadLength << std::endl;
 
         return lReadLength;
     }

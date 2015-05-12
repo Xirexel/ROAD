@@ -18,13 +18,15 @@ ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::ROADoverDecodin
 
         auto lData = (*lIter).getData();
 
+        std::shared_ptr<ROADByte> sharedData(lData);
+
         Endian::EndianType lEndianType = Endian::EndianType::LITTLE;
 
         if((lBlockHead & 128) == 0)
             lEndianType = Endian::EndianType::BIG;
 
         auto lptrIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(
-                    lData,
+                    sharedData,
                     lBlockLength + sizeof(lBlockLength) + sizeof(lBlockHead),
                     lEndianType);
 

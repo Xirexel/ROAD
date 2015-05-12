@@ -426,14 +426,27 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                                                    lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
                 }
 
-                auto lptrErrorSampleMassive = lerrorSampleMassive.get();
+                file << "lChannel: " << lChannel << std::endl;
+
+                file << "lSuperFrameSampleLength: " << lSuperFrameSampleLength << std::endl;
 
                 for(decltype(lSuperFrameSampleLength) lindex = 0;
                     lindex < lSuperFrameSampleLength;
                     ++lindex)
                 {
-                      lptrErrorSampleMassive[lindex] = (ROADReal)((ROADInt32)lptrAudioData[lindex] - lptrDecodedSampleMassive[lindex]);
+                    auto lvalue = lptrDecodedSampleMassive[lindex];
+
+                    file << "lvalue: " << lvalue << std::endl;
                 }
+
+//                auto lptrErrorSampleMassive = lerrorSampleMassive.get();
+
+//                for(decltype(lSuperFrameSampleLength) lindex = 0;
+//                    lindex < lSuperFrameSampleLength;
+//                    ++lindex)
+//                {
+//                      lptrErrorSampleMassive[lindex] = (ROADReal)((ROADInt32)lptrAudioData[lindex] - lptrDecodedSampleMassive[lindex]);
+//                }
 
 
 
@@ -468,6 +481,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     : ROADoverManager(aRoadOver, aOptions->getAmountOfChannels(), aOptions->getMaxSuperFrameLength(), 0, aOptions->getFrameSampleLength() * aOptions->getMaxSuperFrameLength()),
       _options(aOptions)
 {
+    file.open("C:\\Users\\Evgney\\Documents\\dumpEncoder.txt");
 
     class Excepion: public std::exception
     {

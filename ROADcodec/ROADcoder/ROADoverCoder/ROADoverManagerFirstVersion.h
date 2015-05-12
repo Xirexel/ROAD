@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <fstream>
 
 #include "IROADFractalFirstOrderAnalyzer.h"
 #include "FractalFormatRawDataContainer.h"
@@ -78,6 +79,7 @@ namespace ROADcoder
 			public: std::vector<ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
             private: std::unique_ptr<IDecodedSampleTypeToRawDataSampleType> _convertor;
 
+            std::fstream file;
 
 			public: ROADcoder::ROADoverCoder::Result encode();
 
