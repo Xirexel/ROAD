@@ -24,12 +24,26 @@ namespace ROADdecoder
 
             }
 
+            DataContainer(PlatformDependencies::ROADInt64 aDataLength):
+                refCount(1),
+                _data(new PlatformDependencies::ROADByte[aDataLength])
+            {
+
+            }
+
+            ~DataContainer() noexcept
+            {
+                if(_data != nullptr)
+                    delete []_data;
+            }
+
+
             long AddRef()
             {
                 return ++refCount;
             }
 
-            long Release()
+            long Release() noexcept
             {
                 auto lrefCount = --refCount;
 
@@ -43,19 +57,19 @@ namespace ROADdecoder
 
             operator PlatformDependencies::PtrROADByte()
             {
-                return _data.get();
+                return _data;
             }
 
             PlatformDependencies::PtrROADByte get()
             {
-                return _data.get();
+                return _data;
             }
 
         private:
 
             std::atomic<long> refCount;
 
-            std::unique_ptr<PlatformDependencies::ROADByte> _data;
+            PlatformDependencies::PtrROADByte _data;
     };
 
     }

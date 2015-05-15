@@ -14,8 +14,8 @@ ROADdecoder::Driver::DataReadDriver::DataReadDriver(std::shared_ptr<ROADByte> &a
      _position(0),
      _convertor(aConvertor.release())
 {
-    if(!file12.is_open())
-        file12.open("C:\\Users\\Evgney\\Documents\\dumpDecoder.txt");
+//    if(!file12.is_open())
+//        file12.open("C:\\Users\\Evgney\\Documents\\dumpDecoder.txt");
 
 //    file12 << "raw data. aLength: " << aLength << std::endl;
 
@@ -61,7 +61,7 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
     if(_length >= (_position + (unsigned)get<1>(aData)))
     {
-        memcpy(get<0>(aData), _data.get() + _position, get<1>(aData));
+        memcpy(get<0>(aData), this->_ptrData + _position, get<1>(aData));
 
         _position += get<1>(aData);
     }
@@ -95,10 +95,10 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADInt16 &aValue)
 {
-    for(decltype(this->_length)lindex = 0;
-        lindex < this->_length;
-        ++lindex)
-    file12 << "byte: " << (int) _ptrData[lindex] << std::endl;
+//    for(decltype(this->_length)lindex = 0;
+//        lindex < this->_length;
+//        ++lindex)
+//    file12 << "byte: " << (int) _ptrData[lindex] << std::endl;
 
 //    file12 << "_length: " << _length << "_position: " << _position << std::endl;
 
@@ -168,9 +168,9 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
 {
     if(this->_position + aLength + 1 <= this->_length)
     {
-        auto lresult = CRCSupport::CRC::CRC8(_data.get() + this->_position, aLength);// 1 bytes - CRC8 code.
+        auto lresult = CRCSupport::CRC::CRC8(this->_ptrData + this->_position, aLength);// 1 bytes - CRC8 code.
 
-        auto lvalue = _convertor->convertToType(lresult, _data.get() + (this->_position + aLength));
+        auto lvalue = _convertor->convertToType(lresult, this->_ptrData + (this->_position + aLength));
 
         aOk = lresult == lvalue;
     }
@@ -184,9 +184,9 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
 {
     if(this->_position + aLength + 2 <= this->_length)
     {
-        auto lresult = CRCSupport::CRC::CRC16(_data.get() + this->_position, aLength);// 2 bytes - CRC8 code.
+        auto lresult = CRCSupport::CRC::CRC16(this->_ptrData + this->_position, aLength);// 2 bytes - CRC8 code.
 
-        auto lvalue = _convertor->convertToType(lresult, _data.get() + (this->_position + aLength));
+        auto lvalue = _convertor->convertToType(lresult, this->_ptrData + (this->_position + aLength));
 
         aOk = lresult == lvalue;
     }
@@ -200,9 +200,9 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
 {
     if(this->_position + aLength + 4 <= this->_length)
     {
-        auto lresult = CRCSupport::CRC::CRC32(_data.get() + this->_position, aLength);// 4 bytes - CRC8 code.
+        auto lresult = CRCSupport::CRC::CRC32(this->_ptrData + this->_position, aLength);// 4 bytes - CRC8 code.
 
-        auto lvalue = _convertor->convertToType(lresult, _data.get() + (this->_position + aLength));
+        auto lvalue = _convertor->convertToType(lresult, this->_ptrData + (this->_position + aLength));
 
         aOk = lresult == lvalue;
     }
