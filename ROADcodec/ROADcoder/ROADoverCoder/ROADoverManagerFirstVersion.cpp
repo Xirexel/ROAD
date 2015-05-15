@@ -502,21 +502,65 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                 {
                     ROADReal lvalue = (ROADReal)((ROADInt32)lptrAudioData[lindex] - lptrDecodedSampleMassive[lindex]);
 
-                    file << "lvalue: " << lvalue << std::endl;
+                    ROADInt16 _decodingSample = (ROADInt16)lvalue;
 
-                    lptrErrorSampleMassive[lindex] = lvalue;
+//                    ROADUInt8 l = (_decodingSample >> 8)& 255;
+
+//                    file << "_decodingSample: " << l << std::endl;
+
+
+//                    l = (_decodingSample)& 255;
+
+//                    file << "_decodingSample: " << l << std::endl;
+
+
+//                    file << "_decodingSample: " << _decodingSample << std::endl;
+
+//                    lptrErrorSampleMassive[lindex] = lvalue;
+
+                    ROADInt16 _sampleType;
+
+//                    _sampleType = _decodingSample;
+
+                    _sampleType = 255;
+
+                    ROADUInt8 l = 0;
+
+                    lIDataWriteDriver->operator <<(l);
+
+                    l = 255;
+
+                    lIDataWriteDriver->operator <<(l);
+
+//                    file << "_superFrameSamplesLength: " << this->_superFrameSamplesLength << std::endl;
+
+//                    lIDataWriteDriver->operator <<(_sampleType);
                 }
 
-                _convertor->writeRawData(lIDataWriteDriver.get(), lptrErrorSampleMassive, this->_superFrameSamplesLength);
+              //  _convertor->writeRawData(lIDataWriteDriver.get(), lptrErrorSampleMassive, this->_superFrameSamplesLength);
 
             }
 
-            lIDataWriteDriver->computeAndAppendCRC32(lErrorDataLength+ 9);
+            lIDataWriteDriver->computeAndAppendCRC32(lErrorDataLength + 9);
+
+
 
 
         }
 
+//        file << "raw data" << std::endl;
 
+//        auto lptr = this->_bufferROADdata.get();
+
+//        for(decltype(lIDataWriteDriver->getPosition()) lindex = 0;
+//            lindex < lIDataWriteDriver->getPosition();
+//            ++lindex)
+//        {
+
+
+//            file << "byte: " << (ROADInt32)(lptr[lindex]) << std::endl;
+
+//        }
 
 
         this->_roadOver->writeROADdata(this->_bufferROADdata.get(), lIDataWriteDriver->getPosition());
@@ -547,7 +591,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     : ROADoverManager(aRoadOver, aOptions->getAmountOfChannels(), aOptions->getMaxSuperFrameLength(), 0, aOptions->getFrameSampleLength() * aOptions->getMaxSuperFrameLength()),
       _options(aOptions)
 {
-    file.open("C:\\Users\\Evgney\\Documents\\dumpEncoder.txt");
+//    file.open("C:\\Users\\Evgney\\Documents\\dumpEncoder.txt");
 
     class Excepion: public std::exception
     {
@@ -690,7 +734,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
 
     _bufferROADdataLength = this->_superFrameSamplesLength * this->_options->getAmountOfChannels() * (ROADConvertor::getByteLength(this->_options->getBitsPerSampleCode()));
 
-    _bufferROADdataLength *= 2;
+    _bufferROADdataLength *= 10;
 
     _bufferROADdata.reset(new ROADByte[_bufferROADdataLength]);
 }

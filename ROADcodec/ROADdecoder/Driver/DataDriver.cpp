@@ -15,7 +15,7 @@ std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> ROADdecoder::Driver::DataD
     return result;
 }
 
-std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> ROADdecoder::Driver::DataDriver::getIDataReadDriver(ROADByte *aData,
+std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> ROADdecoder::Driver::DataDriver::getIDataReadDriver(ROADdecoder::Driver::DataContainer *aData,
                                                                                                           ROADUInt32 aLength,
                                                                                                           Endian::EndianType aEndianType)
 {

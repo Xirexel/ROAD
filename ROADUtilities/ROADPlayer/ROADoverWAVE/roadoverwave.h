@@ -26,6 +26,8 @@ typedef long long int64;
 using namespace PlatformDependencies;
 
 
+std::fstream file;
+
 template<typename T, typename O>
 class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
 {
@@ -211,6 +213,8 @@ public:
 
     virtual ~ROADoverWAVE()
     {
+        file.close();
+
         _File->close();
 
         delete []_pData;
@@ -227,7 +231,7 @@ public:
             else
             {
 
-                std::cerr << "_superFrameByteSize: " << _superFrameByteSize << std::endl;
+//                std::cerr << "_superFrameByteSize: " << _superFrameByteSize << std::endl;
 
                 _lastLength = _superFrameByteSize;
             }
@@ -264,7 +268,7 @@ public:
 
 //        std::cerr << "maxlen: " << maxlen << std::endl;
 
-        std::cerr << "lReadLength: " << lReadLength << std::endl;
+//        std::cerr << "lReadLength: " << lReadLength << std::endl;
 
         return lReadLength;
     }
@@ -298,12 +302,43 @@ protected:
 
         int64 lFractalIndexPos = _offsetFractalIndeces + lFractalIndecesShift;
 
-        _File->seek(lFractalIndexPos);
+        if(!_File->seek(lFractalIndexPos))
+        {
+            std::cerr << "_File->seek error";
+        }
 
         if(_File->atEnd())
             return -1;
 
-        _File->read((char *)aData, result);
+//        std::cerr << "result: " << result << std::endl;
+
+        auto lreadLength = _File->read((char *)aData, result);
+
+        if(lreadLength != result)
+        {
+            std::cerr << "_File->read";
+        }
+
+
+//        if(!file.is_open())
+//            file.open("C:\\Users\\Evgney\\Documents\\dumpDecoder.txt");
+
+//        file << "raw data" << std::endl;
+
+//        file << "aLength: " << result << std::endl;
+
+
+
+
+//            for(decltype(result) lindex = 0;
+//                lindex < result;
+//                ++lindex)
+//            {
+
+//                file << "byte: " << (int)(aData[lindex]) << std::endl;
+
+//            }
+
 
         return result;
     }

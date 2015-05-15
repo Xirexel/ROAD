@@ -72,7 +72,7 @@ namespace ROADdecoder
                   _lowFormatEndianType(aLowFormatEndianType)
             {
 
-                file.open("C:\\Users\\Evgney\\Documents\\dumpDecoder.txt");
+             //   file.open("C:\\Users\\Evgney\\Documents\\dumpDecoder.txt");
 
                 class Excepion: public std::exception
                 {
@@ -370,39 +370,76 @@ namespace ROADdecoder
 
                         lIDataReadDriver->operator >>(lLength);
 
-                        for(decltype(_options->getAmountOfChannels()) lChannel = 0;
-                            lChannel < 1;
-                            ++lChannel)
-                        {
-                            PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
-
-                            readAndAddError(lIDataReadDriver.get(), lptrPtrDecodedSampleMassive);
-                        }
-
-
-//                        for(decltype(_options->getAmountOfChannels()) lChannel = 1;
-//                            lChannel < 2;
+//                        for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+//                            lChannel < 1;
 //                            ++lChannel)
 //                        {
 //                            PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
 
-
-
-//                            for( decltype(this->_superFrameSamplesLength) lsampleIndex = 0;
-//                                 lsampleIndex < this->_superFrameSamplesLength;
-//                                 ++lsampleIndex)
-//                            {
-//                                lIDataReadDriver->operator >>(_rawDataSample);
-
-//                                _decodingSample = _rawDataSample;
-
-//                                auto lv = lptrPtrDecodedSampleMassive[lsampleIndex];
-
-//                                lptrPtrDecodedSampleMassive[lsampleIndex] = lv + _decodingSample;
-//                            }
+//                            readAndAddError(lIDataReadDriver.get(), lptrPtrDecodedSampleMassive);
 //                        }
 
-//                        this->_channelsMixing->compute(&(this->_channelsDataBuffer));
+
+                        for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+                            lChannel < _options->getAmountOfChannels();
+                            ++lChannel)
+                        {
+                            PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
+
+
+
+                            for( decltype(this->_superFrameSamplesLength) lsampleIndex = 0;
+                                 lsampleIndex < this->_superFrameSamplesLength;
+                                 ++lsampleIndex)
+                            {
+//                                ROADUInt8 l;
+
+//                                ROADInt16 v;
+
+//                                ROADInt16 t;
+
+//                                lIDataReadDriver->operator >>(l);
+
+
+
+//                                file << "_decodingSample: " << l << std::endl;
+
+//                                v = l;
+
+//                                v = v << 8;
+
+//                                lIDataReadDriver->operator >>(l);
+
+
+
+//                                file << "_decodingSample: " << l << std::endl;
+
+//                                t = l;
+
+//                                t = t & 0xFF;
+
+//                                v = v | t;
+
+
+
+//                                file << "_decodingSample: " << v << std::endl;
+
+//                                file << "_decodingSample: " << l << std::endl;
+
+
+                                lIDataReadDriver->operator >>(_rawDataSample);
+
+                                _decodingSample = _rawDataSample;
+
+//                                file << "_decodingSample: " << _rawDataSample << std::endl;
+
+                            //    auto lv = lptrPtrDecodedSampleMassive[lsampleIndex];
+
+                            //    lptrPtrDecodedSampleMassive[lsampleIndex] = lv + _decodingSample;
+                            }
+                        }
+
+                        this->_channelsMixing->compute(&(this->_channelsDataBuffer));
 
                         this->_roadOver->writeRawData(&(this->_channelsDataBuffer));
 

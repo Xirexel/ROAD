@@ -38,19 +38,18 @@ namespace ROADdecoder
                         index < lsamplesCount;
                         ++index)
                     {
-                        tempValueL = *lptrMIDDouble + *lptrSIDEDouble;
+                        auto tempMIDvalue = lptrMIDDouble[index];
 
-                        tempValueR = *lptrMIDDouble - *lptrSIDEDouble;
+                        auto tempSIDEvalue = lptrSIDEDouble[index];
+
+                        tempValueL = tempMIDvalue;
+
+                        tempValueR = tempSIDEvalue;
 
 
-                        *lptrMIDDouble = tempValueL;
+                        lptrMIDDouble[index] = tempValueL;
 
-                        *lptrSIDEDouble = tempValueR;
-
-
-                        lptrMIDDouble++;
-
-                        lptrSIDEDouble++;
+                        lptrSIDEDouble[index] = tempValueR;
                     }
 
                 }

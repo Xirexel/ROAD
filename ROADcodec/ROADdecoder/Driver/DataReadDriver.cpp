@@ -1,24 +1,39 @@
 #include "DataReadDriver.h"
 #include "crc.h"
 
+
+#include <fstream>
+std::fstream file12;
+
 ROADdecoder::Driver::DataReadDriver::DataReadDriver(std::shared_ptr<ROADByte> &aData,
                                                     ROADUInt32 aLength,
                                                     std::unique_ptr<Endian::IEndianConvertor> &aConvertor)
     : _data(aData),
+      _ptrData(aData.get()),
      _length(aLength),
      _position(0),
      _convertor(aConvertor.release())
 {
+    if(!file12.is_open())
+        file12.open("C:\\Users\\Evgney\\Documents\\dumpDecoder.txt");
+
+//    file12 << "raw data. aLength: " << aLength << std::endl;
+
+//    for(decltype(aLength)lindex = 0;
+//        lindex < aLength;
+//        ++lindex)
+//    file12 << "byte: " << (int) _ptrData[lindex] << std::endl;
 }
 
-ROADdecoder::Driver::DataReadDriver::DataReadDriver(ROADByte *aData,
+ROADdecoder::Driver::DataReadDriver::DataReadDriver(DataContainer *aData,
                                                     ROADUInt32 aLength,
                                                     std::unique_ptr<Endian::IEndianConvertor> &aConvertor)
-    : _data(aData),
+    : _ptrData(aData->get()),
      _length(aLength),
      _position(0),
      _convertor(aConvertor.release())
 {
+    _dataDataContainer = aData;
 }
 
 ROADdecoder::Driver::DataReadDriver::~DataReadDriver()
@@ -80,7 +95,20 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
 ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::operator >>(ROADInt16 &aValue)
 {
+    for(decltype(this->_length)lindex = 0;
+        lindex < this->_length;
+        ++lindex)
+    file12 << "byte: " << (int) _ptrData[lindex] << std::endl;
+
+//    file12 << "_length: " << _length << "_position: " << _position << std::endl;
+
     readData(aValue);
+
+
+//    file12 << "_length: " << _length << "_position: " << _position;
+
+
+//    file12 << " aValue: " << aValue << std::endl;
 
     return *this;
 }
