@@ -7,7 +7,6 @@ std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> ROADdecoder::Driver::DataD
                                                                                                           ROADUInt32 aLength,
                                                                                                           Endian::EndianType aEndianType)
 {
-
     auto lconvertor = Endian::EndianConvertorFactory::getInstance().getIEndianConvertor(aEndianType);
 
     std::unique_ptr<IDataReadDriver> result(new DataReadDriver(aData, aLength, lconvertor));
@@ -19,7 +18,6 @@ std::unique_ptr<ROADdecoder::Driver::IDataReadDriver> ROADdecoder::Driver::DataD
                                                                                                           ROADUInt32 aLength,
                                                                                                           Endian::EndianType aEndianType)
 {
-
     auto lconvertor = Endian::EndianConvertorFactory::getInstance().getIEndianConvertor(aEndianType);
 
     std::unique_ptr<IDataReadDriver> result(new DataReadDriver(aData, aLength, lconvertor));

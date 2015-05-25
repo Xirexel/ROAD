@@ -1,9 +1,5 @@
 #include "BigEndianConvertor.h"
 
-
-#include <fstream>
-//std::fstream file12;
-
 PlatformDependencies::ROADUInt64 Endian::BigEndianConvertor::convertToType(ROADUInt64, PtrROADByte aData) {
 
     ROADUInt64 lresult = 0;
@@ -93,71 +89,28 @@ PlatformDependencies::ROADUInt16 Endian::BigEndianConvertor::convertToType(ROADU
 
 PlatformDependencies::ROADInt16 Endian::BigEndianConvertor::convertToType(ROADInt16, PtrROADByte aData) {
 
-//    ROADUInt8 l;
+    ROADInt16 lresult = 0;
 
+    lresult |= (*aData++) << 8;
+
+    lresult |= (*aData++);
+
+    return lresult;
 //    ROADInt16 lresult = 0;
 
 //    ROADInt16 ltemp;
 
-//    l = aData[0];
+//    lresult = *aData;
 
-//    lresult = l;
+//    ++aData;
+
+//    ltemp = *aData;
 
 //    lresult = lresult << 8;
-
-//    l = aData[1];
-
-//    ltemp = l;
-
-//    ltemp = ltemp & 0xFF;
 
 //    lresult = lresult | ltemp;
 
 //    return lresult;
-
-//    if(!file12.is_open())
-//        file12.open("C:\\Users\\Evgney\\Documents\\dumpDecoder.txt");
-
-
-    ROADInt16 lresult = 0;
-
-    ROADInt16 ltemp;
-
-    lresult = *aData;
-
-//    file12 << "Hbyte: " << lresult;
-
-    ++aData;
-
-    ltemp = *aData;
-
-//    file12 << " Lbyte: " << ltemp;
-
-    lresult = lresult << 8;
-
-    lresult = lresult | ltemp;
-
-//    file12 << " lresult: " << lresult << std::endl;
-
-
-
-    //        file << "raw data" << std::endl;
-
-    //        file << "aLength: " << result << std::endl;
-
-
-
-
-    //            for(decltype(result) lindex = 0;
-    //                lindex < result;
-    //                ++lindex)
-    //            {
-
-    //                file << "byte: " << (int)(aData[lindex]) << std::endl;
-
-    //            }
-
-    return lresult;
 }
 
 PlatformDependencies::ROADUInt8 Endian::BigEndianConvertor::convertToType(ROADUInt8, PtrROADByte aData) {

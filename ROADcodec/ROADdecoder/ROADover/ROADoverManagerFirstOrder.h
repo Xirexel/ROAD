@@ -40,8 +40,6 @@ namespace ROADdecoder
 
             protected: std::shared_ptr<ROADByte> _preListeningRawData;
 
-//            private: PtrDecodedSampleType _preListeningDecodingSampleTypeData;
-
             private: Endian::EndianType _lowFormatEndianType;
 
             private: RawDataSampleType _rawDataSample;
@@ -65,10 +63,6 @@ namespace ROADdecoder
                                     ROADConvertor::getByteLength(aOptions->getBitsPerSampleCode()) *
                                     aOptions->getMaxFrameRangLength() *
                                     aOptions->getMaxSuperFrameLength()]),
-//                  _preListeningDecodingSampleTypeData(new DecodedSampleType[
-//                                          aOptions->getMinSamplesPerRang() *
-//                                          aOptions->getMaxFrameRangLength() *
-//                                          aOptions->getMaxSuperFrameLength()]),
                   _lowFormatEndianType(aLowFormatEndianType)
             {
 
@@ -211,12 +205,7 @@ namespace ROADdecoder
 //                            *lptrPreListeningDecodingSampleTypeData++ = _rawDataSample;
 //                        }
 
-                        file << "raw data prelistening. aLength: " << lreadROADdataLength << std::endl;
 
-                        for(decltype(lreadROADdataLength)lindex = 0;
-                            lindex < lreadROADdataLength;
-                            ++lindex)
-                        file << "byte: " << (int) this->_bufferROADdata.get()[lindex] << std::endl;
 
 
 
@@ -224,13 +213,6 @@ namespace ROADdecoder
                         {
 
                             lIDataReadDriver->operator >>(lHead);
-
-                            file << "raw data after. aLength: " << lreadROADdataLength << std::endl;
-
-                            for(decltype(lreadROADdataLength)lindex = 0;
-                                lindex < lreadROADdataLength;
-                                ++lindex)
-                            file << "byte: " << (int) this->_bufferROADdata.get()[lindex] << std::endl;
 
                             if((lHead&127) == 2)
                             {
@@ -241,17 +223,8 @@ namespace ROADdecoder
 
                                 // Обработка буфера предпрослушивания
 
-//                                auto lptrPreListeningDecodingSampleMassive = _preListeningDecodingSampleTypeData;
-
                                 lreadResult = readPrelisteningDataStream(lIDataReadDriverPreListeningRawData.get());
                             }
-
-                            file << "raw data after Indekces. aLength: " << lreadROADdataLength << std::endl;
-
-                            for(decltype(lreadROADdataLength)lindex = 0;
-                                lindex < lreadROADdataLength;
-                                ++lindex)
-                            file << "byte: " << (int) this->_bufferROADdata.get()[lindex] << std::endl;
 
                             if(lIDataReadDriver->eod())
                                 break;
@@ -265,13 +238,6 @@ namespace ROADdecoder
 
                                 lreadResult = readAverageAudioDataStream(lIDataReadDriver.get(), lFrameLengthLength);
                             }
-
-                            file << "raw data after Average. aLength: " << lreadROADdataLength << std::endl;
-
-                            for(decltype(lreadROADdataLength)lindex = 0;
-                                lindex < lreadROADdataLength;
-                                ++lindex)
-                            file << "byte: " << (int) this->_bufferROADdata.get()[lindex] << std::endl;
 
                             if(lIDataReadDriver->eod())
                                 break;
@@ -287,13 +253,6 @@ namespace ROADdecoder
 
                                 lreadResult = readDomainsAndScalesDataStream(lIDataReadDriver.get(), lFrameLengthLength);
                             }
-
-                            file << "raw data after Scales. aLength: " << lreadROADdataLength << std::endl;
-
-                            for(decltype(lreadROADdataLength)lindex = 0;
-                                lindex < lreadROADdataLength;
-                                ++lindex)
-                            file << "byte: " << (int) this->_bufferROADdata.get()[lindex] << std::endl;
 
                             if(lIDataReadDriver->eod())
                                 break;
@@ -312,68 +271,7 @@ namespace ROADdecoder
                             lChannel < _options->getAmountOfChannels();
                             ++lChannel)
                         {
-
-
-
                             auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
-
-
-
-//                            file << "lChannel: " << lChannel << std::endl;
-
-//                            for( decltype(_options->getMaxSuperFrameLength()) lframeIndex = 0;
-//                                 lframeIndex < _options->getMaxSuperFrameLength();
-//                                 ++lframeIndex)
-//                            {
-
-//                                file << "   " << "lframeIndex: " << lframeIndex << std::endl;
-
-//                                auto lFrameDataContainer = lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex);
-
-//                                auto FractalFirstOrderItemCount = lFrameDataContainer->getFractalFirstOrderItemCount();
-
-//                                for(decltype(FractalFirstOrderItemCount) lindex = 0;
-//                                    lindex < FractalFirstOrderItemCount;
-//                                    ++lindex)
-//                                {
-
-//                                    file << "       " << "FractaltransformIndex: " << lindex << std::endl;
-
-//                                    auto lFractalFirstOrderItemTransform = lFrameDataContainer->getFractalFirstOrderItemTransform(lindex);
-
-//                                    auto lAverage = lFractalFirstOrderItemTransform->getAverage();
-
-//                                    file  << "       " << "lAverage: " << lAverage << std::endl;
-
-//                                    auto lScale = lFractalFirstOrderItemTransform->getScale();
-
-//                                    file  << "       " << "lScale: " << lScale << std::endl;
-
-//                                    auto lLength = lFractalFirstOrderItemTransform->getLength();
-
-//                                    file  << "       " << "lLength: " << lLength << std::endl;
-
-//                                    auto lInversDirection = lFractalFirstOrderItemTransform->isInversDirection();
-
-//                                    file  << "       " << "lInversDirection: " << lInversDirection << std::endl;
-
-//                                    auto lDomainOffset = lFractalFirstOrderItemTransform->getDomainOffset();
-
-//                                    file  << "       " << "lDomainOffset: " << lDomainOffset << std::endl;
-
-//                                    auto lPosition = lFractalFirstOrderItemTransform->getPosition();
-
-//                                    file  << "       " << "lPosition: " << lPosition << std::endl;
-//                                }
-//                            }
-
-
-
-
-
-
-
-
 
                             PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
 
@@ -385,39 +283,13 @@ namespace ROADdecoder
                                                                lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
                             }
 
-//                            file << "lChannel: " << lChannel << std::endl;
-
-//                            file << "lSuperFrameSampleLength: " << this->_superFrameSamplesLength << std::endl;
-
-//                            for(decltype(this->_superFrameSamplesLength) lindex = 0;
-//                                lindex < this->_superFrameSamplesLength;
-//                                ++lindex)
-//                            {
-//                                auto lvalue = lptrPtrDecodedSampleMassive[lindex];
-
-//                                file << "lvalue: " << lvalue << std::endl;
-//                            }
                         }
 
                         ROADUInt64 lLength;
 
                         ROADInt8 lHead;
 
-                        file << "raw data. aLength: " << lreadROADdataLength << std::endl;
-
-                        for(decltype(lreadROADdataLength)lindex = 0;
-                            lindex < lreadROADdataLength;
-                            ++lindex)
-                        file << "byte: " << (int) this->_bufferROADdata.get()[lindex] << std::endl;
-
                         lIDataReadDriver->operator >>(lHead);
-
-                        file << "raw data. aLength: " << lreadROADdataLength << std::endl;
-
-                        for(decltype(lreadROADdataLength)lindex = 0;
-                            lindex < lreadROADdataLength;
-                            ++lindex)
-                        file << "byte: " << (int) this->_bufferROADdata.get()[lindex] << std::endl;
 
                         lIDataReadDriver->operator >>(lLength);
 
@@ -454,41 +326,6 @@ namespace ROADdecoder
                                  lsampleIndex < this->_superFrameSamplesLength;
                                  ++lsampleIndex)
                             {
-//                                ROADUInt8 l;
-
-//                                ROADInt16 v;
-
-//                                ROADInt16 t;
-
-//                                lIDataReadDriver->operator >>(l);
-
-
-
-//                                file << "_decodingSample: " << l << std::endl;
-
-//                                v = l;
-
-//                                v = v << 8;
-
-//                                lIDataReadDriver->operator >>(l);
-
-
-
-//                                file << "_decodingSample: " << l << std::endl;
-
-//                                t = l;
-
-//                                t = t & 0xFF;
-
-//                                v = v | t;
-
-
-
-//                                file << "_decodingSample: " << v << std::endl;
-
-//                                file << "_decodingSample: " << l << std::endl;
-
-
                                 lIDataReadDriver->operator >>(_rawDataSample);
 
                                 _decodingSample = _rawDataSample;
