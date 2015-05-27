@@ -11,7 +11,6 @@
 #include "NoneChannelsMixing.h"
 #include "FractalEncodingOptions.h"
 #include "DataDriver.h"
-#include "ByteConvertor.h"
 #include "DecodedSampleTypeToRawDataSampleType.h"
 #include "ROADoverCoderCommon.h"
 

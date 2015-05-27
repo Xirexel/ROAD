@@ -47,7 +47,6 @@ HEADERS += \
     ROADoverEncodingOptionsFirstVersion.h \
     ROADoverManagerFirstVersion.h \
     ROADSeekPoint.h \
-    ByteConvertor.h \
     IDecodedSampleTypeToRawDataSampleType.h \
     DecodedSampleTypeToRawDataSampleType.h \
     ROADoverCoderCommon.h
