@@ -501,42 +501,10 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                 {
                     ROADReal lvalue = (ROADReal)((ROADInt32)lptrAudioData[lindex] - lptrDecodedSampleMassive[lindex]);
 
-                    ROADInt16 _decodingSample = (ROADInt16)lvalue;
-
-//                    ROADUInt8 l = (_decodingSample >> 8)& 255;
-
-//                    file << "_decodingSample: " << l << std::endl;
-
-
-//                    l = (_decodingSample)& 255;
-
-//                    file << "_decodingSample: " << l << std::endl;
-
-
-//                    file << "_decodingSample: " << _decodingSample << std::endl;
-
-//                    lptrErrorSampleMassive[lindex] = lvalue;
-
-                    ROADInt16 _sampleType;
-
-//                    _sampleType = _decodingSample;
-
-                    _sampleType = 255;
-
-                    ROADUInt8 l = 0;
-
-                    lIDataWriteDriver->operator <<(l);
-
-                    l = 255;
-
-                    lIDataWriteDriver->operator <<(l);
-
-//                    file << "_superFrameSamplesLength: " << this->_superFrameSamplesLength << std::endl;
-
-//                    lIDataWriteDriver->operator <<(_sampleType);
+                    lptrErrorSampleMassive[lindex] = lvalue;
                 }
 
-              //  _convertor->writeRawData(lIDataWriteDriver.get(), lptrErrorSampleMassive, this->_superFrameSamplesLength);
+                _convertor->writeRawData(lIDataWriteDriver.get(), lptrErrorSampleMassive, this->_superFrameSamplesLength);
 
             }
 

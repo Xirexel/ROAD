@@ -29,6 +29,7 @@ namespace ROADcoder
 		{
             protected: ROADcoder::ROADoverCoder::ROADover* _roadOver;
             protected: ROADcoder::ROADoverCoder::RawDataBuffer _channelsDataBuffer;
+            protected: ROADcoder::ROADoverCoder::RawDataBuffer _prelisteningDataBuffer;
             protected: std::unique_ptr<ROADcoder::ROADoverCoder::IChannelsMixing> _channelsMixing;
             protected: ROADUInt32 _superFrameSamplesLength;
             protected: ROADUInt32 _superFrameLength;
