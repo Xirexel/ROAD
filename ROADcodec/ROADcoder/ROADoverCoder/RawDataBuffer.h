@@ -12,8 +12,8 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
-		class DoubleDataContainer;
-        class IDoubleDataContainer;
+        class RealDataContainer;
+        class IRealDataContainer;
 	}
 }
 
@@ -25,9 +25,9 @@ namespace ROADcoder
 		class RawDataBuffer: public ROADcoder::ROADoverCoder::IRawDataBuffer
 		{
             private: ROADUInt32 _channelCount;
-			public: std::vector<ROADcoder::ROADoverCoder::DoubleDataContainer*> _dataCollection;
+            public: std::vector<ROADcoder::ROADoverCoder::RealDataContainer*> _dataCollection;
 
-            public: ROADcoder::ROADoverCoder::IDoubleDataContainer* getIDoubleDataContainer(ROADUInt32 aIndex);
+            public: ROADcoder::ROADoverCoder::IRealDataContainer* getIRealDataContainer(ROADUInt32 aIndex);
 
             public: ROADUInt32 getCount();
 

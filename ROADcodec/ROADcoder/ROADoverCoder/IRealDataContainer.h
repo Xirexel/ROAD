@@ -1,5 +1,5 @@
-#ifndef __ROADcoder__ROADoverCoder__IDoubleDataContainer_h__
-#define __ROADcoder__ROADoverCoder__IDoubleDataContainer_h__
+#ifndef __ROADcoder__ROADoverCoder__IRealDataContainer_h__
+#define __ROADcoder__ROADoverCoder__IRealDataContainer_h__
 
 #include "platformdependencies.h"
 
@@ -10,14 +10,14 @@ namespace ROADcoder
 	{
         using namespace PlatformDependencies;
 
-		class IDoubleDataContainer
+        class IRealDataContainer
 		{
 
             public: virtual PtrROADReal getData() = 0;
 
             public: virtual ROADUInt32 getLength() = 0;
 
-            public: virtual ~IDoubleDataContainer(){}
+            public: virtual ~IRealDataContainer(){}
 
 		};
 	}

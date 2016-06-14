@@ -8,7 +8,7 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
-        class IDoubleDataContainer;
+        class IRealDataContainer;
 	}
 }
 
@@ -21,7 +21,7 @@ namespace ROADcoder
 		class IRawDataBuffer
 		{
 
-            public: virtual ROADcoder::ROADoverCoder::IDoubleDataContainer* getIDoubleDataContainer(ROADUInt32 aIndex) = 0;
+            public: virtual ROADcoder::ROADoverCoder::IRealDataContainer* getIRealDataContainer(ROADUInt32 aIndex) = 0;
 
             public: virtual ROADUInt32 getCount() = 0;
 

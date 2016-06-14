@@ -1,7 +1,6 @@
 #include "ROADover.h"
-#include "ROADoverEncodingOptionsExperemental.h"
+#include "ROADFormatMode.h"
 #include "ROADoverEncodingOptionsFirstVersion.h"
-#include "ROADoverManagerExperemental.h"
 #include "ROADoverManagerFirstVersion.h"
 
 
@@ -11,14 +10,8 @@ ROADcoder::ROADoverCoder::ROADover::ROADover(Unique_ptr<IROADoverEncodingOptions
     auto lOptions = aOptions->clone();
 
     switch (lOptions->getROADFormatMode()) {
-    case ROADcoder::ROADoverCoder::ROADFormatMode::EXPEREMENTAL:
-    {
-        auto loptions = dynamic_cast<ROADoverEncodingOptionsExperemental*>(lOptions.release());
 
-        _manager.reset(new ROADoverManagerExperemental(this, loptions));
-    }
-        break;
-    case ROADcoder::ROADoverCoder::ROADFormatMode::FIRSTVERSION:
+    case (PlatformDependencies::ROADInt32)ROADcoder::ROADoverCoder::ROADFormatMode::FIRSTVERSION:
     {
         auto loptions = dynamic_cast<ROADoverEncodingOptionsFirstVersion*>(lOptions.release());
 

@@ -11,15 +11,13 @@ ROADcoder::ROADCoder::IFractalAverItem* ROADcoder::ROADoverCoder::FractalFirstOr
 }
 
 ROADcoder::ROADoverCoder::FractalFirstOrderItemContainer::FractalFirstOrderItemContainer(ROADUInt32 aInitLength)
-    : _fractalFirstOrderItem(new FractalFirstOrderItem[aInitLength]),
-      _fractalAverItem(new FractalAverItem[aInitLength])
+    : _fractalFirstOrderItem(new FractalFirstOrderItem[aInitLength], aInitLength),
+      _fractalAverItem(new FractalAverItem[aInitLength], aInitLength)
 {
 }
 
 ROADcoder::ROADoverCoder::FractalFirstOrderItemContainer::~FractalFirstOrderItemContainer()
 {
-    delete[] this->_fractalFirstOrderItem;
-    delete[] this->_fractalAverItem;
 }
 
 void ROADcoder::ROADoverCoder::FractalFirstOrderItemContainer::resetCounts() {

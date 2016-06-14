@@ -10,6 +10,7 @@ namespace ROADcoder
 	{
     using namespace PlatformDependencies;
 
+        // First order Fractal data
 		class FractalFirstOrderItem: public ROADcoder::ROADCoder::IFractalFirstOrderItem
 		{
             private: ROADReal _aver;

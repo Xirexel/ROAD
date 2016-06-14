@@ -1,7 +1,7 @@
 #include "roadoverwavecoder.h"
 #include "../../ListItem/interfaces.h"
 #include "WaveFractalWriter.h"
-#include "IDoubleDataContainer.h"
+#include "IRealDataContainer.h"
 
 
 ROADoverWAVECoder::ROADoverWAVECoder(QString outputFile, IROADoverRawReader *aPtrReader, IOriginalAudioStreamOptions *aOriginalAudioStreamOptions, std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aOptions)

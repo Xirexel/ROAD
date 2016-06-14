@@ -19,12 +19,10 @@ DEFINES += ROADOVERCODER_LIBRARY
 
 HEADERS += \
     ChannelsMixingMode.h \
-    DoubleDataContainer.h \
     FractalAverItem.h \
     FractalFirstOrderItem.h \
     FractalFirstOrderItemSuperFrameContainer.h \
     IChannelsMixing.h \
-    IDoubleDataContainer.h \
     IRawDataBuffer.h \
     IROADoverEncodingOptions.h \
     IROADoverManager.h \
@@ -34,9 +32,7 @@ HEADERS += \
     Result.h \
     ROADFormatMode.h \
     ROADover.h \
-    ROADoverEncodingOptionsExperemental.h \
     ROADoverManager.h \
-    ROADoverManagerExperemental.h \
     SIDEChannelsMixing.h \
     FractalFirstOrderItemContainer.h \
     roadovercoder_global.h \
@@ -49,7 +45,9 @@ HEADERS += \
     ROADSeekPoint.h \
     IDecodedSampleTypeToRawDataSampleType.h \
     DecodedSampleTypeToRawDataSampleType.h \
-    ROADoverCoderCommon.h
+    ROADoverCoderCommon.h \
+    IRealDataContainer.h \
+    RealDataContainer.h
 
 SOURCES += \
     DoubleDataContainer.cpp \
@@ -57,12 +55,9 @@ SOURCES += \
     FractalFirstOrderItem.cpp \
     FractalFirstOrderItemSuperFrameContainer.cpp \
     MIDChannelsMixing.cpp \
-    NoneChannelsMixing.cpp \
     RawDataBuffer.cpp \
     ROADover.cpp \
-    ROADoverEncodingOptionsExperemental.cpp \
     ROADoverManager.cpp \
-    ROADoverManagerExperemental.cpp \
     SIDEChannelsMixing.cpp \
     FractalFirstOrderItemContainer.cpp \
     ROADoverEncodingOptionsFactory.cpp \

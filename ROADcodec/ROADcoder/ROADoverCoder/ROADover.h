@@ -3,11 +3,11 @@
 
 #include <memory>
 
+#include "memorydefine.h"
 #include "roadovercoder_global.h"
 #include "Result.h"
 #include "RawDataBuffer.h"
 #include "IROADoverManager.h"
-#include "platformdependencies.h"
 
 namespace ROADcoder
 {

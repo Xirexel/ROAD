@@ -1,7 +1,7 @@
 #include "RawDataBuffer.h"
-#include "DoubleDataContainer.h"
+#include "RealDataContainer.h"
 
-ROADcoder::ROADoverCoder::IDoubleDataContainer* ROADcoder::ROADoverCoder::RawDataBuffer::getIDoubleDataContainer(ROADUInt32 aIndex) {
+ROADcoder::ROADoverCoder::IRealDataContainer* ROADcoder::ROADoverCoder::RawDataBuffer::getIRealDataContainer(ROADUInt32 aIndex) {
     return this->_dataCollection.at(aIndex);
 }
 
@@ -16,7 +16,7 @@ ROADcoder::ROADoverCoder::RawDataBuffer::RawDataBuffer(ROADUInt32 aChannelCount,
         lindex < this->_channelCount;
         ++lindex)
     {
-        this->_dataCollection.push_back(new DoubleDataContainer(aLength));
+        this->_dataCollection.push_back(new RealDataContainer(aLength));
     }
 }
 

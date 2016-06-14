@@ -2,7 +2,7 @@
 #define __ROADcoder__ROADoverCoder__FractalFirstOrderItemContainer_h__
 
 #include "../ROADCoder/IFractalFirstOrderItemContainer.h"
-#include "platformdependencies.h"
+#include "memorydefine.h"
 
 namespace ROADcoder
 {
@@ -26,10 +26,11 @@ namespace ROADcoder
 	{
     using namespace PlatformDependencies;
 
+        // fractal data container
 		class FractalFirstOrderItemContainer: public ROADcoder::ROADCoder::IFractalFirstOrderItemContainer
 		{
-			private: ROADcoder::ROADoverCoder::FractalFirstOrderItem* _fractalFirstOrderItem;
-			private: ROADcoder::ROADoverCoder::FractalAverItem* _fractalAverItem;
+            private: UniqueMassive_ptr<ROADcoder::ROADoverCoder::FractalFirstOrderItem> _fractalFirstOrderItem;
+            private: UniqueMassive_ptr<ROADcoder::ROADoverCoder::FractalAverItem> _fractalAverItem;
             private: ROADUInt32 _fractalAverItemCount;
             private: ROADUInt32 _fractalFirstOrderItemCount;
 

@@ -1,5 +1,5 @@
 #include "ROADoverManagerFirstVersion.h"
-#include "IDoubleDataContainer.h"
+#include "IRealDataContainer.h"
 #include "FractalFirstOrderItemContainer.h"
 #include "ROADFractalFirstOrderAnalyzerFactory.h"
 #include "IROADFractalFirstOrderAnalyzer.h"
@@ -13,6 +13,7 @@
 #include "DataDriver.h"
 #include "DecodedSampleTypeToRawDataSampleType.h"
 #include "ROADoverCoderCommon.h"
+#include "memorydefine.h"
 
 
 
@@ -54,7 +55,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                                                                                                                        this->_options->getInitRangSampleLength(),
                                                                                                                        this->_options->getInitRangSampleLength()));
 
-            PtrROADReal lptrData = _channelsDataBuffer.getIDoubleDataContainer(lindexChannel)->getData();
+            PtrROADReal lptrData = _channelsDataBuffer.getIRealDataContainer(lindexChannel)->getData();
 
             auto lptrItemContainer = _fractalItemSuperFrameContainer.at(lindexChannel);
 
@@ -83,7 +84,6 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
         // Pointer on Common buffer.
 
         auto lIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(this->_bufferROADdata,
-                                                          this->_bufferROADdataLength,
                                                           Endian::EndianType(lEndingCode));
 
 
@@ -376,7 +376,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                 << ((ROADUInt8)(lEndingCode + 3)) // Add the Head of Average Audio stream - code '0x03'.
                 << (lConvertLength + 4);
 
-        _convertor->writeRawData(lIDataWriteDriver.get(), ldoubleBuffer.get(), ldoubleBufferLength);
+        _convertor->writeRawData(*lIDataWriteDriver.get(), ldoubleBuffer.get(), ldoubleBufferLength);
 
         lIDataWriteDriver->computeAndAppendCRC32(lConvertLength + 9);
 
@@ -418,7 +418,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                 auto lptrFractalFirstOrderItemsSuperFrameContainer = lfractalItemSuperFrameContainer.at(lChannel);
 
 
-                PtrROADReal lptrAudioData = _channelsDataBuffer.getIDoubleDataContainer(lChannel)->getData();
+                PtrROADReal lptrAudioData = _channelsDataBuffer.getIRealDataContainer(lChannel)->getData();
 
                 auto lptrDecodedSampleMassive = ldecodedSampleMassive.get();
 
@@ -504,7 +504,7 @@ ROADcoder::ROADoverCoder::Result ROADcoder::ROADoverCoder::ROADoverManagerFirstV
                     lptrErrorSampleMassive[lindex] = lvalue;
                 }
 
-                _convertor->writeRawData(lIDataWriteDriver.get(), lptrErrorSampleMassive, this->_superFrameSamplesLength);
+                _convertor->writeRawData(*lIDataWriteDriver.get(), lptrErrorSampleMassive, this->_superFrameSamplesLength);
 
             }
 
@@ -599,14 +599,14 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
     {
         using namespace ROADdecoder::ROAD;
 
-        std::unique_ptr<IROADFractalBuilderFactory> lptrIROADFractalBuilderFactory(ROADdecoder::ROAD::ROADFractalOrderFactory::getIROADFractalBuilderFactory(1));
+        Unique_ptr<IROADFractalBuilderFactory> lptrIROADFractalBuilderFactory(ROADdecoder::ROAD::ROADFractalOrderFactory::getIROADFractalBuilderFactory(1));
 
         if(!lptrIROADFractalBuilderFactory || lptrIROADFractalBuilderFactory->getOrder() != 1)
         {
             throw Excepion("Format Experemental is not supported!!!");
         }
 
-        std::unique_ptr<ROADFractalFirstOrderBuilderFactory> lptrROADFractalFirstOrderBuilderFactory(dynamic_cast<ROADFractalFirstOrderBuilderFactory*>(lptrIROADFractalBuilderFactory.release()));
+        Unique_ptr<ROADFractalFirstOrderBuilderFactory> lptrROADFractalFirstOrderBuilderFactory(dynamic_cast<ROADFractalFirstOrderBuilderFactory*>(lptrIROADFractalBuilderFactory.release()));
 
         if(!lptrROADFractalFirstOrderBuilderFactory)
         {
@@ -703,7 +703,7 @@ ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::ROADoverManagerFirstVersi
 
     _bufferROADdataLength *= 10;
 
-    _bufferROADdata.reset(new ROADByte[_bufferROADdataLength]);
+    _bufferROADdata.reset(new ROADByte[_bufferROADdataLength], _bufferROADdataLength);
 }
 
 ROADcoder::ROADoverCoder::ROADoverManagerFirstVersion::~ROADoverManagerFirstVersion()

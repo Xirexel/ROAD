@@ -59,6 +59,18 @@ class Unique_ptr: private std::unique_ptr<T>
     {
         return std::unique_ptr<T>::get();
     }
+
+    T*
+    get() const noexcept
+    {
+        return std::unique_ptr<T>::get();
+    }
+
+    /// Return @c true if the stored pointer is not null.
+    explicit operator bool() const noexcept
+    {
+        return std::unique_ptr<T>::operator bool();
+    }
 };
 
 

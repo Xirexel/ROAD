@@ -9,6 +9,7 @@ namespace ROADcoder
 	{    
     using namespace PlatformDependencies;
 
+    // class for storing prelistening data
 		class FractalAverItem: public ROADcoder::ROADCoder::IFractalAverItem
 		{
             private: ROADReal _aver;

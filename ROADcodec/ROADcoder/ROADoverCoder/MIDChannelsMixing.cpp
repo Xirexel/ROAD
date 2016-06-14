@@ -1,6 +1,6 @@
 #include "MIDChannelsMixing.h"
 #include "IRawDataBuffer.h"
-#include "IDoubleDataContainer.h"
+#include "IRealDataContainer.h"
 
 void ROADcoder::ROADoverCoder::MIDChannelsMixing::compute(ROADcoder::ROADoverCoder::IRawDataBuffer* aBuffer) {
 
@@ -11,9 +11,9 @@ void ROADcoder::ROADoverCoder::MIDChannelsMixing::compute(ROADcoder::ROADoverCod
 
     if(lchannelsCount == 2)
     {
-        IDoubleDataContainer * lptrLeftChannel = aBuffer->getIDoubleDataContainer(0);
+        IRealDataContainer * lptrLeftChannel = aBuffer->getIRealDataContainer(0);
 
-        IDoubleDataContainer * lptrRightChannel = aBuffer->getIDoubleDataContainer(1);
+        IRealDataContainer * lptrRightChannel = aBuffer->getIRealDataContainer(1);
 
         auto lsamplesCount = lptrLeftChannel->getLength();
 

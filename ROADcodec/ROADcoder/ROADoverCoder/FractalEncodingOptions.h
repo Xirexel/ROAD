@@ -9,6 +9,7 @@ namespace ROADcoder
 	{
         using namespace PlatformDependencies;
 
+    //  fractal options class
 		class FractalEncodingOptions: public ROADcoder::ROADCoder::IFractalEncodingOptions
 		{
             private: ROADUInt32 _frameSampleLength;

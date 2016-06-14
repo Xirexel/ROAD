@@ -1,20 +1,20 @@
-#include "DoubleDataContainer.h"
+#include "RealDataContainer.h"
 
-ROADcoder::ROADoverCoder::DoubleDataContainer::DoubleDataContainer(ROADUInt32 aLength)
-    : _data(new ROADReal[aLength]),
+ROADcoder::ROADoverCoder::RealDataContainer::RealDataContainer(ROADUInt32 aLength)
+    : _data(new ROADReal[aLength], aLength),
       _length(aLength)
 {
 
 }
 
-PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::DoubleDataContainer::getLength() {
+PlatformDependencies::ROADUInt32 ROADcoder::ROADoverCoder::RealDataContainer::getLength() {
     return this->_length;
 }
 
-PlatformDependencies::PtrROADReal ROADcoder::ROADoverCoder::DoubleDataContainer::getData() {
+PlatformDependencies::PtrROADReal ROADcoder::ROADoverCoder::RealDataContainer::getData() {
     return this->_data;
 }
 
-ROADcoder::ROADoverCoder::DoubleDataContainer::~DoubleDataContainer()
+ROADcoder::ROADoverCoder::RealDataContainer::~RealDataContainer()
 {
 }

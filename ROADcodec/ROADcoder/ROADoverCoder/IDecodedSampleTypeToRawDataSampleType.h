@@ -12,7 +12,7 @@ namespace ROADcoder
 
         class IDecodedSampleTypeToRawDataSampleType
         {
-            public: virtual void writeRawData(ROADcoder::Driver::IDataWriteDriver* aIDataWriteDriver, ROADReal *aData, ROADUInt32 ldoubleBufferLength) = 0;
+            public: virtual void writeRawData(ROADcoder::Driver::IDataWriteDriver& aIDataWriteDriver, ROADReal *aData, ROADUInt32 ldoubleBufferLength) = 0;
             public: virtual ~IDecodedSampleTypeToRawDataSampleType(){}
         };
     }

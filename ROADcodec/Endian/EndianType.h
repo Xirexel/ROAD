@@ -5,7 +5,7 @@
 
 namespace Endian
 {
-    enum class EndianType: PlatformDependencies::ROADInt32
+    enum class EndianType: PlatformDependencies::ROADUInt8
 	{
         BIG=0, LITTLE=0x80
 	};

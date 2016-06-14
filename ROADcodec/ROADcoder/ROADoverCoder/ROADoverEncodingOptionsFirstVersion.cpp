@@ -6,7 +6,7 @@
 
 
 PlatformDependencies::ROADByte ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getROADFormatMode() {
-    return FIRSTVERSION;
+    return (PlatformDependencies::ROADByte)ROADFormatMode::FIRSTVERSION;
 }
 
 std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::clone() {
@@ -135,9 +135,9 @@ PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOption
 void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setEndianType(ROADUInt8 aEndianType)
 {
     if(aEndianType == 0)
-        this->_endianType = Endian::BIG;
+        this->_endianType = (ROADUInt8)Endian::EndianType::BIG;
     else
-        this->_endianType = Endian::LITTLE;
+        this->_endianType = (ROADUInt8)Endian::EndianType::LITTLE;
 }
 
 PlatformDependencies::ROADInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getConstantScale()
@@ -161,7 +161,7 @@ void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setOriginalF
 }
 
 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::ROADoverEncodingOptionsFirstVersion()
-    : _endianType(Endian::EndianType::LITTLE),
+    : _endianType((ROADUInt8)Endian::EndianType::LITTLE),
       _constantScale(0)
 {
 
@@ -177,9 +177,9 @@ PlatformDependencies::Unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataC
     ROADUInt32 lLength = 53 +
             (aSeekPoints.size() + 13);
 
-    SharedMassive_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
+    SharedMassive_ptr<ROADByte> lFractalFormat(new ROADByte[lLength], lLength);
 
-    auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, lLength, Endian::EndianType(this->_endianType));
+    auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, Endian::EndianType(this->_endianType));
 
     lptrIDataWriteDriver->operator<<('R') // 1 byte: 0x52
                                   << 'o' // 1 byte: 0x6F
@@ -195,7 +195,7 @@ PlatformDependencies::Unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataC
 
     writeDATAINFO(lptrIDataWriteDriver.get());
 
-    std::unique_ptr<FractalFormatRawDataContainer> lptrfractalFormatRawDataContainer(new FractalFormatRawDataContainer(lFractalFormat, lLength));
+    Unique_ptr<FractalFormatRawDataContainer> lptrfractalFormatRawDataContainer(new FractalFormatRawDataContainer(lFractalFormat, lLength));
 
     return lptrfractalFormatRawDataContainer;
 }
@@ -204,9 +204,9 @@ PlatformDependencies::Unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataC
 {
     ROADUInt32 lLength = 53;
 
-    SharedMassive_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
+    SharedMassive_ptr<ROADByte> lFractalFormat(new ROADByte[lLength], lLength);
 
-    auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, lLength, Endian::EndianType(this->_endianType));
+    auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, Endian::EndianType(this->_endianType));
 
     lptrIDataWriteDriver->operator<<('R') // 1 byte: 0x52
                                   << 'o' // 1 byte: 0x6F
@@ -217,7 +217,7 @@ PlatformDependencies::Unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataC
 
     writeDATAINFO(lptrIDataWriteDriver.get());
 
-    std::unique_ptr<FractalFormatRawDataContainer> lptrfractalFormatRawDataContainer(new FractalFormatRawDataContainer(lFractalFormat, lLength));
+    Unique_ptr<FractalFormatRawDataContainer> lptrfractalFormatRawDataContainer(new FractalFormatRawDataContainer(lFractalFormat, lLength));
 
     return lptrfractalFormatRawDataContainer;
 }

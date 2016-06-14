@@ -19,11 +19,14 @@ namespace ROADcoder
 
             private: ROADInt32 _tempSampleType;
 
-            public: virtual void writeRawData(ROADcoder::Driver::IDataWriteDriver* aIDataWriteDriver, ROADReal *aData, ROADUInt32 ldoubleBufferLength)
+            public: virtual void writeRawData(
+                    ROADcoder::Driver::IDataWriteDriver& aIDataWriteDriver,
+                    ROADReal *aData,
+                    ROADUInt32 ldoubleBufferLength)
             {
 //                std::cerr << "ldoubleBufferLength: " << ldoubleBufferLength << std::endl;
 
-                std::cerr << "getLength(): " << aIDataWriteDriver->getLength() << std::endl;
+                std::cerr << "getLength(): " << aIDataWriteDriver.getLength() << std::endl;
 
 //                std::cerr << "getPosition(): " << aIDataWriteDriver->getPosition() << std::endl;
 
@@ -33,7 +36,7 @@ namespace ROADcoder
 
                     _sampleType = (SampleType)_tempSampleType;
 
-                    aIDataWriteDriver->operator <<(_sampleType);
+                    aIDataWriteDriver << _sampleType;
 
                     --ldoubleBufferLength;
                 }

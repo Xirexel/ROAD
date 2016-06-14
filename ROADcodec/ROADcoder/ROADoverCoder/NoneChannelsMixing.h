@@ -18,7 +18,7 @@ namespace ROADcoder
 	{
 		class NoneChannelsMixing: public ROADcoder::ROADoverCoder::IChannelsMixing
 		{
-            public: void compute(ROADcoder::ROADoverCoder::IRawDataBuffer*);
+            public: void compute(ROADcoder::ROADoverCoder::IRawDataBuffer*){}
 		};
 	}
 }

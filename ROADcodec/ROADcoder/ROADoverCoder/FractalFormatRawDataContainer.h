@@ -5,7 +5,7 @@
 #include <memory>
 
 
-#include "platformdependencies.h"
+#include "memorydefine.h"
 
 namespace ROADcoder
 {
