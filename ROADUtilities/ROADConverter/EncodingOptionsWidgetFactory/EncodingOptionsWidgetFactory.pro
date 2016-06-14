@@ -16,19 +16,16 @@ else:unix:DESTDIR = ../../../Bin/ROADConverter
 DEFINES += ENCODINGOPTIONSWIDGETFACTORY_LIBRARY
 
 SOURCES += encodingoptionswidgetfactory.cpp \
-    encodingoptionsexperementalwidget.cpp \
     encodingoptionswidget.cpp \
     encodingoptionsfirstversionwidget.cpp
 
 HEADERS += encodingoptionswidgetfactory.h\
         encodingoptionswidgetfactory_global.h \
-    encodingoptionsexperementalwidget.h \
     encodingoptionswidget.h \
     encodingoptionsfirstversionwidget.h
 
 
 FORMS += \
-    encodingoptionsexperementalwidget.ui \
     encodingoptionsfirstversionwidget.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../../ROADcodec/ROADcoder/ROADoverCoder/release/ -lROADoverCoder

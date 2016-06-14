@@ -1,5 +1,4 @@
 #include "encodingoptionswidgetfactory.h"
-#include "encodingoptionsexperementalwidget.h"
 #include "EncodingOptionsFirstVersionWidget.h"
 #include "ROADoverEncodingOptionsFactory.h"
 #include "ROADoverEncodingOptionsFirstVersion.h"
@@ -63,17 +62,7 @@ std::unique_ptr<EncodingOptions::EncodingOptionsWidget> EncodingOptionsWidgetFac
             break;
 
         switch (aOptions->getROADFormatMode()) {
-        case EXPEREMENTAL:
 
-        {
-
-            std::unique_ptr<ROADoverEncodingOptionsExperemental> loptions(dynamic_cast<ROADoverEncodingOptionsExperemental*>(aOptions.release()));
-
-            result.reset(new EncodingOptionsExperementalWidget(loptions));
-
-        }
-
-            break;
         case FIRSTVERSION:
 
         {

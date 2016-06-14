@@ -66,12 +66,11 @@ public:
 
         _averLength += aLength * sizeof(typeSample);
 
-        std::shared_ptr<ROADByte> lData(new ROADByte[aLength * sizeof(typeSample)]);
+        SharedMassive_ptr<ROADByte> lData(new ROADByte[aLength * sizeof(typeSample)], aLength * sizeof(typeSample));
 
         auto lIDataWriteDriver =
                 ROADcoder::Driver::DataDriver::getIDataWriteDriver(lData,
-                                                                   aLength * sizeof(typeSample),
-                                                                   Endian::LITTLE);
+                                                                   Endian::EndianType::LITTLE);
 
 
 

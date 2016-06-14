@@ -1,7 +1,6 @@
 #include "persistroadencodingoptions.h"
 #include "ROADoverEncodingOptionsFactory.h"
 #include "../Endian/EndianType.h"
-#include "ROADoverEncodingOptionsExperemental.h"
 #include "ROADoverEncodingOptionsFirstVersion.h"
 
 #include <QSettings>
@@ -83,37 +82,7 @@ void PersistROADEncodingOptions::persistROADoverEncodingOptions(ROADcoder::ROADo
             break;
 
         switch (aPtrOptions->getROADFormatMode()) {
-        case EXPEREMENTAL:
-        {
-            auto loptions = dynamic_cast<ROADoverEncodingOptionsExperemental*>(aPtrOptions);
-
-            if(loptions == nullptr)
-                break;
-
-            settings.beginGroup("ROADoverEncodingOptionsExperemental");
-
-            settings.setValue("amountRangeLevels", loptions->getAmountRangLevels());
-
-            settings.setValue("domainShift", loptions->getDomainShift());
-
-            settings.setValue("frameSampleLength", loptions->getFrameSampleLength());
-
-            settings.setValue("mixingChannelsMode", loptions->getMixingChannelsMode());
-
-            settings.setValue("rangThreshold", loptions->getRangThreshold());
-
-            settings.setValue("silenceThreshold", loptions->getSilenceThreshold());
-
-            settings.setValue("rangTopSampleLength", loptions->getRangTopSampleLength());
-
-            settings.setValue("superFrameLength", loptions->getSuperFrameLength());
-
-            settings.setValue("encryptionFormat", loptions->getEncryptionFormat());
-
-            settings.endGroup();
-        }
-            break;
-        case FIRSTVERSION:
+        case (PlatformDependencies::ROADByte)ROADFormatMode::FIRSTVERSION:
         {
             auto loptions = dynamic_cast<ROADoverEncodingOptionsFirstVersion*>(aPtrOptions);
 
@@ -157,7 +126,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> PersistROADE
 {
     using namespace ROADcoder::ROADoverCoder;
 
-    std::unique_ptr<IROADoverEncodingOptions> lresult(ROADoverEncodingOptionsFactory::getIROADoverEncodingOptions(aROADFormat));
+    std::unique_ptr<IROADoverEncodingOptions> lresult(ROADoverEncodingOptionsFactory::getIROADoverEncodingOptions(aROADFormat).release());
 
     do
     {
@@ -167,37 +136,6 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> PersistROADE
 
         switch (aROADFormat)
         {
-        case EXPEREMENTAL:
-        {
-            auto loptions = dynamic_cast<ROADoverEncodingOptionsExperemental*>(lresult.get());
-
-            if(loptions == nullptr)
-                break;
-
-            settings.beginGroup("ROADoverEncodingOptionsExperemental");
-
-            loptions->setAmountRangLevels(settings.value("amountRangeLevels", 3).toInt());
-
-            loptions->setDomainShift(settings.value("domainShift", 1).toInt());
-
-            loptions->setFrameSampleLength(settings.value("frameSampleLength", 2048).toInt());
-
-            loptions->setMixingChannelsMode(ROADcoder::ROADoverCoder::ChannelsMixingMode(settings.value("mixingChannelsMode", 1).toInt()));
-
-            loptions->setRangThreshold(settings.value("rangThreshold", 0.0).toDouble());
-
-            loptions->setSilenceThreshold(settings.value("silenceThreshold", 120.0).toDouble());
-
-            loptions->setRangTopSampleLength(settings.value("rangTopSampleLength", 32).toInt());
-
-            loptions->setSuperFrameLength(settings.value("superFrameLength", 10).toInt());
-
-            loptions->setEncryptionFormat(settings.value("encryptionFormat", 0).toInt());
-
-            settings.endGroup();
-        }
-
-            break;
 
         case FIRSTVERSION:
         {
@@ -214,7 +152,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> PersistROADE
 
             loptions->setDomainShift(settings.value("domainShift", 1).toInt());
 
-            loptions->setEndianType((ROADUInt8)settings.value("endianType", (ROADUInt8)Endian::LITTLE).toInt());
+            loptions->setEndianType((ROADUInt8)settings.value("endianType", (ROADUInt8)Endian::EndianType::LITTLE).toInt());
 
             loptions->setMaxSuperFrameLength((ROADUInt8)settings.value("maxSuperFrameLength", 10).toInt());
 

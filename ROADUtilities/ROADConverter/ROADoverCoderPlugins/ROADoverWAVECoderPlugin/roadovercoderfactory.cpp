@@ -55,7 +55,9 @@ IROADoverCoder* ROADoverCoderFactory::createIROADoverCoder(IROADoverRawReader* p
 
     aIROADoverCoderOptions->setSelectedPreListeningChannel(0);
 
-    lresult = new ROADoverWAVECoder(outputFile, ptrReader, aOriginalAudioStreamOptions, aIROADoverCoderOptions);
+    Unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> lOptions(aIROADoverCoderOptions.release());
+
+    lresult = new ROADoverWAVECoder(outputFile, ptrReader, aOriginalAudioStreamOptions, lOptions);
 
     return lresult;
 }

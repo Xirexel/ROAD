@@ -7,7 +7,7 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
     {
-        enum class ROADFormatMode:PlatformDependencies::ROADByte
+        enum ROADFormatMode
 		{
             UNKNOWN = 0xFF, EXPEREMENTAL = 0x00, FIRSTVERSION = 0x01
 		};

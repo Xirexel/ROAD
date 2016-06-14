@@ -19,7 +19,7 @@ class ROADOVERWAVECODERSHARED_EXPORT ROADoverWAVECoder: public ROADcoder::ROADov
 {
 
 public:
-    ROADoverWAVECoder(QString outputFile, IROADoverRawReader* aPtrReader, IOriginalAudioStreamOptions *aOriginalAudioStreamOptions, std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aOptions);
+    ROADoverWAVECoder(QString outputFile, IROADoverRawReader* aPtrReader, IOriginalAudioStreamOptions *aOriginalAudioStreamOptions, Unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aOptions);
 
 // Methods of IROADoverCoder
 

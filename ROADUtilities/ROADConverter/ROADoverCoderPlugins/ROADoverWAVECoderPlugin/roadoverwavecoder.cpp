@@ -4,7 +4,11 @@
 #include "IRealDataContainer.h"
 
 
-ROADoverWAVECoder::ROADoverWAVECoder(QString outputFile, IROADoverRawReader *aPtrReader, IOriginalAudioStreamOptions *aOriginalAudioStreamOptions, std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aOptions)
+ROADoverWAVECoder::ROADoverWAVECoder(
+        QString outputFile,
+        IROADoverRawReader *aPtrReader,
+        IOriginalAudioStreamOptions *aOriginalAudioStreamOptions,
+        Unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> &aOptions)
     :ROADcoder::ROADoverCoder::ROADover(aOptions),
       ptrReader(aPtrReader)
 {
@@ -77,11 +81,11 @@ ROADcoder::ROADoverCoder::Result ROADoverWAVECoder::readRawData(ROADcoder::ROADo
         index < aRawDataBuffer.getCount();
         ++index)
     {
-        auto lptrIDoubleDataContainer = aRawDataBuffer.getIDoubleDataContainer(index);
+        auto lptrIRealDataContainer = aRawDataBuffer.getIRealDataContainer(index);
 
-        lsuperFrameSampleLength = lptrIDoubleDataContainer->getLength();
+        lsuperFrameSampleLength = lptrIRealDataContainer->getLength();
 
-        temp.append( lptrIDoubleDataContainer->getData());
+        temp.append( lptrIRealDataContainer->getData());
     }
 
     auto r = ptrReader->readData(temp, lsuperFrameSampleLength);
