@@ -2,6 +2,7 @@
 #define __ROADcoder__ROADCoder__Domain_h__
 
 #include "platformdependencies.h"
+#include "memorydefine.h"
 
 namespace ROADcoder
 {
@@ -9,19 +10,20 @@ namespace ROADcoder
 	{
     using namespace PlatformDependencies;
 
+        // class for storing one domain subsection.
 		class Domain
 		{
-            private: PtrROADReal _dataForwardDirection;
-            private: PtrROADReal _dataBackDirection;
+            private: UniqueMassive_ptr<ROADReal> _dataForwardDirection;
+            private: UniqueMassive_ptr<ROADReal> _dataBackDirection;
             private: ROADReal _aver;
             private: ROADReal _sum;
             private: ROADReal _beta;
-            private: ROADUInt32 _length;
+            private: ROADSize _length;
             private: ROADReal _tempValue;
 
-            public: Domain(ROADUInt32 aLength);
+            public: Domain(ROADSize aLength);
 
-            public: void populate(PtrROADReal aData, ROADUInt32 aDoubleLength);
+            public: void populate(PtrROADReal aData, ROADSize aDoubleLength);
 
             public: virtual ~Domain();
 
@@ -35,7 +37,7 @@ namespace ROADcoder
 
             public: ROADReal getBeta();
 
-            public: ROADUInt32 getLength();
+            public: ROADSize getLength();
 		};
 	}
 }

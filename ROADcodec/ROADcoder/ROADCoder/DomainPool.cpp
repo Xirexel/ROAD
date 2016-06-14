@@ -1,12 +1,13 @@
 #include "DomainPool.h"
 #include "Domain.h"
 
-ROADcoder::ROADCoder::DomainPool::DomainPool(ROADUInt32 aSize,
+ROADcoder::ROADCoder::DomainPool::DomainPool(ROADSize aSize,
                                              ROADUInt32 aRangTopSampleLength,
                                              ROADUInt32 aDomainRelativeShift)
     : _size(aSize),
       _domainRelativeShift(aDomainRelativeShift),
-      _rangTopSampleLength(aRangTopSampleLength)
+      _rangTopSampleLength(aRangTopSampleLength),
+      _domains(aSize)
 {
     ROADUInt32 lcount = aSize;
 
@@ -35,7 +36,7 @@ void ROADcoder::ROADCoder::DomainPool::populate(PtrROADReal aData) {
 }
 
 
-PlatformDependencies::ROADUInt32 ROADcoder::ROADCoder::DomainPool::getSize() {
+PlatformDependencies::ROADSize ROADcoder::ROADCoder::DomainPool::getSize() {
 	return this->_size;
 }
 

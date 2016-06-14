@@ -19,14 +19,18 @@ namespace ROADcoder
 	namespace ROADCoder
 	{
     using namespace PlatformDependencies;
+
+        // collection of one level domains
 		class DomainPool
-		{
-            private: ROADUInt32 _size;
+        {
+            private: ROADSize _size;
             private: ROADUInt32 _domainRelativeShift;
             private: ROADUInt32 _rangTopSampleLength;
-            public: std::vector<ROADcoder::ROADCoder::Domain*> _domains;
+            private: std::vector<ROADcoder::ROADCoder::Domain*> _domains;
 
-            public: DomainPool(ROADUInt32 aSize, ROADUInt32 aRangTopSampleLength, ROADUInt32 aDomainRelativeShift);
+            public: DomainPool(ROADSize aSize,
+                               ROADUInt32 aRangTopSampleLength,
+                               ROADUInt32 aDomainRelativeShift);
 
             public: ROADcoder::ROADCoder::Domain* getDomain(ROADUInt32 aIndex);
 
@@ -34,7 +38,7 @@ namespace ROADcoder
 
             public: virtual ~DomainPool();
 
-            public: ROADUInt32 getSize();
+            public: ROADSize getSize();
 		};
 	}
 }

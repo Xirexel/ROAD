@@ -22,7 +22,7 @@ namespace ROADcoder
     using namespace PlatformDependencies;
         class ROADOVERCODERSHARED_EXPORT ROADoverEncodingOptionsFactory
 		{
-            public: static std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> getIROADoverEncodingOptions(ROADUInt32 aType);
+            public: static Unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> getIROADoverEncodingOptions(ROADUInt32 aType);
             public: static std::vector<ROADUInt32> getSupportedFormats();
 		};
 	}

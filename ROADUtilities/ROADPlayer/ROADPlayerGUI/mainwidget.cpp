@@ -149,6 +149,7 @@ void convert(QString source, QString destination, quint32 samplesPerRange, quint
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget),
+    _isOpenningFile(false),
     _player(new AudioPlayer(this))
 {
     ui->setupUi(this);
@@ -219,7 +220,11 @@ void MainWidget::openFractalFile()
 
     _filePath = filePath;
 
+    _isOpenningFile = true;
+
     updateAudioPlayer();
+
+    _isOpenningFile = false;
 }
 
 void MainWidget::updateAudioPlayer()
@@ -342,6 +347,8 @@ void MainWidget::saveIntoWaveFile()
 
 void MainWidget::changeOutputDevice(int)
 {
+    if(this->_isOpenningFile)
+        return;
 
     updateAudioPlayer();
 
@@ -349,6 +356,8 @@ void MainWidget::changeOutputDevice(int)
 
 void MainWidget::changeFrequency(int)
 {
+    if(this->_isOpenningFile)
+        return;
 
     if(!QFile::exists(_filePath))
         return;
@@ -361,6 +370,8 @@ void MainWidget::changeFrequency(int)
 
 void MainWidget::changeOutputBitsPerSample(int)
 {
+    if(this->_isOpenningFile)
+        return;
 
     if(!QFile::exists(_filePath))
         return;

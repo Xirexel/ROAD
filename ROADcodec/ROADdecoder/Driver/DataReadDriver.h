@@ -5,6 +5,8 @@
 
 #include "IEndianConvertor.h"
 #include "IDataReadDriver.h"
+#include "SmartPtr.h"
+#include "DataContainer.h"
 
 
 namespace ROADdecoder
@@ -14,11 +16,15 @@ namespace ROADdecoder
 		class DataReadDriver: public ROADdecoder::Driver::IDataReadDriver
 		{
             private: std::shared_ptr<ROADByte> _data;
+            private: SmartPtr<DataContainer> _dataDataContainer;
+            private: PtrROADByte _ptrData;
             private: ROADInt64 _length;
             private: ROADInt64 _position;
             private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
 
             public: DataReadDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
+
+            public: DataReadDriver(DataContainer *aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
 
             public: virtual ROADUInt64 getLength();
 
@@ -59,7 +65,7 @@ namespace ROADdecoder
             {
                 if(_length >= (_position + sizeof(T)))
                 {
-                    aValue = _convertor->convertToType(aValue, _data.get() + _position);
+                    aValue = _convertor->convertToType(aValue, _ptrData + _position);
 
                     _position += sizeof(T);
                 }

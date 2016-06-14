@@ -117,10 +117,10 @@ ROADUInt32 CRCSupport::CRC::CRC32(PtrROADByte aData, ROADUInt32 aLength)
         crc_table[i] = lresult;
     };
 
-    lresult = 0xFFFFFFFFUL;
+    lresult = 0xFFFFFFFF;
 
     while (aLength--)
         lresult = crc_table[(lresult ^ *aData++) & 0xFF] ^ (lresult >> 8);
 
-    return lresult ^ 0xFFFFFFFFUL;
+    return lresult ^ 0xFFFFFFFF;
 }

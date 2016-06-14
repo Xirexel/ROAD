@@ -368,8 +368,31 @@ namespace ROADdecoder
                 if(lmaxCount == 0)
                     return;
 
+                countFractalItems = 0;
+
+                while(countFractalItems < lmaxCount)
+                {
+                    auto item = lPtrFrameDataContainer->getFractalFirstOrderItemTransform(countFractalItems);
+
+                    lrangLength = item->getLength();
+
+                    lrangPosition = item->getPosition();
+
+                    lPtrRangPos = lPtrFramePos + lrangPosition;
+
+                    lPtrAveragePos = lPtrAveragesMassive + lrangPosition;
+
+                    while(--lrangLength >= 0)
+                    {
+                            *lPtrRangPos++ = (*lPtrAveragePos++);
+                    }
+
+                    ++countFractalItems;
+                }
+
+
                 for(;
-                    lFractalIteration < 4;
+                    lFractalIteration < 3;
                     ++lFractalIteration)
                 {
 

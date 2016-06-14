@@ -15,10 +15,10 @@ namespace ROADcoder
 
 		class FractalFormatRawDataContainer
 		{
-            private: std::shared_ptr<ROADByte> _data;
+            private: SharedMassive_ptr<ROADByte> _data;
             private: ROADUInt32 _length;
 
-        public: FractalFormatRawDataContainer(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength);
+        public: FractalFormatRawDataContainer(SharedMassive_ptr<ROADByte> &aData, ROADUInt32 aLength);
 
             public: PtrROADByte getData() const;
 

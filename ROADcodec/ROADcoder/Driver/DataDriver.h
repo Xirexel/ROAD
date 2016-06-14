@@ -5,6 +5,7 @@
 
 #include "../../Endian/EndianType.h"
 #include "IDataWriteDriver.h"
+#include "memorydefine.h"
 
 
 namespace ROADcoder
@@ -26,7 +27,10 @@ namespace ROADcoder
 
             private: virtual ~DataDriver() = delete;
 
-            public: static std::unique_ptr<ROADcoder::Driver::IDataWriteDriver> getIDataWriteDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, Endian::EndianType aEndianType);
+            // get interface for writing data.
+            public: static PlatformDependencies::Unique_ptr<IDataWriteDriver> getIDataWriteDriver(
+                    SharedMassive_ptr<ROADByte> &aData,
+                    Endian::EndianType aEndianType);
 		};
 	}
 }

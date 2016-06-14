@@ -28,9 +28,6 @@ namespace CRCSupport
 
         CRC& operator=(const CRC&) = delete;
 
-
-
-
     };
 
 }

@@ -15,9 +15,9 @@ namespace ROADcoder
 		class IDataWriteDriver
         {
 
-            public: virtual ROADUInt64 getLength() = 0;
+            public: virtual ROADSize getLength() = 0;
 
-            public: virtual ROADUInt64 getPosition() = 0;
+            public: virtual ROADSize getPosition() = 0;
 
             public: virtual IDataWriteDriver &operator <<(ROADUInt64 aValue) = 0;
 
@@ -35,7 +35,7 @@ namespace ROADcoder
 
             public: virtual IDataWriteDriver &operator <<(ROADChar aValue) = 0;
 
-            public: virtual IDataWriteDriver &operator <<(std::tuple<PtrROADUInt8, ROADUInt64> aData) = 0;
+            public: virtual IDataWriteDriver &operator <<(std::tuple<PtrROADUInt8, ROADSize> aData) = 0;
 
             public: virtual IDataWriteDriver &computeAndAppendCRC8(ROADUInt32 aValue) = 0;
 

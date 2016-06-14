@@ -86,10 +86,12 @@ void MainWidget::mouseMoveEvent(QMouseEvent * event)
 
 void MainWidget::addFiles()
 {
+
+
     QStringList listFilesPath = QFileDialog::getOpenFileNames(
                 this,
                 QObject::tr("Add Audio Files"),
-                "/home",
+                QDir::homePath() + "/Documents",
                 QObject::tr("Audio formats (*.wav *.wave)"));
 
     QStringList::Iterator it = listFilesPath.begin();

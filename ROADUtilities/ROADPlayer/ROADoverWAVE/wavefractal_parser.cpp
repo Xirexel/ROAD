@@ -184,6 +184,8 @@ void WaveFractal_parser::parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR &aF
 {
     using namespace ROADdecoder::ROADover;
 
+    using namespace ROADdecoder::Driver;
+
     IROADoverDecodingOptions *result;
 
     do
@@ -228,16 +230,17 @@ void WaveFractal_parser::parsMainFormat(FILE * pFile, int &aPos, __FRACDESCR &aF
             if(     lMetaDataType == 0 ||//ROADINFO
                     lMetaDataType == 127)//DATAINFO
             {
-                std::shared_ptr<ROADByte> lformatData(new ROADByte[lblockLength]);
+
+                auto lDataContainer = new DataContainer(lblockLength);
 
                 fseek(pFile, aPos, SEEK_SET);
 
-                fread(lformatData.get(), 1, lblockLength + 9, pFile);
+                fread(lDataContainer->get(), 1, lblockLength + 9, pFile);
 
                 if(feof(pFile))
                     break;
 
-                ROADRawMetaDataContainer lConatiner(lformatData, lblockLength, lHead);
+                ROADRawMetaDataContainer lConatiner(lDataContainer, lblockLength, lHead);
 
                 lListOfROADRawMetaDataContainers.push_back(lConatiner);
             }

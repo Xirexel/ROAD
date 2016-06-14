@@ -9,6 +9,7 @@ ROADcoder::ROADoverCoder::ROADoverManager::ROADoverManager(ROADcoder::ROADoverCo
                                                            ROADUInt32 aSuperFrameSamplesLength)
     : _roadOver(aRoadOver),
       _channelsDataBuffer(RawDataBuffer(aAmountOfChannels, aSuperFrameSamplesLength)),
+      _prelisteningDataBuffer(RawDataBuffer(1, aSuperFrameSamplesLength)),
       _superFrameSamplesLength(aSuperFrameSamplesLength),
       _superFrameLength(aSuperFrameLength),
       _frameRangLength(aFrameRangLength)

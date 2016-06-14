@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <fstream>
 
 #include "IROADFractalFirstOrderAnalyzer.h"
 #include "FractalFormatRawDataContainer.h"
@@ -47,7 +48,7 @@ namespace ROADcoder
 
             private: typedef ROADdecoder::ROAD::ROADFractalFirstOrderItemsFrameDataContainer<DecodingSampleType> FrameContainerType;
 
-            private: std::unique_ptr<FrameContainerType> _FrameMassive;
+            private: Unique_ptr<FrameContainerType> _FrameMassive;
 
             public: ROADFractalFirstOrderItemsSuperFrameDataContainer(ROADUInt32 aMaxSuperFrameLength,
                                                                       ROADUInt32 aMaxFrameRangLength,
@@ -70,14 +71,15 @@ namespace ROADcoder
 
             };
 
-            private: std::unique_ptr<ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion> _options;
-            private: std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> _fractalFormatRawDataContainer;
+            private: Unique_ptr<ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion> _options;
+            private: Unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> _fractalFormatRawDataContainer;
 //            private: std::vector<ROADFractalFirstOrderItemsSuperFrameDataContainer<DecodedSampleType>*> _fractalItemSuperFrameContainer;
-            public: std::unique_ptr<ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer> _analyzer;
-            private: std::unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
+            public: Unique_ptr<ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer> _analyzer;
+            private: Unique_ptr<ROADdecoder::ROAD::IROADFractalFirstOrderBuilder> _fractalBuilder;
 			public: std::vector<ROADcoder::ROADoverCoder::FractalFirstOrderItemSuperFrameContainer*> _fractalItemSuperFrameContainer;
-            private: std::unique_ptr<IDecodedSampleTypeToRawDataSampleType> _convertor;
+            private: Unique_ptr<IDecodedSampleTypeToRawDataSampleType> _convertor;
 
+//            std::fstream file;
 
 			public: ROADcoder::ROADoverCoder::Result encode();
 

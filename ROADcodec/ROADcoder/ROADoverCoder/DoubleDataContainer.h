@@ -10,7 +10,7 @@ namespace ROADcoder
 	{
 		class DoubleDataContainer: public ROADcoder::ROADoverCoder::IDoubleDataContainer
 		{
-            private: PtrROADReal _data;
+            private: UniqueMassive_ptr<ROADReal> _data;
             private: ROADUInt32 _length;
 
             public: ROADUInt32 getLength();

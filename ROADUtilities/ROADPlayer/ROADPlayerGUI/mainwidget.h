@@ -24,6 +24,8 @@ private:
 
     QString _filePath;
 
+    bool _isOpenningFile;
+
 private slots:
 
     void setPositionTraker(int value);

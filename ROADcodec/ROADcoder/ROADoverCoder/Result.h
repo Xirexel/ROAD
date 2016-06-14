@@ -5,7 +5,7 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
-		enum Result
+        enum class Result:int
 		{
             DONE = 0, FINISHFILE = 1, ERROR = -1
 		};

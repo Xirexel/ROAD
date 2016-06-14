@@ -5,20 +5,21 @@
 #include "crc.h"
 
 
-ROADcoder::Driver::DataWriteDriver::DataWriteDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor)
+ROADcoder::Driver::DataWriteDriver::DataWriteDriver(
+        SharedMassive_ptr<ROADByte> &aData,
+        PlatformDependencies::Unique_ptr<Endian::IEndianConvertor> &aConvertor)
     : _data(aData),
-      _length(aLength),
       _position(0),
       _convertor(aConvertor.release())
 {
 }
 
-PlatformDependencies::ROADUInt64 ROADcoder::Driver::DataWriteDriver::getLength()
+PlatformDependencies::ROADSize ROADcoder::Driver::DataWriteDriver::getLength()
 {
-    return this->_length;
+    return this->_data.length();
 }
 
-PlatformDependencies::ROADUInt64 ROADcoder::Driver::DataWriteDriver::getPosition()
+PlatformDependencies::ROADSize ROADcoder::Driver::DataWriteDriver::getPosition()
 {
     return this->_position;
 }
@@ -83,11 +84,13 @@ ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operato
     return *this;
 }
 
-ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(std::tuple<PtrROADUInt8, ROADUInt64> aData)
+ROADcoder::Driver::IDataWriteDriver &ROADcoder::Driver::DataWriteDriver::operator <<(std::tuple<PtrROADUInt8, ROADSize> aData)
 {
     using namespace std;
 
-    if(_length >= (_position + get<1>(aData)))
+    auto length = getLength();
+
+    if(length >= (_position + get<1>(aData)))
     {
         memcpy(_data.get() + _position, get<0>(aData), get<1>(aData));
 

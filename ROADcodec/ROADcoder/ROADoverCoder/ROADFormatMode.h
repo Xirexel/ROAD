@@ -5,7 +5,7 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
-		enum ROADFormatMode
+        enum class ROADFormatMode:int
 		{
             UNKNOWN = 0xFF, EXPEREMENTAL = 0x00, FIRSTVERSION = 0x01
 		};

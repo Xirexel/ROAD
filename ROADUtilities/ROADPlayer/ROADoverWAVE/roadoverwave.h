@@ -2,10 +2,12 @@
 #define ROADOVERWAVE_H
 
 #include <fstream>
+#include <iostream>
 #include <limits>
 
 
 #include <QFile>
+#include <QThread>
 #include <QDebug>
 
 
@@ -23,6 +25,8 @@ typedef long long int64;
 
 using namespace PlatformDependencies;
 
+
+std::fstream file;
 
 template<typename T, typename O>
 class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
@@ -58,7 +62,7 @@ class ROADoverWAVE: public ROADdecoder::ROADover::ROADover, public IReader
 
         public: virtual void writeRawData(ROADdecoder::ROADover::IRawDataBuffer* aRawDataBuffer, char *aData)
         {
-            auto lPtrRawDataBuffer = (ROADdecoder::ROADover::RawDataBuffer<DecodedSampleType>*)(aRawDataBuffer);
+            auto lPtrRawDataBuffer = dynamic_cast<ROADdecoder::ROADover::RawDataBuffer<DecodedSampleType>*>(aRawDataBuffer);
 
             unsigned int lchannels = lPtrRawDataBuffer->getCount();
 
@@ -209,6 +213,8 @@ public:
 
     virtual ~ROADoverWAVE()
     {
+        file.close();
+
         _File->close();
 
         delete []_pData;
@@ -216,15 +222,32 @@ public:
 
     virtual int readData(char *data, int maxlen)
     {
-        if(_lastLength == 0)
+        if(_lastLength <= 0)
         {
             ROADdecoder::ROADover::Result result = ROADover::decode();
 
             if(result != ROADdecoder::ROADover::DONE)
                 return -1;
             else
+            {
+
+//                std::cerr << "_superFrameByteSize: " << _superFrameByteSize << std::endl;
+
                 _lastLength = _superFrameByteSize;
+            }
         }
+
+//        int k = 0;
+
+//        for(int i = 0;
+//            i < 100000;
+//            ++i)
+//        {
+//            ++k;
+//        }
+
+
+     //   QThread::currentThread()->sleep(1);
 
         int lReadLength = maxlen;
 
@@ -242,6 +265,10 @@ public:
 
             _lastLength = 0;
         }
+
+//        std::cerr << "maxlen: " << maxlen << std::endl;
+
+//        std::cerr << "lReadLength: " << lReadLength << std::endl;
 
         return lReadLength;
     }
@@ -275,12 +302,43 @@ protected:
 
         int64 lFractalIndexPos = _offsetFractalIndeces + lFractalIndecesShift;
 
-        _File->seek(lFractalIndexPos);
+        if(!_File->seek(lFractalIndexPos))
+        {
+            std::cerr << "_File->seek error";
+        }
 
         if(_File->atEnd())
             return -1;
 
-        _File->read((char *)aData, result);
+//        std::cerr << "result: " << result << std::endl;
+
+        auto lreadLength = _File->read((char *)aData, result);
+
+        if(lreadLength != result)
+        {
+            std::cerr << "_File->read";
+        }
+
+
+//        if(!file.is_open())
+//            file.open("C:\\Users\\Evgney\\Documents\\dumpDecoder.txt");
+
+//        file << "raw data" << std::endl;
+
+//        file << "aLength: " << result << std::endl;
+
+
+
+
+//            for(decltype(result) lindex = 0;
+//                lindex < result;
+//                ++lindex)
+//            {
+
+//                file << "byte: " << (int)(aData[lindex]) << std::endl;
+
+//            }
+
 
         return result;
     }

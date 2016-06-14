@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <memory>
+#include <fstream>
+
 #include "../ROAD/IROADFractalFirstOrderBuilder.h"
 #include "../ROAD/ROADFractalFirstOrderBuilderFactory.h"
 #include "../ROAD/ROADFractalOrderFactory.h"
@@ -38,13 +40,13 @@ namespace ROADdecoder
 
             protected: std::shared_ptr<ROADByte> _preListeningRawData;
 
-            private: std::unique_ptr<DecodedSampleType> _preListeningDecodingSampleTypeData;
-
             private: Endian::EndianType _lowFormatEndianType;
 
             private: RawDataSampleType _rawDataSample;
 
             private: DecodedSampleType _decodingSample;
+
+            std::fstream file;
 
             public: ROADoverManagerFirstOrder(ROADdecoder::ROADover::ROADover* aRoadOver,
                                               ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion* aOptions,
@@ -61,12 +63,11 @@ namespace ROADdecoder
                                     ROADConvertor::getByteLength(aOptions->getBitsPerSampleCode()) *
                                     aOptions->getMaxFrameRangLength() *
                                     aOptions->getMaxSuperFrameLength()]),
-                  _preListeningDecodingSampleTypeData(new DecodedSampleType[
-                                          aOptions->getMinSamplesPerRang() *
-                                          aOptions->getMaxFrameRangLength() *
-                                          aOptions->getMaxSuperFrameLength()]),
                   _lowFormatEndianType(aLowFormatEndianType)
             {
+
+                file.open("C:\\Users\\Evgney\\Documents\\dumpDecoder.txt");
+
                 class Excepion: public std::exception
                 {
                 private:
@@ -162,14 +163,16 @@ namespace ROADdecoder
 
                     ROADInt32 lreadResult = -1;
 
+                    ROADUInt8 lEndingCode = this->_options->getEndianType();
+
+                    auto lIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(this->_bufferROADdata,
+                                                                      lreadROADdataLength,
+                                                                      Endian::EndianType(lEndingCode));
+
+
+
                     do
                     {
-
-                        ROADUInt8 lEndingCode = this->_options->getEndianType();
-
-                        auto lIDataReadDriver = ROADdecoder::Driver::DataDriver::getIDataReadDriver(this->_bufferROADdata,
-                                                                          lreadROADdataLength,
-                                                                          Endian::EndianType(lEndingCode));
 
                         ROADUInt8 lHead = 0;
 
@@ -193,14 +196,16 @@ namespace ROADdecoder
                                                                                                                        lreadPreListeningLength,
                                                                                                                        this->_lowFormatEndianType);
 
-                        auto lptrPreListeningDecodingSampleTypeData = _preListeningDecodingSampleTypeData.get();
+//                        auto lptrPreListeningDecodingSampleTypeData = _preListeningDecodingSampleTypeData;
 
-                        while (!lIDataReadDriverPreListeningRawData->eod())
-                        {
-                            lIDataReadDriverPreListeningRawData->operator >>(_rawDataSample);
+//                        while (!lIDataReadDriverPreListeningRawData->eod())
+//                        {
+//                            lIDataReadDriverPreListeningRawData->operator >>(_rawDataSample);
 
-                            *lptrPreListeningDecodingSampleTypeData++ = _rawDataSample;
-                        }
+//                            *lptrPreListeningDecodingSampleTypeData++ = _rawDataSample;
+//                        }
+
+
 
 
 
@@ -218,9 +223,7 @@ namespace ROADdecoder
 
                                 // Обработка буфера предпрослушивания
 
-                                auto lptrPreListeningDecodingSampleMassive = _preListeningDecodingSampleTypeData.get();
-
-                                lreadResult = readPrelisteningDataStream(lptrPreListeningDecodingSampleMassive);
+                                lreadResult = readPrelisteningDataStream(lIDataReadDriverPreListeningRawData.get());
                             }
 
                             if(lIDataReadDriver->eod())
@@ -262,11 +265,12 @@ namespace ROADdecoder
 
         // Выполнение постороения фракталов для декодирования
                     {
+
+
                         for(decltype(_options->getAmountOfChannels()) lChannel = 0;
                             lChannel < _options->getAmountOfChannels();
                             ++lChannel)
                         {
-
                             auto lptrFractalFirstOrderItemsSuperFrameContainer = _fractalItemSuperFrameContainer.at(lChannel);
 
                             PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
@@ -277,6 +281,60 @@ namespace ROADdecoder
                             {
                                 _fractalBuilder->build(lptrPtrDecodedSampleMassive + (lframeIndex * lFrameLengthLength),
                                                                lptrFractalFirstOrderItemsSuperFrameContainer->getFrameDataContainer(lframeIndex));
+                            }
+
+                        }
+
+                        ROADUInt64 lLength;
+
+                        ROADInt8 lHead;
+
+                        lIDataReadDriver->operator >>(lHead);
+
+                        lIDataReadDriver->operator >>(lLength);
+
+
+//                        for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+//                            lChannel < 1;
+//                            ++lChannel)
+//                        {
+//                            PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
+
+//                            readAndAddError(lIDataReadDriver.get(), lptrPtrDecodedSampleMassive);
+//                        }
+
+
+                        file << "raw data. aLength: " << lreadROADdataLength << std::endl;
+
+                        for(decltype(lreadROADdataLength)lindex = 0;
+                            lindex < lreadROADdataLength;
+                            ++lindex)
+                        file << "byte: " << (int) this->_bufferROADdata.get()[lindex] << std::endl;
+
+                        for(decltype(_options->getAmountOfChannels()) lChannel = 0;
+                            lChannel < _options->getAmountOfChannels();
+                            ++lChannel)
+                        {
+
+
+
+                            PtrDecodedSampleType lptrPtrDecodedSampleMassive = (this->_channelsDataBuffer).getPtrDecodedDataContainer(lChannel)->getData();
+
+
+
+                            for( decltype(this->_superFrameSamplesLength) lsampleIndex = 0;
+                                 lsampleIndex < this->_superFrameSamplesLength;
+                                 ++lsampleIndex)
+                            {
+                                lIDataReadDriver->operator >>(_rawDataSample);
+
+                                _decodingSample = _rawDataSample;
+
+//                                file << "_decodingSample: " << _rawDataSample << std::endl;
+
+                            //    auto lv = lptrPtrDecodedSampleMassive[lsampleIndex];
+
+                            //    lptrPtrDecodedSampleMassive[lsampleIndex] = lv + _decodingSample;
                             }
                         }
 
@@ -302,6 +360,8 @@ namespace ROADdecoder
                     delete item;
 
                 _fractalItemSuperFrameContainer.clear();
+
+//                delete []_preListeningDecodingSampleTypeData;
 
             }
 
@@ -376,7 +436,7 @@ namespace ROADdecoder
                 return lresult;
             }
 
-            protected: ROADInt32 readPrelisteningDataStream(PtrDecodedSampleType aPtrDecodingSampleMassive)
+            protected: ROADInt32 readPrelisteningDataStream(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver)
             {
                 using namespace PlatformDependencies;
 
@@ -401,7 +461,9 @@ namespace ROADdecoder
 
                     while(count < lFractalFirstOrderItemCount)
                     {
-                        _decodingSample = *aPtrDecodingSampleMassive;
+                        aIDataReadDriver->operator >>(_rawDataSample);
+
+                        _decodingSample = _rawDataSample;
 
                         auto lptrFractalAverItem = lptrFractalFirstOrderItemContainer->getFractalFirstOrderItemTransform(count);
 
@@ -411,7 +473,9 @@ namespace ROADdecoder
 
                         lrabgeLength /= _options->getMinSamplesPerRang();
 
-                        aPtrDecodingSampleMassive += lrabgeLength;
+                        aIDataReadDriver->seek(lrabgeLength - 1);
+
+//                        aPtrDecodingSampleMassive += lrabgeLength;
 
                         ++count;
                     }
@@ -582,6 +646,28 @@ namespace ROADdecoder
 
                 return lresult;
             }
+
+            protected: ROADInt32 readAndAddError(ROADdecoder::Driver::IDataReadDriver *aIDataReadDriver, PtrDecodedSampleType aPtrDecodedSampleMassive)
+            {
+                using namespace PlatformDependencies;
+
+                ROADInt32 lresult = -1;
+
+                for( decltype(this->_superFrameSamplesLength) lsampleIndex = 0;
+                     lsampleIndex < this->_superFrameSamplesLength;
+                     ++lsampleIndex)
+                {
+                    aIDataReadDriver->operator >>(_rawDataSample);
+
+                    _decodingSample = _rawDataSample;
+
+                    aPtrDecodedSampleMassive[lsampleIndex] += _decodingSample;
+                }
+
+                return lresult;
+
+            }
+
         };
     }
 }

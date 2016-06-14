@@ -1,14 +1,27 @@
 #include "DataReadDriver.h"
 #include "crc.h"
 
+
 ROADdecoder::Driver::DataReadDriver::DataReadDriver(std::shared_ptr<ROADByte> &aData,
                                                     ROADUInt32 aLength,
                                                     std::unique_ptr<Endian::IEndianConvertor> &aConvertor)
     : _data(aData),
+      _ptrData(aData.get()),
      _length(aLength),
      _position(0),
      _convertor(aConvertor.release())
 {
+}
+
+ROADdecoder::Driver::DataReadDriver::DataReadDriver(DataContainer *aData,
+                                                    ROADUInt32 aLength,
+                                                    std::unique_ptr<Endian::IEndianConvertor> &aConvertor)
+    : _ptrData(aData->get()),
+     _length(aLength),
+     _position(0),
+     _convertor(aConvertor.release())
+{
+    _dataDataContainer = aData;
 }
 
 ROADdecoder::Driver::DataReadDriver::~DataReadDriver()
@@ -36,7 +49,7 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::opera
 
     if(_length >= (_position + (unsigned)get<1>(aData)))
     {
-        memcpy(get<0>(aData), _data.get() + _position, get<1>(aData));
+        memcpy(get<0>(aData), this->_ptrData + _position, get<1>(aData));
 
         _position += get<1>(aData);
     }
@@ -130,9 +143,9 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
 {
     if(this->_position + aLength + 1 <= this->_length)
     {
-        auto lresult = CRCSupport::CRC::CRC8(_data.get() + this->_position, aLength);// 1 bytes - CRC8 code.
+        auto lresult = CRCSupport::CRC::CRC8(this->_ptrData + this->_position, aLength);// 1 bytes - CRC8 code.
 
-        auto lvalue = _convertor->convertToType(lresult, _data.get() + (this->_position + aLength));
+        auto lvalue = _convertor->convertToType(lresult, this->_ptrData + (this->_position + aLength));
 
         aOk = lresult == lvalue;
     }
@@ -146,9 +159,9 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
 {
     if(this->_position + aLength + 2 <= this->_length)
     {
-        auto lresult = CRCSupport::CRC::CRC16(_data.get() + this->_position, aLength);// 2 bytes - CRC8 code.
+        auto lresult = CRCSupport::CRC::CRC16(this->_ptrData + this->_position, aLength);// 2 bytes - CRC8 code.
 
-        auto lvalue = _convertor->convertToType(lresult, _data.get() + (this->_position + aLength));
+        auto lvalue = _convertor->convertToType(lresult, this->_ptrData + (this->_position + aLength));
 
         aOk = lresult == lvalue;
     }
@@ -162,9 +175,9 @@ ROADdecoder::Driver::IDataReadDriver &ROADdecoder::Driver::DataReadDriver::compu
 {
     if(this->_position + aLength + 4 <= this->_length)
     {
-        auto lresult = CRCSupport::CRC::CRC32(_data.get() + this->_position, aLength);// 4 bytes - CRC8 code.
+        auto lresult = CRCSupport::CRC::CRC32(this->_ptrData + this->_position, aLength);// 4 bytes - CRC8 code.
 
-        auto lvalue = _convertor->convertToType(lresult, _data.get() + (this->_position + aLength));
+        auto lvalue = _convertor->convertToType(lresult, this->_ptrData + (this->_position + aLength));
 
         aOk = lresult == lvalue;
     }

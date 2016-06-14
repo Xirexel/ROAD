@@ -16,7 +16,7 @@ ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::ROADoverDecodin
 
         auto lBlockLength = (*lIter).getDataLength();
 
-        auto lData = (*lIter).getData();
+        auto lData = (*lIter).getDataContainer();
 
         Endian::EndianType lEndianType = Endian::EndianType::LITTLE;
 
@@ -27,6 +27,7 @@ ROADdecoder::ROADover::ROADoverDecodingOptionsFirstOrderVersion::ROADoverDecodin
                     lData,
                     lBlockLength + sizeof(lBlockLength) + sizeof(lBlockHead),
                     lEndianType);
+
 
         ROADByte lBlockType = lBlockHead & 127;
 

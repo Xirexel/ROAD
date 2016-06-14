@@ -84,9 +84,9 @@ namespace ROADcoder
 
             public: ROADUInt8 getBitsPerSample();
 
-            public: virtual std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> clone();
+            public: virtual Unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> clone();
 
-            public: std::unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer();
+            public: Unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer();
 		};
 	}
 }

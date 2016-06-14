@@ -15,7 +15,9 @@ CONFIG += c++11
 HEADERS += \
     DataDriver.h \
     DataReadDriver.h \
-    IDataReadDriver.h
+    IDataReadDriver.h \
+    DataContainer.h \
+    SmartPtr.h
 
 SOURCES += \
     DataDriver.cpp \

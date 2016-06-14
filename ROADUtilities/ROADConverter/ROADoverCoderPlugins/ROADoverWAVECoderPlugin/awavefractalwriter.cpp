@@ -1,6 +1,9 @@
 #include "awavefractalwriter.h"
 
 #include <QDebug>
+#include <fstream>
+
+std::fstream file1;
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
 
@@ -13,6 +16,8 @@ AWaveFractalWriter::AWaveFractalWriter(QString aFilePath,
       _waveformat(awaveformat),
       _waveData(aWaveData)
 {
+
+//    file1.open("C:\\Users\\Evgney\\Documents\\dumpEncoder.txt");
     do
     {
 
@@ -58,6 +63,8 @@ AWaveFractalWriter::AWaveFractalWriter(QString aFilePath,
 
 AWaveFractalWriter::~AWaveFractalWriter()
 {
+    file1.close();
+
     closeFiles();
 }
 
@@ -72,6 +79,7 @@ void AWaveFractalWriter::flushAndCloseFile(const char *aByteData, int aLength)
 
 void AWaveFractalWriter::writeROADdata(unsigned char *aData, unsigned int aLength)
 {
+
     // Writing the start position of the super frame
 
     qint64 lpos = _tempFractalDataFile.pos();
@@ -79,6 +87,28 @@ void AWaveFractalWriter::writeROADdata(unsigned char *aData, unsigned int aLengt
     _fractalMapStream << lpos;
 
     _tempFractalDataFile.write((char*)aData, aLength);
+
+//    auto h = _tempFractalDataFile.pos();
+
+//    _tempFractalDataFile.seek(lpos);
+
+//    char j;
+
+//    file1 << "raw data" << std::endl;
+
+//    file1 << "aLength: " << aLength << std::endl;
+
+//    file1 << "writeLength: " << g << std::endl;
+
+//    for(decltype(aLength) lindex = 0;
+//        lindex < aLength;
+//        ++lindex)
+//    {
+//        _tempFractalDataFile.read(&j, 1);
+
+//        file1 << "byte: " << (int)(j) << std::endl;
+
+//    }
 
 }
 

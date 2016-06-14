@@ -13,4 +13,5 @@ CONFIG += c++11
 
 SOURCES +=
 
-HEADERS += platformdependencies.h
+HEADERS += platformdependencies.h \
+    memorydefine.h

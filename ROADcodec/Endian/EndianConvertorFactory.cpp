@@ -4,12 +4,9 @@
 #include "LocalEndianConvertor.h"
 
 
-std::unique_ptr<Endian::IEndianConvertor> Endian::EndianConvertorFactory::getIEndianConvertor(Endian::EndianType aType) {
+PlatformDependencies::Unique_ptr<Endian::IEndianConvertor> Endian::EndianConvertorFactory::getIEndianConvertor(Endian::EndianType aType) {
 
-    using namespace std;
-
-    unique_ptr<Endian::IEndianConvertor> lResult(new LocalEndianConvertor);
-
+    PlatformDependencies::Unique_ptr<Endian::IEndianConvertor> lResult(new LocalEndianConvertor);
 
     do
     {
@@ -18,11 +15,11 @@ std::unique_ptr<Endian::IEndianConvertor> Endian::EndianConvertorFactory::getIEn
 
         switch(aType)
         {
-            case LITTLE:
+            case EndianType::LITTLE:
             lResult.reset(new LittleEndianConvertor);
             break;
 
-            case BIG:
+            case EndianType::BIG:
             lResult.reset(new BigEndianConvertor);
             break;
         }

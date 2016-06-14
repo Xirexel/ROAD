@@ -5,6 +5,7 @@
 
 #include "IEndianConvertor.h"
 #include "EndianType.h"
+#include "memorydefine.h"
 
 namespace Endian
 {
@@ -26,7 +27,7 @@ namespace Endian
 
         public: Endian::EndianType getLocalEndianType();
 
-        public: std::unique_ptr<Endian::IEndianConvertor> getIEndianConvertor(Endian::EndianType aType);
+        public: Unique_ptr<Endian::IEndianConvertor> getIEndianConvertor(Endian::EndianType aType);
 	};
 
 }
