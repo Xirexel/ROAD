@@ -111,9 +111,9 @@ namespace ROADcoder
 
             public: void setOriginalFrequency(ROADUInt32 aOriginalFrequency);
 
-            public: std::unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer(std::list<ROADSeekPoint> &aSeekPoints);
+            public: Unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer(std::list<ROADSeekPoint> &aSeekPoints);
 
-            public: std::unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer();
+            public: Unique_ptr<FractalFormatRawDataContainer> getFractalFormatRawDataContainer();
 
             protected: void writeROADINFO(ROADcoder::Driver::IDataWriteDriver *aIDataWriteDriver);
 

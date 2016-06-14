@@ -26,7 +26,7 @@ namespace ROADcoder
     using namespace PlatformDependencies;
         class ROADOVERCODERSHARED_EXPORT ROADover
 		{
-            private: std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverManager> _manager;
+            private: Unique_ptr<ROADcoder::ROADoverCoder::IROADoverManager> _manager;
 
             public: ROADUInt32 getRangSampleLength();
 
@@ -50,7 +50,7 @@ namespace ROADcoder
 
             public: virtual ~ROADover();
 
-            public: ROADover(std::unique_ptr<IROADoverEncodingOptions> &aOptions);
+            public: ROADover(Unique_ptr<IROADoverEncodingOptions> &aOptions);
 		};
 	}
 }

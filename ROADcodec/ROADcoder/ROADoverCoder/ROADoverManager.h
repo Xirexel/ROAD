@@ -7,6 +7,8 @@
 #include "IROADoverManager.h"
 #include "RawDataBuffer.h"
 #include "IChannelsMixing.h"
+#include "memorydefine.h"
+
 
 namespace ROADcoder
 {
@@ -30,13 +32,13 @@ namespace ROADcoder
             protected: ROADcoder::ROADoverCoder::ROADover* _roadOver;
             protected: ROADcoder::ROADoverCoder::RawDataBuffer _channelsDataBuffer;
             protected: ROADcoder::ROADoverCoder::RawDataBuffer _prelisteningDataBuffer;
-            protected: std::unique_ptr<ROADcoder::ROADoverCoder::IChannelsMixing> _channelsMixing;
+            protected: Unique_ptr<ROADcoder::ROADoverCoder::IChannelsMixing> _channelsMixing;
             protected: ROADUInt32 _superFrameSamplesLength;
             protected: ROADUInt32 _superFrameLength;
             protected: ROADUInt32 _frameRangLength;
             protected: ROADUInt32 _rangSampleLength;
             protected: ROADUInt32 _bitsPerSample;
-            protected: std::shared_ptr<ROADByte> _bufferROADdata;
+            protected: SharedMassive_ptr<ROADByte> _bufferROADdata;
             protected: ROADUInt32 _bufferROADdataLength;
 
 

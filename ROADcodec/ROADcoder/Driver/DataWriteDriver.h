@@ -6,6 +6,7 @@
 
 #include "IEndianConvertor.h"
 #include "IDataWriteDriver.h"
+#include "memorydefine.h"
 
 
 namespace ROADcoder
@@ -14,18 +15,19 @@ namespace ROADcoder
 	{
 		class DataWriteDriver: public ROADcoder::Driver::IDataWriteDriver
 		{
-            private: std::shared_ptr<ROADByte> _data;
-            private: ROADUInt64 _length;
-            private: ROADUInt64 _position;
-            private: std::unique_ptr<Endian::IEndianConvertor> _convertor;
+            private: SharedMassive_ptr<ROADByte> _data;
+            private: ROADSize _position;
+            private: Unique_ptr<Endian::IEndianConvertor> _convertor;
 
-            public: virtual ROADUInt64 getLength();
+            public: virtual ROADSize getLength();
 
-            public: virtual ROADUInt64 getPosition();
+            public: virtual ROADSize getPosition();
 
             public: virtual ~DataWriteDriver();
 
-            public: DataWriteDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, std::unique_ptr<Endian::IEndianConvertor> &aConvertor);
+            public: DataWriteDriver(
+                    SharedMassive_ptr<ROADByte> &aData,
+                    Unique_ptr<Endian::IEndianConvertor> &aConvertor);
 
             public: virtual IDataWriteDriver &operator <<(ROADUInt64 aValue);
 
@@ -43,7 +45,7 @@ namespace ROADcoder
 
             public: virtual IDataWriteDriver &operator <<(ROADChar aValue);
 
-            public: virtual IDataWriteDriver &operator <<(std::tuple<PtrROADUInt8, ROADUInt64> aData);
+            public: virtual IDataWriteDriver &operator <<(std::tuple<PtrROADUInt8, ROADSize> aData);
 
             public: virtual IDataWriteDriver &computeAndAppendCRC8(ROADUInt32 aValue);
 
@@ -53,7 +55,9 @@ namespace ROADcoder
 
             private: template<typename T> void writeData(T aValue)
                 {
-                    if(_length >= (_position + sizeof(T)))
+                    auto length = getLength();
+
+                    if(length >= (_position + sizeof(T)))
                     {
                         _convertor->convertToBytes(aValue, _data.get() + _position);
 

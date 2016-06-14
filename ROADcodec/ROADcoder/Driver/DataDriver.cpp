@@ -4,11 +4,13 @@
 
 
 
-std::unique_ptr<ROADcoder::Driver::IDataWriteDriver> ROADcoder::Driver::DataDriver::getIDataWriteDriver(std::shared_ptr<ROADByte> &aData, ROADUInt32 aLength, Endian::EndianType aEndianType)
+PlatformDependencies::Unique_ptr<ROADcoder::Driver::IDataWriteDriver> ROADcoder::Driver::DataDriver::getIDataWriteDriver(
+        SharedMassive_ptr<ROADByte> &aData,
+        Endian::EndianType aEndianType)
 {
     auto lconvertor = Endian::EndianConvertorFactory::getInstance().getIEndianConvertor(aEndianType);
 
-    std::unique_ptr<IDataWriteDriver> result(new DataWriteDriver(aData, aLength, lconvertor));
+    PlatformDependencies::Unique_ptr<IDataWriteDriver> result(new DataWriteDriver(aData, lconvertor));
 
     return result;
 }

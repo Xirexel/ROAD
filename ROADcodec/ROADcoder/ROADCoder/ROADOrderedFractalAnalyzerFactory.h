@@ -3,7 +3,7 @@
 
 #include <memory>
 
-
+#include "memorydefine.h"
 #include "IROADFractalAnalyzerFactory.h"
 
 namespace ROADcoder
@@ -22,7 +22,7 @@ namespace ROADcoder
 		class ROADOrderedFractalAnalyzerFactory
 		{
 
-        public: static std::unique_ptr<ROADcoder::ROADCoder::IROADFractalAnalyzerFactory> getIROADFractalAnalyzerFactory(ROADUInt32 aOrder);
+        public: static Unique_ptr<ROADcoder::ROADCoder::IROADFractalAnalyzerFactory> getIROADFractalAnalyzerFactory(ROADUInt32 aOrder);
 		};
 	}
 }

@@ -1,9 +1,10 @@
 #ifndef PLATFORMDEPENDENCIES_H
 #define PLATFORMDEPENDENCIES_H
 
-
 namespace PlatformDependencies
 {
+
+typedef __SIZE_TYPE__ ROADSize;
 
 typedef void* PtrROADVoid;
 

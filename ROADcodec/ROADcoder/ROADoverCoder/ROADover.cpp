@@ -6,19 +6,19 @@
 
 
 
-ROADcoder::ROADoverCoder::ROADover::ROADover(std::unique_ptr<IROADoverEncodingOptions> &aOptions)
+ROADcoder::ROADoverCoder::ROADover::ROADover(Unique_ptr<IROADoverEncodingOptions> &aOptions)
 {
     auto lOptions = aOptions->clone();
 
     switch (lOptions->getROADFormatMode()) {
-    case ROADcoder::ROADoverCoder::EXPEREMENTAL:
+    case ROADcoder::ROADoverCoder::ROADFormatMode::EXPEREMENTAL:
     {
         auto loptions = dynamic_cast<ROADoverEncodingOptionsExperemental*>(lOptions.release());
 
         _manager.reset(new ROADoverManagerExperemental(this, loptions));
     }
         break;
-    case ROADcoder::ROADoverCoder::FIRSTVERSION:
+    case ROADcoder::ROADoverCoder::ROADFormatMode::FIRSTVERSION:
     {
         auto loptions = dynamic_cast<ROADoverEncodingOptionsFirstVersion*>(lOptions.release());
 

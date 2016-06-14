@@ -17,5 +17,4 @@ PlatformDependencies::PtrROADReal ROADcoder::ROADoverCoder::DoubleDataContainer:
 
 ROADcoder::ROADoverCoder::DoubleDataContainer::~DoubleDataContainer()
 {
-    delete[] this->_data;
 }

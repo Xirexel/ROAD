@@ -5,16 +5,16 @@
 #include "ROADFormatMode.h"
 
 
-std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFactory::getIROADoverEncodingOptions(ROADUInt32 aType) {
-    std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> result;
+PlatformDependencies::Unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFactory::getIROADoverEncodingOptions(ROADUInt32 aType) {
+    Unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> result;
 
     switch (aType) {
-    case EXPEREMENTAL:
+    case ROADFormatMode::EXPEREMENTAL:
 
         result.reset(new ROADoverEncodingOptionsExperemental);
 
         break;
-    case FIRSTVERSION:
+    case ROADFormatMode::FIRSTVERSION:
 
         result.reset(new ROADoverEncodingOptionsFirstVersion);
 
@@ -29,7 +29,7 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::R
 std::vector<PlatformDependencies::ROADUInt32> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFactory::getSupportedFormats()
 {
 
-    std::vector<ROADUInt32> result = {EXPEREMENTAL, FIRSTVERSION} ;
+    std::vector<ROADUInt32> result = {ROADFormatMode::EXPEREMENTAL, ROADFormatMode::FIRSTVERSION} ;
 
     return result;
 }

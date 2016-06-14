@@ -5,7 +5,7 @@ namespace ROADcoder
 {
 	namespace ROADoverCoder
 	{
-		enum ChannelsMixingMode
+        enum class ChannelsMixingMode:int
 		{
             NONE=0, MID=1, SIDE=2, CUSTOMISED=3
 		};

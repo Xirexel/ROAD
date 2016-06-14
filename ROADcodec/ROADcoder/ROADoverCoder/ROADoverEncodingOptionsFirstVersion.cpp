@@ -161,7 +161,7 @@ void ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::setOriginalF
 }
 
 ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::ROADoverEncodingOptionsFirstVersion()
-    : _endianType(Endian::LITTLE),
+    : _endianType(Endian::EndianType::LITTLE),
       _constantScale(0)
 {
 
@@ -172,12 +172,12 @@ ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::~ROADoverEncoding
 
 }
 
-std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFractalFormatRawDataContainer(std::list<ROADSeekPoint> &aSeekPoints)
+PlatformDependencies::Unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFractalFormatRawDataContainer(std::list<ROADSeekPoint> &aSeekPoints)
 {
     ROADUInt32 lLength = 53 +
             (aSeekPoints.size() + 13);
 
-    std::shared_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
+    SharedMassive_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
 
     auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, lLength, Endian::EndianType(this->_endianType));
 
@@ -200,11 +200,11 @@ std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcod
     return lptrfractalFormatRawDataContainer;
 }
 
-std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFractalFormatRawDataContainer()
+PlatformDependencies::Unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsFirstVersion::getFractalFormatRawDataContainer()
 {
     ROADUInt32 lLength = 53;
 
-    std::shared_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
+    SharedMassive_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
 
     auto lptrIDataWriteDriver = ROADcoder::Driver::DataDriver::getIDataWriteDriver(lFractalFormat, lLength, Endian::EndianType(this->_endianType));
 

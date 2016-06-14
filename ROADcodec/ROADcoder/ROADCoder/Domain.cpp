@@ -4,14 +4,14 @@
 using namespace std;
 
 #include "Domain.h"
-ROADcoder::ROADCoder::Domain::Domain(ROADUInt32 aLength)
-    : _dataForwardDirection(new ROADReal[aLength]),
-      _dataBackDirection(new ROADReal[aLength]),
+ROADcoder::ROADCoder::Domain::Domain(ROADSize aLength)
+    : _dataForwardDirection(new ROADReal[aLength], aLength),
+      _dataBackDirection(new ROADReal[aLength], aLength),
       _length(aLength)
 {
 }
 
-void ROADcoder::ROADCoder::Domain::populate(PtrROADReal aData, ROADUInt32 aDoubleLength)
+void ROADcoder::ROADCoder::Domain::populate(PtrROADReal aData, ROADSize aDoubleLength)
 {
 
     this->_sum = 0.0;
@@ -69,13 +69,10 @@ PlatformDependencies::ROADReal ROADcoder::ROADCoder::Domain::getBeta() {
 	return this->_beta;
 }
 
-PlatformDependencies::ROADUInt32 ROADcoder::ROADCoder::Domain::getLength() {
+PlatformDependencies::ROADSize ROADcoder::ROADCoder::Domain::getLength() {
 	return this->_length;
 }
 
 ROADcoder::ROADCoder::Domain::~Domain()
 {
-    delete[] this->_dataForwardDirection;
-
-    delete[] this->_dataBackDirection;
 }

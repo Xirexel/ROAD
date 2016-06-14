@@ -198,7 +198,7 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::dom
 
         ldecinScale = lBackDirectionScale * 128.0;
 
-        lBackDirectionScale = static_cast<double>(ldecinScale) / 128.0;
+        lBackDirectionScale = static_cast<ROADReal>(ldecinScale) / 128.0;
 
         lBackDirectionValueOffset = lRangAver - lBackDirectionScale * lDomainAver;
 

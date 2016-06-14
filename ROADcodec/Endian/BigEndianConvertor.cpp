@@ -96,21 +96,6 @@ PlatformDependencies::ROADInt16 Endian::BigEndianConvertor::convertToType(ROADIn
     lresult |= (*aData++);
 
     return lresult;
-//    ROADInt16 lresult = 0;
-
-//    ROADInt16 ltemp;
-
-//    lresult = *aData;
-
-//    ++aData;
-
-//    ltemp = *aData;
-
-//    lresult = lresult << 8;
-
-//    lresult = lresult | ltemp;
-
-//    return lresult;
 }
 
 PlatformDependencies::ROADUInt8 Endian::BigEndianConvertor::convertToType(ROADUInt8, PtrROADByte aData) {

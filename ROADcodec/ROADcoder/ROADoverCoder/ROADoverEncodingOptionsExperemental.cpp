@@ -98,7 +98,7 @@ PlatformDependencies::ROADUInt8 ROADcoder::ROADoverCoder::ROADoverEncodingOption
     return this->_bitsPerSample;
 }
 
-std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::clone()
+PlatformDependencies::Unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::clone()
 {
     ROADoverEncodingOptionsExperemental *lptrOptions = new ROADoverEncodingOptionsExperemental;
 
@@ -109,11 +109,11 @@ std::unique_ptr<ROADcoder::ROADoverCoder::IROADoverEncodingOptions> ROADcoder::R
     return result;
 }
 
-std::unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getFractalFormatRawDataContainer()
+PlatformDependencies::Unique_ptr<ROADcoder::ROADoverCoder::FractalFormatRawDataContainer> ROADcoder::ROADoverCoder::ROADoverEncodingOptionsExperemental::getFractalFormatRawDataContainer()
 {
     ROADUInt32 lLength = 40;
 
-    std::shared_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
+    SharedMassive_ptr<ROADByte> lFractalFormat(new ROADByte[lLength]);
 
     PtrROADByte lptrFractalFormat = lFractalFormat.get();
 

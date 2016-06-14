@@ -37,7 +37,7 @@ namespace ROADcoder
         class DecodedSampleTypeToROADRawDataFormat;
 
         template<>
-        class DecodedSampleTypeToROADRawDataFormat<double>
+        class DecodedSampleTypeToROADRawDataFormat<ROADReal>
         {
             public: static const ROADRawDataFormat _code = ROADRawDataFormat::D64;
         };
