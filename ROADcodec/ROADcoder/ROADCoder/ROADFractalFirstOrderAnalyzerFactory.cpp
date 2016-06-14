@@ -6,14 +6,12 @@
 ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer* ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerFactory::getIROADFractalFirstOrderAnalyzer(ROADcoder::ROADCoder::IFractalEncodingOptions* aOptions,
                                                                                                                       ROADUInt32 aType)
 {
-    ROADcoder::ROADCoder::IROADFractalFirstOrderAnalyzer *result = nullptr;
-
     if(aType == 0)
     {
-        result = new ROADFractalFirstOrderAnalyzerNoneFixedRangLength(aOptions);
+        return new ROADFractalFirstOrderAnalyzerNoneFixedRangLength(aOptions);
     }
 
-    return result;
+    return nullptr;
 }
 
 PlatformDependencies::ROADUInt32 ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerFactory::getOrder()

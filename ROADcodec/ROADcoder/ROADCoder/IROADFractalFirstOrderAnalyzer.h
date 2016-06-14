@@ -18,7 +18,9 @@ namespace ROADcoder
     using namespace PlatformDependencies;
         class IROADFractalFirstOrderAnalyzer
 		{
-            public: virtual void analyze(PtrROADReal aData, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalItemContainer) = 0;
+            public: virtual void analyze(
+                    PtrROADReal aData,
+                    ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalItemContainer) = 0;
 
             public: virtual ~IROADFractalFirstOrderAnalyzer(){}
 		};

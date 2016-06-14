@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "platformdependencies.h"
+#include "memorydefine.h"
 
 
 namespace ROADcoder

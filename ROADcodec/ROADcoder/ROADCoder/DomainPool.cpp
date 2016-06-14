@@ -13,7 +13,7 @@ ROADcoder::ROADCoder::DomainPool::DomainPool(ROADSize aSize,
 
     while(lcount > 0)
     {
-        _domains.push_back(new ROADcoder::ROADCoder::Domain(aRangTopSampleLength));
+        _domains.push_back(new ROADcoder::ROADCoder::Domain(aRangTopSampleLength >> 1));
 
         --lcount;
     }

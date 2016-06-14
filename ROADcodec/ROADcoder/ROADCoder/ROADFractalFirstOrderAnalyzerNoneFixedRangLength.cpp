@@ -46,7 +46,10 @@ void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::ana
     silenceMatch(aData, this->_frameSampleLength, aFractalItemContainer);
 }
 
-void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::silenceMatch(PtrROADReal aData, ROADUInt32 aSilenceSampleLength, ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalItemContainer) {
+void ROADcoder::ROADCoder::ROADFractalFirstOrderAnalyzerNoneFixedRangLength::silenceMatch(
+        PtrROADReal aData,
+        ROADUInt32 aSilenceSampleLength,
+        ROADcoder::ROADCoder::IFractalFirstOrderItemContainer* aFractalItemContainer) {
 
 
     ROADReal laver = computeSumValue(aData, aSilenceSampleLength);
