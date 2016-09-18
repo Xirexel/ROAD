@@ -13,7 +13,7 @@ namespace ROADcoder
 {
 	namespace Driver
 	{
-		class DataWriteDriver: public ROADcoder::Driver::IDataWriteDriver
+        class DataWriteDriver: public ROADcoder::Driver::IDataWriteDriver
 		{
             private: SharedMassive_ptr<ROADByte> _data;
             private: ROADSize _position;

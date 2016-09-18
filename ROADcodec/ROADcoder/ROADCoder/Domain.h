@@ -23,7 +23,7 @@ namespace ROADcoder
 
             public: Domain(ROADSize aLength);
 
-            public: void populate(PtrROADReal aData, ROADSize aDoubleLength);
+            public: void populate(PtrROADReal aData, ROADSize aDomainLength);
 
             public: virtual ~Domain();
 

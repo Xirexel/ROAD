@@ -11,21 +11,21 @@ ROADcoder::ROADCoder::Domain::Domain(ROADSize aLength)
 {
 }
 
-void ROADcoder::ROADCoder::Domain::populate(PtrROADReal aData, ROADSize aDoubleLength)
+void ROADcoder::ROADCoder::Domain::populate(PtrROADReal aData, ROADSize aDomainLength)
 {
 
     this->_sum = 0.0;
 
     this->_beta = 0.0;
 
-    ROADUInt32 lrangeLength = aDoubleLength >> 1;
+    ROADUInt32 lrangeLength = aDomainLength >> 1;
 
     ROADUInt32 loffsetBackDirection = lrangeLength - 1;
 
     ROADUInt32 lPos = 0;
 
     for(ROADUInt32 index = 0;
-        index < aDoubleLength;
+        index < aDomainLength;
         index += 2)
     {
         lPos = index >> 1;

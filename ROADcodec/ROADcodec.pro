@@ -5,7 +5,6 @@ SUBDIRS += \
     CRC \
     Endian \
     ROADdecoder \
-    TestEndian \
     ROADcoder
 
 
