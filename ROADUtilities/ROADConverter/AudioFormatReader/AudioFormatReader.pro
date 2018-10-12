@@ -19,6 +19,8 @@ DLLDESTDIR = ../../../Bin/ROADConverter
 
 DEFINES += AUDIOFORMATREADER_LIBRARY
 
+INCLUDEPATH += $$PWD/../../../ROADcodec/ROADcoder/ROADoverCoder
+
 SOURCES += \
     ireaderfactory.cpp \
     wave_parser.cpp \

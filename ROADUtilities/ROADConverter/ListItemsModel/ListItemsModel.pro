@@ -15,6 +15,9 @@ else:unix:DESTDIR = ../../../Bin/ROADConverter
 
 DEFINES += LISTITEMSMODEL_LIBRARY
 
+
+INCLUDEPATH += $$PWD/../../../ROADcodec/ROADcoder/ROADoverCoder
+
 SOURCES += listitemsmodel.cpp \
     modeloptions.cpp
 

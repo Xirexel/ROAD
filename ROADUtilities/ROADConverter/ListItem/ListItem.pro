@@ -43,6 +43,7 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../AudioFormatReade
 else:unix: LIBS += -L$$OUT_PWD/../../../Bin/ROADConverter/ -lAudioFormatReader
 
 INCLUDEPATH += $$PWD/../AudioFormatReader
+INCLUDEPATH += $$PWD/../../../ROADcodec/ROADcoder/ROADoverCoder
 DEPENDPATH += $$PWD/../AudioFormatReader
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../EncodingOptions/release/ -lEncodingOptions
